@@ -10,6 +10,7 @@
     <packaging>war</packaging>
     <properties>
         <jetty-version>9.3.6.v20151106</jetty-version>
+        <jetty.http.port>8088</jetty.http.port>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
@@ -75,6 +76,13 @@
                 <groupId>org.eclipse.jetty</groupId>
                 <artifactId>jetty-maven-plugin</artifactId>
                 <version>${jetty-version}</version>
+                <configuration>
+                    <scanIntervalSeconds>60</scanIntervalSeconds>
+                    <jettyXml>${project.basedir}/src/main/webapp/WEB-INF/jetty.xml</jettyXml>
+                    <httpConnector>
+                        <port>${jetty.http.port}</port>
+                    </httpConnector>
+                </configuration>
             </plugin>
         </plugins>
     </build>
