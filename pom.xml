@@ -10,7 +10,6 @@
     <packaging>war</packaging>
     <properties>
         <jetty-version>9.3.6.v20151106</jetty-version>
-        <jetty.http.port>8080</jetty.http.port>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
@@ -93,9 +92,6 @@
                     <reload>automatic</reload>
                     <scanIntervalSeconds>60</scanIntervalSeconds>
                     <jettyXml>${project.basedir}/src/main/webapp/WEB-INF/jetty.xml</jettyXml>
-                    <httpConnector>
-                        <port>${jetty.http.port}</port>
-                    </httpConnector>
                     <scanTargets>
                         <scanTarget>target/classes</scanTarget>
                     </scanTargets>
