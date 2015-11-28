@@ -10,6 +10,7 @@
     <packaging>war</packaging>
     <properties>
         <jetty-version>9.3.6.v20151106</jetty-version>
+        <jetty.http.port>8080</jetty.http.port>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
@@ -57,6 +58,19 @@
         </dependency>
         <!-- End Servlet Container Jetty -->
 
+        <!-- Start Logging dependencies -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.12</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>1.7.12</version>
+        </dependency>
+        <!-- End Logging dependencies -->
+
     </dependencies>
 
     <build>
@@ -75,6 +89,23 @@
                 <groupId>org.eclipse.jetty</groupId>
                 <artifactId>jetty-maven-plugin</artifactId>
                 <version>${jetty-version}</version>
+                <configuration>
+                    <reload>automatic</reload>
+                    <scanIntervalSeconds>60</scanIntervalSeconds>
+                    <jettyXml>${project.basedir}/src/main/webapp/WEB-INF/jetty.xml</jettyXml>
+                    <httpConnector>
+                        <port>${jetty.http.port}</port>
+                    </httpConnector>
+                    <scanTargets>
+                        <scanTarget>target/classes</scanTarget>
+                    </scanTargets>
+                    <systemProperties>
+                        <systemProperty>
+                            <name>jetty.logs</name>
+                            <value>${project.basedir}/logs</value>
+                        </systemProperty>
+                    </systemProperties>
+                </configuration>
             </plugin>
         </plugins>
     </build>
