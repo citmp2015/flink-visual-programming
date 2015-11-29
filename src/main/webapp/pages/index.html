@@ -1,10 +1,137 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <title>Flink Visual programming</title>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Flink Visual</title>
+
+    <link href="../bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/metisMenu.min.css" rel="stylesheet">
+    <link href="../css/theme.css" rel="stylesheet">
+    <link href="../font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+	<link href="../jointjs/joint.css" rel="stylesheet" type="text/css" />
+	
+	<script src="../javascript/jquery.min.js"></script>
+	<script src="../javascript/lodash.min.js"></script>
+	<script src="../javascript/backbone-min.js"></script>
+	<script src="../jointjs/joint.js"></script>
+
 </head>
+
 <body>
-    <h1>This is going to be Flink Visual Programming</h1>
+
+    <div id="wrapper">
+
+        <!-- Navigation -->
+        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="index.html">Flink Visual</a>
+            </div>
+            <!-- /.navbar-header -->
+
+            <div class="navbar-default sidebar" role="navigation">
+                <div class="sidebar-nav navbar-collapse">
+                    <ul class="nav" id="side-menu">
+                        <li class="sidebar-search">
+                            <div class="input-group custom-search-form">
+                                <input type="text" class="form-control" placeholder="Search...">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default" type="button">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                </span>
+                            </div>
+                            <!-- /input-group -->
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-filter fa-fw"></i> Filter<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="#">Number Filter</a>
+                                </li>
+                                <li>
+                                    <a href="#">String Filter</a>
+                                </li>
+                            </ul>
+                            <!-- /.nav-second-level -->
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-edit fa-fw"></i> Map</a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-edit fa-fw"></i> Reduce</a>
+                        </li>
+  
+                    </ul>
+                </div>
+                <!-- /.sidebar-collapse -->
+            </div>
+            <!-- /.navbar-static-side -->
+        </nav>
+
+        <!-- Page Content -->
+        <div id="page-wrapper">
+            <div id="content" class="container-fluid">
+
+            </div>
+            <!-- /.container-fluid -->
+        </div>
+        <!-- /#page-wrapper -->
+
+    </div>
+    <!-- /#wrapper -->
+	
+	<script type="text/javascript">
+				var graph = new joint.dia.Graph;
+
+				var paper = new joint.dia.Paper({
+					el: $('#content'),
+					width: 600,
+					height: 200,
+					model: graph
+				});
+
+				var rect = new joint.shapes.basic.Rect({
+					position: { x: 100, y: 30 },
+					size: { width: 100, height: 30 },
+					attrs: { rect: { fill: 'blue' }, text: { text: 'my box', fill: 'white' } }
+				});
+
+				var rect2 = rect.clone();
+				rect2.translate(300);
+
+				var link = new joint.dia.Link({
+					source: { id: rect.id },
+					target: { id: rect2.id }
+				});
+
+				graph.addCells([rect, rect2, link]);
+
+
+	</script>
+
+
+    <script src="../bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="../javascript/metisMenu.min.js"></script>
+    <script src="../javascript/theme.js"></script>
+	
+
+
 </body>
+
 </html>
