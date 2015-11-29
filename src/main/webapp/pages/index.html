@@ -16,7 +16,7 @@
     <link href="../css/theme.css" rel="stylesheet">
     <link href="../font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 	<link href="../jointjs/joint.css" rel="stylesheet" type="text/css" />
-	
+
 	<script src="../javascript/jquery.min.js"></script>
 	<script src="../javascript/lodash.min.js"></script>
 	<script src="../javascript/backbone-min.js"></script>
@@ -76,7 +76,7 @@
                         <li>
                             <a href="#"><i class="fa fa-edit fa-fw"></i> Reduce</a>
                         </li>
-  
+
                     </ul>
                 </div>
                 <!-- /.sidebar-collapse -->
@@ -95,41 +95,12 @@
 
     </div>
     <!-- /#wrapper -->
-	
-	<script type="text/javascript">
-				var graph = new joint.dia.Graph;
-
-				var paper = new joint.dia.Paper({
-					el: $('#content'),
-					width: 600,
-					height: 200,
-					model: graph
-				});
-
-				var rect = new joint.shapes.basic.Rect({
-					position: { x: 100, y: 30 },
-					size: { width: 100, height: 30 },
-					attrs: { rect: { fill: 'blue' }, text: { text: 'my box', fill: 'white' } }
-				});
-
-				var rect2 = rect.clone();
-				rect2.translate(300);
-
-				var link = new joint.dia.Link({
-					source: { id: rect.id },
-					target: { id: rect2.id }
-				});
-
-				graph.addCells([rect, rect2, link]);
-
-
-	</script>
-
 
     <script src="../bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="../javascript/metisMenu.min.js"></script>
     <script src="../javascript/theme.js"></script>
-	
+    <script src="../javascript/main.js"></script>
+
 
 
 </body>
