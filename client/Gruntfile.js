@@ -10,6 +10,7 @@ module.exports = function (grunt) {
         tmp: './.tmp'
     };
 
+
     grunt.initConfig({
 
         pkg: grunt.file.readJSON('package.json'),
@@ -141,15 +142,15 @@ module.exports = function (grunt) {
             },
             images: {
                 src: [
-                    '<%= flinkVisual.dist %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
-                    '<%= flinkVisual.dist %>/app/**/*.{png,jpg,jpeg,gif,webp,svg}'
+                    '../src/main/webapp/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
+                    '../src/main/webapp/app/**/*.{png,jpg,jpeg,gif,webp,svg}'
                 ]
             },
             js: {
-                src: '<%= flinkVisual.dist %>/scripts/{,*/}*.js'
+                src: '../src/main/webapp/scripts/{,*/}*.js'
             },
             css: {
-                src: '<%= flinkVisual.dist %>/styles/*.css'
+                src: '../src/main/webapp/styles/*.css'
             }
         },
 
@@ -159,23 +160,23 @@ module.exports = function (grunt) {
         useminPrepare: {
             html: '<%= flinkVisual.app %>/index.html',
             options: {
-                dest: '<%= flinkVisual.dist %>',
+                dest: '../src/main/webapp',
             }
         },
 
         // Performs rewrites based on filerev and the useminPrepare configuration
         usemin: {
             html: [
-                '<%= flinkVisual.dist %>/{,*/}*.html'
+                '../src/main/webapp/{,*/}*.html'
             ],
             css: [
-                '<%= flinkVisual.dist %>/styles/{,*/}*.css',
-                '<%= flinkVisual.dist %>/app/**/*.css'
+                '../src/main/webapp/styles/{,*/}*.css',
+                '../src/main/webapp/app/**/*.css'
             ],
             options: {
                 assetsDirs: [
-                    '<%= flinkVisual.dist %>',
-                    '<%= flinkVisual.dist %>/images'
+                    '../src/main/webapp',
+                    '../src/main/webapp/images'
                 ]
             }
         },
@@ -183,8 +184,8 @@ module.exports = function (grunt) {
         uglify: {
             dist: {
                 files: {
-                    '<%= flinkVisual.dist %>/common/scripts.js': [
-                        '<%= flinkVisual.dist %>/common/scripts.js'
+                    '../src/main/webapp/common/scripts.js': [
+                        '../src/main/webapp/common/scripts.js'
                     ]
                 }
             }
@@ -201,9 +202,9 @@ module.exports = function (grunt) {
                 },
                 files: [{
                     expand: true,
-                    cwd: '<%= flinkVisual.dist %>',
+                    cwd: '../src/main/webapp',
                     src: ['*.html', 'views/{,*/}*.html', 'app/{,*/}*.html'],
-                    dest: '<%= flinkVisual.dist %>'
+                    dest: '../src/main/webapp'
                 }]
             }
         },
@@ -223,8 +224,8 @@ module.exports = function (grunt) {
                     expand: true,
                     cwd: '',
                     src: [
-                        '<%= flinkVisual.dist %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
-                        '<%= flinkVisual.dist %>/app/{,*/}*.{png,jpg,jpeg,gif,webp,svg}'
+                        '../src/main/webapp/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
+                        '../src/main/webapp/app/{,*/}*.{png,jpg,jpeg,gif,webp,svg}'
                     ],
                     dest: ''
                 }]
@@ -283,7 +284,9 @@ module.exports = function (grunt) {
                     dot: true,
                     src: [
                         '<%= flinkVisual.tmp %>',
-                        '<%= flinkVisual.dist %>/{,*/}*'
+                        '../src/main/webapp/{,*/}*',
+                        '!../src/main/webapp/WEB-INF/**',
+                        '!../src/main/webapp/.gitignore'
                     ]
                 }]
             },
@@ -305,7 +308,7 @@ module.exports = function (grunt) {
                     expand: true,
                     dot: true,
                     cwd: '<%= flinkVisual.app %>',
-                    dest: '<%= flinkVisual.dist %>',
+                    dest: '../src/main/webapp',
                     src: [
                         '*.{ico,png,txt}',
                         '.htaccess',
@@ -319,17 +322,17 @@ module.exports = function (grunt) {
                 }, {
                     expand: true,
                     cwd: '<%= flinkVisual.tmp %>/images',
-                    dest: '<%= flinkVisual.dist %>/images',
+                    dest: '../src/main/webapp/images',
                     src: ['generated/*']
                 }, {
                     expand: true,
                     cwd: 'bower_components/components-font-awesome/fonts',
-                    dest: '<%= flinkVisual.dist %>/fonts',
+                    dest: '../src/main/webapp/fonts',
                     src: ['*']
                 }, {
                     expand: true,
                     cwd: 'bower_components/components-bootstrap/fonts',
-                    dest: '<%= flinkVisual.dist %>/fonts',
+                    dest: '../src/main/webapp/fonts',
                     src: ['*']
                 }]
             },

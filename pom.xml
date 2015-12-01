@@ -95,6 +95,7 @@
                         <goals>
                             <goal>install-node-and-npm</goal>
                         </goals>
+                        <phase>generate-resources</phase>
                         <configuration>
                             <nodeVersion>v0.12.2</nodeVersion>
                             <npmVersion>2.7.6</npmVersion>
@@ -106,6 +107,7 @@
                         <goals>
                             <goal>npm</goal>
                         </goals>
+                        <phase>generate-resources</phase>
                         <!-- Optional configuration which provides for running any npm command -->
                         <configuration>
                             <arguments>install</arguments>
@@ -128,6 +130,7 @@
                         <goals>
                             <goal>bower</goal>
                         </goals>
+                        <phase>generate-resources</phase>
                         <configuration>
                             <arguments>install</arguments>
 
@@ -139,8 +142,9 @@
                         <goals>
                             <goal>grunt</goal>
                         </goals>
+                        <phase>generate-resources</phase>
                         <configuration>
-                            <arguments>--no-color --force</arguments>
+                            <arguments>build --no-color --force</arguments>
                         </configuration>
                     </execution>
 
@@ -148,7 +152,7 @@
                 <configuration>
                     <nodeVersion>v0.10.18</nodeVersion>
                     <npmVersion>1.3.8</npmVersion>
-                    <installDirectory>src/main/webapp</installDirectory>
+                    <outputdir>src/main/webapp</outputdir>
                     <workingDirectory>client</workingDirectory>
                 </configuration>
             </plugin>
