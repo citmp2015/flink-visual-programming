@@ -20,5 +20,8 @@
     "jointjs": "~0.9.5",
     "components-bootstrap": "~3.3.6",
     "metisMenu": "~2.2.0"
+  },
+  "resolutions": {
+    "jquery": "2.1.4"
   }
 }
