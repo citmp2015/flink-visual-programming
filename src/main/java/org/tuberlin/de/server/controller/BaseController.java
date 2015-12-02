@@ -30,7 +30,7 @@ public class BaseController extends HttpServlet {
             ServletException, IOException {
         LOG.debug("DoGet");
 
-        resp.sendRedirect("/pages/index.html");
+        resp.sendRedirect("/dist/index.html");
     }
 
     @Override

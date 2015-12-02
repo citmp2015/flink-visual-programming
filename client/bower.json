@@ -1,0 +1,27 @@
+{
+  "name": "Flink Visual Programming",
+  "version": "0.0.1",
+  "authors": [],
+  "description": "",
+  "main": "",
+  "moduleType": [],
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "react": "~0.14.3",
+    "components-font-awesome": "~4.5.0",
+    "jointjs": "~0.9.5",
+    "components-bootstrap": "~3.3.6",
+    "metisMenu": "~2.2.0"
+  },
+  "resolutions": {
+    "jquery": "2.1.4"
+  }
+}
