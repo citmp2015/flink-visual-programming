@@ -253,6 +253,7 @@ table.dataTable thead .sorting:after {
     content: "\f0dc";
     float: right;
     font-family: fontawesome;
+    color: #323232;
     color: rgba(50,50,50,.5);
 }
 
