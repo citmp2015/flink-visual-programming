@@ -1,9 +1,9 @@
 var graph = new joint.dia.Graph;
 
 var paper = new joint.dia.Paper({
-    el: $('#content'),
-    width: 600,
-    height: 200,
+    el: $('#paper'),
+    width: 1500,
+    height: 1000,
     model: graph
 });
 

@@ -25,6 +25,7 @@ $(function() {
         }
         if (height > topOffset) {
             $("#page-wrapper").css("min-height", (height) + "px");
+			$("#paper").css("height", (height) + "px");
         }
     });
 
