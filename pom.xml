@@ -10,6 +10,7 @@
     <packaging>war</packaging>
     <properties>
         <jetty-version>9.3.6.v20151106</jetty-version>
+        <jetty-context-path>/</jetty-context-path> <!-- For future use -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
@@ -73,7 +74,7 @@
     </dependencies>
 
     <build>
-        <finalName>FlinkVisualProgramming</finalName>
+      <finalName>ROOT</finalName> <!-- Necesśary for jenkins deployment to have this name -->
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -161,6 +162,9 @@
                 <artifactId>jetty-maven-plugin</artifactId>
                 <version>${jetty-version}</version>
                 <configuration>
+                    <webApp>
+                        <contextPath>${jetty-context-path}</contextPath>
+                    </webApp>
                     <reload>automatic</reload>
                     <scanIntervalSeconds>60</scanIntervalSeconds>
                     <jettyXml>${project.basedir}/src/main/webapp/WEB-INF/jetty.xml</jettyXml>
