@@ -1,6 +1,6 @@
 # CIT Project - Flink-visual-programming
 
-[![Build Status](http://asok16.cit.tu-berlin.de:8080/buildStatus/icon?job=flink-visual)](http://asok16.cit.tu-berlin.de:8080/job/flink-visual/) (Only available from eduroam or VPN)
+[![Jenkins Build Status](http://asok16.cit.tu-berlin.de:8080/buildStatus/icon?job=flink-visual)](http://asok16.cit.tu-berlin.de:8080/job/flink-visual/) 
 
 The Master Project from the departmend Complex and Distributed IT Systems @TU Berlin -
 [More information](https://www.cit.tu-berlin.de/menue/teaching/wintersemester_1516/master_projekt_verteilte_systeme/)
