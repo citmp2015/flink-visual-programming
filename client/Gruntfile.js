@@ -28,7 +28,7 @@ module.exports = function (grunt) {
                 },
             },
             js: {
-                files: ['<%= flinkVisual.app %>/app/{,*/}*.js', '<%= flinkVisual.app %>/js/{,*/}*.js'],
+                files: ['<%= flinkVisual.app %>/app/{,*/}*.js'],
                 tasks: ['jshint'],
                 options: {
                     livereload: '<%= connect.options.livereload %>',
@@ -36,7 +36,7 @@ module.exports = function (grunt) {
                 },
             },
             styles: {
-                files: ['<%= flinkVisual.app %>/css/{,*/}*.css', '<%= flinkVisual.app %>/app/{,*/}*.css'],
+                files: ['<%= flinkVisual.app %>/styles/{,*/}*.css', '<%= flinkVisual.app %>/app/{,*/}*.css'],
                 tasks: ['newer:copy:styles', 'postcss:serve'],
                 options: {
                     livereload: '<%= connect.options.livereload %>',
@@ -82,7 +82,6 @@ module.exports = function (grunt) {
             all: {
                 src: [
                     'Gruntfile.js',
-                    '<%= flinkVisual.app %>/js/{,*/}*.js',
                     '<%= flinkVisual.app %>/app/**/*.js'
                 ]
             }
@@ -270,7 +269,7 @@ module.exports = function (grunt) {
                     ]
                 },
                 src: [
-                    '<%= flinkVisual.app %>/css/{,*/}*.css',
+                    '<%= flinkVisual.app %>/styles/{,*/}*.css',
                     '<%= flinkVisual.app %>/app/{,*/}*.css'
                 ]
             }
@@ -338,7 +337,7 @@ module.exports = function (grunt) {
             },
             styles: {
                 expand: true,
-                cwd: '<%= flinkVisual.app %>/css',
+                cwd: '<%= flinkVisual.app %>/styles',
                 dest: '<%= flinkVisual.tmp %>/styles/',
                 src: '{,*/}*.css'
             }
