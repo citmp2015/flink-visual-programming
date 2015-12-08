@@ -1,121 +1,130 @@
 <!DOCTYPE html>
-<html lang="en" data-ng-app="app">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="">
-        <meta name="author" content="">
+<html lang="en" ng-app="app">
 
-        <title>Flink Visual</title>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
 
-        <!-- build:css styles/vendor.css -->
-        <link rel="stylesheet" href="../bower_components/components-bootstrap/css/bootstrap.css" />
-        <!-- bower:css -->
-        <link rel="stylesheet" href="../bower_components/components-font-awesome/css/font-awesome.css" />
-        <link rel="stylesheet" href="../bower_components/jointjs/dist/joint.css" />
-        <!-- endbower -->
-        <!-- endbuild -->
+    <title>Flink Visual</title>
 
-        <!-- build:css styles/main.css -->
-        <link href="./styles/theme.css" rel="stylesheet">
-        <link href="./styles/diagram.css" rel="stylesheet">
-        <!-- endbuild -->
+    <!-- build:css styles/vendor.css -->
+    <link rel="stylesheet" href="../bower_components/components-bootstrap/css/bootstrap.css" />
+    <!-- bower:css -->
+    <link rel="stylesheet" href="../bower_components/components-font-awesome/css/font-awesome.css" />
+    <link rel="stylesheet" href="../bower_components/jointjs/dist/joint.css" />
+    <!-- endbower -->
+    <!-- endbuild -->
 
-    </head>
+    <!-- build:css styles/main.css -->
+    <link href="./styles/theme.css" rel="stylesheet">
+    <link href="./styles/diagram.css" rel="stylesheet">
+    <!-- endbuild -->
 
-    <body>
-        <div id="wrapper">
+</head>
 
-            <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a class="navbar-brand" href="index.html">Flink Visual</a>
+<body>
+    <div id="wrapper" ng-controller="AppCtrl">
+
+        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="index.html">Flink Visual</a>
+            </div>
+
+            <ul class="nav navbar-top-links navbar-right">
+                <li><a href="#"><i class="fa fa-cog"></i> Configuration</a></li>
+                <li><a href="#"><i class="fa fa-play"></i> Deploy and Run</a></li>
+                <li><a href="#"><i class="fa fa-download"></i> Download Java Project</a></li>
+            </ul>
+
+            <div class="navbar-default sidebar" role="navigation">
+                <div class="sidebar-nav navbar-collapse">
+                    <ul class="nav" id="side-menu">
+                        <li class="sidebar-search">
+                            <div class="input-group custom-search-form">
+                                <input type="text" class="form-control" placeholder="Search...">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default" type="button">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                </span>
+                            </div>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-link fa-fw"></i> Join</a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-filter fa-fw"></i> Filter<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li ng-drag="true" number-filter ng-drag-data="{type:'numberFilter'}">
+                                    <a href="#">Number Filter</a>
+                                </li>
+                                <li ng-drag="true" string-filter ng-drag-data="{type:'stringFilter'}">
+                                    <a href="#">String Filter</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-edit fa-fw"></i> Map</a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-edit fa-fw"></i> Reduce</a>
+                        </li>
+
+                    </ul>
                 </div>
+            </div>
+        </nav>
 
-				<ul class="nav navbar-top-links navbar-right">
-					<li><a href="#"><i class="fa fa-cog"></i> Configuration</a></li>
-					<li><a href="#"><i class="fa fa-play"></i> Deploy and Run</a></li>
-					<li><a href="#"><i class="fa fa-download"></i> Download Java Project</a></li>
-				</ul>
+        <div id="page-wrapper" ui-view></div>
 
-                <div class="navbar-default sidebar" role="navigation">
-                    <div class="sidebar-nav navbar-collapse">
-                        <ul class="nav" id="side-menu">
-                            <li class="sidebar-search">
-                                <div class="input-group custom-search-form">
-                                    <input type="text" class="form-control" placeholder="Search...">
-                                    <span class="input-group-btn">
-                                        <button class="btn btn-default" type="button">
-                                            <i class="fa fa-search"></i>
-                                        </button>
-                                    </span>
-                                </div>
-                            </li>
-                            <li>
-                                <a href="#"><i class="fa fa-link fa-fw"></i> Join</a>
-                            </li>
-                            <li>
-                                <a href="#"><i class="fa fa-filter fa-fw"></i> Filter<span class="fa arrow"></span></a>
-                                <ul class="nav nav-second-level">
-                                    <li>
-                                        <a href="#">Number Filter</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">String Filter</a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li>
-                                <a href="#"><i class="fa fa-edit fa-fw"></i> Map</a>
-                            </li>
-                            <li>
-                                <a href="#"><i class="fa fa-edit fa-fw"></i> Reduce</a>
-                            </li>
+    </div>
 
-                        </ul>
-                    </div>
-                </div>
-            </nav>
+    <!-- build:js scripts/vendor.js -->
+    <!-- bower:js -->
+    <script src="../bower_components/jquery/dist/jquery.js"></script>
+    <script src="../bower_components/lodash/lodash.js"></script>
+    <script src="../bower_components/backbone/backbone.js"></script>
+    <script src="../bower_components/graphlib/dist/graphlib.core.js"></script>
+    <script src="../bower_components/dagre/dist/dagre.core.js"></script>
+    <script src="../bower_components/dagre/dist/dagre.core.min.js"></script>
+    <script src="../bower_components/jointjs/dist/joint.js"></script>
+    <script src="../bower_components/components-bootstrap/js/bootstrap.js"></script>
+    <script src="../bower_components/angular/angular.js"></script>
+    <script src="../bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+    <script src="../bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+    <script src="../bower_components/moment/moment.js"></script>
+    <script src="../bower_components/angular-moment/angular-moment.js"></script>
+    <script src="../bower_components/angular-touch/angular-touch.js"></script>
+    <script src="../bower_components/angular-animate/angular-animate.js"></script>
+    <script src="../bower_components/ngDraggable/ngDraggable.js"></script>
+    <!-- endbower -->
+    <!-- endbuild -->
 
-            <div id="page-wrapper" ui-view></div>
+    <!-- build:js scripts/scripts.js -->
+    <script src="./app/app.module.js"></script>
+    <script src="./app/app.constants.js"></script>
+    <script src="./app/app.config.js"></script>
+    <script src="./app/app.controller.js"></script>
+    <script src="./app/app.routes.js"></script>
 
-        </div>
+    <script src="./directive/joint-diagram.js"></script>
+    <script src="./directive/number-filter.js"></script>
+    <script src="./directive/string-filter.js"></script>
 
-        <!-- build:js scripts/vendor.js -->
-      	<!-- bower:js -->
-      	<script src="../bower_components/jquery/dist/jquery.js"></script>
-      	<script src="../bower_components/lodash/lodash.js"></script>
-      	<script src="../bower_components/backbone/backbone.js"></script>
-      	<script src="../bower_components/graphlib/dist/graphlib.core.js"></script>
-      	<script src="../bower_components/dagre/dist/dagre.core.js"></script>
-      	<script src="../bower_components/dagre/dist/dagre.core.min.js"></script>
-      	<script src="../bower_components/jointjs/dist/joint.js"></script>
-      	<script src="../bower_components/components-bootstrap/js/bootstrap.js"></script>
-      	<script src="../bower_components/angular/angular.js"></script>
-      	<script src="../bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
-      	<script src="../bower_components/angular-ui-router/release/angular-ui-router.js"></script>
-      	<script src="../bower_components/moment/moment.js"></script>
-      	<script src="../bower_components/angular-moment/angular-moment.js"></script>
-      	<script src="../bower_components/angular-touch/angular-touch.js"></script>
-      	<script src="../bower_components/angular-animate/angular-animate.js"></script>
-      	<!-- endbower -->
-      	<!-- endbuild -->
+    <!-- <script src="js/main.js"></script>
+    <script src="js/components/numberFilter.js"></script>
+    <script src="js/components/stringFilter.js"></script> -->
+    <!-- endbuild -->
 
-      	<!-- build:js scripts/scripts.js -->
-				<script src="./app/app.module.js"></script>
-				<script src="./app/app.constants.js"></script>
-				<script src="./app/app.config.js"></script>
-				<script src="./app/app.controller.js"></script>
-				<script src="./app/app.routes.js"></script>
+</body>
 
-				<script src="./directive/joint-diagram.js"></script>
-      	<!-- endbuild -->
-
-    </body>
 </html>
