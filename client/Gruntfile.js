@@ -190,6 +190,17 @@ module.exports = function (grunt) {
             }
         },
 
+				ngAnnotate: {
+					dist: {
+						files: [{
+							expand: true,
+							cwd: '<%= flinkVisual.tmp %>/concat/scripts',
+							src: ['*.js', '!oldieshim.js'],
+							dest: '<%= flinkVisual.tmp %>/concat/scripts'
+						}]
+					}
+				},
+
         htmlmin: {
             dist: {
                 options: {
@@ -279,6 +290,9 @@ module.exports = function (grunt) {
         // Empties folders to start fresh
         clean: {
             dist: {
+								options: {
+									force: true
+								},
                 files: [{
                     dot: true,
                     src: [
@@ -313,8 +327,7 @@ module.exports = function (grunt) {
                         '.htaccess',
                         '*.html',
                         'app/{,*/}*.html',
-                        'views/{,*/}*.html',
-                        'images/{,*/}*.{webp}',
+                        'view/{,*/}*.html',
                         'fonts/{,*/}*.*',
                         '{,*/}*.json'
                     ]
@@ -365,6 +378,7 @@ module.exports = function (grunt) {
         'wiredep',
         'useminPrepare',
         'concat:generated',
+				'ngAnnotate',
         'postcss:dist',
         'cssmin:generated',
         'uglify:generated',
