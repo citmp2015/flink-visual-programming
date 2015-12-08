@@ -19,7 +19,8 @@
     "components-font-awesome": "~4.5.0",
     "jointjs": "~0.9.5",
     "components-bootstrap": "~3.3.6",
-    "metisMenu": "~2.2.0"
+    "metisMenu": "~2.2.0",
+    "jquery-ui": "~1.11.4"
   },
   "resolutions": {
     "jquery": "2.1.4"
