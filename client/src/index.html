@@ -64,10 +64,10 @@
                         <li>
                             <a href="#"><i class="fa fa-filter fa-fw"></i> Filter<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
-                                <li ng-drag="true" number-filter ng-drag-data="numberFilter" ng-drag-success="onDragCompleteNumberFilter($data,$event)">
+                                <li ng-drag="true" number-filter ng-drag-data="{type:'numberFilter'}">
                                     <a href="#">Number Filter</a>
                                 </li>
-                                <li ng-drag="true" ng-drag-data="stringFilter" ng-drag-success="onDragCompleteStringFilter($data,$event)">
+                                <li ng-drag="true" string-filter ng-drag-data="{type:'stringFilter'}">
                                     <a href="#">String Filter</a>
                                 </li>
                             </ul>
@@ -118,6 +118,7 @@
 
     <script src="./directive/joint-diagram.js"></script>
     <script src="./directive/number-filter.js"></script>
+    <script src="./directive/string-filter.js"></script>
 
     <!-- <script src="js/main.js"></script>
     <script src="js/components/numberFilter.js"></script>
