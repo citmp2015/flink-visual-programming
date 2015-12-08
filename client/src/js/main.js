@@ -4,11 +4,13 @@ var graphApp = graphApp || {
     initialize: function() {
         var self = this;
 
-        self.numberFilter = $('#numberFilter');
         self.paperElement = $('#paper');
 
         self.initializeGraphs();
         self.initializeDragAndDrop();
+
+        self.components.numberFilter.initialize();
+        self.components.stringFilter.initialize();
     },
 
     initializeGraphs: function() {
@@ -44,24 +46,14 @@ var graphApp = graphApp || {
     initializeDragAndDrop: function() {
         var self = this;
 
-        self.numberFilter.draggable({
-            cursor: 'move',
-            revert: 'invalid',
-            opacity: 0.7,
-            snap: self.paperElement,
-            snapMode: 'inner',
-            helper: 'clone'
-        });
-
         self.paperElement.droppable({
-            accept: self.numberFilter,
             drop: function(event, ui) {
-                var position = $(this).position()
-                var rect = new joint.shapes.basic.Rect({
-                    position: { x: position.left, y: position.top },
-                    size: { width: 100, height: 30 },
-                    attrs: { rect: { fill: 'green' }, text: { text: 'my box', fill: 'white' } }
-                });
+                console.log(event);
+                console.log(ui);
+                var elementOffset = $(this).offset(),
+                    posX = ui.offset.left - elementOffset.left,
+                    posY = ui.offset.top - elementOffset.top,
+                    rect = self.components[ui.draggable[0].id].get(posX, posY);
                 self.graph.addCells([rect]);
             }
         });
