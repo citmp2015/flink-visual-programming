@@ -8,7 +8,8 @@
 
     /*@ngInject*/
     function AppCtrl($scope, $rootScope) {
-        console.log($scope);
+
+				$scope.graph = new joint.dia.Graph;
 
         $scope.onDropComplete = function(data, evt) {
             console.log($scope);

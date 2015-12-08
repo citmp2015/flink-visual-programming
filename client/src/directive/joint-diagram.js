@@ -30,8 +30,6 @@
 
         function newDiagram(scope, height, width, gridSize, targetElement) {
 
-            scope.graph = new joint.dia.Graph;
-
             var paper = new joint.dia.Paper({
                 el: targetElement,
                 width: angular.element(targetElement)[0].scrollWidth,
@@ -81,7 +79,8 @@
             link: link,
             restrict: 'E',
             scope: {
-                gridSize: '='
+                gridSize: '=',
+                graph: '='
             }
         };
 
