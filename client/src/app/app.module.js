@@ -8,7 +8,8 @@
         'ngTouch',
         'ui.router',
         'ui.bootstrap',
-        'angularMoment'
+        'angularMoment',
+        'ngDraggable'
 
     ]);
 
