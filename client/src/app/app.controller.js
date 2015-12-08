@@ -9,8 +9,6 @@
 	/*@ngInject*/
 	function AppCtrl($scope, $rootScope) {
 
-			
-
 	}
 
 })();

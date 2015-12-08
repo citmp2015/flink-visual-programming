@@ -8,7 +8,9 @@
     'ngTouch',
     'ui.router',
     'ui.bootstrap',
-    'angularMoment'
+    'angularMoment',
+
+		'app.menu'
 
 	]);
 

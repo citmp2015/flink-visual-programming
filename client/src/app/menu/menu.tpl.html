@@ -1,0 +1,29 @@
+<ul class="nav" ng-controller="MenuCtrl">
+
+		<li class="sidebar-search">
+				<div class="input-group custom-search-form">
+						<input type="text" class="form-control" placeholder="Search...">
+						<span class="input-group-btn">
+								<button class="btn btn-default" type="button">
+										<i class="fa fa-search"></i>
+								</button>
+						</span>
+				</div>
+		</li>
+
+		<li ng-repeat="menuItem in menuItems">
+			<a ng-click="menuItem.open = !menuItem.open;">
+				<i ng-if="menuItem.faIconClass" class="fa" ng-class="menuItem.faIconClass"></i>
+				{{menuItem.label}}
+			</a>
+			<ul class="nav nav-second-level" ng-if="menuItem.subItems.length" ng-show="menuItem.open">
+				<li ng-repeat="subMenuItem in menuItem.subItems">
+					<a>
+						<i ng-if="subMenuItem.faIconClass" class="fa" ng-class="subMenuItem.faIconClass"></i>
+						{{subMenuItem.label}}
+					</a>
+				</li>
+			</ul>
+		</li>
+
+</ul>
