@@ -1,16 +1,16 @@
 (function() {
 
-	'use strict';
+    'use strict';
 
-	angular
-		.module('app')
-	  	.config(AppConfig);
+    angular
+        .module('app')
+        .config(AppConfig);
 
-	/*@ngInject*/
-  	function AppConfig() {
+    /*@ngInject*/
+    function AppConfig() {
 
 
 
-		}
+    }
 
 })();

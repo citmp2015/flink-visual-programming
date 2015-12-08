@@ -1,16 +1,16 @@
 (function() {
 
-	'use strict';
+    'use strict';
 
-	angular
-		.module('app')
-		.controller('AppCtrl', AppCtrl);
+    angular
+        .module('app')
+        .controller('AppCtrl', AppCtrl);
 
-	/*@ngInject*/
-	function AppCtrl($scope, $rootScope) {
+    /*@ngInject*/
+    function AppCtrl($scope, $rootScope) {
 
-			
 
-	}
+
+    }
 
 })();
