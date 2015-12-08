@@ -10,7 +10,7 @@
     function numberFilter() {
         function link(scope, element, attrs) {
 
-            scope.renderNumberFilter = newNumberFilter();
+            scope.renderNumberFilter = newNumberFilter;
 
         }
 

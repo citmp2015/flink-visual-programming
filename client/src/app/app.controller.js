@@ -11,8 +11,8 @@
         console.log($scope);
 
         $scope.onDropComplete = function(data, evt) {
-            console.log($scope.numberFilter(evt.x, evt.y));
-            $scope.graph.addCells([$scope.numberFilter(evt.x, evt.y)]);
+            console.log($scope);
+            $scope.graph.addCells([$scope.renderNumberFilter(evt.x, evt.y)]);
         };
 
         function renderStringFilter(posX, posY) {
