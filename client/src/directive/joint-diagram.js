@@ -37,7 +37,7 @@
                 width: angular.element(targetElement)[0].scrollWidth,
                 height: angular.element(targetElement)[0].scrollHeight,
                 gridSize: gridSize,
-                model: graph,
+                model: scope.graph,
             });
 
             var rect = new joint.shapes.basic.Rect({
@@ -72,7 +72,7 @@
                 }
             });
 
-            graph.addCells([rect, rect2, link]);
+            scope.graph.addCells([rect, rect2, link]);
 
             return paper;
         }
