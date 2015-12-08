@@ -11,7 +11,7 @@
 
         function link(scope, element, attrs) {
 
-            var diagram = newDiagram(scope.height, scope.width, scope.gridSize, element[0]);
+            var diagram = newDiagram(scope, scope.height, scope.width, scope.gridSize, element[0]);
 
             //add event handlers to interact with the diagram
             diagram.on('cell:pointerclick', function(cellView, evt, x, y) {
@@ -28,9 +28,9 @@
 
         }
 
-        function newDiagram(height, width, gridSize, targetElement) {
+        function newDiagram(scope, height, width, gridSize, targetElement) {
 
-            var graph = new joint.dia.Graph;
+            scope.graph = new joint.dia.Graph;
 
             var paper = new joint.dia.Paper({
                 el: targetElement,

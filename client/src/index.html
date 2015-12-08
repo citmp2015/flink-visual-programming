@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-ng-app="app">
+<html lang="en" ng-app="app">
 
 <head>
     <meta charset="utf-8">
@@ -26,7 +26,7 @@
 </head>
 
 <body>
-    <div id="wrapper">
+    <div id="wrapper" ng-controller="AppCtrl">
 
         <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
             <div class="navbar-header">
@@ -64,10 +64,10 @@
                         <li>
                             <a href="#"><i class="fa fa-filter fa-fw"></i> Filter<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
-                                <li id="numberFilter">
+                                <li ng-drag="true" number-filter ng-drag-data="numberFilter" ng-drag-success="onDragCompleteNumberFilter($data,$event)">
                                     <a href="#">Number Filter</a>
                                 </li>
-                                <li id="stringFilter">
+                                <li ng-drag="true" ng-drag-data="stringFilter" ng-drag-success="onDragCompleteStringFilter($data,$event)">
                                     <a href="#">String Filter</a>
                                 </li>
                             </ul>
@@ -117,10 +117,11 @@
     <script src="./app/app.routes.js"></script>
 
     <script src="./directive/joint-diagram.js"></script>
+    <script src="./directive/number-filter.js"></script>
 
-    <script src="js/main.js"></script>
+    <!-- <script src="js/main.js"></script>
     <script src="js/components/numberFilter.js"></script>
-    <script src="js/components/stringFilter.js"></script>
+    <script src="js/components/stringFilter.js"></script> -->
     <!-- endbuild -->
 
 </body>
