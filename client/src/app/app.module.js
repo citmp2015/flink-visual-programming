@@ -10,7 +10,8 @@
     'ui.bootstrap',
     'angularMoment',
 
-		'app.menu'
+		'app.menu',
+		'app.datasource'
 
 	]);
 
