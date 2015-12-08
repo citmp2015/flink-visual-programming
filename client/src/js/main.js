@@ -48,8 +48,6 @@ var graphApp = graphApp || {
 
         self.paperElement.droppable({
             drop: function(event, ui) {
-                console.log(event);
-                console.log(ui);
                 var elementOffset = $(this).offset(),
                     posX = ui.offset.left - elementOffset.left,
                     posY = ui.offset.top - elementOffset.top,

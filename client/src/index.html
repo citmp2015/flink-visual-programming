@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-ng-app="app">
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -14,12 +14,12 @@
         <!-- bower:css -->
         <link rel="stylesheet" href="../bower_components/components-font-awesome/css/font-awesome.css" />
         <link rel="stylesheet" href="../bower_components/jointjs/dist/joint.css" />
-        <link rel="stylesheet" href="../bower_components/metisMenu/dist/metisMenu.css" />
         <!-- endbower -->
         <!-- endbuild -->
 
         <!-- build:css styles/main.css -->
-        <link href="css/theme.css" rel="stylesheet">
+        <link href="./styles/theme.css" rel="stylesheet">
+        <link href="./styles/diagram.css" rel="stylesheet">
         <!-- endbuild -->
 
     </head>
@@ -83,32 +83,40 @@
                 </div>
             </nav>
 
-            <div id="page-wrapper">
-				<div id="paper">
-				</div>
-            </div>
+            <div id="page-wrapper" ui-view></div>
 
         </div>
 
         <!-- build:js scripts/vendor.js -->
-      	<!-- bower:js -->
-      	<script src="../bower_components/jquery/dist/jquery.js"></script>
-      	<script src="../bower_components/react/react.js"></script>
-      	<script src="../bower_components/react/react-dom.js"></script>
-      	<script src="../bower_components/lodash/lodash.js"></script>
-      	<script src="../bower_components/backbone/backbone.js"></script>
-      	<script src="../bower_components/graphlib/dist/graphlib.core.js"></script>
-      	<script src="../bower_components/dagre/dist/dagre.core.js"></script>
-      	<script src="../bower_components/dagre/dist/dagre.core.min.js"></script>
-      	<script src="../bower_components/jointjs/dist/joint.js"></script>
-      	<script src="../bower_components/components-bootstrap/js/bootstrap.js"></script>
-      	<script src="../bower_components/metisMenu/dist/metisMenu.js"></script>
-      	<script src="../bower_components/jquery-ui/jquery-ui.js"></script>
-      	<!-- endbower -->
-      	<!-- endbuild -->
+        <!-- bower:js -->
+        <script src="../bower_components/jquery/dist/jquery.js"></script>
+        <script src="../bower_components/jquery-ui/jquery-ui.js"></script>
+        <script src="../bower_components/lodash/lodash.js"></script>
+        <script src="../bower_components/backbone/backbone.js"></script>
+        <script src="../bower_components/graphlib/dist/graphlib.core.js"></script>
+        <script src="../bower_components/dagre/dist/dagre.core.js"></script>
+        <script src="../bower_components/dagre/dist/dagre.core.min.js"></script>
+        <script src="../bower_components/jointjs/dist/joint.js"></script>
+        <script src="../bower_components/components-bootstrap/js/bootstrap.js"></script>
+        <script src="../bower_components/angular/angular.js"></script>
+        <script src="../bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+        <script src="../bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+        <script src="../bower_components/moment/moment.js"></script>
+        <script src="../bower_components/angular-moment/angular-moment.js"></script>
+        <script src="../bower_components/angular-touch/angular-touch.js"></script>
+        <script src="../bower_components/angular-animate/angular-animate.js"></script>
+        <!-- endbower -->
+        <!-- endbuild -->
 
-      	<!-- build:js scripts/scripts.js -->
-        <script src="js/theme.js"></script>
+        <!-- build:js scripts/scripts.js -->
+        <script src="./app/app.module.js"></script>
+        <script src="./app/app.constants.js"></script>
+        <script src="./app/app.config.js"></script>
+        <script src="./app/app.controller.js"></script>
+        <script src="./app/app.routes.js"></script>
+
+        <script src="./directive/joint-diagram.js"></script>
+
         <script src="js/main.js"></script>
         <script src="js/components/numberFilter.js"></script>
         <script src="js/components/stringFilter.js"></script>
