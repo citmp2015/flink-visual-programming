@@ -6,9 +6,10 @@ module.exports = function (grunt) {
 
     var appConfig = {
         app: require('./bower.json').appPath || './src',
-        dist: './dist',
+        dist: '../src/main/webapp',
         tmp: './.tmp'
     };
+
 
     grunt.initConfig({
 
@@ -27,7 +28,7 @@ module.exports = function (grunt) {
                 },
             },
             js: {
-                files: ['<%= flinkVisual.app %>/app/{,*/}*.js', '<%= flinkVisual.app %>/js/{,*/}*.js'],
+                files: ['<%= flinkVisual.app %>/app/{,*/}*.js'],
                 tasks: ['jshint'],
                 options: {
                     livereload: '<%= connect.options.livereload %>',
@@ -35,7 +36,7 @@ module.exports = function (grunt) {
                 },
             },
             styles: {
-                files: ['<%= flinkVisual.app %>/css/{,*/}*.css', '<%= flinkVisual.app %>/app/{,*/}*.css'],
+                files: ['<%= flinkVisual.app %>/styles/{,*/}*.css', '<%= flinkVisual.app %>/app/{,*/}*.css'],
                 tasks: ['newer:copy:styles', 'postcss:serve'],
                 options: {
                     livereload: '<%= connect.options.livereload %>',
@@ -81,7 +82,6 @@ module.exports = function (grunt) {
             all: {
                 src: [
                     'Gruntfile.js',
-                    '<%= flinkVisual.app %>/js/{,*/}*.js',
                     '<%= flinkVisual.app %>/app/**/*.js'
                 ]
             }
@@ -190,6 +190,17 @@ module.exports = function (grunt) {
             }
         },
 
+				ngAnnotate: {
+					dist: {
+						files: [{
+							expand: true,
+							cwd: '<%= flinkVisual.tmp %>/concat/scripts',
+							src: ['*.js', '!oldieshim.js'],
+							dest: '<%= flinkVisual.tmp %>/concat/scripts'
+						}]
+					}
+				},
+
         htmlmin: {
             dist: {
                 options: {
@@ -269,7 +280,7 @@ module.exports = function (grunt) {
                     ]
                 },
                 src: [
-                    '<%= flinkVisual.app %>/css/{,*/}*.css',
+                    '<%= flinkVisual.app %>/styles/{,*/}*.css',
                     '<%= flinkVisual.app %>/app/{,*/}*.css'
                 ]
             }
@@ -279,11 +290,16 @@ module.exports = function (grunt) {
         // Empties folders to start fresh
         clean: {
             dist: {
+								options: {
+									force: true
+								},
                 files: [{
                     dot: true,
                     src: [
                         '<%= flinkVisual.tmp %>',
-                        '<%= flinkVisual.dist %>/{,*/}*'
+                        '<%= flinkVisual.dist %>/{,*/}*',
+                        '!<%= flinkVisual.dist %>/WEB-INF/**',
+                        '!<%= flinkVisual.dist %>/.gitignore'
                     ]
                 }]
             },
@@ -311,8 +327,7 @@ module.exports = function (grunt) {
                         '.htaccess',
                         '*.html',
                         'app/{,*/}*.html',
-                        'views/{,*/}*.html',
-                        'images/{,*/}*.{webp}',
+                        'view/{,*/}*.html',
                         'fonts/{,*/}*.*',
                         '{,*/}*.json'
                     ]
@@ -335,7 +350,7 @@ module.exports = function (grunt) {
             },
             styles: {
                 expand: true,
-                cwd: '<%= flinkVisual.app %>/css',
+                cwd: '<%= flinkVisual.app %>/styles',
                 dest: '<%= flinkVisual.tmp %>/styles/',
                 src: '{,*/}*.css'
             }
@@ -363,6 +378,7 @@ module.exports = function (grunt) {
         'wiredep',
         'useminPrepare',
         'concat:generated',
+				'ngAnnotate',
         'postcss:dist',
         'cssmin:generated',
         'uglify:generated',
