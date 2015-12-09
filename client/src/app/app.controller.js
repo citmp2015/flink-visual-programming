@@ -15,11 +15,13 @@
             // TODO: replace static sizes
             var posX = evt.x - 250,
                 posY = evt.y - 51;
-            console.log(posX, posY);
+
             if (data.type === 'stringFilter') {
                 $scope.graph.addCells([renderStringFilter(posX, posY)]);
             } else if (data.type === 'numberFilter') {
                 $scope.graph.addCells([renderNumberFilter(posX, posY)]);
+            } else if (data.type === 'csvDatasource') {
+                $scope.graph.addCells([renderCsvDatasource(posX, posY)]);
             }
         };
 
@@ -63,6 +65,28 @@
                 },
                 text: {
                     text: 'String Filter',
+                    fill: 'white'
+                }
+            }
+        });
+    }
+
+    function renderCsvDatasource(posX, posY) {
+        return new joint.shapes.basic.Rect({
+            position: {
+                x: posX,
+                y: posY
+            },
+            size: {
+                width: 140,
+                height: 30
+            },
+            attrs: {
+                rect: {
+                    fill: 'green'
+                },
+                text: {
+                    text: 'CSV Datasource',
                     fill: 'white'
                 }
             }

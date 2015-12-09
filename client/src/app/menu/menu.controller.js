@@ -13,7 +13,12 @@
             label: 'Datasource',
             faIconClass: 'fa-table',
             open: false,
-            subItems: []
+            subItems: [{
+                label: 'CSV Datasoucrce',
+                dragData: {
+                    type: 'csvDatasource'
+                }
+            }]
         },{
             label: 'Join',
             faIconClass: 'fa-link',
@@ -25,8 +30,14 @@
             open: false,
             subItems: [{
                 label: 'Number filter',
+                dragData: {
+                    type: 'numberFilter'
+                }
             }, {
-                label: 'String filter'
+                label: 'String filter',
+                dragData: {
+                    type: 'stringFilter'
+                }
             }]
         }, {
             label: 'Map',

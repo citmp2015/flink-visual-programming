@@ -17,7 +17,7 @@
         </a>
         <ul class="nav nav-second-level" ng-if="menuItem.subItems.length" ng-show="menuItem.open">
             <li ng-repeat="subMenuItem in menuItem.subItems">
-                <a>
+                <a ng-drag="{{subMenuItem.dragData ? true : false}}" ng-drag-data="{{subMenuItem.dragData}}">
                     <i ng-if="subMenuItem.faIconClass" class="fa" ng-class="subMenuItem.faIconClass"></i> {{subMenuItem.label}}
                 </a>
             </li>
