@@ -9,7 +9,9 @@
         'ui.router',
         'ui.bootstrap',
         'angularMoment',
-        'ngDraggable'
+        'ngDraggable',
+
+				'app.menu'
 
     ]);
 
