@@ -21,9 +21,11 @@
 					faIconClass: 'fa-filter',
 					open: false,
 					subItems: [{
-					label: 'Number filter'
+						label: 'Number filter',
+						dragData: { type:'numberFilter' }
 					}, {
-						label: 'String filter'
+						label: 'String filter',
+						dragData: { type:'stringFilter' }
 					}]
 				},
 				{
