@@ -20,6 +20,8 @@
                 $scope.graph.addCells([graphFactory.renderStringFilter(posX, posY, 1, 2)]);
             } else if (data.type === 'numberFilter') {
                 $scope.graph.addCells([graphFactory.renderNumberFilter(posX, posY, 1, 1)]);
+            } else if (data.type === 'csvDatasource') {
+                $scope.graph.addCells([graphFactory.renderCsvDatasource(posX, posY, $state)]);
             }
         };
 

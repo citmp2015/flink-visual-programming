@@ -38,6 +38,31 @@
             return fastCreate(posX, posY, inCnt, outCnt, 'String Filter');
         };
 
+        flink.renderCsvDatasource = function(posX, posY, $state) {
+
+            $state.go('app.datasource.add');
+
+            return new joint.shapes.basic.Rect({
+                position: {
+                    x: posX,
+                    y: posY
+                },
+                size: {
+                    width: 140,
+                    height: 30
+                },
+                attrs: {
+                    rect: {
+                        fill: 'green'
+                    },
+                    text: {
+                        text: 'CSV Datasource',
+                        fill: 'white'
+                    }
+                }
+            });
+        };
+
         flink.Model = joint.shapes.basic.Generic.extend(_.extend({}, joint.shapes.basic.PortsModelInterface, {
 
             markup: '<g class="rotatable"><g class="scalable"><rect class="body"/></g><text class="label"/><g class="inPorts"/><g class="outPorts"/></g>',
