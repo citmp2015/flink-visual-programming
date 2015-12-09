@@ -7,7 +7,7 @@
         .controller('AppCtrl', AppCtrl);
 
     /*@ngInject*/
-    function AppCtrl($scope, $rootScope) {
+    function AppCtrl($scope, $rootScope, $state) {
 
         $scope.graph = new joint.dia.Graph;
 
@@ -21,7 +21,7 @@
             } else if (data.type === 'numberFilter') {
                 $scope.graph.addCells([renderNumberFilter(posX, posY)]);
             } else if (data.type === 'csvDatasource') {
-                $scope.graph.addCells([renderCsvDatasource(posX, posY)]);
+                $scope.graph.addCells([renderCsvDatasource(posX, posY, $state)]);
             }
         };
 
@@ -71,7 +71,10 @@
         });
     }
 
-    function renderCsvDatasource(posX, posY) {
+    function renderCsvDatasource(posX, posY, $state) {
+
+        $state.go('app.datasource.add');
+
         return new joint.shapes.basic.Rect({
             position: {
                 x: posX,
