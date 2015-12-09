@@ -2,14 +2,17 @@
 
     'use strict';
 
-	angular.module('app', [
+    angular.module('app', [
 
- 		'ngAnimate',
-    'ngTouch',
-    'ui.router',
-    'ui.bootstrap',
-    'angularMoment',
-        'ngDraggable'
+        'ngAnimate',
+        'ngTouch',
+        'ui.router',
+        'ui.bootstrap',
+        'angularMoment',
+        'ngDraggable',
+
+        'app.menu',
+        'app.datasource'
 
     ]);
 

@@ -1,9 +1,9 @@
 (function() {
 
-	'use strict';
+    'use strict';
 
-	angular.module('app.menu', [
+    angular.module('app.menu', [
 
-	]);
+    ]);
 
 })();

@@ -1,9 +1,9 @@
 (function() {
 
-	'use strict';
+    'use strict';
 
-	angular.module('app.datasource', [
+    angular.module('app.datasource', [
 
-	]);
+    ]);
 
 })();
