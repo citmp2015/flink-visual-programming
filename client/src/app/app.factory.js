@@ -23,7 +23,7 @@
                 java: "package blab.ablab.alba\nimport stuff",
                 outPorts: portsOut,
                 attrs: {
-                    '.label': {text: 'Number Filter'}
+                    '.label': {text: label}
                 }
             });
         }
