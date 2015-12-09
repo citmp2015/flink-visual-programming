@@ -10,6 +10,11 @@
     function MenuCtrl($scope, $rootScope) {
 
         $scope.menuItems = [{
+            label: 'Datasource',
+            faIconClass: 'fa-table',
+            open: false,
+            subItems: []
+        },{
             label: 'Join',
             faIconClass: 'fa-link',
             open: false,
@@ -19,7 +24,7 @@
             faIconClass: 'fa-filter',
             open: false,
             subItems: [{
-                label: 'Number filter'
+                label: 'Number filter',
             }, {
                 label: 'String filter'
             }]

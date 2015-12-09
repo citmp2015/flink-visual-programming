@@ -15,6 +15,7 @@
             abstract: true,
             url: '',
             templateUrl: 'view/app.html',
+            controller: 'AppCtrl'
         })
 
         .state('app.dashboard', {

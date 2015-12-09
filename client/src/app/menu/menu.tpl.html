@@ -11,10 +11,6 @@
         </div>
     </li>
 
-    <li>
-        <a ui-sref="app.datasource.add">Datasource</a>
-    </li>
-
     <li ng-repeat="menuItem in menuItems">
         <a ng-click="menuItem.open = !menuItem.open;">
             <i ng-if="menuItem.faIconClass" class="fa" ng-class="menuItem.faIconClass"></i> {{menuItem.label}}
