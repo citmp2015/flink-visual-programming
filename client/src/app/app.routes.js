@@ -14,12 +14,31 @@
         $stateProvider.state('app', {
             abstract: true,
             url: '',
-            templateUrl: 'view/app.html'
+            templateUrl: 'view/app.html',
+            controller: 'AppCtrl'
         })
 
         .state('app.dashboard', {
             url: '/dashboard',
             template: '<div ui-view></div>'
+        })
+
+        .state('app.datasource', {
+            abstract: true,
+            url: '/datasource',
+        })
+
+        .state('app.datasource.add', {
+            url: '/add',
+            onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
+                $uibModal.open({
+                    templateUrl: '/app/datasource/datasource-modal.tpl.html',
+                    controller: 'DatasourceModalCtrl',
+                    backdrop: 'static'
+                }).result.finally(function() {
+                    $state.go('app.dashboard');
+                });
+            }]
         });
 
     }
