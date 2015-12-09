@@ -7,7 +7,7 @@
         .controller('DatasourceModalCtrl', DatasourceModalCtrl);
 
     /*@ngInject*/
-    function DatasourceModalCtrl($scope, $rootScope) {
+    function DatasourceModalCtrl($scope, $rootScope, $uibModalInstance) {
 
         $scope.dataTypes = [{
             label: '- none -',
@@ -29,6 +29,9 @@
             columns: []
         };
 
+        $scope.save = save;
+        $scope.cancel = cancel;
+
         $scope.$watch('datasource.countColumns', function(newValue, oldValue) {
             if ($scope.datasource.columns.length < newValue) {
                 for (var i = $scope.datasource.columns.length; i < newValue; i++) {
@@ -43,6 +46,14 @@
                 }
             }
         });
+
+        function save() {
+            $uibModalInstance.close();
+        }
+
+        function cancel() {
+            $uibModalInstance.close();
+        }
 
     }
 

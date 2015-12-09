@@ -33,7 +33,8 @@
             onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
                 $uibModal.open({
                     templateUrl: '/app/datasource/datasource-modal.tpl.html',
-                    controller: 'DatasourceModalCtrl'
+                    controller: 'DatasourceModalCtrl',
+                    backdrop: 'static'
                 }).result.finally(function() {
                     $state.go('app.dashboard');
                 });
