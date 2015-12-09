@@ -7,7 +7,7 @@
         .controller('AppCtrl', AppCtrl);
 
     /*@ngInject*/
-    function AppCtrl($scope, $rootScope, $state) {
+    function AppCtrl($scope, $rootScope, $state, graphFactory) {
 
         $scope.graph = new joint.dia.Graph;
 
@@ -17,83 +17,14 @@
                 posY = evt.y - 51;
 
             if (data.type === 'stringFilter') {
-                $scope.graph.addCells([renderStringFilter(posX, posY)]);
+                $scope.graph.addCells([graphFactory.renderStringFilter(posX, posY, 1, 2)]);
             } else if (data.type === 'numberFilter') {
-                $scope.graph.addCells([renderNumberFilter(posX, posY)]);
+                $scope.graph.addCells([graphFactory.renderNumberFilter(posX, posY, 1, 1)]);
             } else if (data.type === 'csvDatasource') {
-                $scope.graph.addCells([renderCsvDatasource(posX, posY, $state)]);
+                $scope.graph.addCells([graphFactory.renderCsvDatasource(posX, posY, $state)]);
             }
         };
 
-    }
-
-    function renderNumberFilter(posX, posY) {
-        return new joint.shapes.basic.Rect({
-            position: {
-                x: posX,
-                y: posY
-            },
-            size: {
-                width: 100,
-                height: 30
-            },
-            attrs: {
-                rect: {
-                    fill: 'blue'
-                },
-                text: {
-                    text: 'Number Filter',
-                    fill: 'white'
-                }
-            }
-        });
-    }
-
-    function renderStringFilter(posX, posY) {
-        return new joint.shapes.basic.Rect({
-            position: {
-                x: posX,
-                y: posY
-            },
-            size: {
-                width: 100,
-                height: 30
-            },
-            attrs: {
-                rect: {
-                    fill: 'green'
-                },
-                text: {
-                    text: 'String Filter',
-                    fill: 'white'
-                }
-            }
-        });
-    }
-
-    function renderCsvDatasource(posX, posY, $state) {
-
-        $state.go('app.datasource.add');
-
-        return new joint.shapes.basic.Rect({
-            position: {
-                x: posX,
-                y: posY
-            },
-            size: {
-                width: 140,
-                height: 30
-            },
-            attrs: {
-                rect: {
-                    fill: 'green'
-                },
-                text: {
-                    text: 'CSV Datasource',
-                    fill: 'white'
-                }
-            }
-        });
     }
 
 })();
