@@ -11,7 +11,8 @@
         'angularMoment',
         'ngDraggable',
 
-				'app.menu'
+        'app.menu',
+        'app.datasource'
 
     ]);
 

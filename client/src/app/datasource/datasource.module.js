@@ -2,7 +2,7 @@
 
     'use strict';
 
-    angular.module('app.menu', [
+    angular.module('app.datasource', [
 
     ]);
 
