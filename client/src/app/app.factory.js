@@ -37,6 +37,10 @@
         flink.renderStringFilter = function(posX, posY, inCnt, outCnt) {
             return fastCreate(posX, posY, inCnt, outCnt, 'String Filter');
         };
+		
+		flink.renderMap = function(posX, posY, inCnt, outCnt) {
+            return fastCreate(posX, posY, inCnt, outCnt, 'Map');
+        };
 
         flink.renderCsvDatasource = function(posX, posY, $state) {
 

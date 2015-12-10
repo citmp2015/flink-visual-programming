@@ -43,6 +43,9 @@
             label: 'Map',
             faIconClass: 'fa-edit',
             open: false,
+			dragData: {
+                type: 'map'
+            },
             subItems: []
         }, {
             label: 'Reduce',
