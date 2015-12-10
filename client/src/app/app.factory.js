@@ -41,6 +41,10 @@
 		flink.renderMap = function(posX, posY, inCnt, outCnt) {
             return fastCreate(posX, posY, inCnt, outCnt, 'Map');
         };
+		
+		flink.renderSum = function(posX, posY, inCnt, outCnt) {
+            return fastCreate(posX, posY, inCnt, outCnt, 'Sum');
+        };
 
         flink.renderCsvDatasource = function(posX, posY, $state) {
 

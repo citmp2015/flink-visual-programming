@@ -40,6 +40,14 @@
                 }
             }]
         }, {
+            label: 'Sum',
+            faIconClass: 'fa-plus',
+            open: false,
+			dragData: {
+                type: 'sum'
+            },
+            subItems: []
+        }, {
             label: 'Map',
             faIconClass: 'fa-edit',
             open: false,
