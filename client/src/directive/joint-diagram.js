@@ -36,6 +36,7 @@
                 height: angular.element(targetElement)[0].scrollHeight,
                 gridSize: gridSize,
                 model: scope.graph,
+				snapLinks: { radius: 75 },
             });
 			
             return paper;
