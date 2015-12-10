@@ -99,7 +99,7 @@
                     '.label': {
                         text: 'Model',
                         'ref-x': .5,
-                        'ref-y': 10,
+                        'ref-y': 45,
                         ref: '.body',
                         'text-anchor': 'middle',
                         fill: '#000000'
@@ -157,12 +157,12 @@
 
                 type: 'devs.Atomic',
                 size: {
-                    width: 80,
-                    height: 80
+                    width: 120,
+                    height: 100
                 },
                 attrs: {
                     '.body': {
-                        fill: 'salmon'
+                        fill: 'Salmon'
                     },
                     '.label': {
                         text: 'Atomic'
