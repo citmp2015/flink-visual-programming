@@ -7,38 +7,33 @@
 
 
     /*@ngInject*/
-    function jointDiagram() {
+    function jointDiagram($state, $log) {
 
         function link(scope, element, attrs) {
 
-            var diagram = newDiagram(scope, scope.height, scope.width, scope.gridSize, element[0]);
-
-            //add event handlers to interact with the diagram
-            diagram.on('cell:pointerclick', function(cellView, evt, x, y) {
-                //your logic here e.g. select the element
-            });
-
-            diagram.on('blank:pointerclick', function(evt, x, y) {
-                // your logic here e.g. unselect the element by clicking on a blank part of the diagram
-            });
-
-            diagram.on('link:options', function(evt, cellView, x, y) {
-                // your logic here: e.g. select a link by its options tool
-            });
-
-        }
-
-        function newDiagram(scope, height, width, gridSize, targetElement) {
-
             var paper = new joint.dia.Paper({
-                el: targetElement,
-                width: angular.element(targetElement)[0].scrollWidth,
-                height: angular.element(targetElement)[0].scrollHeight,
-                gridSize: gridSize,
+                el: element[0],
+                width: angular.element(element[0])[0].scrollWidth,
+                height: angular.element(element[0])[0].scrollHeight,
+                gridSize: scope.gridSize,
                 model: scope.graph,
             });
 
-            return paper;
+            paper.on('cell:pointerdblclick', function(cellView, evt, x, y) {
+                $log.log('cell:pointerdblclick', cellView.model);
+                if (cellView.model.attributes.data && cellView.model.attributes.data.modalController) {
+                    $state.go('app.component', {
+                        id: cellView.model.id,
+                        modalController: cellView.model.attributes.data ? cellView.model.attributes.data.modalController : undefined,
+                        modalTemplateUrl: cellView.model.attributes.data ? cellView.model.attributes.data.modalTemplateUrl : undefined
+                    });
+                }
+            });
+
+            paper.on('link:options', function(evt, cellView, x, y) {
+                // your logic here: e.g. select a link by its options tool
+            });
+
         }
 
         return {

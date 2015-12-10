@@ -7,7 +7,9 @@
         .controller('DatasourceModalCtrl', DatasourceModalCtrl);
 
     /*@ngInject*/
-    function DatasourceModalCtrl($scope, $rootScope, $uibModalInstance) {
+    function DatasourceModalCtrl($scope, $rootScope, $uibModalInstance, $stateParams, $timeout, $log) {
+
+        var cell = $rootScope.graph.getCell($stateParams.id);
 
         $scope.dataTypes = [{
             label: '- none -',
@@ -24,9 +26,9 @@
         }];
 
         $scope.datasource = {
-            path: null,
-            countColumns: 2,
-            columns: []
+            path: cell.attributes.data.path,
+            countColumns: cell.attributes.data.countColumns,
+            columns: cell.attributes.data.columns
         };
 
         $scope.save = save;
@@ -49,6 +51,9 @@
         });
 
         function save() {
+            cell.attributes.data.path = $scope.datasource.path;
+            cell.attributes.data.countColumns = $scope.datasource.countColumns;
+            cell.attributes.data.columns = $scope.datasource.columns;
             $uibModalInstance.close();
         }
 
