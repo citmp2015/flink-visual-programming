@@ -33,15 +33,16 @@
         $scope.cancel = cancel;
 
         $scope.$watch('datasource.countColumns', function(newValue, oldValue) {
+            var i;
             if ($scope.datasource.columns.length < newValue) {
-                for (var i = $scope.datasource.columns.length; i < newValue; i++) {
+                for (i = $scope.datasource.columns.length; i < newValue; i++) {
                     $scope.datasource.columns.push({
                         column: i,
                         type: angular.extend({}, $scope.dataTypes[0])
                     });
                 }
             } else {
-                for (var i = $scope.datasource.columns.length; i > newValue; i--) {
+                for (i = $scope.datasource.columns.length; i > newValue; i--) {
                     $scope.datasource.columns.pop();
                 }
             }

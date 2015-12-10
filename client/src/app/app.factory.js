@@ -12,15 +12,15 @@
     function GraphFactory() {
         function fastCreate(posX, posY, inCnt, outCnt, label) {
             var portsIn = _.range(inCnt).map(function (a) {
-                return "IN" + a;
+                return 'IN' + a;
             });
             var portsOut = _.range(outCnt).map(function (a) {
-                return "OUT" + a;
+                return 'OUT' + a;
             });
             return new flink.Atomic({
                 position: {x: posX, y: posY},
                 inPorts: portsIn,
-                java: "package blab.ablab.alba\nimport stuff",
+                java: 'package blab.ablab.alba\nimport stuff',
                 outPorts: portsOut,
                 attrs: {
                     '.label': {text: label}
@@ -98,7 +98,7 @@
                     },
                     '.label': {
                         text: 'Model',
-                        'ref-x': .5,
+                        'ref-x': 0.5,
                         'ref-y': 10,
                         ref: '.body',
                         'text-anchor': 'middle',

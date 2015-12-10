@@ -9,7 +9,7 @@
     /*@ngInject*/
     function AppCtrl($scope, $rootScope, $state, graphFactory) {
 
-        $scope.graph = new joint.dia.Graph;
+        $scope.graph = new joint.dia.Graph();
 
         $scope.onDropComplete = function(data, evt) {
             // TODO: replace static sizes
