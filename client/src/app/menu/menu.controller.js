@@ -48,6 +48,14 @@
             },
             subItems: []
         }, {
+            label: 'Group',
+            faIconClass: 'fa-list',
+            open: false,
+			dragData: {
+                type: 'group'
+            },
+            subItems: []
+        }, {
             label: 'Map',
             faIconClass: 'fa-edit',
             open: false,

@@ -46,6 +46,10 @@
             return fastCreate(posX, posY, inCnt, outCnt, 'Sum');
         };
 
+		flink.renderGroup = function(posX, posY, inCnt, outCnt) {
+            return fastCreate(posX, posY, inCnt, outCnt, 'Group');
+        };
+
         flink.renderCsvDatasource = function(posX, posY, $state) {
 
             $state.go('app.datasource.add');

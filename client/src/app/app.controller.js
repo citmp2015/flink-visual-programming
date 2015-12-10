@@ -26,6 +26,8 @@
                 $scope.graph.addCells([graphFactory.renderMap(posX, posY, 1, 1)]);
             } else if (data.type === 'sum') {
                 $scope.graph.addCells([graphFactory.renderSum(posX, posY, 1, 1)]);
+            } else if (data.type === 'group') {
+                $scope.graph.addCells([graphFactory.renderGroup(posX, posY, 1, 1)]);
             }
         };
 
