@@ -7,11 +7,29 @@
         .controller('AppCtrl', AppCtrl);
 
     /*@ngInject*/
-    function AppCtrl($scope, $rootScope, $state, graphFactory) {
+    function AppCtrl($scope, $rootScope, $state, graphFactory, $log) {
 
-        $scope.graph = new joint.dia.Graph;
+        var graph = new joint.dia.Graph();
 
-        $scope.onDropComplete = function(data, evt) {
+        graph.on('add', function(cell) {
+            if (cell.attributes.data && cell.attributes.data.modalController) {
+                $state.go('app.component', {
+                    id: cell.id,
+                    modalController: cell.attributes.data.modalController,
+                    modalTemplateUrl: cell.attributes.data.modalTemplateUrl
+                });
+            }
+        });
+
+        graph.on('change', function(cell) {
+
+        });
+
+        graph.on('remove', function(cell) {
+
+        });
+
+        function onDropComplete(data, evt) {
             // TODO: replace static sizes
             var posX = evt.x - 250,
                 posY = evt.y - 51;
@@ -29,7 +47,10 @@
             } else if (data.type === 'group') {
                 $scope.graph.addCells([graphFactory.renderGroup(posX, posY, 1, 1)]);
             }
-        };
+        }
+
+        $scope.onDropComplete = onDropComplete;
+        $rootScope.graph = graph;
 
     }
 
