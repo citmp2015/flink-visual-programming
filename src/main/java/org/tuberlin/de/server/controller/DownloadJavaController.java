@@ -1,5 +1,6 @@
 package org.tuberlin.de.server.controller;
 
+import javassist.bytecode.ByteArray;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,7 +38,7 @@ public class DownloadJavaController extends HttpServlet {
     byte[] buffer = new byte[4096];
     int length;
     while ((length = in.read(buffer)) > 0){
-      out.write(buffer, 0, length);
+      out.write(buffer);
     }
     in.close();
     out.flush();
