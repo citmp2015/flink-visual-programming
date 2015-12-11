@@ -39,6 +39,7 @@ public class DownloadJavaController extends HttpServlet {
     int length;
     while ((length = in.read(buffer)) > 0){
       out.write(buffer);
+      buffer = new byte[4096];
     }
     in.close();
     out.flush();
