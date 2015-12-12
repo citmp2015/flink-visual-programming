@@ -40,9 +40,28 @@
                 }
             }]
         }, {
+            label: 'Sum',
+            faIconClass: 'fa-plus',
+            open: false,
+			dragData: {
+                type: 'sum'
+            },
+            subItems: []
+        }, {
+            label: 'Group',
+            faIconClass: 'fa-list',
+            open: false,
+			dragData: {
+                type: 'group'
+            },
+            subItems: []
+        }, {
             label: 'Map',
             faIconClass: 'fa-edit',
             open: false,
+			dragData: {
+                type: 'map'
+            },
             subItems: []
         }, {
             label: 'Reduce',

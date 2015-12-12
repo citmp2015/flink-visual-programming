@@ -17,6 +17,7 @@
                 height: angular.element(element[0])[0].scrollHeight,
                 gridSize: scope.gridSize,
                 model: scope.graph,
+				snapLinks: { radius: 75 },
             });
 
             paper.on('cell:pointerdblclick', function(cellView, evt, x, y) {
