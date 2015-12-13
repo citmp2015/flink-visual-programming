@@ -7,7 +7,7 @@
 
 
     /*@ngInject*/
-    function jointDiagram($state, $log) {
+    function jointDiagram($state, $log, graphFactory) {
 
         function link(scope, element, attrs) {
 
@@ -15,6 +15,7 @@
                 el: element[0],
                 gridSize: scope.gridSize,
                 linkPinning: false,
+                defaultLink: new graphFactory.Link,
                 model: scope.graph,
 				snapLinks: { radius: 75 },
             });
