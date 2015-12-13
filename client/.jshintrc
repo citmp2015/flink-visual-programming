@@ -19,6 +19,9 @@
 	"sub": true,
 	"maxlen": 320,
     "globals": {
-      "angular": false
-    }	
+      "angular": false,
+      "joint": false,
+      "window": false,
+      "_": false
+    }
 }

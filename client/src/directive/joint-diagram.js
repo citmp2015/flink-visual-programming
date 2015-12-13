@@ -7,72 +7,34 @@
 
 
     /*@ngInject*/
-    function jointDiagram() {
+    function jointDiagram($state, $log) {
 
         function link(scope, element, attrs) {
 
-            var diagram = newDiagram(scope, scope.height, scope.width, scope.gridSize, element[0]);
-
-            //add event handlers to interact with the diagram
-            diagram.on('cell:pointerclick', function(cellView, evt, x, y) {
-                //your logic here e.g. select the element
+            var paper = new joint.dia.Paper({
+                el: element[0],
+                width: angular.element(element[0])[0].scrollWidth,
+                height: angular.element(element[0])[0].scrollHeight,
+                gridSize: scope.gridSize,
+                model: scope.graph,
+				snapLinks: { radius: 75 },
             });
 
-            diagram.on('blank:pointerclick', function(evt, x, y) {
-                // your logic here e.g. unselect the element by clicking on a blank part of the diagram
+            paper.on('cell:pointerdblclick', function(cellView, evt, x, y) {
+                $log.log('cell:pointerdblclick', cellView.model);
+                if (cellView.model.attributes.data && cellView.model.attributes.data.modalController) {
+                    $state.go('app.component', {
+                        id: cellView.model.id,
+                        modalController: cellView.model.attributes.data ? cellView.model.attributes.data.modalController : undefined,
+                        modalTemplateUrl: cellView.model.attributes.data ? cellView.model.attributes.data.modalTemplateUrl : undefined
+                    });
+                }
             });
 
-            diagram.on('link:options', function(evt, cellView, x, y) {
+            paper.on('link:options', function(evt, cellView, x, y) {
                 // your logic here: e.g. select a link by its options tool
             });
 
-        }
-
-        function newDiagram(scope, height, width, gridSize, targetElement) {
-
-            var paper = new joint.dia.Paper({
-                el: targetElement,
-                width: angular.element(targetElement)[0].scrollWidth,
-                height: angular.element(targetElement)[0].scrollHeight,
-                gridSize: gridSize,
-                model: scope.graph,
-            });
-
-            var rect = new joint.shapes.basic.Rect({
-                position: {
-                    x: 100,
-                    y: 30
-                },
-                size: {
-                    width: 100,
-                    height: 30
-                },
-                attrs: {
-                    rect: {
-                        fill: 'blue'
-                    },
-                    text: {
-                        text: 'my box',
-                        fill: 'white'
-                    }
-                }
-            });
-
-            var rect2 = rect.clone();
-            rect2.translate(300);
-
-            var link = new joint.dia.Link({
-                source: {
-                    id: rect.id
-                },
-                target: {
-                    id: rect2.id
-                }
-            });
-
-            scope.graph.addCells([rect, rect2, link]);
-
-            return paper;
         }
 
         return {

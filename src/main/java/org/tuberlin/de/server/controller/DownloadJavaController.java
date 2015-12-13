@@ -1,6 +1,5 @@
 package org.tuberlin.de.server.controller;
 
-import javassist.bytecode.ByteArray;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
