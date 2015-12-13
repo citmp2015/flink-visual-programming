@@ -10,6 +10,7 @@
     function jointDiagram($state, $log) {
 
         function link(scope, element, attrs) {
+
             function getPortType(view, magnet) {
                 var portName = magnet.getAttribute('port');
                 var inIndex = view.model.get('inPorts').indexOf(portName);
@@ -23,7 +24,34 @@
                 return portType == 'OUT';
             }
 
+            function isPortInUse(graph, cellView, magnet, linkView) {
+                var links = graph.getLinks(cellView);
+                for (var i = 0; i < links.length; i++) {
+                    if (linkView && linkView == links[i].findView(paper)) continue;
+                    if ((( cellView.model.id == links[i].get('source').id ) && ( magnet.getAttribute('port') == links[i].get('source').port) ) ||
+                        (( cellView.model.id == links[i].get('target').id ) && ( magnet.getAttribute('port') == links[i].get('target').port) ))
+                        return true
+                }
+                return false;
+            }
+
+            function hasCycle(graph, sourceView, targetView) {
+                var glGraph = graph.toGraphLib();
+                var sourceId = sourceView.model.id;
+                var targetId = targetView.model.id;
+                if (!sourceId || !targetId) {
+                    return false;
+                }
+                glGraph.setEdge(sourceId, targetId);
+                return !graphlib.alg.isAcyclic(glGraph);
+            }
+
             function isValidConnection(sourceView, sourceMagnet, targetView, targetMagnet, end, linkView) {
+                if (getPortType(targetView, targetMagnet) == 'OUT') return false;
+                if (isPortInUse(scope.graph, targetView, targetMagnet, linkView)) return false;
+                if (sourceView == targetView) return false; // already a cycle
+                if (hasCycle(scope.graph, sourceView, targetView)) return false;
+
                 return true;
             }
 
