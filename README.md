@@ -18,3 +18,7 @@ and the webservice will start at `localhost:8080`.
 The most recent master branch build is available at http://asok16.cit.tu-berlin.de:8081.
 
 As Jenkins is not available from the public internet, it can not be notified by Github about new commits. Instead, Jenkins queries Github every 5 minutes for changes and triggers a new build, if necessary. The dashboard is available at http://asok16.cit.tu-berlin.de:8080/, where one can manually trigger a new build.
+
+## Tests
+When you compile the project via maven (```mvn compile``` or ```mvn package```, ```mvn jetty:run``` will skip the tests) our unit tests will be automatically executed and the build will fail if a test fails.
+If you don't want to run the tests you can add a ```-DskipTests``` argument at the end of the command.
