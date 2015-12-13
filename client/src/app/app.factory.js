@@ -18,29 +18,30 @@
         flink.renderStringFilter = function(posX, posY, inCnt, outCnt) {
             return fastCreate(posX, posY, inCnt, outCnt, 'String Filter');
         };
-		
+
 		flink.renderMap = function(posX, posY, inCnt, outCnt) {
             return fastCreate(posX, posY, inCnt, outCnt, 'Map');
         };
-		
+
 		flink.renderSum = function(posX, posY, inCnt, outCnt) {
             return fastCreate(posX, posY, inCnt, outCnt, 'Sum');
         };
-		
+
 		flink.renderGroup = function(posX, posY, inCnt, outCnt) {
             return fastCreate(posX, posY, inCnt, outCnt, 'Group');
         };
 
         flink.renderCsvDatasource = function(posX, posY, $state) {
-            return new joint.shapes.basic.Rect({
+            return new flink.Atomic({
                 position: {
                     x: posX,
                     y: posY
                 },
                 size: {
                     width: 140,
-                    height: 30
+                    height: 60
                 },
+                outPorts: ['OUT1'],
                 attrs: {
                     rect: {
                         fill: 'green'
