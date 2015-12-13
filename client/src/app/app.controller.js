@@ -42,6 +42,8 @@
                 $scope.graph.addCells([graphFactory.renderCsvDatasource(posX, posY, $state)]);
             } else if (data.type === 'map') {
                 $scope.graph.addCells([graphFactory.renderMap(posX, posY, 1, 1)]);
+            } else if (data.type === 'join') {
+                $scope.graph.addCells([graphFactory.renderJoin(posX, posY, 2, 1)]);
             } else if (data.type === 'sum') {
                 $scope.graph.addCells([graphFactory.renderSum(posX, posY, 1, 1)]);
             } else if (data.type === 'group') {

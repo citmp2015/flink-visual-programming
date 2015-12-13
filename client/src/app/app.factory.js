@@ -19,15 +19,19 @@
             return fastCreate(posX, posY, inCnt, outCnt, 'String Filter');
         };
 
-		flink.renderMap = function(posX, posY, inCnt, outCnt) {
+        flink.renderMap = function(posX, posY, inCnt, outCnt) {
             return fastCreate(posX, posY, inCnt, outCnt, 'Map');
         };
 
-		flink.renderSum = function(posX, posY, inCnt, outCnt) {
+        flink.renderSum = function(posX, posY, inCnt, outCnt) {
             return fastCreate(posX, posY, inCnt, outCnt, 'Sum');
         };
 
-		flink.renderGroup = function(posX, posY, inCnt, outCnt) {
+        flink.renderJoin = function(posX, posY, inCnt, outCnt) {
+            return fastCreate(posX, posY, inCnt, outCnt, 'Join');
+        };
+
+        flink.renderGroup = function(posX, posY, inCnt, outCnt) {
             return fastCreate(posX, posY, inCnt, outCnt, 'Group');
         };
 
