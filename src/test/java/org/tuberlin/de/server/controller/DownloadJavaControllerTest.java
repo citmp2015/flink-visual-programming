@@ -4,24 +4,18 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
-
-
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.anyObject;
 import static org.powermock.api.easymock.PowerMock.*;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * Unit test for the {@link DownloadJavaController} class that controls that a file
  * is written into the response
  */
 
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-/**
- * Created by Fabian on 10.12.2015.
- */
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({ HttpServletRequest.class, HttpServletResponse.class, DownloadJavaController.class})
 public class DownloadJavaControllerTest {
