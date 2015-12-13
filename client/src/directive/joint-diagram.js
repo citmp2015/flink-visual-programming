@@ -35,6 +35,10 @@
                 // your logic here: e.g. select a link by its options tool
             });
 
+            paper.on('cell:contextmenu', function(cellView, evt) {
+                cellView.model.remove();
+                evt.preventDefault();
+            });
         }
 
         return {
