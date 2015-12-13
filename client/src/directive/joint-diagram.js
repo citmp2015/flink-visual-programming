@@ -11,13 +11,23 @@
 
         function link(scope, element, attrs) {
 
+            function isMagnetUsable(cellView, magnet) {
+                return true;
+            }
+
+            function isValidConnection(sourceView, sourceMagnet, targetView, targetMagnet, end, linkView) {
+                return true;
+            }
+
             var paper = new joint.dia.Paper({
                 el: element[0],
                 width: angular.element(element[0])[0].scrollWidth,
                 height: angular.element(element[0])[0].scrollHeight,
                 gridSize: scope.gridSize,
                 model: scope.graph,
-				snapLinks: { radius: 75 },
+                snapLinks: { radius: 75 },
+                validateMagnet: isMagnetUsable,
+                validateConnection: isValidConnection
             });
 
             paper.on('cell:pointerdblclick', function(cellView, evt, x, y) {
