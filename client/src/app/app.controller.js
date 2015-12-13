@@ -35,7 +35,7 @@
                 posY = evt.y - 51;
 
             if (data.type === 'stringFilter') {
-                $scope.graph.addCells([graphFactory.renderStringFilter(posX, posY, 1, 2)]);
+                $scope.graph.addCells([graphFactory.renderStringFilter(posX, posY, 1, 1)]);
             } else if (data.type === 'numberFilter') {
                 $scope.graph.addCells([graphFactory.renderNumberFilter(posX, posY, 1, 1)]);
             } else if (data.type === 'csvDatasource') {
