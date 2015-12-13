@@ -72,7 +72,7 @@
                     width: 1,
                     height: 1
                 },
-
+                java: 'not set',
                 inPorts: [],
                 outPorts: [],
 
