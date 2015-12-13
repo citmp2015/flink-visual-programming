@@ -10,9 +10,17 @@
     function jointDiagram($state, $log) {
 
         function link(scope, element, attrs) {
+            function getPortType(view, magnet) {
+                var portName = magnet.getAttribute('port');
+                var inIndex = view.model.get('inPorts').indexOf(portName);
+                if (inIndex > -1) return 'IN';
+                var outIndex = view.model.get('outPorts').indexOf(portName);
+                if (outIndex > -1) return 'OUT';
+            }
 
             function isMagnetUsable(cellView, magnet) {
-                return true;
+                var portType = getPortType(cellView, magnet);
+                return portType == 'OUT';
             }
 
             function isValidConnection(sourceView, sourceMagnet, targetView, targetMagnet, end, linkView) {
