@@ -13,7 +13,7 @@
 
 .devs .label {
     fill: #31d0c6;
-    font-size: 16px;
+    font-size: 12px;
 }
 
 .devs .port-body {
@@ -28,6 +28,7 @@
 }
 
 .devs .port-label {
+    font-size: 12px;
     fill: #7c68fc;
 }
 
@@ -50,7 +51,7 @@
     fill: #31D0C6;
 }
 .link .marker-arrowhead:hover {
-    fill: #F39C12;    
+    fill: #F39C12;
 }
 
 .link-tools .tool-remove circle {
