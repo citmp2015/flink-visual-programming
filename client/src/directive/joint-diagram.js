@@ -7,7 +7,7 @@
 
 
     /*@ngInject*/
-    function jointDiagram($state, $log) {
+    function jointDiagram($state, $log, graphFactory) {
 
         function link(scope, element, attrs) {
             /**
@@ -109,14 +109,15 @@
 
             var paper = new joint.dia.Paper({
                 el: element[0],
-                width: angular.element(element[0])[0].scrollWidth,
-                height: angular.element(element[0])[0].scrollHeight,
                 gridSize: scope.gridSize,
+                linkPinning: false,
+                defaultLink: new graphFactory.Link,
                 model: scope.graph,
                 snapLinks: { radius: 75 },
                 validateMagnet: isMagnetUsable,
                 validateConnection: isValidConnection
             });
+            paper.setDimensions('100%', '100%');
 
             paper.on('cell:pointerdblclick', function(cellView, evt, x, y) {
                 $log.log('cell:pointerdblclick', cellView.model);
@@ -133,6 +134,10 @@
                 // your logic here: e.g. select a link by its options tool
             });
 
+            paper.on('cell:contextmenu', function(cellView, evt) {
+                cellView.model.remove();
+                evt.preventDefault();
+            });
         }
 
         return {
