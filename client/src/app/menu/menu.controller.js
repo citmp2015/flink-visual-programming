@@ -23,6 +23,9 @@
             label: 'Join',
             faIconClass: 'fa-link',
             open: false,
+            dragData: {
+                type: 'join'
+            },
             subItems: []
         }, {
             label: 'Filter',
