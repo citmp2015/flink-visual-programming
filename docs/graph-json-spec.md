@@ -10,7 +10,7 @@ The basis for this format is the graph object. It __must__ provide the following
 - `connections`: An array of [connection objects](#connection-object).
 - `components`: An object mapping [component class names](#component-class-name) to [component objects](#component-object).
 
-###Example
+####Example
 
 ```json
 {
@@ -41,9 +41,18 @@ It _may_ further have the following properties:
 - `label`: Displayed name of the component. _Might be useful for compilation information._
 - `x`, `y`: Integers for the `x` and `y` position of the process inside the interface. _Might be useful for receiving a graph from the server._
 
+__TODO:__ Arguments for the component need to be included here.
+
 ##Connection object
 
+_Note: Derivation from the original format. It's important to verify this hold for all potential graphs._
 
+_Note if the previous note holds: Could be included as an array in [process objects](#process-object)._
+
+It __must__ have the following properties:
+
+- `src`: [Process identifier](#process-identifier) of the origin of the connection (the _data source_).
+- `tgt`: [Process identifier](#process-identifier) of the target of the connection (the _worker_).
 
 ##Component class name
 
