@@ -7,11 +7,11 @@
         .controller('AppCtrl', AppCtrl);
 
     /*@ngInject*/
-    function AppCtrl($scope, $rootScope, $state, graphFactory, localStorageService, $log) {
+    function AppCtrl($scope, $rootScope, $state, graphFactory, $log) {
 
         var graph = new joint.dia.Graph();
 
-        var graphLocalstorage = loadFromLocalStorage();
+        var graphLocalstorage = graphFactory.loadFromLocalStorage();
         graph.on('paper:ready', function() {
             if (graphLocalstorage) {
                 graph.fromJSON(graphLocalstorage);
@@ -26,16 +26,16 @@
                     modalTemplateUrl: cell.attributes.data.modalTemplateUrl
                 });
             }
-            saveToLocalStorage();
+            graphFactory.saveToLocalStorage(graph);
         });
 
         graph.on('change', function(cell) {
             $log.debug('graph.change', graph);
-            saveToLocalStorage();
+            graphFactory.saveToLocalStorage(graph);
         });
 
         graph.on('remove', function(cell) {
-            saveToLocalStorage();
+            graphFactory.saveToLocalStorage(graph);
         });
 
         function onDropComplete(data, evt) {
@@ -58,14 +58,6 @@
             } else if (data.type === 'group') {
                 $scope.graph.addCells([graphFactory.renderGroup(posX, posY, 1, 1)]);
             }
-        }
-
-        function saveToLocalStorage() {
-            localStorageService.set('graph', graph.toJSON());
-        }
-
-        function loadFromLocalStorage() {
-            return localStorageService.get('graph');
         }
 
         $scope.onDropComplete = onDropComplete;

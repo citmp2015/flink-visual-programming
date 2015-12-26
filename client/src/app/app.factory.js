@@ -7,9 +7,22 @@
         .factory('graphFactory', GraphFactory);
 
     /*@ngInject*/
-    function GraphFactory() {
+    function GraphFactory(localStorageService) {
 
         var flink = {};
+
+        flink.saveToLocalStorage = function(graph) {
+            localStorageService.set('graph', graph.toJSON());
+        };
+
+        flink.loadFromLocalStorage = function() {
+            return localStorageService.get('graph');
+        };
+
+        flink.clearGraph = function(graph) {
+            graph.clear();
+            localStorageService.remove('graph');
+        };
 
         flink.renderNumberFilter = function(posX, posY, inCnt, outCnt) {
             return fastCreate(posX, posY, inCnt, outCnt, 'Number Filter');
