@@ -7,8 +7,13 @@
         .controller('MenuNavbarTopCtrl', MenuNavbarTopCtrl);
 
     /*@ngInject*/
-    function MenuNavbarTopCtrl($scope, $rootScope) {
+    function MenuNavbarTopCtrl($scope, $rootScope, graphFactory) {
 
+        $scope.clearGraph = clearGraph;
+
+        function clearGraph() {
+            graphFactory.clearGraph($rootScope.graph);
+        }
 
     }
 
