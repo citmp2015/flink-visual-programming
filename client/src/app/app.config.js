@@ -7,9 +7,9 @@
         .config(AppConfig);
 
     /*@ngInject*/
-    function AppConfig() {
+    function AppConfig(localStorageServiceProvider) {
 
-
+          localStorageServiceProvider.setPrefix('fvp');
 
     }
 

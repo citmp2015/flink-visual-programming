@@ -10,6 +10,7 @@
         'ui.bootstrap',
         'angularMoment',
         'ngDraggable',
+        'LocalStorageModule',
 
         'app.menu',
         'app.datasource'
