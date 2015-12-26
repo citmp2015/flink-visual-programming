@@ -30,7 +30,6 @@
         });
 
         graph.on('change', function(cell) {
-            $log.debug('graph.change', graph);
             graphFactory.saveToLocalStorage(graph);
         });
 
