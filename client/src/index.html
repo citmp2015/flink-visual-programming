@@ -27,30 +27,9 @@
 </head>
 
 <body>
-    <div id="wrapper" ng-controller="AppCtrl">
+    <div id="wrapper">
 
-        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" ui-sref="app.dashboard">Flink Visual</a>
-            </div>
-
-            <ul class="nav navbar-top-links navbar-right">
-                <li><a href="#"><i class="fa fa-cog"></i> Configuration</a></li>
-                <li><a href="#"><i class="fa fa-play"></i> Deploy and Run</a></li>
-                <li><a href="/dummydata/Wordcount.java.tar.gz" target="_blank"><i class="fa fa-download"></i> Download Java Project</a></li>
-            </ul>
-
-            <div class="navbar-default sidebar" role="navigation">
-                <div class="sidebar-nav navbar-collapse" ng-include="'app/menu/menu.tpl.html'"></div>
-            </div>
-        </nav>
-
+        <nav class="navbar navbar-default navbar-static-top" role="navigation" ng-include="'app/menu/menu.tpl.html'"></nav>
         <div id="page-wrapper" ui-view></div>
 
     </div>
@@ -74,6 +53,7 @@
     <script src="../bower_components/angular-touch/angular-touch.js"></script>
     <script src="../bower_components/angular-animate/angular-animate.js"></script>
     <script src="../bower_components/ngDraggable/ngDraggable.js"></script>
+    <script src="../bower_components/angular-local-storage/dist/angular-local-storage.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
@@ -87,6 +67,8 @@
 
     <script src="./app/menu/menu.module.js"></script>
     <script src="./app/menu/menu.controller.js"></script>
+    <script src="./app/menu/menu-sidebar.controller.js"></script>
+    <script src="./app/menu/menu-navbar-top.controller.js"></script>
 
     <script src="./app/datasource/datasource.module.js"></script>
     <script src="./app/datasource/datasource-modal.controller.js"></script>

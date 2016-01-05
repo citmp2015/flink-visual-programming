@@ -36,7 +36,7 @@
              */
             function isMagnetUsable(cellView, magnet) {
                 var portType = getPortType(cellView, magnet);
-                return portType == 'OUT';
+                return portType === 'OUT';
             }
 
             /**
@@ -54,10 +54,10 @@
             function isPortInUse(graph, cellView, magnet, linkView) {
                 var links = graph.getLinks(cellView);
                 for (var i = 0; i < links.length; i++) {
-                    if (linkView && linkView == links[i].findView(paper)) continue;
-                    if ((( cellView.model.id == links[i].get('source').id ) && ( magnet.getAttribute('port') == links[i].get('source').port) ) ||
-                        (( cellView.model.id == links[i].get('target').id ) && ( magnet.getAttribute('port') == links[i].get('target').port) ))
-                        return true
+                    if (linkView && linkView === links[i].findView(paper)) continue;
+                    if ((( cellView.model.id === links[i].get('source').id ) && ( magnet.getAttribute('port') === links[i].get('source').port) ) ||
+                        (( cellView.model.id === links[i].get('target').id ) && ( magnet.getAttribute('port') === links[i].get('target').port) ))
+                        return true;
                 }
                 return false;
             }
@@ -99,9 +99,9 @@
              * @returns {boolean}
              */
             function isValidConnection(sourceView, sourceMagnet, targetView, targetMagnet, end, linkView) {
-                if (getPortType(targetView, targetMagnet) == 'OUT') return false;
+                if (getPortType(targetView, targetMagnet) === 'OUT') return false;
                 if (isPortInUse(scope.graph, targetView, targetMagnet, linkView)) return false;
-                if (sourceView == targetView) return false; // already a cycle
+                if (sourceView === targetView) return false; // already a cycle
                 if (hasCycle(scope.graph, sourceView, targetView)) return false;
 
                 return true;
@@ -111,7 +111,7 @@
                 el: element[0],
                 gridSize: scope.gridSize,
                 linkPinning: false,
-                defaultLink: new graphFactory.Link,
+                defaultLink: new graphFactory.Link(),
                 model: scope.graph,
                 snapLinks: { radius: 75 },
                 validateMagnet: isMagnetUsable,
@@ -138,6 +138,8 @@
                 cellView.model.remove();
                 evt.preventDefault();
             });
+
+            scope.graph.trigger('paper:ready');
         }
 
         return {

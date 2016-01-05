@@ -11,6 +11,13 @@
 
         var graph = new joint.dia.Graph();
 
+        var graphLocalstorage = graphFactory.loadFromLocalStorage();
+        graph.on('paper:ready', function() {
+            if (graphLocalstorage) {
+                graph.fromJSON(graphLocalstorage);
+            }
+        });
+
         graph.on('add', function(cell) {
             if (cell.attributes.data && cell.attributes.data.modalController) {
                 $state.go('app.component', {
@@ -19,14 +26,15 @@
                     modalTemplateUrl: cell.attributes.data.modalTemplateUrl
                 });
             }
+            graphFactory.saveToLocalStorage(graph);
         });
 
         graph.on('change', function(cell) {
-
+            graphFactory.saveToLocalStorage(graph);
         });
 
         graph.on('remove', function(cell) {
-
+            graphFactory.saveToLocalStorage(graph);
         });
 
         function onDropComplete(data, evt) {

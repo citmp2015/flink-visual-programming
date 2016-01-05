@@ -22,6 +22,7 @@
       "angular": false,
       "joint": false,
       "window": false,
-      "_": false
+      "_": false,
+      "graphlib": false
     }
 }
