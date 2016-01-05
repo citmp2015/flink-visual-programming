@@ -15,11 +15,17 @@
     "tests"
   ],
   "dependencies": {
-    "react": "~0.14.3",
     "components-font-awesome": "~4.5.0",
     "jointjs": "~0.9.5",
     "components-bootstrap": "~3.3.6",
-    "metisMenu": "~2.2.0"
+    "angular": "~1.4.8",
+    "angular-bootstrap": "~0.14.3",
+    "angular-ui-router": "~0.2.15",
+    "angular-moment": "~0.10.3",
+    "angular-touch": "~1.4.8",
+    "angular-animate": "~1.4.8",
+    "ngDraggable": "~0.1.8",
+    "lodash": "~3.10.1"
   },
   "resolutions": {
     "jquery": "2.1.4"
