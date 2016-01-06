@@ -14,6 +14,20 @@
         $scope.importGraph = importGraph;
         $scope.exportHref = '#';
 
+        $scope.importFile = null;
+        $scope.onFileLoaded = onFileLoaded;
+        $scope.onFileError = onFileError;
+
+        function onFileLoaded() {
+            var data = JSON.parse($scope.importFile);
+            $rootScope.graph.fromJSON(data);
+        }
+
+        function onFileError(error) {
+            $log.debug('onFileError');
+            $log.debug(error);
+        }
+
         function clearGraph() {
             graphFactory.clearGraph($rootScope.graph);
         }
