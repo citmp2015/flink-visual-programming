@@ -1,6 +1,11 @@
-package org.tuberlin.de.common.test;
+package org.tuberlin.de.test.model;
 
-import org.tuberlin.de.common.base.*;
+import org.tuberlin.de.common.base.BaseAggregateComponent;
+import org.tuberlin.de.common.base.BaseDataSinkComponentPrint;
+import org.tuberlin.de.common.base.BaseDataSourceComponentText;
+import org.tuberlin.de.common.base.BaseFlatMapComponent;
+import org.tuberlin.de.common.base.BaseGroupByComponent;
+import org.tuberlin.de.common.base.BaseJobGraph;
 import org.tuberlin.de.common.model.Constants;
 import org.tuberlin.de.common.model.interfaces.JobGraph;
 import org.tuberlin.de.common.model.interfaces.datasink.DataSinkComponent;
@@ -11,8 +16,6 @@ import org.tuberlin.de.common.model.interfaces.transorfmation.GroupByComponent;
 
 import java.util.HashMap;
 import java.util.Map;
-
-import static org.junit.Assert.*;
 
 /**
  * Created by oxid on 1/4/16.
