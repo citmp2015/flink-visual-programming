@@ -70,6 +70,9 @@
             label: 'Reduce',
             faIconClass: 'fa-edit',
             open: false,
+            dragData: {
+                type: 'reduce'
+            },
             subItems: []
         }];
 

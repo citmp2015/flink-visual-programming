@@ -48,6 +48,10 @@
             return fastCreate(posX, posY, inCnt, outCnt, 'Group');
         };
 
+        flink.renderReduce = function(posX, posY, inCnt, outCnt) {
+            return fastCreate(posX, posY, inCnt, outCnt, 'Reduce');
+        };
+
         flink.renderCsvDatasource = function(posX, posY, $state) {
             return new flink.Atomic({
                 position: {
