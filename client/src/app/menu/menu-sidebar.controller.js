@@ -74,6 +74,16 @@
                 type: 'reduce'
             },
             subItems: []
+        }, {
+            label: 'Sinks',
+            faIconClass: 'fa-table',
+            open: false,
+            subItems: [{
+                label: 'CSV Datasink',
+                dragData: {
+                    type: 'csvDatasink'
+                }
+            }]
         }];
 
     }

@@ -58,6 +58,8 @@
                 $scope.graph.addCells([graphFactory.renderGroup(posX, posY, 1, 1)]);
             } else if (data.type === 'reduce') {
                 $scope.graph.addCells([graphFactory.renderReduce(posX, posY, 1, 1)]);
+            } else if (data.type === 'csvDatasink') {
+                $scope.graph.addCells([graphFactory.renderCsvDatasink(posX, posY, 1, 0)]);
             }
         }
 

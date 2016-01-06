@@ -81,6 +81,10 @@
             });
         };
 
+        flink.renderCsvDatasink = function(posX, posY, inCnt, outCnt) {
+            return fastCreate(posX, posY, inCnt, outCnt, 'CSV Datasink');
+        };
+
         flink.Model = joint.shapes.basic.Generic.extend(_.extend({}, joint.shapes.basic.PortsModelInterface, {
 
             markup: '<g class="rotatable"><g class="scalable"><rect class="body"/></g><text class="label"/><g class="inPorts"/><g class="outPorts"/></g>',
