@@ -62,7 +62,7 @@
                     width: 140,
                     height: 60
                 },
-                outPorts: ['OUT1'],
+                outPorts: ['OUT0'],
                 attrs: {
                     rect: {
                         fill: 'green'
