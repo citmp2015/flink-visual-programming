@@ -48,7 +48,10 @@
                     modalController: 'NumberfilterModalCtrl',
                     modalTemplateUrl: '/app/filter/numberfilter-modal.tpl.html',
                     inputIndex: 0,
-                    operationType: '=',
+                    operationType: {
+                        label: '=',
+                        key: '='
+                    },
                     compareValue: 0
                 }
             });
