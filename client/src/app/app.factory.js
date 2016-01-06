@@ -24,8 +24,34 @@
             localStorageService.remove('graph');
         };
 
-        flink.renderNumberFilter = function(posX, posY, inCnt, outCnt) {
-            return fastCreate(posX, posY, inCnt, outCnt, 'Number Filter');
+        flink.renderNumberFilter = function(posX, posY, $state) {
+            return new flink.Atomic({
+                position: {
+                    x: posX,
+                    y: posY
+                },
+                size: {
+                    width: 140,
+                    height: 60
+                },
+                inPorts: ['IN0'],
+                outPorts: ['OUT0'],
+                attrs: {
+                    rect: {
+                        fill: 'green'
+                    },
+                    '.label': {
+                        text: 'Number Filter'
+                    }
+                },
+                data: {
+                    modalController: 'FilterModalCtrl',
+                    modalTemplateUrl: '/app/filter/filter-modal.tpl.html',
+                    inputIndex: 0,
+                    operationType: '=',
+                    compareValue: 0
+                }
+            });
         };
 
         flink.renderStringFilter = function(posX, posY, inCnt, outCnt) {
