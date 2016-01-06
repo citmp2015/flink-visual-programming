@@ -67,9 +67,8 @@
                     rect: {
                         fill: 'green'
                     },
-                    text: {
-                        text: 'CSV Datasource',
-                        fill: 'white'
+                    '.label': {
+                        text: 'CSV Datasource'
                     }
                 },
                 data: {

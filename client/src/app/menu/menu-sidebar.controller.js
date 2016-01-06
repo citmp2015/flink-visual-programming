@@ -10,16 +10,16 @@
     function MenuSidebarCtrl($scope, $rootScope) {
 
         $scope.menuItems = [{
-            label: 'Datasource',
+            label: 'Datasources',
             faIconClass: 'fa-table',
             open: false,
             subItems: [{
-                label: 'CSV Datasoucrce',
+                label: 'CSV Datasource',
                 dragData: {
                     type: 'csvDatasource'
                 }
             }]
-        },{
+        }, {
             label: 'Join',
             faIconClass: 'fa-link',
             open: false,
