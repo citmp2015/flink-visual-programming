@@ -43,19 +43,23 @@
                 posY = evt.y - 51;
 
             if (data.type === 'stringFilter') {
-                $scope.graph.addCells([graphFactory.renderStringFilter(posX, posY, 1, 1)]);
+                $scope.graph.addCells([graphFactory.renderStringFilter(posX, posY, $state)]);
             } else if (data.type === 'numberFilter') {
-                $scope.graph.addCells([graphFactory.renderNumberFilter(posX, posY, 1, 1)]);
+                $scope.graph.addCells([graphFactory.renderNumberFilter(posX, posY, $state)]);
             } else if (data.type === 'csvDatasource') {
                 $scope.graph.addCells([graphFactory.renderCsvDatasource(posX, posY, $state)]);
             } else if (data.type === 'map') {
-                $scope.graph.addCells([graphFactory.renderMap(posX, posY, 1, 1)]);
+                $scope.graph.addCells([graphFactory.renderMap(posX, posY, $state)]);
             } else if (data.type === 'join') {
-                $scope.graph.addCells([graphFactory.renderJoin(posX, posY, 2, 1)]);
+                $scope.graph.addCells([graphFactory.renderJoin(posX, posY, $state)]);
             } else if (data.type === 'sum') {
-                $scope.graph.addCells([graphFactory.renderSum(posX, posY, 1, 1)]);
+                $scope.graph.addCells([graphFactory.renderSum(posX, posY, $state)]);
             } else if (data.type === 'group') {
-                $scope.graph.addCells([graphFactory.renderGroup(posX, posY, 1, 1)]);
+                $scope.graph.addCells([graphFactory.renderGroup(posX, posY, $state)]);
+            } else if (data.type === 'reduce') {
+                $scope.graph.addCells([graphFactory.renderReduce(posX, posY, $state)]);
+            } else if (data.type === 'csvDatasink') {
+                $scope.graph.addCells([graphFactory.renderCsvDatasink(posX, posY, $state)]);
             }
         }
 

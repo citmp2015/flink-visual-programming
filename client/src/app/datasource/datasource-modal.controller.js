@@ -13,7 +13,7 @@
 
         $scope.dataTypes = [{
             label: '- none -',
-            key: 'none',
+            key: 'none'
         }, {
             label: 'String',
             key: 'string'
@@ -54,6 +54,7 @@
             cell.attributes.data.path = $scope.datasource.path;
             cell.attributes.data.countColumns = $scope.datasource.countColumns;
             cell.attributes.data.columns = $scope.datasource.columns;
+            //TODO write to localstorage
             $uibModalInstance.close();
         }
 

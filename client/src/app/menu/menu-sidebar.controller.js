@@ -10,16 +10,16 @@
     function MenuSidebarCtrl($scope, $rootScope) {
 
         $scope.menuItems = [{
-            label: 'Datasource',
+            label: 'Datasources',
             faIconClass: 'fa-table',
             open: false,
             subItems: [{
-                label: 'CSV Datasoucrce',
+                label: 'CSV Datasource',
                 dragData: {
                     type: 'csvDatasource'
                 }
             }]
-        },{
+        }, {
             label: 'Join',
             faIconClass: 'fa-link',
             open: false,
@@ -70,7 +70,20 @@
             label: 'Reduce',
             faIconClass: 'fa-edit',
             open: false,
+            dragData: {
+                type: 'reduce'
+            },
             subItems: []
+        }, {
+            label: 'Sinks',
+            faIconClass: 'fa-table',
+            open: false,
+            subItems: [{
+                label: 'CSV Datasink',
+                dragData: {
+                    type: 'csvDatasink'
+                }
+            }]
         }];
 
     }

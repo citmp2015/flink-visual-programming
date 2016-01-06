@@ -13,7 +13,8 @@
         'LocalStorageModule',
 
         'app.menu',
-        'app.datasource'
+        'app.datasource',
+        'app.filter'
 
     ]);
 

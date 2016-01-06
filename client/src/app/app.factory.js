@@ -24,28 +24,61 @@
             localStorageService.remove('graph');
         };
 
-        flink.renderNumberFilter = function(posX, posY, inCnt, outCnt) {
-            return fastCreate(posX, posY, inCnt, outCnt, 'Number Filter');
+        flink.renderNumberFilter = function(posX, posY, $state) {
+            return new flink.Atomic({
+                position: {
+                    x: posX,
+                    y: posY
+                },
+                size: {
+                    width: 140,
+                    height: 60
+                },
+                inPorts: ['IN0'],
+                outPorts: ['OUT0'],
+                attrs: {
+                    rect: {
+                        fill: 'green'
+                    },
+                    '.label': {
+                        text: 'Number Filter'
+                    }
+                },
+                data: {
+                    modalController: 'NumberfilterModalCtrl',
+                    modalTemplateUrl: '/app/filter/numberfilter-modal.tpl.html',
+                    inputIndex: 0,
+                    operationType: {
+                        label: '=',
+                        key: '='
+                    },
+                    compareValue: 0
+                }
+            });
         };
 
-        flink.renderStringFilter = function(posX, posY, inCnt, outCnt) {
-            return fastCreate(posX, posY, inCnt, outCnt, 'String Filter');
+        flink.renderStringFilter = function(posX, posY, $state) {
+            return fastCreate(posX, posY, 1, 1, 'String Filter');
         };
 
-        flink.renderMap = function(posX, posY, inCnt, outCnt) {
-            return fastCreate(posX, posY, inCnt, outCnt, 'Map');
+        flink.renderMap = function(posX, posY, $state) {
+            return fastCreate(posX, posY, 1, 1, 'Map');
         };
 
-        flink.renderSum = function(posX, posY, inCnt, outCnt) {
-            return fastCreate(posX, posY, inCnt, outCnt, 'Sum');
+        flink.renderSum = function(posX, posY, $state) {
+            return fastCreate(posX, posY, 1, 1, 'Sum');
         };
 
-        flink.renderJoin = function(posX, posY, inCnt, outCnt) {
-            return fastCreate(posX, posY, inCnt, outCnt, 'Join');
+        flink.renderJoin = function(posX, posY, $state) {
+            return fastCreate(posX, posY, 2, 1, 'Join');
         };
 
-        flink.renderGroup = function(posX, posY, inCnt, outCnt) {
-            return fastCreate(posX, posY, inCnt, outCnt, 'Group');
+        flink.renderGroup = function(posX, posY, $state) {
+            return fastCreate(posX, posY, 1, 1, 'Group');
+        };
+
+        flink.renderReduce = function(posX, posY, $state) {
+            return fastCreate(posX, posY, 1, 1, 'Reduce');
         };
 
         flink.renderCsvDatasource = function(posX, posY, $state) {
@@ -58,14 +91,13 @@
                     width: 140,
                     height: 60
                 },
-                outPorts: ['OUT1'],
+                outPorts: ['OUT0'],
                 attrs: {
                     rect: {
                         fill: 'green'
                     },
-                    text: {
-                        text: 'CSV Datasource',
-                        fill: 'white'
+                    '.label': {
+                        text: 'CSV Datasource'
                     }
                 },
                 data: {
@@ -76,6 +108,10 @@
                     columns: []
                 }
             });
+        };
+
+        flink.renderCsvDatasink = function(posX, posY) {
+            return fastCreate(posX, posY, 1, 0, 'CSV Datasink');
         };
 
         flink.Model = joint.shapes.basic.Generic.extend(_.extend({}, joint.shapes.basic.PortsModelInterface, {
