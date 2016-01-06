@@ -45,10 +45,10 @@
                     }
                 },
                 data: {
-                    modalController: 'FilterModalCtrl',
-                    modalTemplateUrl: '/app/filter/filter-modal.tpl.html',
+                    modalController: 'NumberfilterModalCtrl',
+                    modalTemplateUrl: '/app/filter/numberfilter-modal.tpl.html',
                     inputIndex: 0,
-                    operationType: null,
+                    operationType: '=',
                     compareValue: 0
                 }
             });

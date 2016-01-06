@@ -4,7 +4,7 @@
 
     angular
         .module('app.filter')
-        .controller('FilterModalCtrl', FilterModalCtrl);
+        .controller('NumberfilterModalCtrl', FilterModalCtrl);
 
     /*@ngInject*/
     function FilterModalCtrl($scope, $rootScope, $uibModalInstance, $stateParams, $timeout, $log) {
@@ -28,6 +28,7 @@
             key: '<='
         }];
 
+        console.log(cell.attributes.data.operationType);
         $scope.numberfilter = {
             inputIndex: cell.attributes.data.inputIndex,
             operationType: cell.attributes.data.operationType,
