@@ -48,34 +48,34 @@
                     modalController: 'FilterModalCtrl',
                     modalTemplateUrl: '/app/filter/filter-modal.tpl.html',
                     inputIndex: 0,
-                    operationType: '=',
+                    operationType: null,
                     compareValue: 0
                 }
             });
         };
 
-        flink.renderStringFilter = function(posX, posY, inCnt, outCnt) {
-            return fastCreate(posX, posY, inCnt, outCnt, 'String Filter');
+        flink.renderStringFilter = function(posX, posY, $state) {
+            return fastCreate(posX, posY, 1, 1, 'String Filter');
         };
 
-        flink.renderMap = function(posX, posY, inCnt, outCnt) {
-            return fastCreate(posX, posY, inCnt, outCnt, 'Map');
+        flink.renderMap = function(posX, posY, $state) {
+            return fastCreate(posX, posY, 1, 1, 'Map');
         };
 
-        flink.renderSum = function(posX, posY, inCnt, outCnt) {
-            return fastCreate(posX, posY, inCnt, outCnt, 'Sum');
+        flink.renderSum = function(posX, posY, $state) {
+            return fastCreate(posX, posY, 1, 1, 'Sum');
         };
 
-        flink.renderJoin = function(posX, posY, inCnt, outCnt) {
-            return fastCreate(posX, posY, inCnt, outCnt, 'Join');
+        flink.renderJoin = function(posX, posY, $state) {
+            return fastCreate(posX, posY, 2, 1, 'Join');
         };
 
-        flink.renderGroup = function(posX, posY, inCnt, outCnt) {
-            return fastCreate(posX, posY, inCnt, outCnt, 'Group');
+        flink.renderGroup = function(posX, posY, $state) {
+            return fastCreate(posX, posY, 1, 1, 'Group');
         };
 
-        flink.renderReduce = function(posX, posY, inCnt, outCnt) {
-            return fastCreate(posX, posY, inCnt, outCnt, 'Reduce');
+        flink.renderReduce = function(posX, posY, $state) {
+            return fastCreate(posX, posY, 1, 1, 'Reduce');
         };
 
         flink.renderCsvDatasource = function(posX, posY, $state) {
