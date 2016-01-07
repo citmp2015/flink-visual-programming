@@ -65,6 +65,10 @@
         flink.renderMap = function(posX, posY, $state) {
             return fastCreate(posX, posY, 1, 1, 'Map');
         };
+		
+		flink.renderFlatMap = function(posX, posY, $state) {
+            return fastCreate(posX, posY, 1, 1, 'FlatMap');
+        };
 
         flink.renderSum = function(posX, posY, $state) {
             return new flink.Atomic({
