@@ -16,7 +16,8 @@
         'app.datasource',
         'app.filter',
 		'app.group',
-		'app.sum'
+		'app.sum',
+		'app.flatmap'
 
     ]);
 

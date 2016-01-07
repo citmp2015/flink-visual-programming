@@ -7,7 +7,7 @@
         .factory('graphFactory', GraphFactory);
 
     /*@ngInject*/
-    function GraphFactory(localStorageService) {
+    function GraphFactory(localStorageService, templateFactory) {
 
         var flink = {};
 
@@ -67,7 +67,31 @@
         };
 		
 		flink.renderFlatMap = function(posX, posY, $state) {
-            return fastCreate(posX, posY, 1, 1, 'FlatMap');
+            return new flink.Atomic({
+                position: {
+                    x: posX,
+                    y: posY
+                },
+                size: {
+                    width: 140,
+                    height: 60
+                },
+                inPorts: ['IN0'],
+                outPorts: ['OUT0'],
+                attrs: {
+                    rect: {
+                        fill: 'green'
+                    },
+                    '.label': {
+                        text: 'FlatMap'
+                    }
+                },
+                data: {
+                    modalController: 'flatmapModalCtrl',
+                    modalTemplateUrl: '/app/flatmap/flatmap-modal.tpl.html',
+                    javaSourceCode: templateFactory.createFlatMapTemplate()
+                }
+            });
         };
 
         flink.renderSum = function(posX, posY, $state) {
