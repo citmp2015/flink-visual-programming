@@ -13,6 +13,14 @@
 		
 		var template = {};
 		
+		template.createCSVDatasourceTemplate = function(columns, path) {	
+			var types=columns[0].type.label;
+			for (var index = 1; index < columns.length; index++) {
+				types=types+','+columns[index].type.label;
+			}		
+			return `DataSet<${types}> text = env.readTextFile("${path}");`;
+		};
+		
 		template.createNumberFilterTemplate = function(operator, value) {				
 			return `data.filter(new FilterFunction<Integer>() {\n  public boolean filter(Integer value) {\n   return value ${operator} ${value};\n }\n});`;
 		};

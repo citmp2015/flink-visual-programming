@@ -182,7 +182,8 @@
                     modalTemplateUrl: '/app/datasource/datasource-modal.tpl.html',
                     path: null,
                     countColumns: 2,
-                    columns: []
+                    columns: [],
+					javaSourceCode: ''
                 }
             });
         };
