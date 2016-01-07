@@ -7,7 +7,7 @@
         .controller('NumberfilterModalCtrl', FilterModalCtrl);
 
     /*@ngInject*/
-    function FilterModalCtrl($scope, $rootScope, $uibModalInstance, $stateParams, $timeout, $log) {
+    function FilterModalCtrl($scope, $rootScope, $uibModalInstance, $stateParams, $timeout, graphFactory, $log) {
 
         var cell = $rootScope.graph.getCell($stateParams.id);
 
@@ -28,7 +28,6 @@
             key: '<='
         }];
 
-        console.log(cell.attributes.data.operationType);
         $scope.numberfilter = {
             inputIndex: cell.attributes.data.inputIndex,
             operationType: cell.attributes.data.operationType,
@@ -42,7 +41,7 @@
             cell.attributes.data.inputIndex = $scope.numberfilter.inputIndex;
             cell.attributes.data.operationType = $scope.numberfilter.operationType;
             cell.attributes.data.compareValue = $scope.numberfilter.compareValue;
-            //TODO write to localstorage
+            graphFactory.saveToLocalStorage($rootScope.graph);
             $uibModalInstance.close();
         }
 
