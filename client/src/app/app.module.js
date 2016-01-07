@@ -15,7 +15,8 @@
         'app.menu',
         'app.datasource',
         'app.filter',
-		'app.group'
+		'app.group',
+		'app.sum'
 
     ]);
 

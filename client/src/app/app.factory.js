@@ -66,7 +66,31 @@
         };
 
         flink.renderSum = function(posX, posY, $state) {
-            return fastCreate(posX, posY, 1, 1, 'Sum');
+            return new flink.Atomic({
+                position: {
+                    x: posX,
+                    y: posY
+                },
+                size: {
+                    width: 140,
+                    height: 60
+                },
+                inPorts: ['IN0'],
+                outPorts: ['OUT0'],
+                attrs: {
+                    rect: {
+                        fill: 'green'
+                    },
+                    '.label': {
+                        text: 'Sum'
+                    }
+                },
+                data: {
+                    modalController: 'sumModalCtrl',
+                    modalTemplateUrl: '/app/sum/sum-modal.tpl.html',
+                    inputIndex: 0
+                }
+            });
         };
 
         flink.renderJoin = function(posX, posY, $state) {
