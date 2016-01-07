@@ -52,7 +52,8 @@
                         label: '=',
                         key: '='
                     },
-                    compareValue: 0
+                    compareValue: 0,
+					javaSourceCode: ''
                 }
             });
         };
