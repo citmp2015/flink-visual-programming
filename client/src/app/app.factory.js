@@ -74,7 +74,31 @@
         };
 
         flink.renderGroup = function(posX, posY, $state) {
-            return fastCreate(posX, posY, 1, 1, 'Group');
+            return new flink.Atomic({
+                position: {
+                    x: posX,
+                    y: posY
+                },
+                size: {
+                    width: 140,
+                    height: 60
+                },
+                inPorts: ['IN0'],
+                outPorts: ['OUT0'],
+                attrs: {
+                    rect: {
+                        fill: 'green'
+                    },
+                    '.label': {
+                        text: 'Group'
+                    }
+                },
+                data: {
+                    modalController: 'groupModalCtrl',
+                    modalTemplateUrl: '/app/group/group-modal.tpl.html',
+                    inputIndex: 0
+                }
+            });
         };
 
         flink.renderReduce = function(posX, posY, $state) {
