@@ -7,7 +7,7 @@
         .controller('DatasourceModalCtrl', DatasourceModalCtrl);
 
     /*@ngInject*/
-    function DatasourceModalCtrl($scope, $rootScope, $uibModalInstance, $stateParams, $timeout, $log) {
+    function DatasourceModalCtrl($scope, $rootScope, $uibModalInstance, $stateParams, $timeout, graphFactory, $log) {
 
         var cell = $rootScope.graph.getCell($stateParams.id);
 
@@ -54,7 +54,7 @@
             cell.attributes.data.path = $scope.datasource.path;
             cell.attributes.data.countColumns = $scope.datasource.countColumns;
             cell.attributes.data.columns = $scope.datasource.columns;
-            //TODO write to localstorage
+            graphFactory.saveToLocalStorage($rootScope.graph);
             $uibModalInstance.close();
         }
 
