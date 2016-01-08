@@ -16,29 +16,4 @@ public class BaseGroupByComponent extends AbstractGroupByComponent implements Gr
         super();
         init(jobGraph, parameters);
     }
-
-    @Override
-    public Collection<String> getParents() throws IllegalStateException {
-        return null;
-    }
-
-    @Override
-    public Collection<String> getChildren() throws IllegalStateException {
-        return null;
-    }
-
-    @Override
-    public String getComponentKey() {
-        return null;
-    }
-
-    @Override
-    public String getInputType() {
-        return null;
-    }
-
-    @Override
-    public String getOutputType() {
-        return null;
-    }
 }

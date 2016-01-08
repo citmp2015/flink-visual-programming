@@ -8,7 +8,7 @@ import java.util.Map;
 /**
  * Created by Malcolm-X on 09.12.2015.
  */
-public abstract class AbstractFlatMapComponent extends AbstractJobComponent implements FlatMapComponent {
+public abstract class AbstractFlatMapComponent extends AbstractTransformationComponent implements FlatMapComponent {
     //TODO central store for static strings(file?)
     //private static final String JOB_SOURCE = ".flatmap(new "+ functionName +"  )";
     //private String functionName, functionSource, packageName;

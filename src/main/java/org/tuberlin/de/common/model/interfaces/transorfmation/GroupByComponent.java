@@ -5,4 +5,10 @@ package org.tuberlin.de.common.model.interfaces.transorfmation;
  */
 public interface GroupByComponent extends TransformationComponent {
 
+
+    /**
+     *  .groupBy(0) the 0
+     */
+    public static final String COMPONENT_GROUP_BY_FIELD = "GROUP_BY_FIELD";
+
 }

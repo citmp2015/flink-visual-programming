@@ -9,18 +9,18 @@ import java.util.Map;
 /**
  * Created by Malcolm-X on 09.12.2015.
  */
-public abstract class AbstractAggregateComponent extends AbstractTransformationComponent implements AggregateComponent, CompilationUnitComponent {
+public abstract class AbstractAggregateComponent extends AbstractTransformationComponent implements AggregateComponent {
     private String packageName;
 
     ;//TODO only sum is supported right now
-    protected Map<String, Object> parameters;
+  /*  protected Map<String, Object> parameters;*/
 
-    private FUNCTION_TYPES functionName;
+/*    private FUNCTION_TYPES functionName;
     private int fieldIndex;
-    private boolean initialized = false;
+    private boolean initialized = false;*/
 
 
-    @Override
+ /*   @Override
     public void init(JobGraph jobGraph, Map<String, Object> parameters) throws  IllegalArgumentException{
         //neccesary params
         String currentKey = " ";
@@ -44,42 +44,16 @@ public abstract class AbstractAggregateComponent extends AbstractTransformationC
             throw new IllegalArgumentException("Wrong parameter");
         }
         this.initialized = true;
-    }
+    }*/
 
-    @Override
-    public String getSource() throws IllegalStateException{
-        //TODO nice exception
-        if (!this.initialized) throw new IllegalStateException("Forgot to init!");
-        //return this.functionSource;
-        return null;
-    }
 
     @Override
     public String getJobSource() {
         if (!this.initialized) throw new IllegalStateException("Forgot to init!");
         String source = "";
-        source += "aggregate(" + functionName + ", "+ fieldIndex + ")";
+        source += "aggregate(" + parameters.get(AggregateComponent.FUNCTION_KEY) + ", "+ parameters.get(AggregateComponent.FIELD_KEY) + ")";
         return source;
     }
 
-    @Override
-    public String[] getJobImports() {
-        if (!this.initialized) throw new IllegalStateException("Forgot to init!");
-        String imports = "";
-        imports += packageName + "." + functionName;
-        //TODO: support other imports?
-        //TODO: add return
-        return null;
-    }
 
-    @Override
-    public boolean verify() {
-        //TODO
-        if (!this.initialized) return false;
-        return true;
-    }
-
-    private void cleanUpAfterInit(){
-        //TODO remove all items that might have been created during the initialisation process
-    }
 }
