@@ -1,6 +1,5 @@
 package org.tuberlin.de.common.codegenerator;
 
-import com.github.javaparser.ast.CompilationUnit;
 import org.omg.CORBA.portable.OutputStream;
 import org.tuberlin.de.common.model.interfaces.JobComponent;
 import org.tuberlin.de.common.model.interfaces.JobGraph;
@@ -155,21 +154,4 @@ public class CodeGenerator {
         //TODO
     }
 
-    private static CompilationUnit getCompilationUnit(JobGraph graph) {
-//        if (graph == null) return null;
-//        if (graph.isEmpty()) return null;
-//        //TODO weitere sanity checks auf parametern
-//        CompilationUnit cu = new CompilationUnit();
-//        cu.setPackage(new PackageDeclaration(ASTHelper.createNameExpr(graph.getPackage())));
-//        ClassOrInterfaceDeclaration type;
-//        type = new ClassOrInterfaceDeclaration(ModifierSet.PUBLIC, false, graph.getName());
-//        ASTHelper.addTypeDeclaration(cu, type);
-//
-//        //collect tokens from jobgraph
-//        List<String>
-//        for(JobComponent comp : graph.getComponents()){
-//
-//        }
-        return null;
-    }
 }
