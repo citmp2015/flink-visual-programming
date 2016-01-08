@@ -5,6 +5,7 @@ import org.junit.Test;
 import org.tuberlin.de.common.base.*;
 import org.tuberlin.de.common.model.CodeGenerator;
 import org.tuberlin.de.common.model.Constants;
+import org.tuberlin.de.common.model.interfaces.CompilationUnitComponent;
 import org.tuberlin.de.common.model.interfaces.JobGraph;
 import org.tuberlin.de.common.model.interfaces.datasink.DataSinkComponent;
 import org.tuberlin.de.common.model.interfaces.datasource.DataSourceComponent;
@@ -84,7 +85,9 @@ public class BaseJobGraphTest {
         //FlatMapParam
         fMapPrarameters.put(Constants.COMPONENT_CHILDREN, groupByComponent);
         fMapPrarameters.put(Constants.COMPONENT_PARENT, dataSourceComponent);
-        fMapPrarameters.put(Constants.COMPONENT_JOB_SOURCE_JSON,    "public class LineSplitter implements FlatMapFunction<String, Tuple2<String, Integer>> {\n" +
+        fMapPrarameters.put(CompilationUnitComponent.PACKAGE_NAME_KEY, "test.compilation.unit.package");
+        fMapPrarameters.put(CompilationUnitComponent.FUNCTION_NAME_KEY, "LineSplitter");
+        fMapPrarameters.put(CompilationUnitComponent.COMPONENT_SOURCE_JSON,    "public class LineSplitter implements FlatMapFunction<String, Tuple2<String, Integer>> {\n" +
                                                                         "@Override+\n" +
                                                                         "public void flatMap(String value, Collector<Tuple2<String, Integer>> out) {+\n" +
                                                                             "// normalize and split the line into words+\n" +

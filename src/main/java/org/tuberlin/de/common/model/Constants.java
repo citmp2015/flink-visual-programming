@@ -18,8 +18,7 @@ public class Constants {
     /**
      *
      */
-    public static final String COMPONENT_JOB_SOURCE_JSON = "COMPONENT_JOB_SOURCE_JSON";
-    public static final String COMPONENT_SOURCE_JSON = "COMPONENT_SOURCE_JSON";
+  //  public static final String COMPONENT_JOB_SOURCE_JSON = "COMPONENT_JOB_SOURCE_JSON";
     public static final String COMPONENT_CHILDREN = "COMPONENT_CHILDREN_JSON";
     public static final String COMPONENT_PARENT = "COMPONENT_PARENT_JSON";
     public static final String COMPONENT_INPUT_TYPE = "COMPONENT_INPUT_TYPE_JSON";

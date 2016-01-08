@@ -10,18 +10,9 @@ import java.util.Map;
  */
 public abstract class AbstractFlatMapComponent extends AbstractJobComponent implements FlatMapComponent {
     //TODO central store for static strings(file?)
-
-    public static final String FUNCTION_NAME_KEY = "function_name";
-    public static final String FUNCTION_SOURCE_KEY = "function_source";
-    public static final String PACKAGE_NAME_KEY = "package_name";
-
     //private static final String JOB_SOURCE = ".flatmap(new "+ functionName +"  )";
-
-
-
-    private String functionName, functionSource, packageName;
-
-
+    //private String functionName, functionSource, packageName;
+/*
     @Override
     public void init(Map<String, Object> parameters) {
         //neccesary params
@@ -45,21 +36,24 @@ public abstract class AbstractFlatMapComponent extends AbstractJobComponent impl
         }
         this.initialized = true;
         }
+*/
 
 
 
     @Override
     public String getSource() throws IllegalStateException{
         //TODO nice exception
+        //TODO integrity
         if (!this.initialized) throw new IllegalStateException("Forgot to init!");
-        return this.functionSource;
+        return (String) parameters.get(COMPONENT_SOURCE_JSON);
+                //this.functionSource;
     }
 
     @Override
     public String getJobSource() {
         if (!this.initialized) throw new IllegalStateException("Forgot to init!");
         String source = "";
-        source += ".flatmap(new " + functionName + "())";
+        source += ".flatmap(new " + parameters.get(FUNCTION_NAME_KEY) + "())";
         return source;
     }
 
@@ -67,7 +61,7 @@ public abstract class AbstractFlatMapComponent extends AbstractJobComponent impl
     public String[] getJobImports() {
         if (!this.initialized) throw new IllegalStateException("Forgot to init!");
         String imports = "";
-        imports += packageName + "." + functionName;
+        imports += parameters.get(PACKAGE_NAME_KEY) + "." + parameters.get(FUNCTION_NAME_KEY);
         //TODO: support other imports?
         //TODO add return
         return null;
