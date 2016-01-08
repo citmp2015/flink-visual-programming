@@ -5,6 +5,7 @@ import org.tuberlin.de.common.model.interfaces.JobComponent;
 import org.tuberlin.de.common.model.interfaces.JobGraph;
 import org.tuberlin.de.common.model.types.ComponentTypes;
 
+import java.util.Collection;
 import java.util.Map;
 
 /**
@@ -21,11 +22,22 @@ public abstract class AbstractJobComponent implements JobComponent {
     protected boolean initialized = false;
     protected JobGraph jobGraph;
     //TODO syncronization
+
     @Override
     public void init(JobGraph jobGraph, Map<String, Object> parameters) {
         if(parameters == null || jobGraph == null) throw new IllegalArgumentException("Arguments must not be null!");
         this.parameters = parameters;
         this.initialized = true;
+    }
+
+    @Override
+    public Collection<String> getParents() throws IllegalStateException {
+        return null;
+    }
+
+    @Override
+    public Collection<String> getChildren() throws IllegalStateException {
+        return null;
     }
 
 //    @Override
@@ -40,6 +52,21 @@ public abstract class AbstractJobComponent implements JobComponent {
 //        if (!initialized) throw new IllegalStateException("Invalid state: must be initialized");
 //        return (String) parameters.get(Constants.COMPONENT_JOB_SOURCE_JSON);
 //    }
+
+    @Override
+    public String getComponentKey() {
+        return null;
+    }
+
+    @Override
+    public String getInputType() {
+        return null;
+    }
+
+    @Override
+    public String getOutputType() {
+        return null;
+    }
 
     @Override
     public String[] getJobImports() {

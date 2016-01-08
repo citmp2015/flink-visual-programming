@@ -21,6 +21,13 @@ public abstract class AbstractFileDataSourceComponent extends AbstractDataSource
     }
 
     @Override
+    public String getFilePath() {
+        //TODO integrity checks
+        return (String) parameters.get(FileDataSourceComponent.FILE_PATH_JSON);
+    }
+
+
+    @Override
     public void init(JobGraph jobGraph, Map<String, Object> parameters) {
         super.init(jobGraph, parameters);
 

@@ -1,6 +1,9 @@
 package org.tuberlin.de.common.test;
 
+import org.junit.Before;
+import org.junit.Test;
 import org.tuberlin.de.common.base.*;
+import org.tuberlin.de.common.model.CodeGenerator;
 import org.tuberlin.de.common.model.Constants;
 import org.tuberlin.de.common.model.interfaces.JobGraph;
 import org.tuberlin.de.common.model.interfaces.datasink.DataSinkComponent;
@@ -12,7 +15,6 @@ import org.tuberlin.de.common.model.interfaces.transorfmation.GroupByComponent;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.junit.Assert.*;
 
 /**
  * Created by oxid on 1/4/16.
@@ -37,12 +39,14 @@ public class BaseJobGraphTest {
 
 
 
-    @org.junit.Before
+    JobGraph jobGraph;
+
+    @Before
     public void setUp() throws Exception {
 
         //JobGraph
         Map<String, Object> jGraphParamters = new HashMap<String, Object>();
-        JobGraph jobGraph = new BaseJobGraph("testkey", "testname", "testpackage", jGraphParamters);
+        jobGraph = new BaseJobGraph("testkey", "testname", "testpackage", jGraphParamters);
 
         //DataSource
         Map<String, Object> dSourceCompParameters = new HashMap<String, Object>();
@@ -137,8 +141,11 @@ public class BaseJobGraphTest {
 
     }
 
-    @org.junit.Test
+    @Test
     public void testGetJobSource() throws Exception {
+        CodeGenerator baseCodeGenerator = new CodeGenerator();
+        baseCodeGenerator.generateCode(jobGraph);
+
         System.out.println();
     }
 }
