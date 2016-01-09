@@ -1,5 +1,6 @@
 package org.tuberlin.de.common.model.interfaces;
 
+import org.tuberlin.de.common.model.Constants;
 import org.tuberlin.de.common.model.types.ComponentTypes;
 
 import java.util.Collection;
@@ -21,20 +22,33 @@ import java.util.Map;
  */
 public interface JobComponent {
 
+
+    public static final String CHILD = Constants.JOB_COMPONENT_CHILDREN;
+    public static final String PARENT = Constants.JOB_COMPONENT_CHILDREN;
+    public static final String INPUT_TYPE = Constants.JOB_COMPONENT_INPUT_TYPE;
+    public static final String OUTPUT_TYPE = Constants.JOB_COMPONENT_OUTPUT_TYPE;
+    public static final String COMPONENT_KEY = Constants.JOB_COMPOENT_KEY;
+    public static final String COMPONENT_IMPORTS = Constants.JOB_COMPONENT_IMPORTS_JSON;
+
     //TODO syncronization
     void init(JobGraph jobGraph, Map<String, Object> parameters) throws IllegalArgumentException;
 
 
     /**
      *
-     * @return
+     * This method has to return the piece of code which is required in the Flink
+     * Job Class
+     *
+     * @return the flink code for the corresponding component
      * @throws IllegalStateException
      */
     public String getJobSource() throws IllegalStateException;
 
     /**
      *
-     * @return
+     * Imports for this component
+     *
+     * @return all the imports requires in the Flink class for the corresponding component
      * @throws IllegalStateException
      */
     public String[] getJobImports() throws IllegalStateException;

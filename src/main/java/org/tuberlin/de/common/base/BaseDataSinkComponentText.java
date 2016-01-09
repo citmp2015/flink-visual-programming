@@ -5,7 +5,7 @@ import org.tuberlin.de.common.model.abstracts.datasink.file.AbstractFileDataSink
 import org.tuberlin.de.common.model.interfaces.JobGraph;
 import org.tuberlin.de.common.model.interfaces.datasink.DataSinkComponent;
 import org.tuberlin.de.common.model.interfaces.datasink.FileDataSinkComponent;
-import org.tuberlin.de.common.model.interfaces.datasource.FileDataSourceComponent;
+import org.tuberlin.de.common.model.interfaces.datasources.file.DataSourceFile;
 
 import java.util.Collection;
 import java.util.Map;
@@ -67,6 +67,6 @@ public class BaseDataSinkComponentText extends AbstractFileDataSinkComponent imp
     @Override
     public String getFilePath() {
         //TODO integrity checks
-        return (String) parameters.get(FileDataSourceComponent.FILE_PATH_JSON);
+        return (String) parameters.get(DataSourceFile.FILE_PATH_JSON);
     }
 }

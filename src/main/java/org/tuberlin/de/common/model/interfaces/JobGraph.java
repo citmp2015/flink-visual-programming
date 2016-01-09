@@ -1,6 +1,6 @@
 package org.tuberlin.de.common.model.interfaces;
 
-import org.tuberlin.de.common.model.interfaces.datasource.DataSourceComponent;
+import org.tuberlin.de.common.model.interfaces.datasources.DataSource;
 import org.tuberlin.de.common.model.interfaces.transorfmation.TransformationComponent;
 
 import java.util.Collection;
@@ -116,7 +116,7 @@ public interface JobGraph{
      */
     public String getEnvironmentIdentifier();
 
-    public Collection<DataSourceComponent> getDataSources();
+    public Collection<DataSource> getDataSources();
 
     public String getPackageName();
 

@@ -72,7 +72,7 @@ public abstract class AbstractJobComponent implements JobComponent {
     public String[] getJobImports() {
         //TODO maybe catch cast exception
         if (!initialized) throw new IllegalStateException("Invalid state: must be initialized");
-        return (String[]) parameters.get(Constants.COMPONENT_IMPORTS_JSON);
+        return (String[]) parameters.get(Constants.JOB_COMPONENT_IMPORTS_JSON);
     }
 
     @Override

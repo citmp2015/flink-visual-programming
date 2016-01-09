@@ -3,8 +3,8 @@ package org.tuberlin.de.common.base;
 import org.tuberlin.de.common.model.Constants;
 import org.tuberlin.de.common.model.abstracts.datasource.file.AbstractFileDataSourceComponent;
 import org.tuberlin.de.common.model.interfaces.JobGraph;
-import org.tuberlin.de.common.model.interfaces.datasource.DataSourceComponent;
-import org.tuberlin.de.common.model.interfaces.datasource.FileDataSourceComponent;
+import org.tuberlin.de.common.model.interfaces.datasources.DataSource;
+import org.tuberlin.de.common.model.interfaces.datasources.file.DataSourceFile;
 
 import java.util.Collection;
 import java.util.Map;
@@ -12,7 +12,7 @@ import java.util.Map;
 /**
  * Created by Malcolm-X on 26.12.2015.
  */
-public class BaseDataSourceComponentCSV extends AbstractFileDataSourceComponent implements DataSourceComponent, FileDataSourceComponent {
+public class BaseDataSourceComponentCSV extends AbstractFileDataSourceComponent implements DataSource, DataSourceFile {
     @Override
     public void init(JobGraph jobGraph, Map<String, Object> parameters) {
         super.init(jobGraph, parameters);
@@ -23,15 +23,15 @@ public class BaseDataSourceComponentCSV extends AbstractFileDataSourceComponent 
         if (!initialized) throw new IllegalStateException("Must be initialized");
         //TODO: Integrity checks
         String result = jobGraph.getEnvironmentIdentifier() + ".readCsvFile(" + parameters.get(Constants.COMPONENT_PATH_JSON) + ")";
-        if(parameters.containsKey(FileDataSourceComponent.CSV_INCLUDE_FIELDS)){
+        if(parameters.containsKey(DataSourceFile.CSV_INCLUDE_FIELDS)){
             //TODO integrity (Integer, number of values,...)
-            result += ".includeFields(" + parameters.get(FileDataSourceComponent.CSV_INCLUDE_FIELDS)+")";
+            result += ".includeFields(" + parameters.get(DataSourceFile.CSV_INCLUDE_FIELDS)+")";
         }
         //TODO integrity
-        if (parameters.containsKey(FileDataSourceComponent.CSV_FIELD_TYPES)){
+        if (parameters.containsKey(DataSourceFile.CSV_FIELD_TYPES)){
             result += ".types(";
             //TODO integrity
-            String[] types = ((String[])parameters.get(FileDataSourceComponent.CSV_FIELD_TYPES));
+            String[] types = ((String[])parameters.get(DataSourceFile.CSV_FIELD_TYPES));
             for (int i = 0; i < types.length; i++){
                 result += (i == types.length - 1) ? (types[i] + ".class") : (types[i] + ".class, ");
             }
@@ -76,6 +76,6 @@ public class BaseDataSourceComponentCSV extends AbstractFileDataSourceComponent 
     @Override
     public String getFilePath() {
         //TODO integrity checks
-        return (String) parameters.get(FileDataSourceComponent.FILE_PATH_JSON);
+        return (String) parameters.get(DataSourceFile.FILE_PATH_JSON);
     }
 }

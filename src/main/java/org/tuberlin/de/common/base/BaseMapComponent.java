@@ -11,28 +11,26 @@ import java.util.Collection;
 //TODO
 public class BaseMapComponent extends AbstractMapComponent implements MapComponent {
 
-    @Override
-    public Collection<String> getParents() throws IllegalStateException {
-        return null;
-    }
 
+    //TODO have to implemented in the higher levels (just here to prevent errors
     @Override
-    public Collection<String> getChildren() throws IllegalStateException {
-        return null;
-    }
-
+    public String getJobSource() throws IllegalStateException {return null;}
+    @Override
+    public Collection<String> getParents() throws IllegalStateException {return null;}
+    @Override
+    public Collection<String> getChildren() throws IllegalStateException {return null;}
     @Override
     public String getComponentKey() {
         return null;
     }
-
     @Override
     public String getInputType() {
         return null;
     }
-
     @Override
     public String getOutputType() {
         return null;
     }
+    @Override
+    public String getSource() throws IllegalStateException {return null;}
 }

@@ -2,7 +2,7 @@ package org.tuberlin.de.common.base;
 
 import org.tuberlin.de.common.model.interfaces.JobComponent;
 import org.tuberlin.de.common.model.interfaces.JobGraph;
-import org.tuberlin.de.common.model.interfaces.datasource.DataSourceComponent;
+import org.tuberlin.de.common.model.interfaces.datasources.DataSource;
 import org.tuberlin.de.common.model.interfaces.transorfmation.TransformationComponent;
 
 import java.util.Collection;
@@ -106,7 +106,7 @@ public class BaseJobGraph implements JobGraph {
 //        }//end if-instanceof
 //        //component is aggregate function
 //        else if(component instanceof DataSourceComponent){
-//            //component is datasource
+//            //component is datasources
 //        }//end if-instanceof
 //        else if(component instanceof AggregateComponent){
 //            //component is aggregate function
@@ -123,7 +123,7 @@ public class BaseJobGraph implements JobGraph {
     }
 
     @Override
-    public Collection<DataSourceComponent> getDataSources() {
+    public Collection<DataSource> getDataSources() {
         return null;
     }
 

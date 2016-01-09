@@ -4,7 +4,7 @@ import org.omg.CORBA.portable.OutputStream;
 import org.tuberlin.de.common.model.interfaces.JobComponent;
 import org.tuberlin.de.common.model.interfaces.JobGraph;
 import org.tuberlin.de.common.model.interfaces.datasink.DataSinkComponent;
-import org.tuberlin.de.common.model.interfaces.datasource.DataSourceComponent;
+import org.tuberlin.de.common.model.interfaces.datasources.DataSource;
 import org.tuberlin.de.common.model.interfaces.transorfmation.TransformationComponent;
 
 import java.io.File;
@@ -26,7 +26,7 @@ public class CodeGenerator {
         String result = "";
         //aggregate datasources
         Collection<JobComponent> jobComponents = jobGraph.getComponents();
-        Collection<DataSourceComponent> dataSourceComponents = jobGraph.getDataSources();
+        Collection<DataSource> dataSourceComponents = jobGraph.getDataSources();
         result += printPackage(jobGraph) + "\n";
         result += printImports(jobGraph) + "\n";
         result += printClass(jobGraph);
@@ -71,7 +71,7 @@ public class CodeGenerator {
         Collection<TransformationComponent> components = jobGraph.getTransformations();
         if(components == null || components.isEmpty()) throw new IllegalArgumentException(); //TODO
         String result = "";
-        for (DataSourceComponent c : jobGraph.getDataSources()){
+        for (DataSource c : jobGraph.getDataSources()){
             //TODO dirty hacking
             JobComponent comp = ((JobComponent[])c.getParents().toArray())[0];
             result += c.getComponentKey() + " = " + comp.getComponentKey() + c.getJobSource() + ";\n" ;
@@ -82,7 +82,7 @@ public class CodeGenerator {
 
     private static String printDataSources(JobGraph jobGraph) {
         String result = "";
-        for (DataSourceComponent c : jobGraph.getDataSources()){
+        for (DataSource c : jobGraph.getDataSources()){
             result += c.getComponentKey() + " = " + c.getJobSource() + ";\n" ;
         }
         return result;

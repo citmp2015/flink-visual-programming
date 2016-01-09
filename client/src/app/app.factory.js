@@ -70,7 +70,7 @@
                 },
                 data: {
                     modalController: 'DatasourceModalCtrl',
-                    modalTemplateUrl: '/app/datasource/datasource-modal.tpl.html',
+                    modalTemplateUrl: '/app/datasources/datasources-modal.tpl.html',
                     path: null,
                     countColumns: 2,
                     columns: []

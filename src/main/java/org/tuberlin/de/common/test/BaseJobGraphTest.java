@@ -8,7 +8,7 @@ import org.tuberlin.de.common.model.Constants;
 import org.tuberlin.de.common.model.interfaces.CompilationUnitComponent;
 import org.tuberlin.de.common.model.interfaces.JobGraph;
 import org.tuberlin.de.common.model.interfaces.datasink.DataSinkComponent;
-import org.tuberlin.de.common.model.interfaces.datasource.DataSourceComponent;
+import org.tuberlin.de.common.model.interfaces.datasources.DataSource;
 import org.tuberlin.de.common.model.interfaces.transorfmation.AggregateComponent;
 import org.tuberlin.de.common.model.interfaces.transorfmation.FlatMapComponent;
 import org.tuberlin.de.common.model.interfaces.transorfmation.GroupByComponent;
@@ -28,14 +28,14 @@ public class BaseJobGraphTest {
     public static final String TRANSFORMATION_TYPE_JSON = "TRANSFORMATION_TYPE";
     public static final String DATASOURCE_TYPE = "DATASOURCE_TYPE";
     public static final String DATASINK_TYPE = "DATASINK_TYPE";
-    public static final String COMPONENT_IMPORTS_JSON = "COMPONENT_IMPORTS_JSON";
+    public static final String JOB_COMPONENT_IMPORTS_JSON = "JOB_COMPONENT_IMPORTS_JSON";
     public static final String COMPONENT_JOB_SOURCE_JSON = "COMPONENT_JOB_SOURCE_JSON";
     public static final String COMPONENT_SOURCE_JSON = "COMPONENT_SOURCE_JSON";
-    public static final String COMPONENT_CHILDREN = "COMPONENT_CHILDREN_JSON";
-    public static final String COMPONENT_PARENT = "COMPONENT_PARENT_JSON";
-    public static final String COMPONENT_INPUT_TYPE = "COMPONENT_INPUT_TYPE_JSON";
-    public static final String COMPONENT_OUTPUT_TYPE = "COMPONENT_OUTPUT_TYPE_JSON";
-    public static final String COMPOENT_KEY = "COMPONENT_KEY_JSON";
+    public static final String JOB_COMPONENT_CHILDREN = "COMPONENT_CHILDREN_JSON";
+    public static final String JOB_COMPONENT_PARENT = "COMPONENT_PARENT_JSON";
+    public static final String JOB_COMPONENT_INPUT_TYPE = "COMPONENT_INPUT_TYPE_JSON";
+    public static final String JOB_COMPONENT_OUTPUT_TYPE = "COMPONENT_OUTPUT_TYPE_JSON";
+    public static final String JOB_COMPOENT_KEY = "COMPONENT_KEY_JSON";
     public static final String COMPONENT_PATH_JSON = "COMPONENT_CLASS_JSON"; */
 
 
@@ -51,7 +51,7 @@ public class BaseJobGraphTest {
 
         //DataSource
         Map<String, Object> dSourceCompParameters = new HashMap<String, Object>();
-        DataSourceComponent dataSourceComponent = new BaseDataSourceComponentText(jobGraph,  dSourceCompParameters);
+        DataSource dataSourceComponent = new BaseDataSourceComponentText(jobGraph,  dSourceCompParameters);
 
         //FlatMap
         Map<String, Object> fMapPrarameters = new HashMap<String, Object>();
@@ -72,19 +72,19 @@ public class BaseJobGraphTest {
 
 
         //JobGraphParam
-        jGraphParamters.put(Constants.COMPONENT_IMPORTS_JSON, "test.job.graph.import");
+        jGraphParamters.put(Constants.JOB_COMPONENT_IMPORTS_JSON, "test.job.graph.import");
 
         //DataSourceParam
-        dSourceCompParameters.put(Constants.COMPONENT_CHILDREN, flatMapComponent);
-        dSourceCompParameters.put(Constants.COMPONENT_PARENT, null);
-        dSourceCompParameters.put(Constants.COMPONENT_INPUT_TYPE, null);
-        dSourceCompParameters.put(Constants.COMPONENT_OUTPUT_TYPE, "DataSet<String>");
-        dSourceCompParameters.put(Constants.COMPOENT_KEY, "dataSourceKey");
+        dSourceCompParameters.put(Constants.JOB_COMPONENT_CHILDREN, flatMapComponent);
+        dSourceCompParameters.put(Constants.JOB_COMPONENT_PARENT, null);
+        dSourceCompParameters.put(Constants.JOB_COMPONENT_INPUT_TYPE, null);
+        dSourceCompParameters.put(Constants.JOB_COMPONENT_OUTPUT_TYPE, "DataSet<String>");
+        dSourceCompParameters.put(Constants.JOB_COMPOENT_KEY, "dataSourceKey");
         //TODO COMPONENT_JOB_SOURCE_JSON
 
         //FlatMapParam
-        fMapPrarameters.put(Constants.COMPONENT_CHILDREN, groupByComponent);
-        fMapPrarameters.put(Constants.COMPONENT_PARENT, dataSourceComponent);
+        fMapPrarameters.put(Constants.JOB_COMPONENT_CHILDREN, groupByComponent);
+        fMapPrarameters.put(Constants.JOB_COMPONENT_PARENT, dataSourceComponent);
         fMapPrarameters.put(CompilationUnitComponent.PACKAGE_NAME_KEY, "test.compilation.unit.package");
         fMapPrarameters.put(CompilationUnitComponent.FUNCTION_NAME_KEY, "LineSplitter");
         fMapPrarameters.put(CompilationUnitComponent.COMPONENT_SOURCE_JSON,    "public class LineSplitter implements FlatMapFunction<String, Tuple2<String, Integer>> {\n" +
@@ -100,36 +100,36 @@ public class BaseJobGraphTest {
                                                                             "}\n" +
                                                                         "}\n" +
                                                                     "}");
-        fMapPrarameters.put(Constants.COMPONENT_INPUT_TYPE, dSourceCompParameters.get(Constants.COMPONENT_OUTPUT_TYPE));
-        fMapPrarameters.put(Constants.COMPONENT_OUTPUT_TYPE, "Tuple2<String, Integer>");
-        fMapPrarameters.put(Constants.COMPOENT_KEY, "flatmapKey");
+        fMapPrarameters.put(Constants.JOB_COMPONENT_INPUT_TYPE, dSourceCompParameters.get(Constants.JOB_COMPONENT_OUTPUT_TYPE));
+        fMapPrarameters.put(Constants.JOB_COMPONENT_OUTPUT_TYPE, "Tuple2<String, Integer>");
+        fMapPrarameters.put(Constants.JOB_COMPOENT_KEY, "flatmapKey");
         //TODO COMPONENT_JOB_SOURCE_JSON
 
 
         //GroupByParam
         //TODO add field to GoupByComponent interface
-        gByParameters.put(Constants.COMPONENT_CHILDREN, aggregateComponent);
-        gByParameters.put(Constants.COMPONENT_PARENT, flatMapComponent);
-        gByParameters.put(Constants.COMPONENT_INPUT_TYPE, fMapPrarameters.get(Constants.COMPONENT_OUTPUT_TYPE));
-        gByParameters.put(Constants.COMPONENT_OUTPUT_TYPE, "Tuple2<String, Integer>");
-        gByParameters.put(Constants.COMPOENT_KEY, "groupByKey");
+        gByParameters.put(Constants.JOB_COMPONENT_CHILDREN, aggregateComponent);
+        gByParameters.put(Constants.JOB_COMPONENT_PARENT, flatMapComponent);
+        gByParameters.put(Constants.JOB_COMPONENT_INPUT_TYPE, fMapPrarameters.get(Constants.JOB_COMPONENT_OUTPUT_TYPE));
+        gByParameters.put(Constants.JOB_COMPONENT_OUTPUT_TYPE, "Tuple2<String, Integer>");
+        gByParameters.put(Constants.JOB_COMPOENT_KEY, "groupByKey");
         //TODO COMPONENT_JOB_SOURCE_JSON
 
         //AggregateParam
         //TODO sum und 1
-        aggParameters.put(Constants.COMPONENT_CHILDREN, dataSinkComponent);
-        aggParameters.put(Constants.COMPONENT_PARENT, groupByComponent);
-        aggParameters.put(Constants.COMPONENT_INPUT_TYPE, gByParameters.get(Constants.COMPONENT_OUTPUT_TYPE));
-        aggParameters.put(Constants.COMPONENT_OUTPUT_TYPE, "Tuple2<String, Integer>");
-        aggParameters.put(Constants.COMPOENT_KEY, "aggrKey");
+        aggParameters.put(Constants.JOB_COMPONENT_CHILDREN, dataSinkComponent);
+        aggParameters.put(Constants.JOB_COMPONENT_PARENT, groupByComponent);
+        aggParameters.put(Constants.JOB_COMPONENT_INPUT_TYPE, gByParameters.get(Constants.JOB_COMPONENT_OUTPUT_TYPE));
+        aggParameters.put(Constants.JOB_COMPONENT_OUTPUT_TYPE, "Tuple2<String, Integer>");
+        aggParameters.put(Constants.JOB_COMPOENT_KEY, "aggrKey");
         //TODO COMPONENT_JOB_SOURCE_JSON
 
         //DatSinkPara
-        dSinkParameters.put(Constants.COMPONENT_CHILDREN, null);
-        dSinkParameters.put(Constants.COMPONENT_PARENT, aggregateComponent);
-        dSinkParameters.put(Constants.COMPONENT_INPUT_TYPE, aggParameters.get(Constants.COMPONENT_OUTPUT_TYPE));
-        dSinkParameters.put(Constants.COMPONENT_OUTPUT_TYPE, null);
-        dSinkParameters.put(Constants.COMPOENT_KEY, "dataSinkKey");
+        dSinkParameters.put(Constants.JOB_COMPONENT_CHILDREN, null);
+        dSinkParameters.put(Constants.JOB_COMPONENT_PARENT, aggregateComponent);
+        dSinkParameters.put(Constants.JOB_COMPONENT_INPUT_TYPE, aggParameters.get(Constants.JOB_COMPONENT_OUTPUT_TYPE));
+        dSinkParameters.put(Constants.JOB_COMPONENT_OUTPUT_TYPE, null);
+        dSinkParameters.put(Constants.JOB_COMPOENT_KEY, "dataSinkKey");
         //TODO COMPONENT_JOB_SOURCE_JSON
 
 
