@@ -1,5 +1,6 @@
 package org.tuberlin.de.common.model.interfaces.datasources.collection;
 
+import org.tuberlin.de.common.model.Constants;
 import org.tuberlin.de.common.model.interfaces.datasources.DataSource;
 
 /**
@@ -9,4 +10,8 @@ import org.tuberlin.de.common.model.interfaces.datasources.DataSource;
  *
  */
 public interface DataSourceGenerateSequence extends DataSource{
+
+    public static final String TO = Constants.DATA_SOURCE_GENERATE_SEQUENCE_TO;
+    public static final String FROM = Constants.DATA_SOURCE_GENERATE_SEQUENCE_FROM;
+
 }

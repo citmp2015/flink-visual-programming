@@ -1,5 +1,6 @@
 package org.tuberlin.de.common.model.interfaces.datasources.generic;
 
+import org.tuberlin.de.common.model.Constants;
 import org.tuberlin.de.common.model.interfaces.datasources.DataSource;
 
 /**
@@ -9,4 +10,7 @@ import org.tuberlin.de.common.model.interfaces.datasources.DataSource;
  *
  */
 public interface DataSourceGenericCreateInput extends DataSource{
+
+    public static final String INPUT_FORMAT = Constants.DATA_SOURCE_GENERIC_CREATE_INPUT_FORMAT;
+    
 }

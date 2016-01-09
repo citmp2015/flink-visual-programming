@@ -1,5 +1,6 @@
 package org.tuberlin.de.common.model.interfaces.datasources.collection;
 
+import org.tuberlin.de.common.model.Constants;
 import org.tuberlin.de.common.model.interfaces.datasources.DataSource;
 
 /**
@@ -9,4 +10,7 @@ import org.tuberlin.de.common.model.interfaces.datasources.DataSource;
  *
  */
 public interface DataSourceFromCollection extends DataSource{
+
+    public static final String COLLECTION = Constants.DATA_SOURCE_FROM_COLLECTION_COLLECTION;
+
 }

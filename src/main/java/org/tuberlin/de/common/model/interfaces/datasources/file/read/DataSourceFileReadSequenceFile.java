@@ -1,5 +1,6 @@
 package org.tuberlin.de.common.model.interfaces.datasources.file.read;
 
+import org.tuberlin.de.common.model.Constants;
 import org.tuberlin.de.common.model.interfaces.datasources.file.DataSourceFile;
 
 /**
@@ -12,6 +13,7 @@ import org.tuberlin.de.common.model.interfaces.datasources.file.DataSourceFile;
 public interface DataSourceFileReadSequenceFile extends DataSourceFile{
 
     //path from DatasourceFile
-    public static final String KEY =
-    public static final String VALUE =
+    public static final String KEY = Constants.DATA_SOURCE_FILE_READ_SEQUENCE_FILE_KEY;
+    public static final String VALUE = Constants.DATA_SOURCE_FILE_READ_SEQUENCE_FILE_VALUE;
+
 }

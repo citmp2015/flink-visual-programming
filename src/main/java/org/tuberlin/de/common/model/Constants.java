@@ -49,8 +49,35 @@ public class Constants {
     public static final String DATA_SOURCE_FILE_READ_HADOOP_KEY = "HADOOP_KEY";
     // DataSourceFileReadHadoopFile value
     public static final String DATA_SOURCE_FILE_READ_HADOOP_VALUE = "HADOOP_VALUE";
-    // DataSourceFileReadSequenceFile KEY
+    // DataSourceFileReadSequenceFile key
     public static final String DATA_SOURCE_FILE_READ_SEQUENCE_FILE_KEY = "SEQUENCE_FILE_KEY";
+    // DataSourceFileReadSequenceFile value
+    public static final String DATA_SOURCE_FILE_READ_SEQUENCE_FILE_VALUE = "SEQUENCE_FILE_VALUE";
+
+    // DataSourceFromCollection collection
+    public static final String DATA_SOURCE_FROM_COLLECTION_COLLECTION = "COLLECTION_COLLECTION";
+    // DataSourceFromCollection2 iterator
+    public static final String DATA_SOURCE_FROM_COLLECTION2_ITERATOR = "COLLECTION_ITERATOR";
+    // DataSourceFromCollection Class
+    public static final String DATA_SOURCE_FROM_COLLECTION2_CLASS = "COLLECTION_CLASS";
+    // DataSourceFromElements
+    public static final String DATA_SOURCE_FROM_ELEMENTS_T = "ELEMENTS_T";
+    // DataSourceFromParallelCollection SplitableIterator
+    public static final String DATA_SOURCE_FROM_PARALLEL_COLLECTION_SPLIT_ITERATOR = "P_C_SPLIT_ITERATOR";
+    // DataSourceFromParallelCollection Class
+    public static final String DATA_SOURCE_FROM_PARALLEL_COLLECTION_CLASS = "P_C_CLASS";
+    // DataSourceGenerateSequence from
+    public static final String DATA_SOURCE_GENERATE_SEQUENCE_FROM = "GENERATE_FROM";
+    // DataSourceGenerateSequence to
+    public static final String DATA_SOURCE_GENERATE_SEQUENCE_TO = "GENERATE_TO";
+
+    // DataSourceGenericReadFile inputFormat
+    public static final String DATA_SOURCE_GENERIC_READ_FILE_INPUT_FORMAT = "GEN_INPUT_FORMAT";
+    // DataSourceGenericReadFile path
+    public static final String DATA_SOURCE_GENERIC_READ_FILE_PATH = "GEN_PATH";
+    // DataSourceGenericCreateInput inputFormat
+    public static final String DATA_SOURCE_GENERIC_CREATE_INPUT_FORMAT = "GEN_CREATE_INPUT_FORMAT";
+
 
 
 

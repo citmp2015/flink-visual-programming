@@ -1,5 +1,6 @@
 package org.tuberlin.de.common.model.interfaces.datasources.generic;
 
+import org.tuberlin.de.common.model.Constants;
 import org.tuberlin.de.common.model.interfaces.datasources.DataSource;
 
 /**
@@ -9,4 +10,9 @@ import org.tuberlin.de.common.model.interfaces.datasources.DataSource;
  *
  */
 public interface DataSourceGenericReadFile extends DataSource{
+
+    public static final String IMPUT_FILE = Constants.DATA_SOURCE_GENERIC_READ_FILE_INPUT_FORMAT;
+
+    public  static  final  String PATH = Constants.DATA_SOURCE_GENERIC_READ_FILE_PATH;
+
 }
