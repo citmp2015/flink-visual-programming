@@ -10,4 +10,8 @@ import org.tuberlin.de.common.model.interfaces.datasources.file.DataSourceFile;
  *
  */
 public interface DataSourceFileReadSequenceFile extends DataSourceFile{
+
+    //path from DatasourceFile
+    public static final String KEY =
+    public static final String VALUE =
 }

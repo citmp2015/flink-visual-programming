@@ -26,7 +26,7 @@ public class BaseJobGraphTest {
 
   /**  public static final String COMPONENT_TYPE_JSON = "COMPONENT_TYPE";
     public static final String TRANSFORMATION_TYPE_JSON = "TRANSFORMATION_TYPE";
-    public static final String DATASOURCE_TYPE = "DATASOURCE_TYPE";
+    public static final String DATA_SOURCE_TYPE = "DATA_SOURCE_TYPE";
     public static final String DATASINK_TYPE = "DATASINK_TYPE";
     public static final String JOB_COMPONENT_IMPORTS_JSON = "JOB_COMPONENT_IMPORTS_JSON";
     public static final String COMPONENT_JOB_SOURCE_JSON = "COMPONENT_JOB_SOURCE_JSON";

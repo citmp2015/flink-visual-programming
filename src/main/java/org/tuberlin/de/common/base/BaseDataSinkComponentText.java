@@ -67,6 +67,6 @@ public class BaseDataSinkComponentText extends AbstractFileDataSinkComponent imp
     @Override
     public String getFilePath() {
         //TODO integrity checks
-        return (String) parameters.get(DataSourceFile.FILE_PATH_JSON);
+        return (String) parameters.get(DataSourceFile.FILE_PATH);
     }
 }

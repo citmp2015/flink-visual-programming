@@ -1,5 +1,6 @@
 package org.tuberlin.de.common.model.interfaces.datasources.file.read;
 
+import org.tuberlin.de.common.model.Constants;
 import org.tuberlin.de.common.model.interfaces.datasources.file.DataSourceFile;
 
 /**
@@ -9,5 +10,9 @@ import org.tuberlin.de.common.model.interfaces.datasources.file.DataSourceFile;
  *
  */
 public interface DataSourceFileReadFileOfPrimitives extends DataSourceFile{
+
+    //path from DatasourceFile
+
+    public static final String CLASS = Constants.DATA_SOURCE_FILE_READ_FILE_OF_PRIMITIVES_CLASS_NAME;
 
 }

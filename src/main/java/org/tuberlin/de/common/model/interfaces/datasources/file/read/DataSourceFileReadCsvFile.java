@@ -10,4 +10,10 @@ import org.tuberlin.de.common.model.interfaces.datasources.file.DataSourceFile;
  *
  */
 public interface DataSourceFileReadCsvFile extends DataSourceFile{
+
+    //path from DatasourceFile
+
 }
+
+
+
