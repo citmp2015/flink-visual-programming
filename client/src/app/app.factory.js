@@ -7,7 +7,7 @@
         .factory('graphFactory', GraphFactory);
 
     /*@ngInject*/
-    function GraphFactory(localStorageService) {
+    function GraphFactory(localStorageService, templateFactory) {
 
         var flink = {};
 
@@ -52,7 +52,8 @@
                         label: '=',
                         key: '='
                     },
-                    compareValue: 0
+                    compareValue: 0,
+					javaSourceCode: ''
                 }
             });
         };
@@ -64,9 +65,61 @@
         flink.renderMap = function(posX, posY, $state) {
             return fastCreate(posX, posY, 1, 1, 'Map');
         };
+		
+		flink.renderFlatMap = function(posX, posY, $state) {
+            return new flink.Atomic({
+                position: {
+                    x: posX,
+                    y: posY
+                },
+                size: {
+                    width: 140,
+                    height: 60
+                },
+                inPorts: ['IN0'],
+                outPorts: ['OUT0'],
+                attrs: {
+                    rect: {
+                        fill: 'green'
+                    },
+                    '.label': {
+                        text: 'FlatMap'
+                    }
+                },
+                data: {
+                    modalController: 'flatmapModalCtrl',
+                    modalTemplateUrl: '/app/flatmap/flatmap-modal.tpl.html',
+                    javaSourceCode: templateFactory.createFlatMapTemplate()
+                }
+            });
+        };
 
         flink.renderSum = function(posX, posY, $state) {
-            return fastCreate(posX, posY, 1, 1, 'Sum');
+            return new flink.Atomic({
+                position: {
+                    x: posX,
+                    y: posY
+                },
+                size: {
+                    width: 140,
+                    height: 60
+                },
+                inPorts: ['IN0'],
+                outPorts: ['OUT0'],
+                attrs: {
+                    rect: {
+                        fill: 'green'
+                    },
+                    '.label': {
+                        text: 'Sum'
+                    }
+                },
+                data: {
+                    modalController: 'sumModalCtrl',
+                    modalTemplateUrl: '/app/sum/sum-modal.tpl.html',
+                    inputIndex: 0
+                }
+            });
         };
 
         flink.renderJoin = function(posX, posY, $state) {
@@ -74,7 +127,31 @@
         };
 
         flink.renderGroup = function(posX, posY, $state) {
-            return fastCreate(posX, posY, 1, 1, 'Group');
+            return new flink.Atomic({
+                position: {
+                    x: posX,
+                    y: posY
+                },
+                size: {
+                    width: 140,
+                    height: 60
+                },
+                inPorts: ['IN0'],
+                outPorts: ['OUT0'],
+                attrs: {
+                    rect: {
+                        fill: 'green'
+                    },
+                    '.label': {
+                        text: 'Group'
+                    }
+                },
+                data: {
+                    modalController: 'groupModalCtrl',
+                    modalTemplateUrl: '/app/group/group-modal.tpl.html',
+                    inputIndex: 0
+                }
+            });
         };
 
         flink.renderReduce = function(posX, posY, $state) {
@@ -105,7 +182,8 @@
                     modalTemplateUrl: '/app/datasource/datasource-modal.tpl.html',
                     path: null,
                     countColumns: 2,
-                    columns: []
+                    columns: [],
+					javaSourceCode: ''
                 }
             });
         };

@@ -67,6 +67,14 @@
             },
             subItems: []
         }, {
+            label: 'FlatMap',
+            faIconClass: 'fa-edit',
+            open: false,
+			dragData: {
+                type: 'flatmap'
+            },
+            subItems: []
+        }, {
             label: 'Reduce',
             faIconClass: 'fa-edit',
             open: false,
