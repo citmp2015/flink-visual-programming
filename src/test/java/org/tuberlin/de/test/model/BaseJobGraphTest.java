@@ -17,9 +17,6 @@ import org.tuberlin.de.common.model.interfaces.transorfmation.GroupByComponent;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by oxid on 1/4/16.
- */
 public class BaseJobGraphTest {
 
 
@@ -61,6 +58,8 @@ public class BaseJobGraphTest {
 
         //Aggregate
         Map<String, Object> aggParameters = new HashMap<String, Object>();
+        aggParameters.put(AggregateComponent.FIELD_KEY, 1);
+        aggParameters.put(AggregateComponent.FUNCTION_KEY, AggregateComponent.FUNCTION_TYPES.SUM);
         AggregateComponent aggregateComponent = new BaseAggregateComponent(jobGraph, aggParameters);
 
         //DataSink
