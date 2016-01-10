@@ -29,16 +29,15 @@ public class Constants {
     /**
      * Transformation type (GroupBy, Flatmap ...) Enumeration in types
      */
-    public static final String TRANSFORMATION_TYPE_JSON = "TRANSFORMATION_TYPE";
-
+    public static final String TRANSFORMATION_TYPE = "TRANSFORMATION_TYPE";
 
 
     /**
      * DataSource type
      */
     public static final String DATA_SOURCE_TYPE = "DATA_SOURCE_TYPE";
-    // DataSourceFile
-    public static final String DATA_SOURCE_FILE_PATH = "FILE_PATH";
+    // DataSourceFile path
+    public static final String DATA_SOURCE_FILE_PATH = "DATA_SOURCE_FILE_PATH";
     // DataSourceFileReadFileOfPrimitives classname
     public static final String DATA_SOURCE_FILE_READ_FILE_OF_PRIMITIVES_CLASS_NAME = "PRIMITIVES_CLASS_NAME";
     // DataSourceFileReadFileOfPrimitives2 delimeter
@@ -80,25 +79,13 @@ public class Constants {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    /**
+     * DataSink
+     */
+    public static final String DATA_SINK_TYPE = "DATA_SINK_TYPE";
+    // DataSinkFile path
+    public static final String DATA_SINK_FILE_PATH = "DATA_SINK_FILE_PATH";
+    //
 
 
 
@@ -106,19 +93,6 @@ public class Constants {
 
     public static final String CSV_INCLUDE_FIELDS = "CSV_INCLUDE_FIELDS";
     public static final String CSV_FIELD_TYPES = "CSV_FIELD_TYPES";
-
-
-
-    /**
-     * DataSink
-     */
-    public static final String DATASINK_TYPE = "DATASINK_TYPE";
-
-
-
-
-
-
 
 
     /**

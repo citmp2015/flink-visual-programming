@@ -12,5 +12,5 @@ import org.tuberlin.de.common.model.interfaces.datasources.DataSource;
 public interface DataSourceGenericCreateInput extends DataSource{
 
     public static final String INPUT_FORMAT = Constants.DATA_SOURCE_GENERIC_CREATE_INPUT_FORMAT;
-    
+
 }

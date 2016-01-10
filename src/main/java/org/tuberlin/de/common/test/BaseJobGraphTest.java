@@ -7,11 +7,11 @@ import org.tuberlin.de.common.model.CodeGenerator;
 import org.tuberlin.de.common.model.Constants;
 import org.tuberlin.de.common.model.interfaces.CompilationUnitComponent;
 import org.tuberlin.de.common.model.interfaces.JobGraph;
-import org.tuberlin.de.common.model.interfaces.datasink.DataSinkComponent;
+import org.tuberlin.de.common.model.interfaces.datasink.DataSink;
 import org.tuberlin.de.common.model.interfaces.datasources.DataSource;
-import org.tuberlin.de.common.model.interfaces.transorfmation.AggregateComponent;
-import org.tuberlin.de.common.model.interfaces.transorfmation.FlatMapComponent;
-import org.tuberlin.de.common.model.interfaces.transorfmation.GroupByComponent;
+import org.tuberlin.de.common.model.interfaces.transorfmation.TransformationAggregate;
+import org.tuberlin.de.common.model.interfaces.transorfmation.TransformationFlatMap;
+import org.tuberlin.de.common.model.interfaces.transorfmation.TransformationGroupBy;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -25,9 +25,9 @@ public class BaseJobGraphTest {
 
 
   /**  public static final String COMPONENT_TYPE_JSON = "COMPONENT_TYPE";
-    public static final String TRANSFORMATION_TYPE_JSON = "TRANSFORMATION_TYPE";
+    public static final String TRANSFORMATION_TYPE = "TRANSFORMATION_TYPE";
     public static final String DATA_SOURCE_TYPE = "DATA_SOURCE_TYPE";
-    public static final String DATASINK_TYPE = "DATASINK_TYPE";
+    public static final String DATA_SINK_TYPE = "DATA_SINK_TYPE";
     public static final String JOB_COMPONENT_IMPORTS_JSON = "JOB_COMPONENT_IMPORTS_JSON";
     public static final String COMPONENT_JOB_SOURCE_JSON = "COMPONENT_JOB_SOURCE_JSON";
     public static final String COMPONENT_SOURCE_JSON = "COMPONENT_SOURCE_JSON";
@@ -55,19 +55,19 @@ public class BaseJobGraphTest {
 
         //FlatMap
         Map<String, Object> fMapPrarameters = new HashMap<String, Object>();
-        FlatMapComponent flatMapComponent = new BaseFlatMapComponent(jobGraph, fMapPrarameters);
+        TransformationFlatMap transformationFlatMapComponent = new BaseTransformationFlatMap(jobGraph, fMapPrarameters);
 
         //GroupBy
         Map<String, Object> gByParameters = new HashMap<String, Object>();
-        GroupByComponent groupByComponent = new BaseGroupByComponent(jobGraph, gByParameters);
+        TransformationGroupBy transformationGroupByComponent = new BaseGroupBy(jobGraph, gByParameters);
 
         //Aggregate
         Map<String, Object> aggParameters = new HashMap<String, Object>();
-        AggregateComponent aggregateComponent = new BaseAggregateComponent(jobGraph, aggParameters);
+        TransformationAggregate transformationAggregate = new BaseTransformationAggregate(jobGraph, aggParameters);
 
         //DataSink
         Map<String, Object> dSinkParameters = new HashMap<String, Object>();
-        DataSinkComponent dataSinkComponent = new BaseDataSinkComponentPrint(jobGraph, dSinkParameters);
+        DataSink dataSink = new BaseDataSinkPrint(jobGraph, dSinkParameters);
 
 
 
@@ -75,7 +75,7 @@ public class BaseJobGraphTest {
         jGraphParamters.put(Constants.JOB_COMPONENT_IMPORTS_JSON, "test.job.graph.import");
 
         //DataSourceParam
-        dSourceCompParameters.put(Constants.JOB_COMPONENT_CHILDREN, flatMapComponent);
+        dSourceCompParameters.put(Constants.JOB_COMPONENT_CHILDREN, transformationFlatMapComponent);
         dSourceCompParameters.put(Constants.JOB_COMPONENT_PARENT, null);
         dSourceCompParameters.put(Constants.JOB_COMPONENT_INPUT_TYPE, null);
         dSourceCompParameters.put(Constants.JOB_COMPONENT_OUTPUT_TYPE, "DataSet<String>");
@@ -83,7 +83,7 @@ public class BaseJobGraphTest {
         //TODO COMPONENT_JOB_SOURCE_JSON
 
         //FlatMapParam
-        fMapPrarameters.put(Constants.JOB_COMPONENT_CHILDREN, groupByComponent);
+        fMapPrarameters.put(Constants.JOB_COMPONENT_CHILDREN, transformationGroupByComponent);
         fMapPrarameters.put(Constants.JOB_COMPONENT_PARENT, dataSourceComponent);
         fMapPrarameters.put(CompilationUnitComponent.PACKAGE_NAME_KEY, "test.compilation.unit.package");
         fMapPrarameters.put(CompilationUnitComponent.FUNCTION_NAME_KEY, "LineSplitter");
@@ -108,8 +108,8 @@ public class BaseJobGraphTest {
 
         //GroupByParam
         //TODO add field to GoupByComponent interface
-        gByParameters.put(Constants.JOB_COMPONENT_CHILDREN, aggregateComponent);
-        gByParameters.put(Constants.JOB_COMPONENT_PARENT, flatMapComponent);
+        gByParameters.put(Constants.JOB_COMPONENT_CHILDREN, transformationAggregate);
+        gByParameters.put(Constants.JOB_COMPONENT_PARENT, transformationFlatMapComponent);
         gByParameters.put(Constants.JOB_COMPONENT_INPUT_TYPE, fMapPrarameters.get(Constants.JOB_COMPONENT_OUTPUT_TYPE));
         gByParameters.put(Constants.JOB_COMPONENT_OUTPUT_TYPE, "Tuple2<String, Integer>");
         gByParameters.put(Constants.JOB_COMPOENT_KEY, "groupByKey");
@@ -117,8 +117,8 @@ public class BaseJobGraphTest {
 
         //AggregateParam
         //TODO sum und 1
-        aggParameters.put(Constants.JOB_COMPONENT_CHILDREN, dataSinkComponent);
-        aggParameters.put(Constants.JOB_COMPONENT_PARENT, groupByComponent);
+        aggParameters.put(Constants.JOB_COMPONENT_CHILDREN, dataSink);
+        aggParameters.put(Constants.JOB_COMPONENT_PARENT, transformationGroupByComponent);
         aggParameters.put(Constants.JOB_COMPONENT_INPUT_TYPE, gByParameters.get(Constants.JOB_COMPONENT_OUTPUT_TYPE));
         aggParameters.put(Constants.JOB_COMPONENT_OUTPUT_TYPE, "Tuple2<String, Integer>");
         aggParameters.put(Constants.JOB_COMPOENT_KEY, "aggrKey");
@@ -126,7 +126,7 @@ public class BaseJobGraphTest {
 
         //DatSinkPara
         dSinkParameters.put(Constants.JOB_COMPONENT_CHILDREN, null);
-        dSinkParameters.put(Constants.JOB_COMPONENT_PARENT, aggregateComponent);
+        dSinkParameters.put(Constants.JOB_COMPONENT_PARENT, transformationAggregate);
         dSinkParameters.put(Constants.JOB_COMPONENT_INPUT_TYPE, aggParameters.get(Constants.JOB_COMPONENT_OUTPUT_TYPE));
         dSinkParameters.put(Constants.JOB_COMPONENT_OUTPUT_TYPE, null);
         dSinkParameters.put(Constants.JOB_COMPOENT_KEY, "dataSinkKey");
@@ -135,10 +135,10 @@ public class BaseJobGraphTest {
 
 
         jobGraph.addComponent(dataSourceComponent);
-        jobGraph.addComponent(flatMapComponent);
-        jobGraph.addComponent(groupByComponent);
-        jobGraph.addComponent(aggregateComponent);
-        jobGraph.addComponent(dataSinkComponent);
+        jobGraph.addComponent(transformationFlatMapComponent);
+        jobGraph.addComponent(transformationGroupByComponent);
+        jobGraph.addComponent(transformationAggregate);
+        jobGraph.addComponent(dataSink);
 
 
 

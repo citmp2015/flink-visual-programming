@@ -1,7 +1,7 @@
 package org.tuberlin.de.common.model.interfaces;
 
 import org.tuberlin.de.common.model.interfaces.datasources.DataSource;
-import org.tuberlin.de.common.model.interfaces.transorfmation.TransformationComponent;
+import org.tuberlin.de.common.model.interfaces.transorfmation.Transformation;
 
 import java.util.Collection;
 import java.util.Map;
@@ -120,7 +120,7 @@ public interface JobGraph{
 
     public String getPackageName();
 
-    public Collection<TransformationComponent> getTransformations();
+    public Collection<Transformation> getTransformations();
 
     public Collection<String> getImports();
 

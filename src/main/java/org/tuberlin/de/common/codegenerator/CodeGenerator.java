@@ -3,9 +3,9 @@ package org.tuberlin.de.common.codegenerator;
 import org.omg.CORBA.portable.OutputStream;
 import org.tuberlin.de.common.model.interfaces.JobComponent;
 import org.tuberlin.de.common.model.interfaces.JobGraph;
-import org.tuberlin.de.common.model.interfaces.datasink.DataSinkComponent;
+import org.tuberlin.de.common.model.interfaces.datasink.DataSink;
 import org.tuberlin.de.common.model.interfaces.datasources.DataSource;
-import org.tuberlin.de.common.model.interfaces.transorfmation.TransformationComponent;
+import org.tuberlin.de.common.model.interfaces.transorfmation.Transformation;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -68,7 +68,7 @@ public class CodeGenerator {
     private static String printTransformations(JobGraph jobGraph) {
         //TODO find solution to delay generation of transformations with
         // multiple input datasets (e.g. combine) untill all parants have been generated
-        Collection<TransformationComponent> components = jobGraph.getTransformations();
+        Collection<Transformation> components = jobGraph.getTransformations();
         if(components == null || components.isEmpty()) throw new IllegalArgumentException(); //TODO
         String result = "";
         for (DataSource c : jobGraph.getDataSources()){
@@ -93,7 +93,7 @@ public class CodeGenerator {
         String result = "";
         //TODO: think about concurrency, etc in collections/maps --> escallate through all classes
         for (JobComponent c : jobGraph.getComponents()){
-            if(!(c instanceof DataSinkComponent)){
+            if(!(c instanceof DataSink)){
                 result += c.getInputType() + " " + c.getComponentKey() + ";\n";
             }
         }

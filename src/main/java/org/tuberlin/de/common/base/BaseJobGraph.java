@@ -3,7 +3,7 @@ package org.tuberlin.de.common.base;
 import org.tuberlin.de.common.model.interfaces.JobComponent;
 import org.tuberlin.de.common.model.interfaces.JobGraph;
 import org.tuberlin.de.common.model.interfaces.datasources.DataSource;
-import org.tuberlin.de.common.model.interfaces.transorfmation.TransformationComponent;
+import org.tuberlin.de.common.model.interfaces.transorfmation.Transformation;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -133,7 +133,7 @@ public class BaseJobGraph implements JobGraph {
     }
 
     @Override
-    public Collection<TransformationComponent> getTransformations() {
+    public Collection<Transformation> getTransformations() {
         return null;
     }
 
