@@ -1,0 +1,17 @@
+<div class="modal-header">
+    <h3 class="modal-title">Text Datasource</h3>
+</div>
+<div class="modal-body">
+
+    <form>
+        <div class="form-group">
+            <label for="datasourcePath">Path</label>
+            <input type="text" class="form-control" id="datasourcePath" placeholder="hdfs://data/example.txt" ng-model="datasource.path">
+        </div>
+    </form>
+
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" type="button" ng-click="save()">Save</button>
+    <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+</div>

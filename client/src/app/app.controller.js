@@ -48,6 +48,8 @@
                 $scope.graph.addCells([graphFactory.renderNumberFilter(posX, posY, $state)]);
             } else if (data.type === 'csvDatasource') {
                 $scope.graph.addCells([graphFactory.renderCsvDatasource(posX, posY, $state)]);
+            } else if (data.type === 'textDatasource') {
+                $scope.graph.addCells([graphFactory.renderTextDatasource(posX, posY, $state)]);
             } else if (data.type === 'map') {
                 $scope.graph.addCells([graphFactory.renderMap(posX, posY, $state)]);
             } else if (data.type === 'flatmap') {
