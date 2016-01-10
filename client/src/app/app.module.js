@@ -14,7 +14,10 @@
 
         'app.menu',
         'app.datasource',
-        'app.filter'
+        'app.filter',
+		'app.group',
+		'app.sum',
+		'app.flatmap'
 
     ]);
 
