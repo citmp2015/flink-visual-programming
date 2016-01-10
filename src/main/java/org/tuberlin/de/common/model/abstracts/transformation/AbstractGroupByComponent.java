@@ -10,9 +10,18 @@ import java.util.Map;
  * Created by oxid on 1/4/16.
  */
 public abstract class AbstractGroupByComponent implements GroupByComponent{
+
+    // TODO Only copied from AbstractJobComponent to make test not fail
+    protected Map<String, Object> parameters;
+    protected boolean initialized = false;
+    protected JobGraph jobGraph;
+
     @Override
     public void init(JobGraph jobGraph, Map<String, Object> parameters) throws IllegalArgumentException {
-
+        if(parameters == null || jobGraph == null) throw new IllegalArgumentException("Arguments must not be null!");
+        this.parameters = parameters;
+        this.initialized = true;
+        this.jobGraph = jobGraph;
     }
 
     @Override
@@ -27,7 +36,7 @@ public abstract class AbstractGroupByComponent implements GroupByComponent{
 
     @Override
     public boolean verify() throws IllegalStateException {
-        return false;
+        return this.initialized;
     }
 
     @Override
