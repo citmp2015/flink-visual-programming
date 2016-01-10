@@ -178,7 +178,7 @@
                     }
                 },
                 data: {
-                    modalController: 'DatasourceModalCtrl',
+                    modalController: 'CSVDatasourceModalCtrl',
                     modalTemplateUrl: '/app/datasource/csv-datasource-modal.tpl.html',
                     path: null,
                     countColumns: 2,

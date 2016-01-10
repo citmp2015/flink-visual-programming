@@ -4,10 +4,10 @@
 
     angular
         .module('app.datasource')
-        .controller('DatasourceModalCtrl', DatasourceModalCtrl);
+        .controller('CSVDatasourceModalCtrl', CSVDatasourceModalCtrl);
 
     /*@ngInject*/
-    function DatasourceModalCtrl($scope, $rootScope, $uibModalInstance, $stateParams, $timeout, graphFactory, templateFactory, $log) {
+    function CSVDatasourceModalCtrl($scope, $rootScope, $uibModalInstance, $stateParams, $timeout, graphFactory, templateFactory, $log) {
 
         var cell = $rootScope.graph.getCell($stateParams.id);
 
