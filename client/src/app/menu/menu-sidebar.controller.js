@@ -18,6 +18,11 @@
                 dragData: {
                     type: 'csvDatasource'
                 }
+            }, {
+                label: 'Text Datasource',
+                dragData: {
+                    type: 'textDatasource'
+                }
             }]
         }, {
             label: 'Join',
@@ -46,7 +51,7 @@
             label: 'Sum',
             faIconClass: 'fa-plus',
             open: false,
-			dragData: {
+            dragData: {
                 type: 'sum'
             },
             subItems: []
@@ -54,7 +59,7 @@
             label: 'Group',
             faIconClass: 'fa-list',
             open: false,
-			dragData: {
+            dragData: {
                 type: 'group'
             },
             subItems: []
@@ -62,7 +67,7 @@
             label: 'Map',
             faIconClass: 'fa-edit',
             open: false,
-			dragData: {
+            dragData: {
                 type: 'map'
             },
             subItems: []
@@ -70,7 +75,7 @@
             label: 'FlatMap',
             faIconClass: 'fa-edit',
             open: false,
-			dragData: {
+            dragData: {
                 type: 'flatmap'
             },
             subItems: []

@@ -53,7 +53,7 @@
                         key: '='
                     },
                     compareValue: 0,
-					javaSourceCode: ''
+                    javaSourceCode: ''
                 }
             });
         };
@@ -65,8 +65,8 @@
         flink.renderMap = function(posX, posY, $state) {
             return fastCreate(posX, posY, 1, 1, 'Map');
         };
-		
-		flink.renderFlatMap = function(posX, posY, $state) {
+
+        flink.renderFlatMap = function(posX, posY, $state) {
             return new flink.Atomic({
                 position: {
                     x: posX,
@@ -183,7 +183,35 @@
                     path: null,
                     countColumns: 2,
                     columns: [],
-					javaSourceCode: ''
+                    javaSourceCode: ''
+                }
+            });
+        };
+
+        flink.renderTextDatasource = function(posX, posY, $state) {
+            return new flink.Atomic({
+                position: {
+                    x: posX,
+                    y: posY
+                },
+                size: {
+                    width: 140,
+                    height: 60
+                },
+                outPorts: ['OUT0'],
+                attrs: {
+                    rect: {
+                        fill: 'green'
+                    },
+                    '.label': {
+                        text: 'Text Datasource'
+                    }
+                },
+                data: {
+                    modalController: 'TextDatasourceModalCtrl',
+                    modalTemplateUrl: '/app/datasource/text-datasource-modal.tpl.html',
+                    path: null,
+                    javaSourceCode: ''
                 }
             });
         };
