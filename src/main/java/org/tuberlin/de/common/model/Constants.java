@@ -10,10 +10,37 @@ public class Constants {
      * TYPE IDENTIFIER
      */
 
-    public static final String TYPE_DATA_SOURCE_FILE_READ_TEXT_FILE =  "READ_TEXT_FILE";
+    public static final String TYPE_DATA_SOURCE_FILE_READ_CSV_FILE = "READ_CSV_FILE";
+    public static final String TYPE_DATA_SOURCE_FILE_READ_FILE_OF_PRIMITIVES = "READ_FILE_OF_PRIMITIVES";
+    public static final String TYPE_DATA_SOURCE_FILE_READ_FILE_OF_PRIMITIVES_2 = "READ_FILE_OF_PRIMITIVES_2";
+    public static final String TYPE_DATA_SOURCE_FILE_READ_HADOOP_FILE = "READ_HADOOP_FILE";
+    public static final String TYPE_DATA_SOURCE_FILE_READ_SEQUENCE_FILE = "READ_SEQUENCE_FILE";
+    public static final String TYPE_DATA_SOURCE_FILE_READ_TEXT_FILE = "READ_TEXT_FILE";
+    public static final String TYPE_DATA_SOURCE_FILE_READ_TEXT_FILE_WITH_VALUE = "READ_TEXT_FILE_WITH_VALUE";
+
+
+    public static final String TYPE_TRANSFORMATION_AGGREGATE = "AGGREGATE";
+    public static final String TYPE_TRANSFORMATION_CO_GROUP = "CO_GROUP";
+    public static final String TYPE_TRANSFORMATION_COMBINE = "COMBINE";
+    public static final String TYPE_TRANSFORMATION_CROSS = "CROSS";
+    public static final String TYPE_TRANSFORMATION_CUSTOM_PARTITIONING = "CUSTOM_PARTITIONING";
+    public static final String TYPE_TRANSFORMATION_DISTINCT = "DISTINCT";
+    public static final String TYPE_TRANSFORMATION_FILTER = "FILTER";
+    public static final String TYPE_TRANSFORMATION_FIRST_N = "FIRST_N";
     public static final String TYPE_TRANSFORMATION_FLAT_MAP = "FLAT_MAP";
     public static final String TYPE_TRANSFORMATION_GROUP_BY = "GROUP_BY";
-    public static final String TYPE_TRANSFORMATION_AGGREGATE = "AGGREGATE";
+    public static final String TYPE_TRANSFORMATION_HASH_PARTITION = "HASH_PARTITION";
+    public static final String TYPE_TRANSFORMATION_JOIN = "JOIN";
+    public static final String TYPE_TRANSFORMATION_MAP = "MAP";
+    public static final String TYPE_TRANSFORMATION_MAP_PARTITION = "MAP_PARTITION";
+    public static final String TYPE_TRANSFORMATION_OUTER_JOIN = "OUTER_JOIN";
+    public static final String TYPE_TRANSFORMATION_REBALANCE = "REBALANCE";
+    public static final String TYPE_TRANSFORMATION_REDUCE = "REDUCE";
+    public static final String TYPE_TRANSFORMATION_REDUCE_GROUP = "REDUCE_GROUP";
+    public static final String TYPE_TRANSFORMATION_SORT_PARTITION = "SORT_PARTITION";
+    public static final String TYPE_TRANSFORMATION_UNION = "UNION";
+
+
     public static final String TYPE_DATA_SINK_PRINT = "PRINT";
 
 
