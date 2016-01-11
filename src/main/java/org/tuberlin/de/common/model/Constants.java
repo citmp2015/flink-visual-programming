@@ -7,6 +7,17 @@ public class Constants {
 
 
     /**
+     * TYPE IDENTIFIER
+     */
+
+    public static final String TYPE_DATA_SOURCE_FILE_READ_TEXT_FILE =  "READ_TEXT_FILE";
+    public static final String TYPE_TRANSFORMATION_FLAT_MAP = "FLAT_MAP";
+    public static final String TYPE_TRANSFORMATION_GROUP_BY = "GROUP_BY";
+    public static final String TYPE_TRANSFORMATION_AGGREGATE = "AGGREGATE";
+    public static final String TYPE_DATA_SINK_PRINT = "PRINT";
+
+
+    /**
      * JobComponent
      */
     //component successor null if it doesnt exist
@@ -105,6 +116,7 @@ public class Constants {
   //  public static final String COMPONENT_JOB_SOURCE_JSON = "COMPONENT_JOB_SOURCE_JSON";
 
     public static final String COMPONENT_PATH_JSON = "COMPONENT_CLASS_JSON";
+
 //    public static final String
 //    public static final String
 //    public static final String

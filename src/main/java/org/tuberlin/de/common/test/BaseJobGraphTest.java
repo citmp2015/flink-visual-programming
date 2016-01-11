@@ -9,6 +9,8 @@ import org.tuberlin.de.common.model.interfaces.CompilationUnitComponent;
 import org.tuberlin.de.common.model.interfaces.JobGraph;
 import org.tuberlin.de.common.model.interfaces.datasink.DataSink;
 import org.tuberlin.de.common.model.interfaces.datasources.DataSource;
+import org.tuberlin.de.common.model.interfaces.datasources.file.read.DataSourceFileReadTextFile;
+import org.tuberlin.de.common.model.interfaces.transorfmation.Transformation;
 import org.tuberlin.de.common.model.interfaces.transorfmation.TransformationAggregate;
 import org.tuberlin.de.common.model.interfaces.transorfmation.TransformationFlatMap;
 import org.tuberlin.de.common.model.interfaces.transorfmation.TransformationGroupBy;
@@ -52,22 +54,28 @@ public class BaseJobGraphTest {
         //DataSource
         Map<String, Object> dSourceCompParameters = new HashMap<String, Object>();
         DataSource dataSourceComponent = new BaseDataSourceComponentText(jobGraph,  dSourceCompParameters);
+        String componentKeyDataSourceTest = "dataSourceTest";
 
         //FlatMap
         Map<String, Object> fMapPrarameters = new HashMap<String, Object>();
         TransformationFlatMap transformationFlatMapComponent = new BaseTransformationFlatMap(jobGraph, fMapPrarameters);
+        String componentKeyFlatMapTest = "flatMapTest";
+
 
         //GroupBy
         Map<String, Object> gByParameters = new HashMap<String, Object>();
         TransformationGroupBy transformationGroupByComponent = new BaseGroupBy(jobGraph, gByParameters);
+        String componentKeyGroupBy = "groupByTest";
 
         //Aggregate
         Map<String, Object> aggParameters = new HashMap<String, Object>();
         TransformationAggregate transformationAggregate = new BaseTransformationAggregate(jobGraph, aggParameters);
+        String componentKeyAggregate = "aggregateTest";
 
         //DataSink
         Map<String, Object> dSinkParameters = new HashMap<String, Object>();
         DataSink dataSink = new BaseDataSinkPrint(jobGraph, dSinkParameters);
+        String componentKeyDataSink = "dataSinkTest";
 
 
 
@@ -75,7 +83,7 @@ public class BaseJobGraphTest {
         jGraphParamters.put(Constants.JOB_COMPONENT_IMPORTS_JSON, "test.job.graph.import");
 
         //DataSourceParam
-        dSourceCompParameters.put(Constants.JOB_COMPONENT_CHILDREN, transformationFlatMapComponent);
+        dSourceCompParameters.put(Constants.JOB_COMPONENT_CHILDREN, componentKeyFlatMapTest);
         dSourceCompParameters.put(Constants.JOB_COMPONENT_PARENT, null);
         dSourceCompParameters.put(Constants.JOB_COMPONENT_INPUT_TYPE, null);
         dSourceCompParameters.put(Constants.JOB_COMPONENT_OUTPUT_TYPE, "DataSet<String>");
@@ -83,8 +91,8 @@ public class BaseJobGraphTest {
         //TODO COMPONENT_JOB_SOURCE_JSON
 
         //FlatMapParam
-        fMapPrarameters.put(Constants.JOB_COMPONENT_CHILDREN, transformationGroupByComponent);
-        fMapPrarameters.put(Constants.JOB_COMPONENT_PARENT, dataSourceComponent);
+        fMapPrarameters.put(Constants.JOB_COMPONENT_CHILDREN, componentKeyGroupBy);
+        fMapPrarameters.put(Constants.JOB_COMPONENT_PARENT, componentKeyDataSourceTest);
         fMapPrarameters.put(CompilationUnitComponent.PACKAGE_NAME_KEY, "test.compilation.unit.package");
         fMapPrarameters.put(CompilationUnitComponent.FUNCTION_NAME_KEY, "LineSplitter");
         fMapPrarameters.put(CompilationUnitComponent.COMPONENT_SOURCE_JSON,    "public class LineSplitter implements FlatMapFunction<String, Tuple2<String, Integer>> {\n" +
@@ -108,8 +116,8 @@ public class BaseJobGraphTest {
 
         //GroupByParam
         //TODO add field to GoupByComponent interface
-        gByParameters.put(Constants.JOB_COMPONENT_CHILDREN, transformationAggregate);
-        gByParameters.put(Constants.JOB_COMPONENT_PARENT, transformationFlatMapComponent);
+        gByParameters.put(Constants.JOB_COMPONENT_CHILDREN, componentKeyAggregate);
+        gByParameters.put(Constants.JOB_COMPONENT_PARENT, componentKeyFlatMapTest);
         gByParameters.put(Constants.JOB_COMPONENT_INPUT_TYPE, fMapPrarameters.get(Constants.JOB_COMPONENT_OUTPUT_TYPE));
         gByParameters.put(Constants.JOB_COMPONENT_OUTPUT_TYPE, "Tuple2<String, Integer>");
         gByParameters.put(Constants.JOB_COMPOENT_KEY, "groupByKey");
@@ -117,8 +125,8 @@ public class BaseJobGraphTest {
 
         //AggregateParam
         //TODO sum und 1
-        aggParameters.put(Constants.JOB_COMPONENT_CHILDREN, dataSink);
-        aggParameters.put(Constants.JOB_COMPONENT_PARENT, transformationGroupByComponent);
+        aggParameters.put(Constants.JOB_COMPONENT_CHILDREN, componentKeyDataSink);
+        aggParameters.put(Constants.JOB_COMPONENT_PARENT, componentKeyAggregate);
         aggParameters.put(Constants.JOB_COMPONENT_INPUT_TYPE, gByParameters.get(Constants.JOB_COMPONENT_OUTPUT_TYPE));
         aggParameters.put(Constants.JOB_COMPONENT_OUTPUT_TYPE, "Tuple2<String, Integer>");
         aggParameters.put(Constants.JOB_COMPOENT_KEY, "aggrKey");

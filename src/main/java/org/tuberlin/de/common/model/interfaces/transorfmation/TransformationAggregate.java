@@ -1,5 +1,7 @@
 package org.tuberlin.de.common.model.interfaces.transorfmation;
 
+import org.tuberlin.de.common.model.Constants;
+
 /**
  * Created by Malcolm-X on 09.12.2015.
  *
@@ -14,6 +16,8 @@ package org.tuberlin.de.common.model.interfaces.transorfmation;
  *
  */
 public interface TransformationAggregate extends Transformation {
+
+    public static final String TYPE = Constants.TYPE_TRANSFORMATION_AGGREGATE;
 
     String FUNCTION_KEY = "aggregate_function";
     String FIELD_KEY = "aggregate_field";

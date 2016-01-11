@@ -1,5 +1,6 @@
 package org.tuberlin.de.common.model.interfaces.datasink.print;
 
+import org.tuberlin.de.common.model.Constants;
 import org.tuberlin.de.common.model.interfaces.datasink.DataSink;
 
 /**
@@ -16,5 +17,7 @@ import org.tuberlin.de.common.model.interfaces.datasink.DataSink;
  *
  */
 public interface DataSinkPrint extends DataSink{
+
+    public static final String TYPE = Constants.TYPE_DATA_SINK_PRINT;
 
 }

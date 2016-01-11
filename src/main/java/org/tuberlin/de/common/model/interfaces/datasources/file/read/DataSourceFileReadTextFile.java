@@ -1,5 +1,6 @@
 package org.tuberlin.de.common.model.interfaces.datasources.file.read;
 
+import org.tuberlin.de.common.model.Constants;
 import org.tuberlin.de.common.model.interfaces.datasources.file.DataSourceFile;
 
 /**
@@ -9,5 +10,7 @@ import org.tuberlin.de.common.model.interfaces.datasources.file.DataSourceFile;
  *
  */
 public interface DataSourceFileReadTextFile extends DataSourceFile{
+
+    public static final String TYPE = Constants.TYPE_DATA_SOURCE_FILE_READ_TEXT_FILE;
 
 }
