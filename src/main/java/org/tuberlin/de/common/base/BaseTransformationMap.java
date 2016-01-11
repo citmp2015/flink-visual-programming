@@ -16,14 +16,6 @@ public class BaseTransformationMap extends AbstractTransformationMap implements 
     @Override
     public String getJobSource() throws IllegalStateException {return null;}
     @Override
-    public Collection<String> getParents() throws IllegalStateException {return null;}
-    @Override
-    public Collection<String> getChildren() throws IllegalStateException {return null;}
-    @Override
-    public String getComponentKey() {
-        return null;
-    }
-    @Override
     public String getInputType() {
         return null;
     }

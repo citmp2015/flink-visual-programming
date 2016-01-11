@@ -27,7 +27,7 @@ public class CodeGenerator {
     private static String generateStatic(JobGraph graph) throws IllegalArgumentException {
         if (graph == null || !graph.verify())
             throw new IllegalArgumentException("JobGraph must not be null and the verify()-method needs to return true " +
-                    "(graph is not empty, complete, executable and valid");
+                    "(graph is not empty, complete, executable and valid)");
         String result = null;
         List<JobComponent> dataSources = new ArrayList<JobComponent>();
         List<JobComponent> dataSinks = new ArrayList<JobComponent>();

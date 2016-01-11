@@ -47,39 +47,19 @@ public class BaseJobGraphTest {
     @Before
     public void setUp() throws Exception {
 
-        //JobGraph
         Map<String, Object> jGraphParamters = new HashMap<String, Object>();
-        jobGraph = new BaseJobGraph("testkey", "testname", "testpackage", jGraphParamters);
-
-        //DataSource
         Map<String, Object> dSourceCompParameters = new HashMap<String, Object>();
-        DataSource dataSourceComponent = new BaseDataSourceComponentText(jobGraph,  dSourceCompParameters);
-        String componentKeyDataSourceTest = "dataSourceTest";
-
-        //FlatMap
         Map<String, Object> fMapPrarameters = new HashMap<String, Object>();
-        TransformationFlatMap transformationFlatMapComponent = new BaseTransformationFlatMap(jobGraph, fMapPrarameters);
-        String componentKeyFlatMapTest = "flatMapTest";
-
-
-        //GroupBy
         Map<String, Object> gByParameters = new HashMap<String, Object>();
-        TransformationGroupBy transformationGroupByComponent = new BaseGroupBy(jobGraph, gByParameters);
-        String componentKeyGroupBy = "groupByTest";
-
-        //Aggregate
         Map<String, Object> aggParameters = new HashMap<String, Object>();
-        TransformationAggregate transformationAggregate = new BaseTransformationAggregate(jobGraph, aggParameters);
-        String componentKeyAggregate = "aggregateTest";
-
-        //DataSink
         Map<String, Object> dSinkParameters = new HashMap<String, Object>();
-        DataSink dataSink = new BaseDataSinkPrint(jobGraph, dSinkParameters);
+        String componentKeyDataSourceTest = "dataSourceTest";
+        String componentKeyFlatMapTest = "flatMapTest";
+        String componentKeyGroupBy = "groupByTest";
+        String componentKeyAggregate = "aggregateTest";
         String componentKeyDataSink = "dataSinkTest";
 
 
-
-        //JobGraphParam
         jGraphParamters.put(Constants.JOB_COMPONENT_IMPORTS_JSON, "test.job.graph.import");
 
         //DataSourceParam
@@ -87,7 +67,7 @@ public class BaseJobGraphTest {
         dSourceCompParameters.put(Constants.JOB_COMPONENT_PARENT, null);
         dSourceCompParameters.put(Constants.JOB_COMPONENT_INPUT_TYPE, null);
         dSourceCompParameters.put(Constants.JOB_COMPONENT_OUTPUT_TYPE, "DataSet<String>");
-        dSourceCompParameters.put(Constants.JOB_COMPOENT_KEY, "dataSourceKey");
+        dSourceCompParameters.put(Constants.JOB_COMPOENT_KEY, componentKeyDataSourceTest);
         //TODO COMPONENT_JOB_SOURCE_JSON
 
         //FlatMapParam
@@ -96,21 +76,21 @@ public class BaseJobGraphTest {
         fMapPrarameters.put(CompilationUnitComponent.PACKAGE_NAME_KEY, "test.compilation.unit.package");
         fMapPrarameters.put(CompilationUnitComponent.FUNCTION_NAME_KEY, "LineSplitter");
         fMapPrarameters.put(CompilationUnitComponent.COMPONENT_SOURCE_JSON,    "public class LineSplitter implements FlatMapFunction<String, Tuple2<String, Integer>> {\n" +
-                                                                        "@Override+\n" +
-                                                                        "public void flatMap(String value, Collector<Tuple2<String, Integer>> out) {+\n" +
-                                                                            "// normalize and split the line into words+\n" +
-                                                                            "String[] tokens = value.toLowerCase().split(\"\\\\W+\");\n" +
-                                                                            "// emit the pairs\n" +
-                                                                            "for (String token : tokens) {\n" +
-                                                                                "if (token.length() > 0) {\n" +
-                                                                                    "out.collect(new Tuple2<String, Integer>(token, 1));\n" +
-                                                                                "}\n" +
-                                                                            "}\n" +
-                                                                        "}\n" +
-                                                                    "}");
+                "@Override+\n" +
+                "public void flatMap(String value, Collector<Tuple2<String, Integer>> out) {+\n" +
+                "// normalize and split the line into words+\n" +
+                "String[] tokens = value.toLowerCase().split(\"\\\\W+\");\n" +
+                "// emit the pairs\n" +
+                "for (String token : tokens) {\n" +
+                "if (token.length() > 0) {\n" +
+                "out.collect(new Tuple2<String, Integer>(token, 1));\n" +
+                "}\n" +
+                "}\n" +
+                "}\n" +
+                "}");
         fMapPrarameters.put(Constants.JOB_COMPONENT_INPUT_TYPE, dSourceCompParameters.get(Constants.JOB_COMPONENT_OUTPUT_TYPE));
         fMapPrarameters.put(Constants.JOB_COMPONENT_OUTPUT_TYPE, "Tuple2<String, Integer>");
-        fMapPrarameters.put(Constants.JOB_COMPOENT_KEY, "flatmapKey");
+        fMapPrarameters.put(Constants.JOB_COMPOENT_KEY, componentKeyFlatMapTest);
         //TODO COMPONENT_JOB_SOURCE_JSON
 
 
@@ -120,7 +100,7 @@ public class BaseJobGraphTest {
         gByParameters.put(Constants.JOB_COMPONENT_PARENT, componentKeyFlatMapTest);
         gByParameters.put(Constants.JOB_COMPONENT_INPUT_TYPE, fMapPrarameters.get(Constants.JOB_COMPONENT_OUTPUT_TYPE));
         gByParameters.put(Constants.JOB_COMPONENT_OUTPUT_TYPE, "Tuple2<String, Integer>");
-        gByParameters.put(Constants.JOB_COMPOENT_KEY, "groupByKey");
+        gByParameters.put(Constants.JOB_COMPOENT_KEY, componentKeyGroupBy);
         //TODO COMPONENT_JOB_SOURCE_JSON
 
         //AggregateParam
@@ -129,15 +109,40 @@ public class BaseJobGraphTest {
         aggParameters.put(Constants.JOB_COMPONENT_PARENT, componentKeyAggregate);
         aggParameters.put(Constants.JOB_COMPONENT_INPUT_TYPE, gByParameters.get(Constants.JOB_COMPONENT_OUTPUT_TYPE));
         aggParameters.put(Constants.JOB_COMPONENT_OUTPUT_TYPE, "Tuple2<String, Integer>");
-        aggParameters.put(Constants.JOB_COMPOENT_KEY, "aggrKey");
+        aggParameters.put(Constants.JOB_COMPOENT_KEY, componentKeyAggregate);
         //TODO COMPONENT_JOB_SOURCE_JSON
 
         //DatSinkPara
         dSinkParameters.put(Constants.JOB_COMPONENT_CHILDREN, null);
-        dSinkParameters.put(Constants.JOB_COMPONENT_PARENT, transformationAggregate);
+        dSinkParameters.put(Constants.JOB_COMPONENT_PARENT, componentKeyAggregate);
         dSinkParameters.put(Constants.JOB_COMPONENT_INPUT_TYPE, aggParameters.get(Constants.JOB_COMPONENT_OUTPUT_TYPE));
         dSinkParameters.put(Constants.JOB_COMPONENT_OUTPUT_TYPE, null);
-        dSinkParameters.put(Constants.JOB_COMPOENT_KEY, "dataSinkKey");
+        dSinkParameters.put(Constants.JOB_COMPOENT_KEY, componentKeyDataSink);
+
+
+        //JobGraph
+        jobGraph = new BaseJobGraph("testkey", "testname", "testpackage", jGraphParamters);
+
+        //DataSource
+        DataSource dataSourceComponent = new BaseDataSourceComponentText(jobGraph,  dSourceCompParameters);
+
+        //FlatMap
+        TransformationFlatMap transformationFlatMapComponent = new BaseTransformationFlatMap(jobGraph, fMapPrarameters);
+
+
+        //GroupBy
+        TransformationGroupBy transformationGroupByComponent = new BaseGroupBy(jobGraph, gByParameters);
+
+        //Aggregate
+        TransformationAggregate transformationAggregate = new BaseTransformationAggregate(jobGraph, aggParameters);
+
+        //DataSink
+        DataSink dataSink = new BaseDataSinkPrint(jobGraph, dSinkParameters);
+
+
+
+        //JobGraphParam
+
         //TODO COMPONENT_JOB_SOURCE_JSON
 
 
@@ -155,8 +160,8 @@ public class BaseJobGraphTest {
     @Test
     public void testGetJobSource() throws Exception {
         CodeGenerator baseCodeGenerator = new CodeGenerator();
-        baseCodeGenerator.generateCode(jobGraph);
+//        baseCodeGenerator.generateCode(jobGraph);
 
-        System.out.println();
+        System.out.println(org.tuberlin.de.common.codegenerator.CodeGenerator.generateCode(jobGraph));
     }
 }

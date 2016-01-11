@@ -154,7 +154,11 @@ public class BaseJobGraph implements JobGraph {
     public Collection<String> getImports() {
         //TODO integrity
         Collection<String> imports = new HashSet<String>();
-        for(JobComponent jc : componentMap.values()) imports.addAll(jc.getImports());
+        for(JobComponent jc : componentMap.values()) {
+            if (jc == null) System.out.println("OHOH");//TODO better output or fail
+            if(!(jc.getImports() == null) && !jc.getImports().isEmpty())
+            imports.addAll(jc.getImports());
+        }
         imports.addAll(this.getLocalImports()); // in case there are local imports e.g. flink framework, ...)
         return imports;
     }

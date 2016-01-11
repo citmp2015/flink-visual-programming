@@ -37,6 +37,7 @@ public class CodeGenerator {
         String result = "public class " + jobGraph.getClassName() + "{\n\n";
         result += printMain(jobGraph);
         //TODO component classes ?
+        result += jobGraph.getEnvironmentIdentifier() + ".execute();";
         result += "}";
         return result;
     }
@@ -68,14 +69,83 @@ public class CodeGenerator {
     private static String printFlow(JobGraph jobGraph) {
         //TODO find solution to delay generation of transformations with
         // multiple input datasets (e.g. combine) untill all parants have been generated
-        Collection<Transformation> components = jobGraph.getTransformations();
-        if(components == null || components.isEmpty()) throw new IllegalArgumentException(); //TODO
+//        Collection<Transformation> components = jobGraph.getTransformations();
+//        if(components == null || components.isEmpty()) throw new IllegalArgumentException(); //TODO
         String result = "";
         for (DataSource c : jobGraph.getDataSources()){
             //TODO dirty hacking
             //TODO array or collection?
-            JobComponent comp = ((JobComponent[])c.getParents().toArray())[0];
-            result += c.getComponentKey() + " = " + comp.getComponentKey() + c.getJobSource() + ";\n" ;
+            Object parents = c.getParameter(JobComponent.PARENT);
+            Object children = c.getParameter(JobComponent.CHILD);
+            //TODO, pull to init/varify or define concrete type
+            String[] s = new String[2];
+//            Collection<JobComponent> parentCollection;
+//            Collection<JobComponent> childCollection = null;
+            Collection<String> childKeys = c.getChildren();
+//            Collection<JobComponent> childCollection = null;
+//            if(childKeys == null || childKeys)
+//            if(parents == null){
+//                //TODO
+//            }
+//            else if(parents instanceof String[]){
+//                //TODO
+//            }
+//            else if(parents instanceof String){
+//                //TODO
+//            }
+//            else if(parents instanceof JobComponent){
+//                parentCollection = new ArrayList<>();
+//                parentCollection.add((JobComponent) parents);
+//            }
+//            else if(parents instanceof JobComponent[]){
+//                //TODO
+//            }
+//            else if(parents instanceof Collection){
+//                //TODO check generic type
+//            }
+//            if(children == null){
+//                //TODO
+//            }
+//            else if(children instanceof String[]){
+//                //TODO
+//            }
+//            else if(children instanceof String){
+//                //TODO
+//            }
+//            else if(children instanceof JobComponent){
+//                childCollection = new ArrayList<JobComponent>();
+//                childCollection.add((JobComponent) children);
+//            }
+//            else if(children instanceof JobComponent[]){
+//                //TODO
+//            }
+//            else if(children instanceof Collection){
+//                //TODO check generic type
+//            }
+            //TODO while
+            do {
+                Collection<String> temp_store1 = new ArrayList<String>();
+                for (String childKey : childKeys) {
+                    JobComponent child = jobGraph.getComponent(childKey);
+
+                    //TODO ummm, think about that collection thingy a little bit, maybe use list?
+                    result += child.getComponentKey();
+                    result +=
+                            " = ";
+
+                    result += child.getParents().iterator().next();
+                    result += child.getJobSource() + ";\n";
+
+                    //TODO: the assumption is, that a only has multiple parents, when it is using multiple dataset (e.g. combine)
+                    //this means, that a reused component needs to be added 2x under different keys or we need a differen notation
+                    // in the json spec. discuss!
+                    Collection<String> temp_store2 = child.getChildren();
+                    //TODO integrity: check if parent is datasink, or trust on validate method
+                    if(temp_store2 == null || temp_store2.isEmpty()) continue;
+                    temp_store1.addAll(temp_store2);
+                }
+                childKeys = temp_store1;
+            }while(!childKeys.isEmpty());
 
         }
         return result;

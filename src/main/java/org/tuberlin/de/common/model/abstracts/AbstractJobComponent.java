@@ -5,6 +5,7 @@ import org.tuberlin.de.common.model.interfaces.JobComponent;
 import org.tuberlin.de.common.model.interfaces.JobGraph;
 import org.tuberlin.de.common.model.types.ComponentTypes;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Map;
@@ -23,6 +24,8 @@ public abstract class AbstractJobComponent implements JobComponent {
     protected boolean initialized = false;
     protected JobGraph jobGraph;
     protected Collection<String> imports;
+    protected Collection<String> children;
+    protected Collection<String> parents;
     //TODO syncronization
 
     @Override
@@ -31,16 +34,26 @@ public abstract class AbstractJobComponent implements JobComponent {
         this.parameters = parameters;
         this.initialized = true;
         this.imports = new HashSet<String>();
+        this.jobGraph = jobGraph;
+        this.parents = new ArrayList<String>();
+        this.children = new ArrayList<String>();
+        //TODO integrity: other types
+        if (!(parameters.get(JobComponent.PARENT) == null) && parameters.get(JobComponent.PARENT) instanceof String){
+            parents.add((String) parameters.get(JobComponent.PARENT));
+        }
+        if (!(parameters.get(JobComponent.CHILD) == null) && parameters.get(JobComponent.CHILD) instanceof String)
+        children.add((String) parameters.get(JobComponent.CHILD));
     }
 
     @Override
     public Collection<String> getParents() throws IllegalStateException {
-        return null;
+
+        return parents;
     }
 
     @Override
     public Collection<String> getChildren() throws IllegalStateException {
-        return null;
+        return children;
     }
 
 //    @Override
@@ -58,7 +71,7 @@ public abstract class AbstractJobComponent implements JobComponent {
 
     @Override
     public String getComponentKey() {
-        return null;
+        return (String) parameters.get(JobComponent.COMPONENT_KEY);
     }
 
     @Override
