@@ -4,6 +4,7 @@ import org.tuberlin.de.common.model.abstracts.transformation.AbstractTransformat
 import org.tuberlin.de.common.model.interfaces.JobGraph;
 import org.tuberlin.de.common.model.interfaces.transorfmation.TransformationAggregate;
 
+import java.util.Collection;
 import java.util.Map;
 
 /**
@@ -14,6 +15,12 @@ public class BaseTransformationAggregate extends AbstractTransformationAggregate
     public BaseTransformationAggregate(JobGraph jobGraph, Map<String, Object> parameters){
         super();
         init(jobGraph, parameters);
+    }
+
+    @Override
+    public Collection<? extends String> getImports() {
+        //TODO implemented for testing
+        return null;
     }
 
 }

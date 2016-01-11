@@ -5,6 +5,7 @@ import org.tuberlin.de.common.model.interfaces.JobGraph;
 import org.tuberlin.de.common.model.interfaces.datasources.DataSource;
 import org.tuberlin.de.common.model.interfaces.datasources.file.DataSourceFile;
 
+import java.util.Collection;
 import java.util.Map;
 
 /**
@@ -15,6 +16,12 @@ public class BaseDataSourceComponentText extends AbstractFileTextDataSourceCompo
     public BaseDataSourceComponentText(JobGraph jobGraph, Map<String, Object> parameters){
         super();
         init(jobGraph, parameters);
+    }
+
+    @Override
+    public Collection<? extends String> getImports() {
+        //TODO implemented for testing
+        return null;
     }
 
 }

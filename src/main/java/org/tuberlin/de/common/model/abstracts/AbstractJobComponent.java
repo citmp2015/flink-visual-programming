@@ -6,6 +6,7 @@ import org.tuberlin.de.common.model.interfaces.JobGraph;
 import org.tuberlin.de.common.model.types.ComponentTypes;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Map;
 
 /**
@@ -21,6 +22,7 @@ public abstract class AbstractJobComponent implements JobComponent {
     protected Map<String, Object> parameters;
     protected boolean initialized = false;
     protected JobGraph jobGraph;
+    protected Collection<String> imports;
     //TODO syncronization
 
     @Override
@@ -28,6 +30,7 @@ public abstract class AbstractJobComponent implements JobComponent {
         if(parameters == null || jobGraph == null) throw new IllegalArgumentException("Arguments must not be null!");
         this.parameters = parameters;
         this.initialized = true;
+        this.imports = new HashSet<String>();
     }
 
     @Override

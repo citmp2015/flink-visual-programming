@@ -4,6 +4,7 @@ import org.tuberlin.de.common.model.abstracts.transformation.AbstractGroupBy;
 import org.tuberlin.de.common.model.interfaces.JobGraph;
 import org.tuberlin.de.common.model.interfaces.transorfmation.TransformationGroupBy;
 
+import java.util.Collection;
 import java.util.Map;
 
 /**
@@ -14,5 +15,11 @@ public class BaseGroupBy extends AbstractGroupBy implements TransformationGroupB
     public BaseGroupBy(JobGraph jobGraph, Map<String, Object> parameters){
         super();
         init(jobGraph, parameters);
+    }
+
+    @Override
+    public Collection<? extends String> getImports() {
+        //TODO implemented for testing
+        return null;
     }
 }

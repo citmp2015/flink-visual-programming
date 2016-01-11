@@ -55,8 +55,8 @@ public class CodeGenerator {
         String result = "";
         result += printDataSources(jobGraph) + "\n";
 
-        result += printTransformations(jobGraph) + "\n";
-        result += printDataSinks(jobGraph) + "\n";
+        result += printFlow(jobGraph) + "\n";
+//        result += printDataSinks(jobGraph) + "\n";
         return result;
     }
 
@@ -65,7 +65,7 @@ public class CodeGenerator {
         //TODO
     }
 
-    private static String printTransformations(JobGraph jobGraph) {
+    private static String printFlow(JobGraph jobGraph) {
         //TODO find solution to delay generation of transformations with
         // multiple input datasets (e.g. combine) untill all parants have been generated
         Collection<Transformation> components = jobGraph.getTransformations();
@@ -73,6 +73,7 @@ public class CodeGenerator {
         String result = "";
         for (DataSource c : jobGraph.getDataSources()){
             //TODO dirty hacking
+            //TODO array or collection?
             JobComponent comp = ((JobComponent[])c.getParents().toArray())[0];
             result += c.getComponentKey() + " = " + comp.getComponentKey() + c.getJobSource() + ";\n" ;
 

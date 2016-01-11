@@ -63,6 +63,12 @@ public class BaseDataSinkFileText extends AbstractDataSinkFile implements DataSi
         return null;
     }
 
+    @Override
+    public Collection<? extends String> getImports() {
+        //TODO implemented for testing
+        return null;
+    }
+
 
     @Override
     public String getFilePath() {

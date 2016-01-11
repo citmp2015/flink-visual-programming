@@ -33,4 +33,10 @@ public class BaseTransformationReduce extends AbstractTransformationReduce imple
     }
     @Override
     public String getSource() throws IllegalStateException {return null;}
+
+    @Override
+    public Collection<? extends String> getImports() {
+        //TODO implemented for testing
+        return null;
+    }
 }

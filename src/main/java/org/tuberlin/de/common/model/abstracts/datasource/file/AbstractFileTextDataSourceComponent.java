@@ -7,7 +7,7 @@ import org.tuberlin.de.common.model.interfaces.datasources.file.DataSourceFile;
 /**
  * Created by oxid on 1/8/16.
  */
-public class AbstractFileTextDataSourceComponent extends AbstractFileDataSourceComponent implements DataSourceFile, DataSource {
+public abstract class AbstractFileTextDataSourceComponent extends AbstractFileDataSourceComponent implements DataSourceFile, DataSource {
 
     @Override
     public String getJobSource() {

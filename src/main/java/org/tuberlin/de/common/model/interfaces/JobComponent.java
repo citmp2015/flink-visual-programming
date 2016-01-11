@@ -84,4 +84,6 @@ public interface JobComponent {
     public String getInputType();
 
     public String getOutputType();
+
+    public Collection<? extends String> getImports();
 }

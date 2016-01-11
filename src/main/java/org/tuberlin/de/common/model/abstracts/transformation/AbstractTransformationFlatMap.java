@@ -2,6 +2,8 @@ package org.tuberlin.de.common.model.abstracts.transformation;
 
 import org.tuberlin.de.common.model.interfaces.transorfmation.TransformationFlatMap;
 
+import java.util.Collection;
+
 /**
  * Created by Malcolm-X on 09.12.2015.
  */
@@ -35,7 +37,12 @@ public abstract class AbstractTransformationFlatMap extends AbstractTransformati
         }
 */
 
-
+    @Override
+    public Collection<? extends String> getImports() {
+//        Collection<String> result = imports;
+//        result.add("org.apache.flink.api.common.functions.FlatMapFunction")
+        return imports;
+    }
 
     @Override
     public String getSource() throws IllegalStateException{

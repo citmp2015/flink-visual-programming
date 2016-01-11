@@ -5,6 +5,7 @@ import org.tuberlin.de.common.model.abstracts.datasource.file.AbstractFileDataSo
 import org.tuberlin.de.common.model.interfaces.JobGraph;
 import org.tuberlin.de.common.model.interfaces.datasources.DataSource;
 import org.tuberlin.de.common.model.interfaces.datasources.file.DataSourceFile;
+import org.tuberlin.de.common.model.interfaces.datasources.file.read.DataSourceFileReadCsvFile;
 
 import java.util.Collection;
 import java.util.Map;
@@ -23,15 +24,16 @@ public class BaseDataSourceComponentCSV extends AbstractFileDataSourceComponent 
         if (!initialized) throw new IllegalStateException("Must be initialized");
         //TODO: Integrity checks
         String result = jobGraph.getEnvironmentIdentifier() + ".readCsvFile(" + parameters.get(Constants.COMPONENT_PATH_JSON) + ")";
-        if(parameters.containsKey(DataSourceFile.CSV_INCLUDE_FIELDS)){
+        //TODO do not include constants file
+        if(parameters.containsKey(Constants.CSV_INCLUDE_FIELDS)){
             //TODO integrity (Integer, number of values,...)
-            result += ".includeFields(" + parameters.get(DataSourceFile.CSV_INCLUDE_FIELDS)+")";
+            result += ".includeFields(" + parameters.get(Constants.CSV_INCLUDE_FIELDS)+")";
         }
         //TODO integrity
-        if (parameters.containsKey(DataSourceFile.CSV_FIELD_TYPES)){
+        if (parameters.containsKey(Constants.CSV_FIELD_TYPES)){
             result += ".types(";
             //TODO integrity
-            String[] types = ((String[])parameters.get(DataSourceFile.CSV_FIELD_TYPES));
+            String[] types = ((String[])parameters.get(Constants.CSV_FIELD_TYPES));
             for (int i = 0; i < types.length; i++){
                 result += (i == types.length - 1) ? (types[i] + ".class") : (types[i] + ".class, ");
             }
@@ -77,5 +79,10 @@ public class BaseDataSourceComponentCSV extends AbstractFileDataSourceComponent 
     public String getFilePath() {
         //TODO integrity checks
         return (String) parameters.get(DataSourceFile.FILE_PATH);
+    }
+    @Override
+    public Collection<? extends String> getImports() {
+        //TODO implemented for testing
+        return null;
     }
 }
