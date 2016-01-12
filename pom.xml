@@ -9,6 +9,7 @@
     <version>1.0-SNAPSHOT</version>
     <packaging>war</packaging>
     <properties>
+        <log4j-dir>${project.basedir}/logs</log4j-dir>
         <jetty-version>9.3.6.v20151106</jetty-version>
         <jetty-context-path>/</jetty-context-path> <!-- For future use -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -114,9 +115,9 @@
 
         <!-- Java Parser -->
         <dependency>
-          <groupId>com.github.javaparser</groupId>
-          <artifactId>javaparser-core</artifactId>
-          <version>2.3.0</version>
+            <groupId>com.github.javaparser</groupId>
+            <artifactId>javaparser-core</artifactId>
+            <version>2.3.0</version>
         </dependency>
         <!-- Java Parser -->
 
@@ -145,6 +146,16 @@
                 <configuration>
                     <source>1.8</source>
                     <target>1.8</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.9</version>
+                <configuration>
+                    <systemPropertyVariables>
+                        <jetty.logs>${log4j-dir}</jetty.logs>
+                    </systemPropertyVariables>
                 </configuration>
             </plugin>
             <plugin>
@@ -225,7 +236,7 @@
                     <systemProperties>
                         <systemProperty>
                             <name>jetty.logs</name>
-                            <value>${project.basedir}/logs</value>
+                            <value>${log4j-dir}</value>
                         </systemProperty>
                     </systemProperties>
                 </configuration>

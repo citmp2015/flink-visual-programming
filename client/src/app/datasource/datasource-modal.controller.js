@@ -4,10 +4,11 @@
 
     angular
         .module('app.datasource')
-        .controller('DatasourceModalCtrl', DatasourceModalCtrl);
+        .controller('CSVDatasourceModalCtrl', CSVDatasourceModalCtrl)
+        .controller('TextDatasourceModalCtrl', TextDatasourceModalCtrl);
 
     /*@ngInject*/
-    function DatasourceModalCtrl($scope, $rootScope, $uibModalInstance, $stateParams, $timeout, $log) {
+    function CSVDatasourceModalCtrl($scope, $rootScope, $uibModalInstance, $stateParams, $timeout, graphFactory, templateFactory, $log) {
 
         var cell = $rootScope.graph.getCell($stateParams.id);
 
@@ -28,7 +29,8 @@
         $scope.datasource = {
             path: cell.attributes.data.path,
             countColumns: cell.attributes.data.countColumns,
-            columns: cell.attributes.data.columns
+            columns: cell.attributes.data.columns,
+            javaSourceCode: cell.attributes.data.javaSourceCode
         };
 
         $scope.save = save;
@@ -54,7 +56,33 @@
             cell.attributes.data.path = $scope.datasource.path;
             cell.attributes.data.countColumns = $scope.datasource.countColumns;
             cell.attributes.data.columns = $scope.datasource.columns;
-            //TODO write to localstorage
+            cell.attributes.data.javaSourceCode = templateFactory.createCSVDatasourceTemplate($scope.datasource.columns, $scope.datasource.path);
+            graphFactory.saveToLocalStorage($rootScope.graph);
+            $uibModalInstance.close();
+        }
+
+        function cancel() {
+            $uibModalInstance.close();
+        }
+
+    }
+
+    function TextDatasourceModalCtrl($scope, $rootScope, $uibModalInstance, $stateParams, $timeout, graphFactory, templateFactory, $log) {
+
+        var cell = $rootScope.graph.getCell($stateParams.id);
+
+        $scope.datasource = {
+            path: cell.attributes.data.path,
+            javaSourceCode: cell.attributes.data.javaSourceCode
+        };
+
+        $scope.save = save;
+        $scope.cancel = cancel;
+
+        function save() {
+            cell.attributes.data.path = $scope.datasource.path;
+            cell.attributes.data.javaSourceCode = templateFactory.createTextDatasourceTemplate($scope.datasource.path);
+            graphFactory.saveToLocalStorage($rootScope.graph);
             $uibModalInstance.close();
         }
 
