@@ -212,7 +212,7 @@
                     </execution>
 
                     <execution>
-                        <id>grunt build/serve</id>
+                        <id>grunt build</id>
                         <goals>
                             <goal>grunt</goal>
                         </goals>
