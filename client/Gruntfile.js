@@ -1,4 +1,4 @@
-module.exports = function(grunt) {
+module.exports = function (grunt) {
 
     'use strict';
 
@@ -82,7 +82,7 @@ module.exports = function(grunt) {
             all: {
                 src: [
                     'Gruntfile.js',
-                    '<%= flinkVisual.app %>/**/*.js'
+                    '<%= flinkVisual.app %>/app/**/*.js'
                 ]
             }
         },
@@ -96,7 +96,7 @@ module.exports = function(grunt) {
             livereload: {
                 options: {
                     open: true,
-                    middleware: function(connect) {
+                    middleware: function (connect) {
                         var serveStatic = require('serve-static');
                         return [
                             serveStatic('<%= flinkVisual.tmp %>'),
@@ -128,7 +128,7 @@ module.exports = function(grunt) {
             app: {
                 src: ['<%= flinkVisual.app %>/index.html'],
                 exclude: [
-                    'bower_components/underscore/underscore.js'
+                  'bower_components/underscore/underscore.js'
                 ]
             }
         },
@@ -190,16 +190,16 @@ module.exports = function(grunt) {
             }
         },
 
-        ngAnnotate: {
-            dist: {
-                files: [{
-                    expand: true,
-                    cwd: '<%= flinkVisual.tmp %>/concat/scripts',
-                    src: ['*.js', '!oldieshim.js'],
-                    dest: '<%= flinkVisual.tmp %>/concat/scripts'
-                }]
-            }
-        },
+				ngAnnotate: {
+					dist: {
+						files: [{
+							expand: true,
+							cwd: '<%= flinkVisual.tmp %>/concat/scripts',
+							src: ['*.js', '!oldieshim.js'],
+							dest: '<%= flinkVisual.tmp %>/concat/scripts'
+						}]
+					}
+				},
 
         htmlmin: {
             dist: {
@@ -251,9 +251,7 @@ module.exports = function(grunt) {
                         require('postcss-color-rgba-fallback')(),
                         require('postcss-gradientfixer')(),
                         require('postcss-flexboxfixer')(),
-                        require('autoprefixer')({
-                            browsers: ['last 3 versions']
-                        }),
+                        require('autoprefixer')({browsers: ['last 3 versions']}),
                         require('postcss-discard-comments')(),
                         require('postcss-colormin')(),
                         require('postcss-convert-values')(),
@@ -262,9 +260,7 @@ module.exports = function(grunt) {
                         require('postcss-merge-longhand')(),
                         require('postcss-merge-rules')(),
                         require('postcss-discard-empty')(),
-                        require('perfectionist')({
-                            format: 'compressed'
-                        })
+                        require('perfectionist')({format: 'compressed' })
                     ]
                 },
                 src: [
@@ -280,9 +276,7 @@ module.exports = function(grunt) {
                         require('postcss-color-rgba-fallback')(),
                         require('postcss-gradientfixer')(),
                         require('postcss-flexboxfixer')(),
-                        require('autoprefixer')({
-                            browsers: ['last 3 versions']
-                        })
+                        require('autoprefixer')({browsers: ['last 3 versions']})
                     ]
                 },
                 src: [
@@ -296,9 +290,9 @@ module.exports = function(grunt) {
         // Empties folders to start fresh
         clean: {
             dist: {
-                options: {
-                    force: true
-                },
+								options: {
+									force: true
+								},
                 files: [{
                     dot: true,
                     src: [
@@ -352,6 +346,11 @@ module.exports = function(grunt) {
                     cwd: 'bower_components/components-bootstrap/fonts',
                     dest: '<%= flinkVisual.dist %>/fonts',
                     src: ['*']
+                }, {
+                    expand: true,
+                    cwd: '<%= flinkVisual.app %>/dummydata',
+                    dest: '<%= flinkVisual.dist %>/dummydata',
+                    src: ['*']
                 }]
             },
             styles: {
@@ -367,10 +366,6 @@ module.exports = function(grunt) {
     grunt.event.on('watch', function(action, filepath) {
         grunt.config('jshint.all.src', filepath);
     });
-
-    grunt.registerTask('test', [
-        'jshint'
-    ]);
 
     grunt.registerTask('serve', [
         'clean:server',
@@ -388,7 +383,7 @@ module.exports = function(grunt) {
         'wiredep',
         'useminPrepare',
         'concat:generated',
-        'ngAnnotate',
+				'ngAnnotate',
         'postcss:dist',
         'cssmin:generated',
         'uglify:generated',

@@ -7,9 +7,11 @@
         .config(AppConfig);
 
     /*@ngInject*/
-    function AppConfig() {
+    function AppConfig(localStorageServiceProvider, $compileProvider) {
 
+          localStorageServiceProvider.setPrefix('fvp');
 
+          $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|data):/);
 
     }
 

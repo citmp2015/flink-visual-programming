@@ -10,9 +10,14 @@
         'ui.bootstrap',
         'angularMoment',
         'ngDraggable',
+        'LocalStorageModule',
 
         'app.menu',
-        'app.datasource'
+        'app.datasource',
+        'app.filter',
+		'app.group',
+		'app.sum',
+		'app.flatmap'
 
     ]);
 

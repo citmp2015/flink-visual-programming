@@ -13,7 +13,7 @@ body {
 #page-wrapper {
     position: relative;
     padding: 0 0px;
-    min-height: 568px;
+    min-height: calc(100vh - 54px);
     background-color: #fff;
 }
 @media(min-width:768px) {
@@ -22,6 +22,9 @@ body {
         padding: 0 0px;
         border-left: 1px solid #e7e7e7;
     }
+}
+.navbar {
+    margin-bottom: 0;
 }
 .navbar-top-links {
     margin-right: 0;
@@ -273,4 +276,27 @@ table.dataTable thead .sorting:after {
 }
 .panel-yellow a:hover {
     color: #df8a13;
+}
+
+
+
+
+.import-wrapper {
+    overflow: hidden;
+    vertical-align: bottom;
+}
+.import-wrapper > input[type="file"] {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    opacity: 0;
+    cursor: pointer;
+    font-size: 50px;
+    line-height: 1em;
+}
+.import-wrapper > a {
+    display: inline-block;
+    margin: 0 0 0 -1px;
+    padding-left: 0;
+    cursor: pointer;
 }

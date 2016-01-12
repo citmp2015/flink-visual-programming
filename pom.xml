@@ -9,10 +9,43 @@
     <version>1.0-SNAPSHOT</version>
     <packaging>war</packaging>
     <properties>
+        <log4j-dir>${project.basedir}/logs</log4j-dir>
         <jetty-version>9.3.6.v20151106</jetty-version>
         <jetty-context-path>/</jetty-context-path> <!-- For future use -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <powermock.version>1.6.2</powermock.version>
     </properties>
+
+    <!-- Profile configuration -->
+    <profiles>
+        <!-- The configuration of the development profile -->
+        <profile>
+            <id>dev</id>
+            <properties>
+                <!--
+                        Specifies the build.profile.id property that must be equal than the name of
+                        the directory that contains the profile specific configuration file.
+                        Because the name of the directory that contains the configuration file of the
+                        development profile is dev, we must set the value of the build.profile.id
+                        property to dev.
+                    -->
+                <grunt.task>serve</grunt.task>
+                <build.profile.id>dev</build.profile.id>
+            </properties>
+        </profile>
+        <!-- The configuration of the production profile -->
+        <profile>
+            <id>prod</id>
+            <!-- The development profile is active by default -->
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <grunt.task>build</grunt.task>
+                <build.profile.id>prod</build.profile.id>
+            </properties>
+        </profile>
+    </profiles>
 
     <dependencies>
         <!-- Test -->
@@ -21,6 +54,28 @@
             <artifactId>junit</artifactId>
             <version>4.12</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.powermock</groupId>
+            <artifactId>powermock-module-junit4</artifactId>
+            <version>${powermock.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.powermock</groupId>
+            <artifactId>powermock-api-mockito</artifactId>
+            <version>${powermock.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.powermock</groupId>
+            <artifactId>powermock-api-easymock</artifactId>
+            <version>${powermock.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.easymock</groupId>
+            <artifactId>easymock</artifactId>
+            <version>3.2</version>
         </dependency>
         <!-- End Test -->
 
@@ -58,6 +113,14 @@
         </dependency>
         <!-- End Servlet Container Jetty -->
 
+        <!-- Java Parser -->
+        <dependency>
+            <groupId>com.github.javaparser</groupId>
+            <artifactId>javaparser-core</artifactId>
+            <version>2.3.0</version>
+        </dependency>
+        <!-- Java Parser -->
+
         <!-- Start Logging dependencies -->
         <dependency>
             <groupId>org.slf4j</groupId>
@@ -74,7 +137,7 @@
     </dependencies>
 
     <build>
-      <finalName>ROOT</finalName> <!-- Necesśary for jenkins deployment to have this name -->
+        <finalName>ROOT</finalName> <!-- Necesśary for jenkins deployment to have this name -->
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -83,6 +146,16 @@
                 <configuration>
                     <source>1.8</source>
                     <target>1.8</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.9</version>
+                <configuration>
+                    <systemPropertyVariables>
+                        <jetty.logs>${log4j-dir}</jetty.logs>
+                    </systemPropertyVariables>
                 </configuration>
             </plugin>
             <plugin>
@@ -115,17 +188,6 @@
                         </configuration>
                     </execution>
 
-                    <!--
-                    <execution>
-                        <id>npm run build</id>
-                        <goals>
-                            <goal>npm</goal>
-                        </goals>
-                        <configuration>
-                            <arguments>run build</arguments>
-                        </configuration>
-                    </execution> -->
-
                     <execution>
                         <id>bower install</id>
                         <goals>
@@ -145,7 +207,7 @@
                         </goals>
                         <phase>generate-resources</phase>
                         <configuration>
-                            <arguments>build --no-color --force</arguments>
+                            <arguments>${grunt.task} --no-color --force</arguments>
                         </configuration>
                     </execution>
 
@@ -174,7 +236,7 @@
                     <systemProperties>
                         <systemProperty>
                             <name>jetty.logs</name>
-                            <value>${project.basedir}/logs</value>
+                            <value>${log4j-dir}</value>
                         </systemProperty>
                     </systemProperties>
                 </configuration>
