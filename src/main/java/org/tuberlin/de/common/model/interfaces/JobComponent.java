@@ -27,7 +27,7 @@ public interface JobComponent {
     public static final String PARENT = Constants.JOB_COMPONENT_PARENT;
     public static final String INPUT_TYPE = Constants.JOB_COMPONENT_INPUT_TYPE;
     public static final String OUTPUT_TYPE = Constants.JOB_COMPONENT_OUTPUT_TYPE;
-    public static final String COMPONENT_KEY = Constants.JOB_COMPOENT_KEY;
+        public static final String COMPONENT_KEY = Constants.JOB_COMPOENT_KEY;
     public static final String COMPONENT_IMPORTS = Constants.JOB_COMPONENT_IMPORTS_JSON;
 
     //TODO syncronization

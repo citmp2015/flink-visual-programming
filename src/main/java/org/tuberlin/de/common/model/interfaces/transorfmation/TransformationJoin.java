@@ -6,5 +6,5 @@ package org.tuberlin.de.common.model.interfaces.transorfmation;
  * TODO
  *
  */
-public interface TransformationJoin {
+public interface TransformationJoin extends Transformation{
 }
