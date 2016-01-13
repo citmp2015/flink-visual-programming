@@ -1,4 +1,4 @@
-module.exports = function (grunt) {
+module.exports = function(grunt) {
 
     'use strict';
 
@@ -87,16 +87,50 @@ module.exports = function (grunt) {
             }
         },
 
+        protractor: {
+            options: {
+                configFile: 'test/protractor.conf.js',
+            },
+            test: {
+                options: {
+                    args: {
+                        baseUrl: 'http://localhost:9001',
+                    }
+                }
+            }
+        },
+
         connect: {
             options: {
-                port: 9000,
-                hostname: 'localhost',
-                livereload: 35729
+                livereload: 35729,
+                hostname: 'localhost'
             },
             livereload: {
                 options: {
+                    port: 9000,
                     open: true,
-                    middleware: function (connect) {
+                    middleware: function(connect) {
+                        var serveStatic = require('serve-static');
+                        return [
+                            serveStatic('<%= flinkVisual.tmp %>'),
+                            connect().use(
+                                '/bower_components',
+                                serveStatic('./bower_components')
+                            ),
+                            connect().use(
+                                '/node_modules',
+                                serveStatic('./node_modules')
+                            ),
+                            serveStatic(appConfig.app)
+                        ];
+                    }
+                }
+            },
+            test: {
+                options: {
+                    port: 9001,
+                    livereload: false,
+                    middleware: function(connect) {
                         var serveStatic = require('serve-static');
                         return [
                             serveStatic('<%= flinkVisual.tmp %>'),
@@ -128,7 +162,7 @@ module.exports = function (grunt) {
             app: {
                 src: ['<%= flinkVisual.app %>/index.html'],
                 exclude: [
-                  'bower_components/underscore/underscore.js'
+                    'bower_components/underscore/underscore.js'
                 ]
             }
         },
@@ -190,16 +224,16 @@ module.exports = function (grunt) {
             }
         },
 
-				ngAnnotate: {
-					dist: {
-						files: [{
-							expand: true,
-							cwd: '<%= flinkVisual.tmp %>/concat/scripts',
-							src: ['*.js', '!oldieshim.js'],
-							dest: '<%= flinkVisual.tmp %>/concat/scripts'
-						}]
-					}
-				},
+        ngAnnotate: {
+            dist: {
+                files: [{
+                    expand: true,
+                    cwd: '<%= flinkVisual.tmp %>/concat/scripts',
+                    src: ['*.js', '!oldieshim.js'],
+                    dest: '<%= flinkVisual.tmp %>/concat/scripts'
+                }]
+            }
+        },
 
         htmlmin: {
             dist: {
@@ -251,7 +285,9 @@ module.exports = function (grunt) {
                         require('postcss-color-rgba-fallback')(),
                         require('postcss-gradientfixer')(),
                         require('postcss-flexboxfixer')(),
-                        require('autoprefixer')({browsers: ['last 3 versions']}),
+                        require('autoprefixer')({
+                            browsers: ['last 3 versions']
+                        }),
                         require('postcss-discard-comments')(),
                         require('postcss-colormin')(),
                         require('postcss-convert-values')(),
@@ -260,7 +296,9 @@ module.exports = function (grunt) {
                         require('postcss-merge-longhand')(),
                         require('postcss-merge-rules')(),
                         require('postcss-discard-empty')(),
-                        require('perfectionist')({format: 'compressed' })
+                        require('perfectionist')({
+                            format: 'compressed'
+                        })
                     ]
                 },
                 src: [
@@ -276,7 +314,9 @@ module.exports = function (grunt) {
                         require('postcss-color-rgba-fallback')(),
                         require('postcss-gradientfixer')(),
                         require('postcss-flexboxfixer')(),
-                        require('autoprefixer')({browsers: ['last 3 versions']})
+                        require('autoprefixer')({
+                            browsers: ['last 3 versions']
+                        })
                     ]
                 },
                 src: [
@@ -290,9 +330,9 @@ module.exports = function (grunt) {
         // Empties folders to start fresh
         clean: {
             dist: {
-								options: {
-									force: true
-								},
+                options: {
+                    force: true
+                },
                 files: [{
                     dot: true,
                     src: [
@@ -377,13 +417,24 @@ module.exports = function (grunt) {
         'watch'
     ]);
 
+    grunt.registerTask('test', [
+        'clean:server',
+        'bower',
+        'wiredep',
+        'copy:styles',
+        'postcss:serve',
+        'connect:test',
+        'jshint:all',
+        'protractor:test'
+    ]);
+
     grunt.registerTask('build', [
         'clean:dist',
         'bower',
         'wiredep',
         'useminPrepare',
         'concat:generated',
-				'ngAnnotate',
+        'ngAnnotate',
         'postcss:dist',
         'cssmin:generated',
         'uglify:generated',
