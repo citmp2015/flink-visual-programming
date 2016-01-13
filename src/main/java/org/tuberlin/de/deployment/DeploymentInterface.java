@@ -45,6 +45,14 @@ public interface DeploymentInterface {
     /**
      * This method is called after the JAR was generated. It will return a OutputStream that contains the JAR File.
      * This is mainly for frontend functions to download the generated JAR.
+     * @return a OutputStream containing the Jar file
      */
     public OutputStream getJarStream();
+
+    /**
+     * This method returns a OutputStream that contains a ZIP file with the entire project (source code files,
+     * not compiled)
+     * @return OutputStream containing a Zip file with the project (source code, not compiled)
+     */
+    public OutputStream getZipSource(String entryClass, List<String> clazzes);
 }

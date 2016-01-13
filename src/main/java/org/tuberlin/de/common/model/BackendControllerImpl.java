@@ -8,7 +8,7 @@ import java.util.Map;
 /**
  * Created by Malcolm-X on 26.12.2015.
  */
-public abstract class BackendControllerImpl implements BackendController {
+public class BackendControllerImpl implements BackendController {
     @Override
     public JobGraph getJobGraph(String json) throws Exception {
         //TODO: parser is currently dummy, no json
@@ -29,5 +29,15 @@ public abstract class BackendControllerImpl implements BackendController {
     @Override
     public Map<String, String> getComponentSources(JobGraph jobGraph) {
         return null;
+    }
+
+    @Override
+    public boolean storeGraph(String key, JobGraph graph) {
+        return false;
+    }
+
+    @Override
+    public boolean storeGraph(String key, String json) {
+        return false;
     }
 }
