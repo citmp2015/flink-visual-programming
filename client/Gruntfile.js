@@ -367,6 +367,10 @@ module.exports = function (grunt) {
         grunt.config('jshint.all.src', filepath);
     });
 
+    grunt.registerTask('test', [
+        'jshint'
+    ]);
+
     grunt.registerTask('serve', [
         'clean:server',
         'bower',
@@ -383,7 +387,7 @@ module.exports = function (grunt) {
         'wiredep',
         'useminPrepare',
         'concat:generated',
-				'ngAnnotate',
+		'ngAnnotate',
         'postcss:dist',
         'cssmin:generated',
         'uglify:generated',

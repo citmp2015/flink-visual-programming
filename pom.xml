@@ -171,8 +171,8 @@
                         </goals>
                         <phase>generate-resources</phase>
                         <configuration>
-                            <nodeVersion>v0.12.2</nodeVersion>
-                            <npmVersion>2.7.6</npmVersion>
+                          <nodeVersion>v4.2.4</nodeVersion>
+                          <npmVersion>2.14.12</npmVersion>
                         </configuration>
                     </execution>
 
@@ -185,6 +185,17 @@
                         <!-- Optional configuration which provides for running any npm command -->
                         <configuration>
                             <arguments>install</arguments>
+                        </configuration>
+                    </execution>
+
+                    <execution>
+                        <id>grunt test</id>
+                        <goals>
+                            <goal>grunt</goal>
+                        </goals>
+                        <phase>generate-resources</phase>
+                        <configuration>
+                            <arguments>test --no-color</arguments>
                         </configuration>
                     </execution>
 
@@ -207,7 +218,7 @@
                         </goals>
                         <phase>generate-resources</phase>
                         <configuration>
-                            <arguments>${grunt.task} --no-color --force</arguments>
+                            <arguments>${grunt.task} --no-color</arguments>
                         </configuration>
                     </execution>
 
