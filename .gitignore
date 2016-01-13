@@ -3,6 +3,7 @@
 *.class
 target/*
 logs/*
+src/main/resources/FlinkSkeleton/target/*
 
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
