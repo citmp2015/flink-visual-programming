@@ -15,7 +15,7 @@
     },
     "groupBy_b": {
       "component": "groupBy",
-      "label": "GroupBy(0)",
+      "label": "groupBy(0)",
       "data": {
         "tupleIndex": 0
       }
@@ -55,11 +55,8 @@
   ],
   "components": {
     "readCSV": {
+      "type": "source",
       "label": "Read CSV file",
-      "inPorts": [],
-      "outPorts": [
-        "out"
-      ],
       "formData": {
         "filePath": {
           "type": "text",
@@ -75,10 +72,7 @@
       }
     },
     "readFile": {
-      "inPorts": [],
-      "outPorts": [
-        "out"
-      ],
+      "type": "source",
       "formData": {
         "filePath": {
           "type": "text",
@@ -88,20 +82,10 @@
       }
     },
     "splitLines": {
-      "inPorts": [
-        "in"
-      ],
-      "outPorts": [
-        "out"
-      ]
+      "type": "transform",
     },
     "groupBy": {
-      "inPorts": [
-        "in"
-      ],
-      "outPorts": [
-        "out"
-      ],
+      "type": "transform",
       "formData": {
         "tupleIndex": {
           "default": 0,
@@ -110,12 +94,7 @@
       }
     },
     "sum": {
-      "inPorts": [
-        "in"
-      ],
-      "outPorts": [
-        "out"
-      ],
+      "type": "transform",
       "formData": {
         "tupleIndex": {
           "default": 0,
@@ -124,10 +103,7 @@
       }
     },
     "writeCSV": {
-      "inPorts": [
-        "in"
-      ],
-      "outPorts": [],
+      "type": "sink",
       "formData": {
         "filePath": {
           "type": "text",
