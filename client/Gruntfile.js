@@ -317,7 +317,7 @@ module.exports = function(grunt) {
                         require('autoprefixer')({
                             browsers: ['last 3 versions']
                         })
-                    ]
+                    ],
                 },
                 src: [
                     '<%= flinkVisual.app %>/styles/{,*/}*.css',
