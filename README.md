@@ -29,5 +29,3 @@ We use two main branches for development: **master** and **dev**.
 ## Tests
 When you compile the project via maven (```mvn compile``` or ```mvn package```, ```mvn jetty:run``` will skip the tests) our unit tests will be automatically executed and the build will fail if a test fails.
 If you don't want to run the tests you can add a ```-DskipTests``` argument at the end of the command.
-
-## Tests for Pull request
