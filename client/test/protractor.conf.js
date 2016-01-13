@@ -1,10 +1,8 @@
 exports.config = {
 
     multiCapabilities: [{
-        'browserName': 'chrome',
-        'chromeOptions': {
-            'args': ['show-fps-counter=true']
-        }
+        'browserName': 'phantomjs',
+        'phantomjs.binary.path': require('phantomjs').path,
     }],
 
     specs: ['spec/e2e/*.js'],
@@ -12,12 +10,6 @@ exports.config = {
     jasmineNodeOpts: {
         showColors: true,
         defaultTimeoutInterval: 30000
-    },
-
-    onPrepare: function() {
-
-        browser.driver.manage().window().maximize();
-
-    },
+    }
 
 };
