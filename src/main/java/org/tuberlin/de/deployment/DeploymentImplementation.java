@@ -16,6 +16,12 @@ import java.util.List;
 import java.util.Properties;
 import java.util.UUID;
 
+/**
+ * Implements the DeploymentInterface and is responsible for building the project, executing it on a cluster and return
+ * output files to the user. It creates a temporary folder under /tmp for each task (execution, jar, zip).
+ * It copies the FlinkSkeleton into the folder. All further operations are done only in the tmp folder,
+ * not the Skeleton.
+ */
 public class DeploymentImplementation implements DeploymentInterface {
 
     public static String PROPERTIES_FILE_NAME = "deploy.properties";
