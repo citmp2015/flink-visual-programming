@@ -8,7 +8,7 @@
     </servlet>
     <servlet>
         <servlet-name>DeployController</servlet-name>
-        <servlet-class>org.tuberlin.de.server.controller.DeployController</servlet-class>
+        <servlet-class>org.tuberlin.de.server.controller.SubmitController</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>DownloadJavaController</servlet-name>
