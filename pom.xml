@@ -33,7 +33,10 @@
                 <build.profile.id>dev</build.profile.id>
             </properties>
         </profile>
-        <!-- The configuration of the production profile -->
+        <!--    The configuration of the skip profile, which is usefull for backend development.
+                If active, it will skip the maven-frontend-plugin and the test execution,
+                and thus will lead to much fast builds.
+        -->
         <profile>
             <id>skip</id>
             <properties>

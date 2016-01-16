@@ -58,10 +58,13 @@ public class SubmitController extends HttpServlet {
             ServletException, IOException {
         BackendController backendController = new BackendControllerImpl();
         String json = req.getParameter("graph");
+
+//        TODO Uncomment one of the following to test the behavior
+//        deploymentInterface.generateProjectJAR("", new ArrayList<>(), false);
+//        startZipDownload(resp, "", new ArrayList<>());
+//        startJarDownload(resp);
+
         JobGraph jobGraph;
-
-        deploymentInterface.generateProjectJAR("", new ArrayList<>(), false);
-
         try {
             jobGraph = backendController.getJobGraph(json);
         } catch (Exception e) {
@@ -119,7 +122,7 @@ public class SubmitController extends HttpServlet {
         InputStream inputStream = deploymentInterface.getJarStream();
 
         resp.setContentType("application/java-archive");
-        resp.setHeader("Content-disposition", "attachment; filename=FlinkJob.java");
+        resp.setHeader("Content-disposition", "attachment; filename=FlinkJob.jar");
 
         startDownload(resp, inputStream);
     }

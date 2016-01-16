@@ -114,8 +114,8 @@ public class FileUtils {
     /**
      * Zips a folder recursively.
      * Taken from http://stackoverflow.com/questions/15968883/how-to-zip-a-folder-itself-using-java
-     * @param folder
-     * @param zipFile
+     * @param folder The folder to zip
+     * @param zipFile The ouput file to write the final zip
      * @throws IOException
      */
     public static void zipFolder(final File folder, final File zipFile) throws IOException {
