@@ -5,8 +5,8 @@ import org.slf4j.LoggerFactory;
 import org.tuberlin.de.common.model.BackendControllerImpl;
 import org.tuberlin.de.common.model.interfaces.BackendController;
 import org.tuberlin.de.common.model.interfaces.JobGraph;
+import org.tuberlin.de.deployment.DeploymentImplementation;
 import org.tuberlin.de.deployment.DeploymentInterface;
-import org.tuberlin.de.deployment.util.ExecuteShell;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,18 +14,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import java.io.BufferedInputStream;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.nio.charset.Charset;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
-import java.util.Scanner;
 
 /**
  * Controller that is invoked when clicking on any of the following buttons:
@@ -34,11 +27,11 @@ import java.util.Scanner;
  * 2.  "Download Java Project"
  * 3.  "Download JAR File"
  * </p>
- *
+ * <p/>
  * The information which button was pressed is stored into the POST parameter "action".
  * This Controller is currently only a Dummy.
  * In future this Controller should kick-off the following tasks:
- * <p>
+ * <p/>
  * 1. Code generation from the graph
  * 2. Insert code into Maven project
  * 3. Compile Maven project into Jar
@@ -53,6 +46,12 @@ public class SubmitController extends HttpServlet {
     private static final long serialVersionUID = 23523652345L;
     private static final Logger LOG = LoggerFactory.getLogger(BaseController.class);
 
+    private DeploymentInterface deploymentInterface;
+
+    public SubmitController() {
+        LOG.debug("Init " + SubmitController.class.getSimpleName());
+        deploymentInterface = new DeploymentImplementation();
+    }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws
@@ -61,29 +60,94 @@ public class SubmitController extends HttpServlet {
         String json = req.getParameter("graph");
         JobGraph jobGraph;
 
+        deploymentInterface.generateProjectJAR("", new ArrayList<>(), false);
+
         try {
             jobGraph = backendController.getJobGraph(json);
-        } catch (Exception e){
+        } catch (Exception e) {
             LOG.error("Error in construction jobGraph.", e);
             return;
         }
 
-
         String action = req.getParameter("action");
-
-        if(action.equals("deploy")){
-            LOG.debug("Starting deployment");
-
-        } else if (action.equals("download_source")){
-            LOG.debug("Starting download source");
-
-        } else if (action.equals("download_jar")){
-            LOG.debug("Starting download jar");
+        if (action == null) {
+            LOG.error("No action specified in the 'action' parameter");
+            return;
         }
 
-
-
-
+        // TODO Fill with method calls with real parameters
+        switch (action) {
+            case "deploy":
+                LOG.debug("Starting deployment");
+                deploymentInterface.generateProjectJAR("", new ArrayList<>(), false);
+                break;
+            case "download_sources":
+                LOG.debug("Starting download source");
+                startZipDownload(resp, "", new ArrayList<>());
+                break;
+            case "download_jar":
+                LOG.debug("Starting download jar");
+                startJarDownload(resp);
+                break;
+            default:
+                LOG.debug("No action specified");
+        }
     }
 
+    /**
+     * Starts the ZIP download
+     *
+     * @param resp       The response object
+     * @param entryClass The entry class
+     * @param classez    The classes
+     */
+    private void startZipDownload(HttpServletResponse resp, String entryClass, List<String> classez) {
+        InputStream inputStream = deploymentInterface.getZipSource(entryClass, classez);
+
+        resp.setContentType("application/zip, application/octet-stream");
+        resp.setHeader("Content-disposition", "attachment; filename=FlinkJobArchive.zip");
+
+        startDownload(resp, inputStream);
+    }
+
+    /**
+     * Starts the Jar download
+     *
+     * @param resp The response object
+     */
+    private void startJarDownload(HttpServletResponse resp) {
+        InputStream inputStream = deploymentInterface.getJarStream();
+
+        resp.setContentType("application/java-archive");
+        resp.setHeader("Content-disposition", "attachment; filename=FlinkJob.java");
+
+        startDownload(resp, inputStream);
+    }
+
+    /**
+     * Starts the file download for the given inputStream
+     *
+     * @param resp        The response object
+     * @param inputStream The input stream to send to the client
+     */
+    private void startDownload(HttpServletResponse resp, InputStream inputStream) {
+
+        if (inputStream == null) {
+            LOG.error("InputStream is null - exiting execution");
+            return;
+        }
+
+        try {
+            OutputStream out = resp.getOutputStream();
+            byte[] buffer = new byte[4096];
+            while ((inputStream.read(buffer)) > 0) {
+                out.write(buffer);
+                buffer = new byte[4096];
+            }
+            inputStream.close();
+            out.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

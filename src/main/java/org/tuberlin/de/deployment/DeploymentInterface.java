@@ -1,6 +1,6 @@
 package org.tuberlin.de.deployment;
 
-import java.io.OutputStream;
+import java.io.InputStream;
 import java.util.List;
 
 /**
@@ -43,16 +43,16 @@ public interface DeploymentInterface {
     public void generateProjectJAR(String entryClass, List<String> clazzes, boolean deploy);
 
     /**
-     * This method is called after the JAR was generated. It will return a OutputStream that contains the JAR File.
+     * This method is called after the JAR was generated. It will return a InputStream that contains the JAR File.
      * This is mainly for frontend functions to download the generated JAR.
-     * @return a OutputStream containing the Jar file
+     * @return a InputStream containing the Jar file
      */
-    public OutputStream getJarStream();
+    public InputStream getJarStream();
 
     /**
-     * This method returns a OutputStream that contains a ZIP file with the entire project (source code files,
+     * This method returns a InputStream that contains a ZIP file with the entire project (source code files,
      * not compiled)
-     * @return OutputStream containing a Zip file with the project (source code, not compiled)
+     * @return InputStream containing a Zip file with the project (source code, not compiled)
      */
-    public OutputStream getZipSource(String entryClass, List<String> clazzes);
+    public InputStream getZipSource(String entryClass, List<String> clazzes);
 }
