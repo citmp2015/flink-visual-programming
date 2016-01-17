@@ -4,6 +4,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.tuberlin.de.common.base.BaseDataSinkPrint;
 import org.tuberlin.de.common.base.BaseDataSourceComponentText;
+import org.tuberlin.de.common.base.BaseGroupBy;
 import org.tuberlin.de.common.base.BaseJobGraph;
 import org.tuberlin.de.common.model.interfaces.JobComponent;
 import org.tuberlin.de.common.model.interfaces.JobGraph;
@@ -73,13 +74,17 @@ public class JSONParser {
 
                 //TODO source code
                 //TODO function parameters
+                //eg. data.has("tupleIndex") / data.data.getInt("tupleIndex")
             }
 
             //type
-            JSONObject component = components.getJSONObject(val.getString("component"));
+            String componentName = val.getString("component");
             JobComponent comp = null;
 
-            //TODO what is the source of truth for types?
+            //TODO what is the source of truth for types? Either:
+            /*
+            JSONObject component = components.getJSONObject(componentName);
+
             switch(component.getString("type")){
                 case "source":
                     comp = new BaseDataSourceComponentText(graph, parameters);
@@ -90,6 +95,28 @@ public class JSONParser {
                 case "sink":
                     comp = new BaseDataSinkPrint(graph, parameters);
                     break;
+            }
+            */
+
+            // or:
+            switch(componentName){
+                case "readFile":
+                    comp = new BaseDataSourceComponentText(graph, parameters);
+                    break;
+
+                case "groupBy":
+                    comp = new BaseGroupBy(graph, parameters);
+                    break;
+
+                case "writeCSV":
+                    comp = new BaseDataSinkPrint(graph, parameters);
+                    break;
+
+                case "sum":
+                    //TODO need base classes
+
+                default:
+                    //TODO what about custom components?
             }
 
             graph.addComponent(comp);
