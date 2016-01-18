@@ -27,10 +27,14 @@
     "ngDraggable": "~0.1.8",
     "lodash": "~3.10.1",
     "angular-local-storage": "~0.2.3",
-    "angular-ui-codemirror": "~0.3.0",
-    "clike": "https://codemirror.net/mode/clike/clike.js"
+    "angular-ui-codemirror": "~0.3.0"
   },
   "resolutions": {
     "jquery": "2.1.4"
+  },
+   "overrides": {
+    "codemirror": {
+      "main": ["lib/codemirror.js", "lib/codemirror.css", "mode/clike/clike.js"]
+    }
   }
 }
