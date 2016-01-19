@@ -10,14 +10,21 @@
     function FlatmapModalCtrl($scope, $rootScope, $uibModalInstance, $stateParams, $timeout, graphFactory, $log) {
 
         var cell = $rootScope.graph.getCell($stateParams.id);
-		
-		$scope.editor=cell.attributes.data.javaSourceCode;
-        $scope.save = save;
-        $scope.cancel = cancel;
 
+        $scope.editor=cell.attributes.data.javaSourceCode;
+        
+        $scope.save = save;
+        $scope.cancel = cancel;     
+        
+        // Refresh to make source code visible in modal
+        $scope.refreshEditor = true;
+        $timeout(function () {
+            $scope.refreshEditor = false;
+        }, 100);
+        
         function save() {
             cell.attributes.data.javaSourceCode = $scope.editor;
-			graphFactory.saveToLocalStorage($rootScope.graph);
+            graphFactory.saveToLocalStorage($rootScope.graph);
             $uibModalInstance.close();
         }
 

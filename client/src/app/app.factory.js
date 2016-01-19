@@ -223,7 +223,7 @@
         flink.Model = joint.shapes.basic.Generic.extend(_.extend({}, joint.shapes.basic.PortsModelInterface, {
 
             markup: '<g class="rotatable"><g class="scalable"><rect class="body"/></g><text class="label"/><g class="inPorts"/><g class="outPorts"/></g>',
-            portMarkup: '<g class="port port<%= id %>"><circle class="port-body"/><text class="port-label"/></g>',
+            portMarkup: '<g class="port port<%= id %>"><circle class="port-body"/></g>',
 
             defaults: joint.util.deepSupplement({
 
@@ -259,17 +259,6 @@
                         'ref-y': 45,
                         ref: '.body',
                         'text-anchor': 'middle',
-                        fill: '#000000'
-                    },
-                    '.inPorts .port-label': {
-                        x: -15,
-                        dy: 4,
-                        'text-anchor': 'end',
-                        fill: '#000000'
-                    },
-                    '.outPorts .port-label': {
-                        x: 15,
-                        dy: 4,
                         fill: '#000000'
                     }
                 }
