@@ -111,7 +111,7 @@
         $scope.$watch('search.label', function(searchLabel) {
             var openForFilter = false,
                 menuItemLength = $scope.menuItems.length;
-            if (typeof searchLabel != 'undefined' && searchLabel.length > 1) {
+            if (typeof searchLabel !== 'undefined' && searchLabel.length > 1) {
                 openForFilter = true;
             }
             for (var index = 0; index < menuItemLength; index++) {
