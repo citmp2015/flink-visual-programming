@@ -177,6 +177,12 @@ public class DeploymentImplementation implements DeploymentInterface {
         clazzes.forEach((className, clazz) -> saveClass(temporaryFolder, className, clazz));
     }
 
+    /**
+     * This methods saves a class as a child of the temporary folder
+     * @param temporarayFolder
+     * @param clazzName
+     * @param clazz
+     */
     private void saveClass(File temporarayFolder, String clazzName, String clazz){
         try {
             File outputFile = new File(temporarayFolder.getPath() + "/" + clazzName + ".java");
