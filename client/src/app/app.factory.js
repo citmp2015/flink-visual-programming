@@ -181,7 +181,7 @@
                         text: 'CSV Datasource'
                     }
                 },
-                componentType: 'CSVDatasource',
+                componentType: 'csvdatasource',
                 data: {
                     modalController: 'CSVDatasourceModalCtrl',
                     modalTemplateUrl: '/app/datasource/csv-datasource-modal.tpl.html',
@@ -212,7 +212,7 @@
                         text: 'Text Datasource'
                     }
                 },
-                componentType: 'textDatasource',
+                componentType: 'textdatasource',
                 data: {
                     modalController: 'TextDatasourceModalCtrl',
                     modalTemplateUrl: '/app/datasource/text-datasource-modal.tpl.html',
