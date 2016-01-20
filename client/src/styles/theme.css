@@ -277,3 +277,26 @@ table.dataTable thead .sorting:after {
 .panel-yellow a:hover {
     color: #df8a13;
 }
+
+
+
+
+.import-wrapper {
+    overflow: hidden;
+    vertical-align: bottom;
+}
+.import-wrapper > input[type="file"] {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    opacity: 0;
+    cursor: pointer;
+    font-size: 50px;
+    line-height: 1em;
+}
+.import-wrapper > a {
+    display: inline-block;
+    margin: 0 0 0 -1px;
+    padding-left: 0;
+    cursor: pointer;
+}

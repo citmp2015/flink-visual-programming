@@ -10,16 +10,21 @@
     function MenuSidebarCtrl($scope, $rootScope) {
 
         $scope.menuItems = [{
-            label: 'Datasource',
+            label: 'Datasources',
             faIconClass: 'fa-table',
             open: false,
             subItems: [{
-                label: 'CSV Datasoucrce',
+                label: 'CSV Datasource',
                 dragData: {
                     type: 'csvDatasource'
                 }
+            }, {
+                label: 'Text Datasource',
+                dragData: {
+                    type: 'textDatasource'
+                }
             }]
-        },{
+        }, {
             label: 'Join',
             faIconClass: 'fa-link',
             open: false,
@@ -46,7 +51,7 @@
             label: 'Sum',
             faIconClass: 'fa-plus',
             open: false,
-			dragData: {
+            dragData: {
                 type: 'sum'
             },
             subItems: []
@@ -54,7 +59,7 @@
             label: 'Group',
             faIconClass: 'fa-list',
             open: false,
-			dragData: {
+            dragData: {
                 type: 'group'
             },
             subItems: []
@@ -62,15 +67,36 @@
             label: 'Map',
             faIconClass: 'fa-edit',
             open: false,
-			dragData: {
+            dragData: {
                 type: 'map'
+            },
+            subItems: []
+        }, {
+            label: 'FlatMap',
+            faIconClass: 'fa-edit',
+            open: false,
+            dragData: {
+                type: 'flatmap'
             },
             subItems: []
         }, {
             label: 'Reduce',
             faIconClass: 'fa-edit',
             open: false,
+            dragData: {
+                type: 'reduce'
+            },
             subItems: []
+        }, {
+            label: 'Sinks',
+            faIconClass: 'fa-table',
+            open: false,
+            subItems: [{
+                label: 'CSV Datasink',
+                dragData: {
+                    type: 'csvDatasink'
+                }
+            }]
         }];
 
     }

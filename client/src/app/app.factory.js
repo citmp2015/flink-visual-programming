@@ -7,7 +7,7 @@
         .factory('graphFactory', GraphFactory);
 
     /*@ngInject*/
-    function GraphFactory(localStorageService) {
+    function GraphFactory(localStorageService, templateFactory) {
 
         var flink = {};
 
@@ -24,28 +24,138 @@
             localStorageService.remove('graph');
         };
 
-        flink.renderNumberFilter = function(posX, posY, inCnt, outCnt) {
-            return fastCreate(posX, posY, inCnt, outCnt, 'Number Filter');
+        flink.renderNumberFilter = function(posX, posY, $state) {
+            return new flink.Atomic({
+                position: {
+                    x: posX,
+                    y: posY
+                },
+                size: {
+                    width: 140,
+                    height: 60
+                },
+                inPorts: ['IN0'],
+                outPorts: ['OUT0'],
+                attrs: {
+                    rect: {
+                        fill: 'green'
+                    },
+                    '.label': {
+                        text: 'Number Filter'
+                    }
+                },
+                data: {
+                    modalController: 'NumberfilterModalCtrl',
+                    modalTemplateUrl: '/app/filter/numberfilter-modal.tpl.html',
+                    inputIndex: 0,
+                    operationType: {
+                        label: '=',
+                        key: '='
+                    },
+                    compareValue: 0,
+                    javaSourceCode: ''
+                }
+            });
         };
 
-        flink.renderStringFilter = function(posX, posY, inCnt, outCnt) {
-            return fastCreate(posX, posY, inCnt, outCnt, 'String Filter');
+        flink.renderStringFilter = function(posX, posY, $state) {
+            return fastCreate(posX, posY, 1, 1, 'String Filter');
         };
 
-        flink.renderMap = function(posX, posY, inCnt, outCnt) {
-            return fastCreate(posX, posY, inCnt, outCnt, 'Map');
+        flink.renderMap = function(posX, posY, $state) {
+            return fastCreate(posX, posY, 1, 1, 'Map');
         };
 
-        flink.renderSum = function(posX, posY, inCnt, outCnt) {
-            return fastCreate(posX, posY, inCnt, outCnt, 'Sum');
+        flink.renderFlatMap = function(posX, posY, $state) {
+            return new flink.Atomic({
+                position: {
+                    x: posX,
+                    y: posY
+                },
+                size: {
+                    width: 140,
+                    height: 60
+                },
+                inPorts: ['IN0'],
+                outPorts: ['OUT0'],
+                attrs: {
+                    rect: {
+                        fill: 'green'
+                    },
+                    '.label': {
+                        text: 'FlatMap'
+                    }
+                },
+                data: {
+                    modalController: 'flatmapModalCtrl',
+                    modalTemplateUrl: '/app/flatmap/flatmap-modal.tpl.html',
+                    javaSourceCode: templateFactory.createFlatMapTemplate()
+                }
+            });
         };
 
-        flink.renderJoin = function(posX, posY, inCnt, outCnt) {
-            return fastCreate(posX, posY, inCnt, outCnt, 'Join');
+        flink.renderSum = function(posX, posY, $state) {
+            return new flink.Atomic({
+                position: {
+                    x: posX,
+                    y: posY
+                },
+                size: {
+                    width: 140,
+                    height: 60
+                },
+                inPorts: ['IN0'],
+                outPorts: ['OUT0'],
+                attrs: {
+                    rect: {
+                        fill: 'green'
+                    },
+                    '.label': {
+                        text: 'Sum'
+                    }
+                },
+                data: {
+                    modalController: 'sumModalCtrl',
+                    modalTemplateUrl: '/app/sum/sum-modal.tpl.html',
+                    inputIndex: 0
+                }
+            });
         };
 
-        flink.renderGroup = function(posX, posY, inCnt, outCnt) {
-            return fastCreate(posX, posY, inCnt, outCnt, 'Group');
+        flink.renderJoin = function(posX, posY, $state) {
+            return fastCreate(posX, posY, 2, 1, 'Join');
+        };
+
+        flink.renderGroup = function(posX, posY, $state) {
+            return new flink.Atomic({
+                position: {
+                    x: posX,
+                    y: posY
+                },
+                size: {
+                    width: 140,
+                    height: 60
+                },
+                inPorts: ['IN0'],
+                outPorts: ['OUT0'],
+                attrs: {
+                    rect: {
+                        fill: 'green'
+                    },
+                    '.label': {
+                        text: 'Group'
+                    }
+                },
+                data: {
+                    modalController: 'groupModalCtrl',
+                    modalTemplateUrl: '/app/group/group-modal.tpl.html',
+                    inputIndex: 0
+                }
+            });
+        };
+
+        flink.renderReduce = function(posX, posY, $state) {
+            return fastCreate(posX, posY, 1, 1, 'Reduce');
         };
 
         flink.renderCsvDatasource = function(posX, posY, $state) {
@@ -58,30 +168,62 @@
                     width: 140,
                     height: 60
                 },
-                outPorts: ['OUT1'],
+                outPorts: ['OUT0'],
                 attrs: {
                     rect: {
                         fill: 'green'
                     },
-                    text: {
-                        text: 'CSV Datasource',
-                        fill: 'white'
+                    '.label': {
+                        text: 'CSV Datasource'
                     }
                 },
                 data: {
-                    modalController: 'DatasourceModalCtrl',
-                    modalTemplateUrl: '/app/datasources/datasources-modal.tpl.html',
+                    modalController: 'CSVDatasourceModalCtrl',
+                    modalTemplateUrl: '/app/datasource/csv-datasource-modal.tpl.html',
                     path: null,
                     countColumns: 2,
-                    columns: []
+                    columns: [],
+                    javaSourceCode: ''
                 }
             });
+        };
+
+        flink.renderTextDatasource = function(posX, posY, $state) {
+            return new flink.Atomic({
+                position: {
+                    x: posX,
+                    y: posY
+                },
+                size: {
+                    width: 140,
+                    height: 60
+                },
+                outPorts: ['OUT0'],
+                attrs: {
+                    rect: {
+                        fill: 'green'
+                    },
+                    '.label': {
+                        text: 'Text Datasource'
+                    }
+                },
+                data: {
+                    modalController: 'TextDatasourceModalCtrl',
+                    modalTemplateUrl: '/app/datasource/text-datasource-modal.tpl.html',
+                    path: null,
+                    javaSourceCode: ''
+                }
+            });
+        };
+
+        flink.renderCsvDatasink = function(posX, posY) {
+            return fastCreate(posX, posY, 1, 0, 'CSV Datasink');
         };
 
         flink.Model = joint.shapes.basic.Generic.extend(_.extend({}, joint.shapes.basic.PortsModelInterface, {
 
             markup: '<g class="rotatable"><g class="scalable"><rect class="body"/></g><text class="label"/><g class="inPorts"/><g class="outPorts"/></g>',
-            portMarkup: '<g class="port port<%= id %>"><circle class="port-body"/><text class="port-label"/></g>',
+            portMarkup: '<g class="port port<%= id %>"><circle class="port-body"/></g>',
 
             defaults: joint.util.deepSupplement({
 
@@ -117,17 +259,6 @@
                         'ref-y': 45,
                         ref: '.body',
                         'text-anchor': 'middle',
-                        fill: '#000000'
-                    },
-                    '.inPorts .port-label': {
-                        x: -15,
-                        dy: 4,
-                        'text-anchor': 'end',
-                        fill: '#000000'
-                    },
-                    '.outPorts .port-label': {
-                        x: 15,
-                        dy: 4,
                         fill: '#000000'
                     }
                 }

@@ -12,6 +12,11 @@
         <li><a><i class="fa fa-play"></i> Deploy and Run</a></li>
         <li><a href="/dummydata/Wordcount.java.tar.gz" target="_blank"><i class="fa fa-download"></i> Download Java Project</a></li>
         <li><a ng-click="clearGraph()"><i class="fa fa-history"></i> Reset</a></li>
+        <li><a ng-href="{{exportHref}}" download="export.json" ng-click="exportGraph()"><i class="fa fa-cloud-download"></i> Export</a></li>
+        <li class="import-wrapper">
+            <a ng-click="importGraph()"><i class="fa fa-cloud-upload"></i> Import</a>
+            <input file-import type="file" ng-model="importFile" on-file-loaded="onFileLoaded()" on-file-error="onFileError($error)">
+        </li>
         <li><a><i class="fa fa-cog"></i> Configuration</a></li>
     </ul>
 
@@ -33,7 +38,9 @@
 
                 <li ng-repeat="menuItem in menuItems">
                     <a ng-click="menuItem.open = !menuItem.open;" ng-drag="{{menuItem.dragData ? true : false}}" ng-drag-data="{{menuItem.dragData}}">
-                        <i ng-if="menuItem.faIconClass" class="fa" ng-class="menuItem.faIconClass"></i> {{menuItem.label}}
+                        <i ng-if="menuItem.faIconClass" class="fa" ng-class="menuItem.faIconClass"></i>
+                        {{menuItem.label}}
+                        <i ng-if="menuItem.subItems.length" class="fa fa-caret-down"></i>
                     </a>
                     <ul class="nav nav-second-level" ng-if="menuItem.subItems.length" ng-show="menuItem.open">
                         <li ng-repeat="subMenuItem in menuItem.subItems">

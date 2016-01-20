@@ -1,9 +1,11 @@
-package org.tuberlin.de.common.test;
+package org.tuberlin.de.test.model;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.tuberlin.de.common.base.*;
-import org.tuberlin.de.common.codegenerator.CodeGenerator;
+import org.tuberlin.de.common.base.BaseAggregateComponent;
+import org.tuberlin.de.common.base.BaseDataSinkComponentPrint;
+import org.tuberlin.de.common.base.BaseDataSourceComponentText;
+import org.tuberlin.de.common.base.BaseFlatMapComponent;
+import org.tuberlin.de.common.base.BaseGroupByComponent;
+import org.tuberlin.de.common.base.BaseJobGraph;
 import org.tuberlin.de.common.model.Constants;
 import org.tuberlin.de.common.model.interfaces.CompilationUnitComponent;
 import org.tuberlin.de.common.model.interfaces.JobGraph;
@@ -16,10 +18,6 @@ import org.tuberlin.de.common.model.interfaces.transorfmation.TransformationGrou
 import java.util.HashMap;
 import java.util.Map;
 
-
-/**
- * Created by oxid on 1/4/16.
- */
 public class BaseJobGraphTest {
 
 
@@ -50,6 +48,12 @@ public class BaseJobGraphTest {
         Map<String, Object> fMapPrarameters = new HashMap<String, Object>();
         Map<String, Object> gByParameters = new HashMap<String, Object>();
         Map<String, Object> aggParameters = new HashMap<String, Object>();
+
+        aggParameters.put(AggregateComponent.FIELD_KEY, 1);
+        aggParameters.put(AggregateComponent.FUNCTION_KEY, AggregateComponent.FUNCTION_TYPES.SUM);
+        AggregateComponent aggregateComponent = new BaseAggregateComponent(jobGraph, aggParameters);
+
+        //DataSink
         Map<String, Object> dSinkParameters = new HashMap<String, Object>();
         String componentKeyDataSourceTest = "dataSourceTest";
         String componentKeyFlatMapTest = "flatMapTest";

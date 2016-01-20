@@ -11,9 +11,14 @@
         'angularMoment',
         'ngDraggable',
         'LocalStorageModule',
+        'ui.codemirror',
 
         'app.menu',
-        'app.datasource'
+        'app.datasource',
+        'app.filter',
+        'app.group',
+        'app.sum',
+        'app.flatmap'
 
     ]);
 
