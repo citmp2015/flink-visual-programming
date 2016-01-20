@@ -37,7 +37,6 @@ public class CodeGenerator {
         String result = "public class " + jobGraph.getClassName() + "{\n\n";
         result += printMain(jobGraph);
         //TODO component classes ?
-        result += jobGraph.getEnvironmentIdentifier() + ".execute();";
         result += "}";
         return result;
     }
@@ -48,7 +47,8 @@ public class CodeGenerator {
         result += printExecutionEnvironment(jobGraph) + "\n";
         result += printVariables(jobGraph) + "\n";
         result += printComponents(jobGraph) + "\n";
-        result += "}";
+        result += jobGraph.getEnvironmentIdentifier() + ".execute();";
+        result += "\n}\n";
         return result;
     }
 
@@ -129,9 +129,14 @@ public class CodeGenerator {
                     JobComponent child = jobGraph.getComponent(childKey);
 
                     //TODO ummm, think about that collection thingy a little bit, maybe use list?
-                    result += child.getComponentKey();
-                    result +=
-                            " = ";
+
+                    if(!(child instanceof DataSink)){
+
+                        result += child.getComponentKey();
+                        result +=
+                                " = ";
+                    }
+
 
                     result += child.getParents().iterator().next();
                     result += child.getJobSource() + ";\n";

@@ -63,9 +63,10 @@ public class BaseJobGraphTest {
         //DataSourceParam
         dSourceCompParameters.put(Constants.JOB_COMPONENT_CHILDREN, componentKeyFlatMapTest);
         dSourceCompParameters.put(Constants.JOB_COMPONENT_PARENT, null);
-        dSourceCompParameters.put(Constants.JOB_COMPONENT_INPUT_TYPE, null);
+        dSourceCompParameters.put(Constants.JOB_COMPONENT_INPUT_TYPE, "DataSet<String>");
         dSourceCompParameters.put(Constants.JOB_COMPONENT_OUTPUT_TYPE, "DataSet<String>");
         dSourceCompParameters.put(Constants.JOB_COMPOENT_KEY, componentKeyDataSourceTest);
+        dSourceCompParameters.put(Constants.COMPONENT_PATH_JSON, "/a/path");
         //TODO COMPONENT_JOB_SOURCE_JSON
 
         //FlatMapParam
@@ -86,9 +87,10 @@ public class BaseJobGraphTest {
                 "}\n" +
                 "}\n" +
                 "}");
-        fMapPrarameters.put(Constants.JOB_COMPONENT_INPUT_TYPE, dSourceCompParameters.get(Constants.JOB_COMPONENT_OUTPUT_TYPE));
+        fMapPrarameters.put(Constants.JOB_COMPONENT_INPUT_TYPE, "Tuple2<String, Integer>");
         fMapPrarameters.put(Constants.JOB_COMPONENT_OUTPUT_TYPE, "Tuple2<String, Integer>");
         fMapPrarameters.put(Constants.JOB_COMPOENT_KEY, componentKeyFlatMapTest);
+        fMapPrarameters.put(Constants.COMPONENT_PATH_JSON, "/a/path");
         //TODO COMPONENT_JOB_SOURCE_JSON
 
 
@@ -96,18 +98,21 @@ public class BaseJobGraphTest {
         //TODO add field to GoupByComponent interface
         gByParameters.put(Constants.JOB_COMPONENT_CHILDREN, componentKeyAggregate);
         gByParameters.put(Constants.JOB_COMPONENT_PARENT, componentKeyFlatMapTest);
-        gByParameters.put(Constants.JOB_COMPONENT_INPUT_TYPE, fMapPrarameters.get(Constants.JOB_COMPONENT_OUTPUT_TYPE));
+        gByParameters.put(Constants.JOB_COMPONENT_INPUT_TYPE, "Tuple2<String, Integer>");
         gByParameters.put(Constants.JOB_COMPONENT_OUTPUT_TYPE, "Tuple2<String, Integer>");
         gByParameters.put(Constants.JOB_COMPOENT_KEY, componentKeyGroupBy);
+        gByParameters.put(TransformationGroupBy.COMPONENT_GROUP_BY_FIELD, "0");
         //TODO COMPONENT_JOB_SOURCE_JSON
 
         //AggregateParam
         //TODO sum und 1
         aggParameters.put(Constants.JOB_COMPONENT_CHILDREN, componentKeyDataSink);
         aggParameters.put(Constants.JOB_COMPONENT_PARENT, componentKeyAggregate);
-        aggParameters.put(Constants.JOB_COMPONENT_INPUT_TYPE, gByParameters.get(Constants.JOB_COMPONENT_OUTPUT_TYPE));
+        aggParameters.put(Constants.JOB_COMPONENT_INPUT_TYPE, "Tuple2<String, Integer>");
         aggParameters.put(Constants.JOB_COMPONENT_OUTPUT_TYPE, "Tuple2<String, Integer>");
         aggParameters.put(Constants.JOB_COMPOENT_KEY, componentKeyAggregate);
+        aggParameters.put(TransformationAggregate.FUNCTION_KEY, "SUM");
+        aggParameters.put(TransformationAggregate.FIELD_KEY, "1");
         //TODO COMPONENT_JOB_SOURCE_JSON
 
         //DatSinkPara

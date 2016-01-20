@@ -76,12 +76,12 @@ public abstract class AbstractJobComponent implements JobComponent {
 
     @Override
     public String getInputType() {
-        return null;
+        return (String) parameters.get(JobComponent.INPUT_TYPE);
     }
 
     @Override
     public String getOutputType() {
-        return null;
+        return (String) parameters.get(JobComponent.OUTPUT_TYPE);
     }
 
     @Override
