@@ -19,7 +19,10 @@
                 processes: [],
                 connections: []
             };
-            if (!initialJson.cells) return json;
+
+            if (!initialJson.cells) {
+                return json;
+            }
 
             for (var i = 0; i < initialJson.cells.length; i++) {
                 var cell = initialJson.cells[i];
