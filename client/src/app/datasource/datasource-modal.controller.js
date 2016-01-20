@@ -27,7 +27,7 @@
         }];
 
         $scope.datasource = {
-            path: cell.attributes.data.path,
+            filePath: cell.attributes.data.filePath,
             countColumns: cell.attributes.data.countColumns,
             columns: cell.attributes.data.columns,
             javaSourceCode: cell.attributes.data.javaSourceCode
@@ -53,10 +53,10 @@
         });
 
         function save() {
-            cell.attributes.data.path = $scope.datasource.path;
+            cell.attributes.data.filePath = $scope.datasource.filePath;
             cell.attributes.data.countColumns = $scope.datasource.countColumns;
             cell.attributes.data.columns = $scope.datasource.columns;
-            cell.attributes.data.javaSourceCode = templateFactory.createCSVDatasourceTemplate($scope.datasource.columns, $scope.datasource.path);
+            cell.attributes.data.javaSourceCode = templateFactory.createCSVDatasourceTemplate($scope.datasource.columns, $scope.datasource.filePath);
             graphFactory.saveToLocalStorage($rootScope.graph);
             $uibModalInstance.close();
         }
@@ -72,7 +72,7 @@
         var cell = $rootScope.graph.getCell($stateParams.id);
 
         $scope.datasource = {
-            path: cell.attributes.data.path,
+            filePath: cell.attributes.data.filePath,
             javaSourceCode: cell.attributes.data.javaSourceCode
         };
 
@@ -80,8 +80,8 @@
         $scope.cancel = cancel;
 
         function save() {
-            cell.attributes.data.path = $scope.datasource.path;
-            cell.attributes.data.javaSourceCode = templateFactory.createTextDatasourceTemplate($scope.datasource.path);
+            cell.attributes.data.filePath = $scope.datasource.filePath;
+            cell.attributes.data.javaSourceCode = templateFactory.createTextDatasourceTemplate($scope.datasource.filePath);
             graphFactory.saveToLocalStorage($rootScope.graph);
             $uibModalInstance.close();
         }

@@ -48,7 +48,7 @@
                 data: {
                     modalController: 'NumberfilterModalCtrl',
                     modalTemplateUrl: '/app/filter/numberfilter-modal.tpl.html',
-                    inputIndex: 0,
+                    tupleIndex: 0,
                     operationType: {
                         label: '=',
                         key: '='
@@ -120,7 +120,7 @@
                 data: {
                     modalController: 'sumModalCtrl',
                     modalTemplateUrl: '/app/sum/sum-modal.tpl.html',
-                    inputIndex: 0
+                    tupleIndex: 0
                 }
             });
         };
@@ -153,7 +153,7 @@
                 data: {
                     modalController: 'groupModalCtrl',
                     modalTemplateUrl: '/app/group/group-modal.tpl.html',
-                    inputIndex: 0
+                    tupleIndex: 0
                 }
             });
         };
@@ -185,7 +185,7 @@
                 data: {
                     modalController: 'CSVDatasourceModalCtrl',
                     modalTemplateUrl: '/app/datasource/csv-datasource-modal.tpl.html',
-                    path: null,
+                    filePath: null,
                     countColumns: 2,
                     columns: [],
                     javaSourceCode: ''
@@ -216,7 +216,7 @@
                 data: {
                     modalController: 'TextDatasourceModalCtrl',
                     modalTemplateUrl: '/app/datasource/text-datasource-modal.tpl.html',
-                    path: null,
+                    filePath: null,
                     javaSourceCode: ''
                 }
             });

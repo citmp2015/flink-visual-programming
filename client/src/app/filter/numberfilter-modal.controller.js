@@ -29,7 +29,7 @@
         }];
 
         $scope.numberfilter = {
-            inputIndex: cell.attributes.data.inputIndex,
+            tupleIndex: cell.attributes.data.tupleIndex,
             operationType: cell.attributes.data.operationType,
             compareValue: cell.attributes.data.compareValue,
 			javaSourceCode: cell.attributes.data.javaSourceCode
@@ -39,7 +39,7 @@
         $scope.cancel = cancel;
 
         function save() {
-            cell.attributes.data.inputIndex = $scope.numberfilter.inputIndex;
+            cell.attributes.data.tupleIndex = $scope.numberfilter.tupleIndex;
             cell.attributes.data.operationType = $scope.numberfilter.operationType;
             cell.attributes.data.compareValue = $scope.numberfilter.compareValue;
 			cell.attributes.data.javaSourceCode = templateFactory.createNumberFilterTemplate($scope.numberfilter.operationType, $scope.numberfilter.compareValue);

@@ -12,14 +12,14 @@
         var cell = $rootScope.graph.getCell($stateParams.id);
 
         $scope.sum = {
-            inputIndex: cell.attributes.data.inputIndex,
+            tupleIndex: cell.attributes.data.tupleIndex
         };
 
         $scope.save = save;
         $scope.cancel = cancel;
 
         function save() {
-            cell.attributes.data.inputIndex = $scope.sum.inputIndex;
+            cell.attributes.data.tupleIndex = $scope.sum.tupleIndex;
             graphFactory.saveToLocalStorage($rootScope.graph);
             $uibModalInstance.close();
         }
