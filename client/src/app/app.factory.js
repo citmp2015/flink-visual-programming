@@ -44,6 +44,7 @@
                         text: 'Number Filter'
                     }
                 },
+                componentType: 'numberfilter',
                 data: {
                     modalController: 'NumberfilterModalCtrl',
                     modalTemplateUrl: '/app/filter/numberfilter-modal.tpl.html',
@@ -86,6 +87,7 @@
                         text: 'FlatMap'
                     }
                 },
+                componentType: 'flatmap',
                 data: {
                     modalController: 'flatmapModalCtrl',
                     modalTemplateUrl: '/app/flatmap/flatmap-modal.tpl.html',
@@ -114,6 +116,7 @@
                         text: 'Sum'
                     }
                 },
+                componentType: 'sum',
                 data: {
                     modalController: 'sumModalCtrl',
                     modalTemplateUrl: '/app/sum/sum-modal.tpl.html',
@@ -146,6 +149,7 @@
                         text: 'Group'
                     }
                 },
+                componentType: 'group',
                 data: {
                     modalController: 'groupModalCtrl',
                     modalTemplateUrl: '/app/group/group-modal.tpl.html',
@@ -177,6 +181,7 @@
                         text: 'CSV Datasource'
                     }
                 },
+                componentType: 'CSVDatasource',
                 data: {
                     modalController: 'CSVDatasourceModalCtrl',
                     modalTemplateUrl: '/app/datasource/csv-datasource-modal.tpl.html',
@@ -207,6 +212,7 @@
                         text: 'Text Datasource'
                     }
                 },
+                componentType: 'textDatasource',
                 data: {
                     modalController: 'TextDatasourceModalCtrl',
                     modalTemplateUrl: '/app/datasource/text-datasource-modal.tpl.html',
@@ -354,6 +360,7 @@
                     x: posX,
                     y: posY
                 },
+                componentType: 'fastCreate: ' + label,
                 inPorts: portsIn,
                 outPorts: portsOut,
                 attrs: {
