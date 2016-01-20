@@ -7,11 +7,12 @@
         .controller('MenuNavbarTopCtrl', MenuNavbarTopCtrl);
 
     /*@ngInject*/
-    function MenuNavbarTopCtrl($scope, $rootScope, graphFactory, $log) {
+    function MenuNavbarTopCtrl($scope, $rootScope, graphFactory, jsonBuilder, $log) {
 
         $scope.clearGraph = clearGraph;
         $scope.exportGraph = exportGraph;
         $scope.importGraph = importGraph;
+        $scope.sendGraph = sendGraph;
         $scope.exportHref = '#';
 
         $scope.importFile = null;
@@ -38,6 +39,13 @@
 
         function importGraph(argument) {
             // body...
+        }
+
+        function sendGraph() {
+            var json = jsonBuilder.buildJson($rootScope.graph);
+            console.log(json);
+            //TODO send where?
+
         }
 
     }

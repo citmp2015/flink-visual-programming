@@ -42,7 +42,7 @@
             cell.attributes.data.inputIndex = $scope.numberfilter.inputIndex;
             cell.attributes.data.operationType = $scope.numberfilter.operationType;
             cell.attributes.data.compareValue = $scope.numberfilter.compareValue;
-			cell.attributes.data.javaSourceCode= templateFactory.createNumberFilterTemplate($scope.numberfilter.operationType, $scope.numberfilter.compareValue);
+			cell.attributes.data.javaSourceCode = templateFactory.createNumberFilterTemplate($scope.numberfilter.operationType, $scope.numberfilter.compareValue);
             graphFactory.saveToLocalStorage($rootScope.graph);
             $uibModalInstance.close();
         }
