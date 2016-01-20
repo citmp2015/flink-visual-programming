@@ -47,7 +47,7 @@ public abstract class AbstractTransformationAggregate extends AbstractTransforma
     public String getJobSource() {
         if (!this.initialized) throw new IllegalStateException("Forgot to init!");
         String source = "";
-        source += "aggregate(" + parameters.get(TransformationAggregate.FUNCTION_KEY) + ", "+ parameters.get(TransformationAggregate.FIELD_KEY) + ")";
+        source += ".aggregate(Aggregations." + parameters.get(TransformationAggregate.FUNCTION_KEY) + ", "+ parameters.get(TransformationAggregate.FIELD_KEY) + ")";
         return source;
     }
 

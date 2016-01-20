@@ -110,4 +110,9 @@ public abstract class AbstractJobComponent implements JobComponent {
         if (!initialized) throw new IllegalStateException("Invalid state: must be initialized");
         return parameters.get(key);
     }
+
+    @Override
+    public String getTypeDeclaration() throws IllegalStateException {
+        return "DataSet<" + parameters.get(JobComponent.OUTPUT_TYPE) + ">";
+    }
 }

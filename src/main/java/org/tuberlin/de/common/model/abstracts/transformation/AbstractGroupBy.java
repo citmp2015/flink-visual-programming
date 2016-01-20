@@ -1,5 +1,6 @@
 package org.tuberlin.de.common.model.abstracts.transformation;
 
+import org.tuberlin.de.common.model.interfaces.JobComponent;
 import org.tuberlin.de.common.model.interfaces.transorfmation.TransformationGroupBy;
 
 /**
@@ -13,6 +14,10 @@ public abstract class AbstractGroupBy extends AbstractTransformation implements 
         String source = "";
         source += ".groupBy(" + parameters.get(COMPONENT_GROUP_BY_FIELD) + ")";
         return source;
+    }
+    @Override
+    public String getTypeDeclaration() throws IllegalStateException {
+        return "UnsortedGrouping<" + parameters.get(JobComponent.OUTPUT_TYPE) + ">";
     }
 
 }

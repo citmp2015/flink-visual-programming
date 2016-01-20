@@ -42,7 +42,7 @@ public class CodeGenerator {
     }
 
     private static String printMain(JobGraph jobGraph) {
-        String result = "public static void main(String[] args){\n";
+        String result = "public static void main(String[] args) throws Exception{\n";
         //TODO: maybe parse arguments for main
         result += printExecutionEnvironment(jobGraph) + "\n";
         result += printVariables(jobGraph) + "\n";
@@ -136,10 +136,9 @@ public class CodeGenerator {
                         result +=
                                 " = ";
                     }
-
-
                     result += child.getParents().iterator().next();
-                    result += child.getJobSource() + ";\n";
+                    result +=  child.getJobSource() + ";\n";
+
 
                     //TODO: the assumption is, that a only has multiple parents, when it is using multiple dataset (e.g. combine)
                     //this means, that a reused component needs to be added 2x under different keys or we need a differen notation
@@ -170,7 +169,7 @@ public class CodeGenerator {
         //TODO: think about concurrency, etc in collections/maps --> escallate through all classes
         for (JobComponent c : jobGraph.getComponents()){
             if(!(c instanceof DataSink)){
-                result += c.getInputType() + " " + c.getComponentKey() + ";\n";
+                result += c.getTypeDeclaration() + " " + c.getComponentKey() + ";\n";
             }
         }
         return result;

@@ -12,8 +12,7 @@ public abstract class AbstractPrintDataSink extends AbstractDataSink implements 
     public String getJobSource() {
         if (!initialized) throw new IllegalStateException("Must be initialized");
         //TODO: Integrity checks
-        String result = jobGraph.getEnvironmentIdentifier() + ".print()";
-        result += ";";
+        String result = ".print();";
         return result;
     }
 

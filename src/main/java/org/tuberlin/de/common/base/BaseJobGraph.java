@@ -170,6 +170,9 @@ public class BaseJobGraph implements JobGraph {
         result.add("org.apache.flink.api.common.*");
         result.add("org.apache.flink.api.java.*");
         result.add("org.apache.flink.util.*");
+        result.add("org.apache.flink.api.java.operators.*");
+        result.add("org.apache.flink.api.java.tuple.*");
+        result.add("org.apache.flink.api.java.aggregation.Aggregations");
         return result;
     }
 

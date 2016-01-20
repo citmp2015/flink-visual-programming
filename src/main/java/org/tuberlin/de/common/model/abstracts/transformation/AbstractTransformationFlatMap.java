@@ -1,5 +1,6 @@
 package org.tuberlin.de.common.model.abstracts.transformation;
 
+import org.tuberlin.de.common.model.interfaces.JobComponent;
 import org.tuberlin.de.common.model.interfaces.transorfmation.TransformationFlatMap;
 
 import java.util.Collection;
@@ -57,7 +58,7 @@ public abstract class AbstractTransformationFlatMap extends AbstractTransformati
     public String getJobSource() {
         if (!this.initialized) throw new IllegalStateException("Forgot to init!");
         String source = "";
-        source += ".flatmap(new " + parameters.get(FUNCTION_NAME_KEY) + "())";
+        source += ".flatMap(new " + parameters.get(FUNCTION_NAME_KEY) + "())";
         return source;
     }
 

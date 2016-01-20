@@ -13,7 +13,7 @@ public abstract class AbstractFileTextDataSourceComponent extends AbstractFileDa
     public String getJobSource() {
         if (!initialized) throw new IllegalStateException("Must be initialized");
         //TODO: Integrity checks
-        String result = jobGraph.getEnvironmentIdentifier() + ".readTextFile(" + parameters.get(Constants.COMPONENT_PATH_JSON) + ")";
+        String result = jobGraph.getEnvironmentIdentifier() + ".readTextFile(\"" + parameters.get(Constants.COMPONENT_PATH_JSON) + "\")";
         result += ";";
         return result;
     }

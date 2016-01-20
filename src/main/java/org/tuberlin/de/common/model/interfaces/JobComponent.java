@@ -59,6 +59,8 @@ public interface JobComponent {
      * @throws IllegalStateException
      */
     public boolean verify() throws IllegalStateException;
+//TODO maybe also declaration (full(
+    public String getTypeDeclaration() throws IllegalStateException;
 
     /**
      *

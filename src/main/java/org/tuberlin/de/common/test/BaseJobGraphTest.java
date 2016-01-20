@@ -63,8 +63,8 @@ public class BaseJobGraphTest {
         //DataSourceParam
         dSourceCompParameters.put(Constants.JOB_COMPONENT_CHILDREN, componentKeyFlatMapTest);
         dSourceCompParameters.put(Constants.JOB_COMPONENT_PARENT, null);
-        dSourceCompParameters.put(Constants.JOB_COMPONENT_INPUT_TYPE, "DataSet<String>");
-        dSourceCompParameters.put(Constants.JOB_COMPONENT_OUTPUT_TYPE, "DataSet<String>");
+        dSourceCompParameters.put(Constants.JOB_COMPONENT_INPUT_TYPE, "String");
+        dSourceCompParameters.put(Constants.JOB_COMPONENT_OUTPUT_TYPE, "String");
         dSourceCompParameters.put(Constants.JOB_COMPOENT_KEY, componentKeyDataSourceTest);
         dSourceCompParameters.put(Constants.COMPONENT_PATH_JSON, "/a/path");
         //TODO COMPONENT_JOB_SOURCE_JSON
@@ -107,7 +107,7 @@ public class BaseJobGraphTest {
         //AggregateParam
         //TODO sum und 1
         aggParameters.put(Constants.JOB_COMPONENT_CHILDREN, componentKeyDataSink);
-        aggParameters.put(Constants.JOB_COMPONENT_PARENT, componentKeyAggregate);
+        aggParameters.put(Constants.JOB_COMPONENT_PARENT, componentKeyGroupBy);
         aggParameters.put(Constants.JOB_COMPONENT_INPUT_TYPE, "Tuple2<String, Integer>");
         aggParameters.put(Constants.JOB_COMPONENT_OUTPUT_TYPE, "Tuple2<String, Integer>");
         aggParameters.put(Constants.JOB_COMPOENT_KEY, componentKeyAggregate);
@@ -124,7 +124,7 @@ public class BaseJobGraphTest {
 
 
         //JobGraph
-        jobGraph = new BaseJobGraph("testkey", "testname", "testpackage", jGraphParamters);
+        jobGraph = new BaseJobGraph("testkey", "testname", null, jGraphParamters);
 
         //DataSource
         DataSource dataSourceComponent = new BaseDataSourceComponentText(jobGraph,  dSourceCompParameters);
