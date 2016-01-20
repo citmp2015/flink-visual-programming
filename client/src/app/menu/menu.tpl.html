@@ -27,7 +27,7 @@
 
                 <li class="sidebar-search">
                     <div class="input-group custom-search-form">
-                        <input type="text" class="form-control" placeholder="Search...">
+                        <input type="text" class="form-control" placeholder="Search..." ng-model="search.label">
                         <span class="input-group-btn">
                             <button class="btn btn-default" type="button">
                                 <i class="fa fa-search"></i>
@@ -36,14 +36,14 @@
                     </div>
                 </li>
 
-                <li ng-repeat="menuItem in menuItems">
+                <li ng-repeat="menuItem in menuItems | menuSearchFilter: search">
                     <a ng-click="menuItem.open = !menuItem.open;" ng-drag="{{menuItem.dragData ? true : false}}" ng-drag-data="{{menuItem.dragData}}">
                         <i ng-if="menuItem.faIconClass" class="fa" ng-class="menuItem.faIconClass"></i>
                         {{menuItem.label}}
                         <i ng-if="menuItem.subItems.length" class="fa fa-caret-down"></i>
                     </a>
-                    <ul class="nav nav-second-level" ng-if="menuItem.subItems.length" ng-show="menuItem.open">
-                        <li ng-repeat="subMenuItem in menuItem.subItems">
+                    <ul class="nav nav-second-level" ng-if="menuItem.subItems.length" ng-show="menuItem.open || menuItem.openForFilter">
+                        <li ng-repeat="subMenuItem in menuItem.subItems | menuSearchFilter: search">
                             <a ng-drag="{{subMenuItem.dragData ? true : false}}" ng-drag-data="{{subMenuItem.dragData}}">
                                 <i ng-if="subMenuItem.faIconClass" class="fa" ng-class="subMenuItem.faIconClass"></i> {{subMenuItem.label}}
                             </a>
@@ -55,5 +55,4 @@
 
         </div>
     </div>
-
 </div>
