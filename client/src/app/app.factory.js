@@ -232,7 +232,8 @@
                     width: 1,
                     height: 1
                 },
-                java: 'not set',
+                componentType: '',
+                data: {},
                 inPorts: [],
                 outPorts: [],
 
@@ -354,7 +355,6 @@
                     y: posY
                 },
                 inPorts: portsIn,
-                java: 'package blab.ablab.alba\nimport stuff',
                 outPorts: portsOut,
                 attrs: {
                     '.label': {

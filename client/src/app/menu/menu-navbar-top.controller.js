@@ -43,7 +43,8 @@
 
         function sendGraph() {
             var json = jsonBuilder.buildJson($rootScope.graph);
-            console.log(json);
+            console.log('initial', $rootScope.graph.toJSON());
+            console.log('better', json);
             //TODO send where?
 
         }
