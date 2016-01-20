@@ -1,11 +1,14 @@
 package org.tuberlin.de.test.model;
 
-import org.tuberlin.de.common.base.BaseAggregateComponent;
-import org.tuberlin.de.common.base.BaseDataSinkComponentPrint;
+import org.junit.Before;
+import org.junit.Test;
+import org.tuberlin.de.common.base.BaseTransformationAggregate;
+import org.tuberlin.de.common.base.BaseDataSinkPrint;
 import org.tuberlin.de.common.base.BaseDataSourceComponentText;
-import org.tuberlin.de.common.base.BaseFlatMapComponent;
-import org.tuberlin.de.common.base.BaseGroupByComponent;
+import org.tuberlin.de.common.base.BaseTransformationFlatMap;
+import org.tuberlin.de.common.base.BaseGroupBy;
 import org.tuberlin.de.common.base.BaseJobGraph;
+import org.tuberlin.de.common.codegenerator.CodeGenerator;
 import org.tuberlin.de.common.model.Constants;
 import org.tuberlin.de.common.model.interfaces.CompilationUnitComponent;
 import org.tuberlin.de.common.model.interfaces.JobGraph;
@@ -49,9 +52,9 @@ public class BaseJobGraphTest {
         Map<String, Object> gByParameters = new HashMap<String, Object>();
         Map<String, Object> aggParameters = new HashMap<String, Object>();
 
-        aggParameters.put(AggregateComponent.FIELD_KEY, 1);
-        aggParameters.put(AggregateComponent.FUNCTION_KEY, AggregateComponent.FUNCTION_TYPES.SUM);
-        AggregateComponent aggregateComponent = new BaseAggregateComponent(jobGraph, aggParameters);
+        aggParameters.put(TransformationAggregate.FIELD_KEY, 1);
+        aggParameters.put(TransformationAggregate.FUNCTION_KEY, TransformationAggregate.FUNCTION_TYPES.SUM);
+        TransformationAggregate aggregateComponent = new BaseTransformationAggregate(jobGraph, aggParameters);
 
         //DataSink
         Map<String, Object> dSinkParameters = new HashMap<String, Object>();
