@@ -1,12 +1,11 @@
 package org.tuberlin.de.common.codegenerator;
 
-import com.github.javaparser.ast.CompilationUnit;
 import org.omg.CORBA.portable.OutputStream;
 import org.tuberlin.de.common.model.interfaces.JobComponent;
 import org.tuberlin.de.common.model.interfaces.JobGraph;
-import org.tuberlin.de.common.model.interfaces.datasink.DataSinkComponent;
-import org.tuberlin.de.common.model.interfaces.datasource.DataSourceComponent;
-import org.tuberlin.de.common.model.interfaces.transorfmation.TransformationComponent;
+import org.tuberlin.de.common.model.interfaces.datasink.DataSink;
+import org.tuberlin.de.common.model.interfaces.datasources.DataSource;
+import org.tuberlin.de.common.model.interfaces.transorfmation.Transformation;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -27,7 +26,7 @@ public class CodeGenerator {
         String result = "";
         //aggregate datasources
         Collection<JobComponent> jobComponents = jobGraph.getComponents();
-        Collection<DataSourceComponent> dataSourceComponents = jobGraph.getDataSources();
+        Collection<DataSource> dataSourceComponents = jobGraph.getDataSources();
         result += printPackage(jobGraph) + "\n";
         result += printImports(jobGraph) + "\n";
         result += printClass(jobGraph);
@@ -43,12 +42,13 @@ public class CodeGenerator {
     }
 
     private static String printMain(JobGraph jobGraph) {
-        String result = "public static void main(String[] args){\n";
+        String result = "public static void main(String[] args) throws Exception{\n";
         //TODO: maybe parse arguments for main
         result += printExecutionEnvironment(jobGraph) + "\n";
         result += printVariables(jobGraph) + "\n";
         result += printComponents(jobGraph) + "\n";
-        result += "}";
+        result += jobGraph.getEnvironmentIdentifier() + ".execute();";
+        result += "\n}\n";
         return result;
     }
 
@@ -56,8 +56,8 @@ public class CodeGenerator {
         String result = "";
         result += printDataSources(jobGraph) + "\n";
 
-        result += printTransformations(jobGraph) + "\n";
-        result += printDataSinks(jobGraph) + "\n";
+        result += printFlow(jobGraph) + "\n";
+//        result += printDataSinks(jobGraph) + "\n";
         return result;
     }
 
@@ -66,16 +66,90 @@ public class CodeGenerator {
         //TODO
     }
 
-    private static String printTransformations(JobGraph jobGraph) {
+    private static String printFlow(JobGraph jobGraph) {
         //TODO find solution to delay generation of transformations with
         // multiple input datasets (e.g. combine) untill all parants have been generated
-        Collection<TransformationComponent> components = jobGraph.getTransformations();
-        if(components == null || components.isEmpty()) throw new IllegalArgumentException(); //TODO
+//        Collection<Transformation> components = jobGraph.getTransformations();
+//        if(components == null || components.isEmpty()) throw new IllegalArgumentException(); //TODO
         String result = "";
-        for (DataSourceComponent c : jobGraph.getDataSources()){
+        for (DataSource c : jobGraph.getDataSources()){
             //TODO dirty hacking
-            JobComponent comp = ((JobComponent[])c.getParents().toArray())[0];
-            result += c.getComponentKey() + " = " + comp.getComponentKey() + c.getJobSource() + ";\n" ;
+            //TODO array or collection?
+            Object parents = c.getParameter(JobComponent.PARENT);
+            Object children = c.getParameter(JobComponent.CHILD);
+            //TODO, pull to init/varify or define concrete type
+            String[] s = new String[2];
+//            Collection<JobComponent> parentCollection;
+//            Collection<JobComponent> childCollection = null;
+            Collection<String> childKeys = c.getChildren();
+//            Collection<JobComponent> childCollection = null;
+//            if(childKeys == null || childKeys)
+//            if(parents == null){
+//                //TODO
+//            }
+//            else if(parents instanceof String[]){
+//                //TODO
+//            }
+//            else if(parents instanceof String){
+//                //TODO
+//            }
+//            else if(parents instanceof JobComponent){
+//                parentCollection = new ArrayList<>();
+//                parentCollection.add((JobComponent) parents);
+//            }
+//            else if(parents instanceof JobComponent[]){
+//                //TODO
+//            }
+//            else if(parents instanceof Collection){
+//                //TODO check generic type
+//            }
+//            if(children == null){
+//                //TODO
+//            }
+//            else if(children instanceof String[]){
+//                //TODO
+//            }
+//            else if(children instanceof String){
+//                //TODO
+//            }
+//            else if(children instanceof JobComponent){
+//                childCollection = new ArrayList<JobComponent>();
+//                childCollection.add((JobComponent) children);
+//            }
+//            else if(children instanceof JobComponent[]){
+//                //TODO
+//            }
+//            else if(children instanceof Collection){
+//                //TODO check generic type
+//            }
+            //TODO while
+            do {
+                Collection<String> temp_store1 = new ArrayList<String>();
+                for (String childKey : childKeys) {
+                    JobComponent child = jobGraph.getComponent(childKey);
+
+                    //TODO ummm, think about that collection thingy a little bit, maybe use list?
+
+                    if(!(child instanceof DataSink)){
+
+                        result += child.getComponentKey();
+                        result +=
+                                " = ";
+                    }
+                    result += child.getParents().iterator().next();
+                    result +=  child.getJobSource() + ";\n";
+
+
+                    //TODO: the assumption is, that a only has multiple parents, when it is using multiple dataset (e.g. combine)
+                    //this means, that a reused component needs to be added 2x under different keys or we need a differen notation
+                    // in the json spec. discuss!
+                    Collection<String> temp_store2 = child.getChildren();
+                    //TODO integrity: check if parent is datasink, or trust on validate method
+                    if(temp_store2 == null || temp_store2.isEmpty()) continue;
+                    temp_store1.addAll(temp_store2);
+                }
+                childKeys = temp_store1;
+            }while(!childKeys.isEmpty());
 
         }
         return result;
@@ -83,7 +157,7 @@ public class CodeGenerator {
 
     private static String printDataSources(JobGraph jobGraph) {
         String result = "";
-        for (DataSourceComponent c : jobGraph.getDataSources()){
+        for (DataSource c : jobGraph.getDataSources()){
             result += c.getComponentKey() + " = " + c.getJobSource() + ";\n" ;
         }
         return result;
@@ -94,8 +168,8 @@ public class CodeGenerator {
         String result = "";
         //TODO: think about concurrency, etc in collections/maps --> escallate through all classes
         for (JobComponent c : jobGraph.getComponents()){
-            if(!(c instanceof DataSinkComponent)){
-                result += c.getInputType() + " " + c.getComponentKey() + ";\n";
+            if(!(c instanceof DataSink)){
+                result += c.getTypeDeclaration() + " " + c.getComponentKey() + ";\n";
             }
         }
         return result;
@@ -119,7 +193,9 @@ public class CodeGenerator {
     }
 
     private static String printPackage(JobGraph jobGraph) {
-        return "package " + jobGraph.getPackageName() + ";" + "\n";
+
+       if(jobGraph.getPackageName() == null) return "";
+           return "package " + jobGraph.getPackageName() + ";" + "\n";
     }
 
 
@@ -155,21 +231,4 @@ public class CodeGenerator {
         //TODO
     }
 
-    private static CompilationUnit getCompilationUnit(JobGraph graph) {
-//        if (graph == null) return null;
-//        if (graph.isEmpty()) return null;
-//        //TODO weitere sanity checks auf parametern
-//        CompilationUnit cu = new CompilationUnit();
-//        cu.setPackage(new PackageDeclaration(ASTHelper.createNameExpr(graph.getPackage())));
-//        ClassOrInterfaceDeclaration type;
-//        type = new ClassOrInterfaceDeclaration(ModifierSet.PUBLIC, false, graph.getName());
-//        ASTHelper.addTypeDeclaration(cu, type);
-//
-//        //collect tokens from jobgraph
-//        List<String>
-//        for(JobComponent comp : graph.getComponents()){
-//
-//        }
-        return null;
-    }
 }
