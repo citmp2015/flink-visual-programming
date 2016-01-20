@@ -10,6 +10,7 @@ import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 import java.util.UUID;
 import java.util.regex.Matcher;
@@ -47,7 +48,7 @@ public class DeploymentImplementation implements DeploymentInterface {
     }
 
     @Override
-    public void generateProjectJAR(String entryClass, List<String> clazzes, boolean deploy) {
+    public void generateProjectJAR(String entryClass, Map<String, String> clazzes, boolean deploy) {
 
         File temporaryFolder = null;
         try {
@@ -78,7 +79,7 @@ public class DeploymentImplementation implements DeploymentInterface {
     }
 
     @Override
-    public InputStream getJarStream(String entryClass, List<String> clazzes) {
+    public InputStream getJarStream(String entryClass, Map<String, String> clazzes) {
 
         File temporaryProjectFolder = null;
         try {
@@ -109,7 +110,7 @@ public class DeploymentImplementation implements DeploymentInterface {
     }
 
     @Override
-    public InputStream getZipSource(String entryClass, List<String> clazzes) {
+    public InputStream getZipSource(String entryClass, Map<String, String> clazzes) {
 
         File temporaryProjectFolder = null;
         try {
@@ -170,26 +171,17 @@ public class DeploymentImplementation implements DeploymentInterface {
      * @param entryClass      The entry class from the source code generator
      * @param clazzes         The classes from the source code generator
      */
-    private void createClasses(File temporaryFolder, String entryClass, List<String> clazzes) {
+    private void createClasses(File temporaryFolder, String entryClass, Map<String, String> clazzes) {
 
-        saveClass(temporaryFolder, entryClass);
-        for(String clazz: clazzes){
-            saveClass(temporaryFolder, clazz);
-        }
-
-        // TODO Copy java class files to tmp directory
-//            String classToJar = new Scanner(
-//                    getClass().getClassLoader().getResourceAsStream("FlinkSkeleton/src/main/java/org/test/de/WordCount.java"),
-//                    "utf-8").useDelimiter("\\Z").next();
-//
-//            LOG.debug("Showing class content:\n" + classToJar);
-
+        //TODO replace staticString
+        saveClass(temporaryFolder, "staticString", entryClass);
+        clazzes.forEach((className, clazz) -> saveClass(temporaryFolder, className, clazz));
 
     }
 
-    private void saveClass(File temporarayFolder, String clazz){
+    private void saveClass(File temporarayFolder, String clazzName, String clazz){
         try {
-            File outputFile = new File(temporarayFolder.getPath() + "/" + "newFile.java");
+            File outputFile = new File(temporarayFolder.getPath() + "/" + clazzName + ".java");
             FileOutputStream stream = new FileOutputStream(outputFile);
         } catch (IOException e){
             LOG.error("could not save class ", e);
