@@ -179,12 +179,13 @@ public class DeploymentImplementation implements DeploymentInterface {
 
     /**
      * This methods saves a class as a child of the temporary folder
-     * @param temporarayFolder
-     * @param clazzName
-     * @param clazz
+     * @param temporarayFolder the parent folder
+     * @param clazzName the className of the class
+     * @param clazz the content of the class (source code)
      */
     private void saveClass(File temporarayFolder, String clazzName, String clazz){
         try {
+            //TODO this saves the file in the default package. This needs to be adjusted
             File outputFile = new File(temporarayFolder.getPath() + "/" + clazzName + ".java");
             FileOutputStream stream = new FileOutputStream(outputFile);
         } catch (IOException e){

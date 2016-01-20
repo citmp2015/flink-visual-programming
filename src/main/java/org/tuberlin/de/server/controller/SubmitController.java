@@ -63,11 +63,6 @@ public class SubmitController extends HttpServlet {
         String json = req.getParameter("graph");
 
 
-//        TODO Uncomment one of the following to test the behavior
-//        deploymentInterface.generateProjectJAR("", new ArrayList<>(), false);
-//        startZipDownload(resp, "", new ArrayList<>());
-//        startJarDownload(resp);
-
         JobGraph jobGraph;
         try {
             jobGraph = backendController.getJobGraph(json);
@@ -85,7 +80,6 @@ public class SubmitController extends HttpServlet {
         String mainClass = CodeGenerator.generateCode(jobGraph);
         Map<String, String> clazzes = CodeGenerator.getComponentSources(jobGraph);
 
-        // TODO Fill with method calls with real parameters
         switch (action) {
             case "deploy":
                 LOG.debug("Starting deployment");
