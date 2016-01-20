@@ -17,7 +17,7 @@
             <a ng-click="importGraph()"><i class="fa fa-cloud-upload"></i> Import</a>
             <input file-import type="file" ng-model="importFile" on-file-loaded="onFileLoaded()" on-file-error="onFileError($error)">
         </li>
-        <li><a><i class="fa fa-cog"></i> Configuration</a></li>
+        <li><a ng-click="openConfiguration()"><i class="fa fa-cog"></i> Configuration</a></li>
     </ul>
 
     <div class="navbar-default sidebar" role="navigation">

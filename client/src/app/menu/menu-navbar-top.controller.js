@@ -7,7 +7,7 @@
         .controller('MenuNavbarTopCtrl', MenuNavbarTopCtrl);
 
     /*@ngInject*/
-    function MenuNavbarTopCtrl($scope, $rootScope, graphFactory, $log) {
+    function MenuNavbarTopCtrl($scope, $rootScope, graphFactory, $log, $uibModal) {
 
         $scope.clearGraph = clearGraph;
         $scope.exportGraph = exportGraph;
@@ -38,6 +38,16 @@
 
         function importGraph(argument) {
             // body...
+        }
+
+        $scope.openConfiguration = function() {
+            $uibModal.open({
+                templateUrl: '/app/generalsettings/generalsettings-modal.tpl.html',
+                controller: 'generalsettingsModalCtrl',
+                backdrop: 'static'
+            }).result.finally(function() {
+                $state.go('app.dashboard');
+            });
         }
 
     }
