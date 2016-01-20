@@ -231,4 +231,7 @@ public class CodeGenerator {
         //TODO
     }
 
+    public static Map<String, String> getComponentSources(JobGraph graph){
+        return graph.getComponentSources();
+    }
 }
