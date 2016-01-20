@@ -6,8 +6,10 @@ import org.tuberlin.de.common.base.BaseDataSinkPrint;
 import org.tuberlin.de.common.base.BaseDataSourceComponentText;
 import org.tuberlin.de.common.base.BaseGroupBy;
 import org.tuberlin.de.common.base.BaseJobGraph;
+import org.tuberlin.de.common.model.interfaces.CompilationUnitComponent;
 import org.tuberlin.de.common.model.interfaces.JobComponent;
 import org.tuberlin.de.common.model.interfaces.JobGraph;
+import org.tuberlin.de.common.model.interfaces.transorfmation.TransformationAggregate;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -16,7 +18,7 @@ public class JSONParser {
     public static JobGraph getJobGraph(String json){
         JSONObject obj = new JSONObject(json);
         JSONObject processes = obj.getJSONObject("processes");
-        JSONObject components = obj.getJSONObject("components");
+        // JSONObject components = obj.getJSONObject("components");
         JSONArray connections = obj.getJSONArray("connections");
 
         Map<String, Object> jobGraphParameters = new HashMap<>();
@@ -72,31 +74,19 @@ public class JSONParser {
                 parameters.put(Constants.JOB_COMPONENT_INPUT_TYPE, inputType);
                 parameters.put(Constants.JOB_COMPONENT_OUTPUT_TYPE, outputType);
 
+                if(data.has("tupleIndex")){
+                    parameters.put(TransformationAggregate.FIELD_KEY, data.getInt("tupleIndex") + "");
+                }
+
+                addIfData(parameters, Constants.COMPONENT_PATH_JSON, data, "filePath");
+                addIfData(parameters, CompilationUnitComponent.COMPONENT_SOURCE_JSON, data, "javaSourceCode");
+
                 //TODO source code
-                //TODO function parameters
-                //eg. data.has("tupleIndex") / data.data.getInt("tupleIndex")
             }
 
             //type
             String componentName = val.getString("component");
             JobComponent comp = null;
-
-            //TODO what is the source of truth for types? Either:
-            /*
-            JSONObject component = components.getJSONObject(componentName);
-
-            switch(component.getString("type")){
-                case "source":
-                    comp = new BaseDataSourceComponentText(graph, parameters);
-                    break;
-
-                case "transform":
-
-                case "sink":
-                    comp = new BaseDataSinkPrint(graph, parameters);
-                    break;
-            }
-            */
 
             // or:
             switch(componentName){
@@ -132,5 +122,11 @@ public class JSONParser {
 
     private static String getOptData(JSONObject process, String dataKey){
         return process.has("data") ? process.getJSONObject("data").optString(dataKey, null) : null;
+    }
+
+    private static void addIfData(Map<String, Object> parameters, String objKey, JSONObject data, String dataKey){
+        if(data.has(dataKey)){
+            parameters.put(objKey, data.getInt(dataKey));
+        }
     }
 }
