@@ -47,7 +47,9 @@
                 componentType: 'numberfilter',
                 data: {
                     modalController: 'NumberfilterModalCtrl',
-                    modalTemplateUrl: '/app/filter/numberfilter-modal.tpl.html',
+                    modalTemplateUrl: '/app/filter/numberfilter-modal.tpl.html'
+                },
+                formdata: {
                     tupleIndex: 0,
                     operationType: {
                         label: '=',
@@ -90,7 +92,9 @@
                 componentType: 'flatmap',
                 data: {
                     modalController: 'flatmapModalCtrl',
-                    modalTemplateUrl: '/app/flatmap/flatmap-modal.tpl.html',
+                    modalTemplateUrl: '/app/flatmap/flatmap-modal.tpl.html'
+                },
+                formdata: {
                     javaSourceCode: templateFactory.createFlatMapTemplate()
                 }
             });
@@ -119,7 +123,9 @@
                 componentType: 'sum',
                 data: {
                     modalController: 'sumModalCtrl',
-                    modalTemplateUrl: '/app/sum/sum-modal.tpl.html',
+                    modalTemplateUrl: '/app/sum/sum-modal.tpl.html'
+                },
+                formdata: {
                     tupleIndex: 0
                 }
             });
@@ -152,7 +158,9 @@
                 componentType: 'group',
                 data: {
                     modalController: 'groupModalCtrl',
-                    modalTemplateUrl: '/app/group/group-modal.tpl.html',
+                    modalTemplateUrl: '/app/group/group-modal.tpl.html'
+                },
+                formdata: {
                     tupleIndex: 0
                 }
             });
@@ -185,11 +193,14 @@
                 data: {
                     modalController: 'CSVDatasourceModalCtrl',
                     modalTemplateUrl: '/app/datasource/csv-datasource-modal.tpl.html',
+                },
+                formdata: {
                     filePath: null,
                     countColumns: 2,
                     columns: [],
                     javaSourceCode: ''
                 }
+
             });
         };
 
@@ -215,7 +226,9 @@
                 componentType: 'textdatasource',
                 data: {
                     modalController: 'TextDatasourceModalCtrl',
-                    modalTemplateUrl: '/app/datasource/text-datasource-modal.tpl.html',
+                    modalTemplateUrl: '/app/datasource/text-datasource-modal.tpl.html'
+                },
+                formdata: {
                     filePath: null,
                     javaSourceCode: ''
                 }
@@ -240,6 +253,7 @@
                 },
                 componentType: '',
                 data: {},
+                formdata: {},
                 inPorts: [],
                 outPorts: [],
 

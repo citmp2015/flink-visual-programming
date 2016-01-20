@@ -28,7 +28,7 @@
                     var process = {};
                     process[id] = {
                         component: cell.componentType || 'unknown',
-                        data: cell.data
+                        data: cell.formdata
                     };
                     json.processes.push(process);
                 } else if (cell.type === 'devs.Link') { // link
