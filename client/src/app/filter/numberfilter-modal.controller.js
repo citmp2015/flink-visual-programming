@@ -29,20 +29,20 @@
         }];
 
         $scope.numberfilter = {
-            inputIndex: cell.attributes.data.inputIndex,
-            operationType: cell.attributes.data.operationType,
-            compareValue: cell.attributes.data.compareValue,
-			javaSourceCode: cell.attributes.data.javaSourceCode
+            tupleIndex: cell.attributes.formdata.tupleIndex,
+            operationType: cell.attributes.formdata.operationType,
+            compareValue: cell.attributes.formdata.compareValue,
+			javaSourceCode: cell.attributes.formdata.javaSourceCode
         };
 
         $scope.save = save;
         $scope.cancel = cancel;
 
         function save() {
-            cell.attributes.data.inputIndex = $scope.numberfilter.inputIndex;
-            cell.attributes.data.operationType = $scope.numberfilter.operationType;
-            cell.attributes.data.compareValue = $scope.numberfilter.compareValue;
-			cell.attributes.data.javaSourceCode= templateFactory.createNumberFilterTemplate($scope.numberfilter.operationType, $scope.numberfilter.compareValue);
+            cell.attributes.formdata.tupleIndex = $scope.numberfilter.tupleIndex;
+            cell.attributes.formdata.operationType = $scope.numberfilter.operationType;
+            cell.attributes.formdata.compareValue = $scope.numberfilter.compareValue;
+			cell.attributes.formdata.javaSourceCode = templateFactory.createNumberFilterTemplate($scope.numberfilter.operationType, $scope.numberfilter.compareValue);
             graphFactory.saveToLocalStorage($rootScope.graph);
             $uibModalInstance.close();
         }
