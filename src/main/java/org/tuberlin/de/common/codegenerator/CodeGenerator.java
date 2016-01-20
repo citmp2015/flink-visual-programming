@@ -194,7 +194,9 @@ public class CodeGenerator {
     }
 
     private static String printPackage(JobGraph jobGraph) {
-        return "package " + jobGraph.getPackageName() + ";" + "\n";
+
+       if(jobGraph.getPackageName() == null) return "";
+           return "package " + jobGraph.getPackageName() + ";" + "\n";
     }
 
 
