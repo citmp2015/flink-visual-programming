@@ -42,7 +42,7 @@
                         {{menuItem.label}}
                         <i ng-if="menuItem.subItems.length" class="fa fa-caret-down"></i>
                     </a>
-                    <ul class="nav nav-second-level" ng-if="menuItem.subItems.length" ng-show="menuItem.open">
+                    <ul class="nav nav-second-level" ng-if="menuItem.subItems.length" ng-show="menuItem.open || menuItem.openForFilter">
                         <li ng-repeat="subMenuItem in menuItem.subItems | menuSearchFilter: search">
                             <a ng-drag="{{subMenuItem.dragData ? true : false}}" ng-drag-data="{{subMenuItem.dragData}}">
                                 <i ng-if="subMenuItem.faIconClass" class="fa" ng-class="subMenuItem.faIconClass"></i> {{subMenuItem.label}}
@@ -55,5 +55,4 @@
 
         </div>
     </div>
-
 </div>
