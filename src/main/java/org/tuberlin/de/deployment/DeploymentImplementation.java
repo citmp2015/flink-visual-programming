@@ -2,6 +2,7 @@ package org.tuberlin.de.deployment;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.tuberlin.de.common.model.Constants;
 import org.tuberlin.de.deployment.util.ExecuteShell;
 import org.tuberlin.de.deployment.util.FileUtils;
 
@@ -172,11 +173,8 @@ public class DeploymentImplementation implements DeploymentInterface {
      * @param clazzes         The classes from the source code generator
      */
     private void createClasses(File temporaryFolder, String entryClass, Map<String, String> clazzes) {
-
-        //TODO replace staticString
-        saveClass(temporaryFolder, "staticString", entryClass);
+        saveClass(temporaryFolder, Constants.ENTRY_CLASS_NAME, entryClass);
         clazzes.forEach((className, clazz) -> saveClass(temporaryFolder, className, clazz));
-
     }
 
     private void saveClass(File temporarayFolder, String clazzName, String clazz){

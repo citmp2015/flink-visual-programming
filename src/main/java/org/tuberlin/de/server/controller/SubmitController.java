@@ -21,6 +21,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Controller that is invoked when clicking on any of the following buttons:
@@ -82,7 +83,7 @@ public class SubmitController extends HttpServlet {
         }
 
         String mainClass = CodeGenerator.generateCode(jobGraph);
-        List<String> clazzes = new ArrayList<>(); //CodeGenerator.generateClazzes(jobGraph);
+        Map<String, String> clazzes = CodeGenerator.getComponentSources(jobGraph);
 
         // TODO Fill with method calls with real parameters
         switch (action) {
@@ -110,7 +111,7 @@ public class SubmitController extends HttpServlet {
      * @param entryClass The entry class
      * @param classez    The classes
      */
-    private void startZipDownload(HttpServletResponse resp, String entryClass, List<String> classez) {
+    private void startZipDownload(HttpServletResponse resp, String entryClass, Map<String, String> classez) {
         InputStream inputStream = deploymentInterface.getZipSource(entryClass, classez);
 
         resp.setContentType("application/zip, application/octet-stream");
@@ -124,10 +125,10 @@ public class SubmitController extends HttpServlet {
      *
      * @param resp The response object
      */
-    private void startJarDownload(HttpServletResponse resp, String entryClass, List<String> clazzes) {
+    private void startJarDownload(HttpServletResponse resp, String entryClass, Map<String, String> clazzes) {
         deploymentInterface.generateProjectJAR(entryClass, clazzes, false);
 
-        InputStream inputStream = deploymentInterface.getJarStream();
+        InputStream inputStream = deploymentInterface.getJarStream(entryClass, clazzes);
 
         resp.setContentType("application/java-archive");
         resp.setHeader("Content-disposition", "attachment; filename=FlinkJob.jar");

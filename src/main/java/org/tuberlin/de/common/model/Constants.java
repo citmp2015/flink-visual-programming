@@ -149,4 +149,6 @@ public class Constants {
 //    public static final String
 
 
+    public static final String ENTRY_CLASS_NAME = "Jobgraph";
+
 }
