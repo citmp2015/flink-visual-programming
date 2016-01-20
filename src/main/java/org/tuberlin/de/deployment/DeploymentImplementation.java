@@ -5,16 +5,15 @@ import org.slf4j.LoggerFactory;
 import org.tuberlin.de.deployment.util.ExecuteShell;
 import org.tuberlin.de.deployment.util.FileUtils;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Properties;
 import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Implements the DeploymentInterface and is responsible for building the project, executing it on a cluster and return
@@ -79,13 +78,16 @@ public class DeploymentImplementation implements DeploymentInterface {
     }
 
     @Override
-    public InputStream getJarStream() {
+    public InputStream getJarStream(String entryClass, List<String> clazzes) {
 
         File temporaryProjectFolder = null;
         try {
-             temporaryProjectFolder = createTemporaryProjectFolder();
+            generateProjectJAR(entryClass, clazzes, false);
+            temporaryProjectFolder = createTemporaryProjectFolder();
 
             // TODO something missing. Creation of jar with empty project?
+
+            createClasses(temporaryProjectFolder, entryClass, clazzes);
 
             // Trigger Maven Build
             LOG.debug("Maven Invocation " + ExecuteShell.executeCommand(mavenPath + " package", temporaryProjectFolder));
@@ -170,6 +172,10 @@ public class DeploymentImplementation implements DeploymentInterface {
      */
     private void createClasses(File temporaryFolder, String entryClass, List<String> clazzes) {
 
+        saveClass(temporaryFolder, entryClass);
+        for(String clazz: clazzes){
+            saveClass(temporaryFolder, clazz);
+        }
 
         // TODO Copy java class files to tmp directory
 //            String classToJar = new Scanner(
@@ -177,6 +183,27 @@ public class DeploymentImplementation implements DeploymentInterface {
 //                    "utf-8").useDelimiter("\\Z").next();
 //
 //            LOG.debug("Showing class content:\n" + classToJar);
+
+
+    }
+
+    private void saveClass(File temporarayFolder, String clazz){
+        try {
+            File outputFile = new File(temporarayFolder.getPath() + "/" + "newFile.java");
+            FileOutputStream stream = new FileOutputStream(outputFile);
+        } catch (IOException e){
+            LOG.error("could not save class ", e);
+        }
+    }
+
+    /**
+     * This method parses the classname of a file
+     * @param clazz the entire class
+     */
+    private String getClassName(String clazz){
+        Pattern pattern = Pattern.compile("class[ ]*[A-z0-9]*");
+        Matcher matcher = pattern.matcher(clazz);
+        return matcher.group(0);
     }
 
     /**

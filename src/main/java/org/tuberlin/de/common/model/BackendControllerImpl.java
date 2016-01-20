@@ -12,8 +12,7 @@ public class BackendControllerImpl implements BackendController {
     @Override
     public JobGraph getJobGraph(String json) throws Exception {
         //TODO: parser is currently dummy, no json
-
-        return null;
+        return JSONParser.getJobGraph(json);
     }
 
     @Override

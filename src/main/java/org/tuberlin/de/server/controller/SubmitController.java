@@ -2,7 +2,9 @@ package org.tuberlin.de.server.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.tuberlin.de.common.codegenerator.CodeGenerator;
 import org.tuberlin.de.common.model.BackendControllerImpl;
+import org.tuberlin.de.common.model.JSONParser;
 import org.tuberlin.de.common.model.interfaces.BackendController;
 import org.tuberlin.de.common.model.interfaces.JobGraph;
 import org.tuberlin.de.deployment.DeploymentImplementation;
@@ -59,6 +61,7 @@ public class SubmitController extends HttpServlet {
         BackendController backendController = new BackendControllerImpl();
         String json = req.getParameter("graph");
 
+
 //        TODO Uncomment one of the following to test the behavior
 //        deploymentInterface.generateProjectJAR("", new ArrayList<>(), false);
 //        startZipDownload(resp, "", new ArrayList<>());
@@ -78,19 +81,22 @@ public class SubmitController extends HttpServlet {
             return;
         }
 
+        String mainClass = CodeGenerator.generateCode(jobGraph);
+        List<String> clazzes = new ArrayList<>(); //CodeGenerator.generateClazzes(jobGraph);
+
         // TODO Fill with method calls with real parameters
         switch (action) {
             case "deploy":
                 LOG.debug("Starting deployment");
-                deploymentInterface.generateProjectJAR("", new ArrayList<>(), false);
+                deploymentInterface.generateProjectJAR(mainClass, clazzes, false);
                 break;
             case "download_sources":
                 LOG.debug("Starting download source");
-                startZipDownload(resp, "", new ArrayList<>());
+                startZipDownload(resp, mainClass, clazzes);
                 break;
             case "download_jar":
                 LOG.debug("Starting download jar");
-                startJarDownload(resp);
+                startJarDownload(resp, mainClass, clazzes);
                 break;
             default:
                 LOG.debug("No action specified");
@@ -118,7 +124,9 @@ public class SubmitController extends HttpServlet {
      *
      * @param resp The response object
      */
-    private void startJarDownload(HttpServletResponse resp) {
+    private void startJarDownload(HttpServletResponse resp, String entryClass, List<String> clazzes) {
+        deploymentInterface.generateProjectJAR(entryClass, clazzes, false);
+
         InputStream inputStream = deploymentInterface.getJarStream();
 
         resp.setContentType("application/java-archive");

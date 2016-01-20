@@ -43,11 +43,11 @@ public interface DeploymentInterface {
     public void generateProjectJAR(String entryClass, List<String> clazzes, boolean deploy);
 
     /**
-     * This method is called after the JAR was generated. It will return a InputStream that contains the JAR File.
+     * This method will return a InputStream that contains the JAR File.
      * This is mainly for frontend functions to download the generated JAR.
      * @return a InputStream containing the Jar file
      */
-    public InputStream getJarStream();
+    public InputStream getJarStream(String entryClass, List<String> clazzes);
 
     /**
      * This method returns a InputStream that contains a ZIP file with the entire project (source code files,
