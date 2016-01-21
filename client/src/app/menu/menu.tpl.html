@@ -9,8 +9,9 @@
     </div>
 
     <ul class="nav navbar-top-links navbar-right" ng-controller="MenuNavbarTopCtrl">
-        <li><a ng-click="sendGraph()"><i class="fa fa-play"></i> Deploy and Run</a></li>
-        <li><a href="/dummydata/Wordcount.java.tar.gz" target="_blank"><i class="fa fa-download"></i> Download Java Project</a></li>
+        <li><a ng-click="runGraph()"><i class="fa fa-play"></i> Deploy and Run</a></li>
+        <li><a ng-click="getCode()"><i class="fa fa-download"></i> Download Code</a></li>
+        <li><a ng-click="getJar()"><i class="fa fa-download"></i> Download Jar</a></li>
         <li><a ng-click="clearGraph()"><i class="fa fa-history"></i> Reset</a></li>
         <li><a ng-href="{{exportHref}}" download="export.json" ng-click="exportGraph()"><i class="fa fa-cloud-download"></i> Export</a></li>
         <li class="import-wrapper">
@@ -22,9 +23,7 @@
 
     <div class="navbar-default sidebar" role="navigation">
         <div class="sidebar-nav navbar-collapse">
-
             <ul class="nav" ng-controller="MenuSidebarCtrl">
-
                 <li class="sidebar-search">
                     <div class="input-group custom-search-form">
                         <input type="text" class="form-control" placeholder="Search..." ng-model="search.label">
@@ -50,9 +49,7 @@
                         </li>
                     </ul>
                 </li>
-
             </ul>
-
         </div>
     </div>
 </div>
