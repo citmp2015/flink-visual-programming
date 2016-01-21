@@ -36,7 +36,7 @@ module.exports = function (grunt) {
                 },
             },
             styles: {
-                files: ['<%= flinkVisual.app %>/styles/{,*/}*.css', '<%= flinkVisual.app %>/app/{,*/}*.css'],
+                files: ['<%= flinkVisual.app %>/styles/{,*/}*.less', '<%= flinkVisual.app %>/app/{,*/}*.css'],
                 tasks: ['newer:copy:styles', 'postcss:serve'],
                 options: {
                     livereload: '<%= connect.options.livereload %>',
@@ -150,6 +150,17 @@ module.exports = function (grunt) {
             },
             css: {
                 src: '<%= flinkVisual.dist %>/styles/*.css'
+            }
+        },
+
+        less: {
+            bootstrap: {
+                options: {
+                    paths: ['bower_components/components-bootstrap/less']
+                },
+                files: {
+                    'bower_components/components-bootstrap/css/bootstrap.css': 'src/styles/bootstrap/bootstrap.less'
+                }
             }
         },
 
