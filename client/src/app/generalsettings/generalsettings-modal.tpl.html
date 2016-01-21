@@ -3,14 +3,14 @@
 </div>
 <div class="modal-body">
 
-    <form>
+    <form name="generalsettings-form">
         <div class="form-group">
             <label for="generalSettingsFlinkURL">Flink URL</label>
-            <input type="url" class="form-control" id="configFlinkURL" ng-model="generalsettings.flinkURL">
+            <input type="url" class="form-control" id="configFlinkURL" placeholder="e.g. http://130.149.248.34/" ng-model="generalsettings.flinkURL">
         </div>
         <div class="form-group">
             <label for="configFlinkPort">Flink Port</label>
-            <input type="number" min="0" max="65535" class="form-control" id="configFlinkPort" ng-model="generalsettings.flinkPort">
+            <input type="number" min="0" max="65535" placeholder="e.g. 50070" class="form-control" id="configFlinkPort" ng-model="generalsettings.flinkPort">
         </div>
     </form>
 
