@@ -115,40 +115,29 @@ public class Constants {
     // DataSourceGenericCreateInput inputFormat
     public static final String DATA_SOURCE_GENERIC_CREATE_INPUT_FORMAT = "GEN_CREATE_INPUT_FORMAT";
 
-
-
     /**
      * DataSink
      */
     public static final String DATA_SINK_TYPE = "DATA_SINK_TYPE";
     // DataSinkFile path
     public static final String DATA_SINK_FILE_PATH = "DATA_SINK_FILE_PATH";
-    //
-
-
-
-
 
     public static final String CSV_INCLUDE_FIELDS = "CSV_INCLUDE_FIELDS";
     public static final String CSV_FIELD_TYPES = "CSV_FIELD_TYPES";
-
 
     /**
      * If we implement the imports in a extra class not required anymore. In private class required
      */
 
-    /**
-     *
-     */
   //  public static final String COMPONENT_JOB_SOURCE_JSON = "COMPONENT_JOB_SOURCE_JSON";
 
     public static final String COMPONENT_PATH_JSON = "COMPONENT_CLASS_JSON";
 
-//    public static final String
-//    public static final String
-//    public static final String
-
-
+    // Default values for the FlinkSkeleton
     public static final String ENTRY_CLASS_NAME = "Jobgraph";
+    public static final String FLINK_JOB_NAME = "FlinkJob";
 
+    // The following values should be used, when referring to tags in the pom.xml, which text values should be replaced by the DOMParser
+    public static final String ENTRY_CLASS_KEY = "mainClass";
+    public static final String ARTIFACT_ID_KEY = "artifactId"; // Corresponds to the FLINK_JOB_NAME
 }

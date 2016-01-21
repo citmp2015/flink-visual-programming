@@ -4,24 +4,21 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.tuberlin.de.common.codegenerator.CodeGenerator;
 import org.tuberlin.de.common.model.BackendControllerImpl;
-import org.tuberlin.de.common.model.JSONParser;
 import org.tuberlin.de.common.model.interfaces.BackendController;
 import org.tuberlin.de.common.model.interfaces.JobGraph;
 import org.tuberlin.de.deployment.DeploymentImplementation;
 import org.tuberlin.de.deployment.DeploymentInterface;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Controller that is invoked when clicking on any of the following buttons:
@@ -47,7 +44,7 @@ import java.util.Map;
 public class SubmitController extends HttpServlet {
 
     private static final long serialVersionUID = 23523652345L;
-    private static final Logger LOG = LoggerFactory.getLogger(BaseController.class);
+    private static final Logger LOG = LoggerFactory.getLogger(SubmitController.class);
 
     private DeploymentInterface deploymentInterface;
 
@@ -62,6 +59,12 @@ public class SubmitController extends HttpServlet {
         BackendController backendController = new BackendControllerImpl();
         String json = req.getParameter("graph");
 
+        if (json == null || json.equals("")) {
+            LOG.debug("Request did not contain data for parameter graph");
+            return;
+        } else {
+            LOG.debug("Graph: " + json);
+        }
 
         JobGraph jobGraph;
         try {

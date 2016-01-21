@@ -3,6 +3,7 @@ package org.tuberlin.de.deployment;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.tuberlin.de.common.model.Constants;
+import org.tuberlin.de.deployment.util.DOMParser;
 import org.tuberlin.de.deployment.util.ExecuteShell;
 import org.tuberlin.de.deployment.util.FileUtils;
 
@@ -10,7 +11,7 @@ import java.io.*;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.List;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 import java.util.UUID;
@@ -53,7 +54,8 @@ public class DeploymentImplementation implements DeploymentInterface {
 
         File temporaryFolder = null;
         try {
-             temporaryFolder = createTemporaryProjectFolder();
+
+            temporaryFolder = createTemporaryProjectFolder();
 
             createClasses(temporaryFolder, entryClass, clazzes);
 
@@ -83,19 +85,18 @@ public class DeploymentImplementation implements DeploymentInterface {
     public InputStream getJarStream(String entryClass, Map<String, String> clazzes) {
 
         File temporaryProjectFolder = null;
-        try {
-            generateProjectJAR(entryClass, clazzes, false);
-            temporaryProjectFolder = createTemporaryProjectFolder();
 
-            // TODO something missing. Creation of jar with empty project?
+        try {
+
+            temporaryProjectFolder = createTemporaryProjectFolder();
 
             createClasses(temporaryProjectFolder, entryClass, clazzes);
 
             // Trigger Maven Build
             LOG.debug("Maven Invocation " + ExecuteShell.executeCommand(mavenPath + " package", temporaryProjectFolder));
 
-            // Get jar name
-            String outputJarName = temporaryProjectFolder.toString() + "/target/" + "original-flink-job-1.0.jar";
+            // Get ouput jar name
+            String outputJarName = temporaryProjectFolder.toString() + "/target/" + Constants.FLINK_JOB_NAME + "-1.0.jar";
             File outputJar = new File(outputJarName);
 
             // Return created jar as stream
@@ -114,7 +115,9 @@ public class DeploymentImplementation implements DeploymentInterface {
     public InputStream getZipSource(String entryClass, Map<String, String> clazzes) {
 
         File temporaryProjectFolder = null;
+
         try {
+
             temporaryProjectFolder = createTemporaryProjectFolder();
 
             createClasses(temporaryProjectFolder, entryClass, clazzes);
@@ -160,7 +163,21 @@ public class DeploymentImplementation implements DeploymentInterface {
         File skeletonFolder = new File(getClass().getClassLoader().getResource("FlinkSkeleton/").toURI());
 
         // Copying skeleton to tmp directory
+        LOG.debug("Copy directory from " + skeletonFolder.toString() + "  to " + tmpDirectory.toString());
         FileUtils.copyFolder(skeletonFolder, tmpProjectFolder);
+
+        // Map containing the values to be replaced in the pom.xml
+        HashMap<String, String> map = new HashMap<>();
+        // TODO Replace with entry class name
+        map.put(Constants.ENTRY_CLASS_KEY, Constants.ENTRY_CLASS_NAME);
+        map.put(Constants.ARTIFACT_ID_KEY, Constants.FLINK_JOB_NAME);
+
+        // Get jar name
+        String pomXMLPath = tmpProjectFolder.toString() + "/pom.xml";
+        File pomFile = new File(pomXMLPath);
+
+        // Replaces values in pom.xml corresponding to the map above
+        DOMParser.replaceXMLValues(pomFile, map);
 
         return tmpProjectFolder;
     }
@@ -185,11 +202,13 @@ public class DeploymentImplementation implements DeploymentInterface {
      */
     private void saveClass(File temporarayFolder, String clazzName, String clazz){
         try {
-            //TODO this saves the file in the default package. This needs to be adjusted
-            File outputFile = new File(temporarayFolder.getPath() + "/" + clazzName + ".java");
+            File outputFile = new File(temporarayFolder.getPath() + "/src/" + clazzName + ".java");
             FileOutputStream stream = new FileOutputStream(outputFile);
+            stream.write(clazz.getBytes());
+            stream.flush();
+            stream.close();
         } catch (IOException e){
-            LOG.error("could not save class ", e);
+            LOG.error("could not write class ", e);
         }
     }
 
@@ -198,8 +217,9 @@ public class DeploymentImplementation implements DeploymentInterface {
      * @param clazz the entire class
      */
     private String getClassName(String clazz){
-        Pattern pattern = Pattern.compile("class[ ]*[A-z0-9]*");
+        Pattern pattern = Pattern.compile("class (\\w+)\\s*[i{]");
         Matcher matcher = pattern.matcher(clazz);
+        LOG.debug("Found class name - " + matcher.group(0));
         return matcher.group(0);
     }
 
