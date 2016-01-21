@@ -44,10 +44,13 @@
                         text: 'Number Filter'
                     }
                 },
+                componentType: 'numberfilter',
                 data: {
                     modalController: 'NumberfilterModalCtrl',
-                    modalTemplateUrl: '/app/filter/numberfilter-modal.tpl.html',
-                    inputIndex: 0,
+                    modalTemplateUrl: '/app/filter/numberfilter-modal.tpl.html'
+                },
+                formdata: {
+                    tupleIndex: 0,
                     operationType: {
                         label: '=',
                         key: '='
@@ -86,9 +89,12 @@
                         text: 'FlatMap'
                     }
                 },
+                componentType: 'flatmap',
                 data: {
                     modalController: 'flatmapModalCtrl',
-                    modalTemplateUrl: '/app/flatmap/flatmap-modal.tpl.html',
+                    modalTemplateUrl: '/app/flatmap/flatmap-modal.tpl.html'
+                },
+                formdata: {
                     javaSourceCode: templateFactory.createFlatMapTemplate()
                 }
             });
@@ -114,10 +120,13 @@
                         text: 'Sum'
                     }
                 },
+                componentType: 'sum',
                 data: {
                     modalController: 'sumModalCtrl',
-                    modalTemplateUrl: '/app/sum/sum-modal.tpl.html',
-                    inputIndex: 0
+                    modalTemplateUrl: '/app/sum/sum-modal.tpl.html'
+                },
+                formdata: {
+                    tupleIndex: 0
                 }
             });
         };
@@ -146,10 +155,13 @@
                         text: 'Group'
                     }
                 },
+                componentType: 'group',
                 data: {
                     modalController: 'groupModalCtrl',
-                    modalTemplateUrl: '/app/group/group-modal.tpl.html',
-                    inputIndex: 0
+                    modalTemplateUrl: '/app/group/group-modal.tpl.html'
+                },
+                formdata: {
+                    tupleIndex: 0
                 }
             });
         };
@@ -177,14 +189,18 @@
                         text: 'CSV Datasource'
                     }
                 },
+                componentType: 'csvdatasource',
                 data: {
                     modalController: 'CSVDatasourceModalCtrl',
                     modalTemplateUrl: '/app/datasource/csv-datasource-modal.tpl.html',
-                    path: null,
+                },
+                formdata: {
+                    filePath: null,
                     countColumns: 2,
                     columns: [],
                     javaSourceCode: ''
                 }
+
             });
         };
 
@@ -207,10 +223,13 @@
                         text: 'Text Datasource'
                     }
                 },
+                componentType: 'textdatasource',
                 data: {
                     modalController: 'TextDatasourceModalCtrl',
-                    modalTemplateUrl: '/app/datasource/text-datasource-modal.tpl.html',
-                    path: null,
+                    modalTemplateUrl: '/app/datasource/text-datasource-modal.tpl.html'
+                },
+                formdata: {
+                    filePath: null,
                     javaSourceCode: ''
                 }
             });
@@ -232,7 +251,9 @@
                     width: 1,
                     height: 1
                 },
-                java: 'not set',
+                componentType: '',
+                data: {},
+                formdata: {},
                 inPorts: [],
                 outPorts: [],
 
@@ -353,8 +374,8 @@
                     x: posX,
                     y: posY
                 },
+                componentType: 'fastCreate: ' + label,
                 inPorts: portsIn,
-                java: 'package blab.ablab.alba\nimport stuff',
                 outPorts: portsOut,
                 attrs: {
                     '.label': {

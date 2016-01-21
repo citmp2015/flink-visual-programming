@@ -13,6 +13,7 @@
             label: 'Datasources',
             faIconClass: 'fa-table',
             open: false,
+            openForFilter: false,
             subItems: [{
                 label: 'CSV Datasource',
                 dragData: {
@@ -28,6 +29,7 @@
             label: 'Join',
             faIconClass: 'fa-link',
             open: false,
+            openForFilter: false,
             dragData: {
                 type: 'join'
             },
@@ -36,6 +38,7 @@
             label: 'Filter',
             faIconClass: 'fa-filter',
             open: false,
+            openForFilter: false,
             subItems: [{
                 label: 'Number filter',
                 dragData: {
@@ -51,6 +54,7 @@
             label: 'Sum',
             faIconClass: 'fa-plus',
             open: false,
+            openForFilter: false,
             dragData: {
                 type: 'sum'
             },
@@ -59,6 +63,7 @@
             label: 'Group',
             faIconClass: 'fa-list',
             open: false,
+            openForFilter: false,
             dragData: {
                 type: 'group'
             },
@@ -67,6 +72,7 @@
             label: 'Map',
             faIconClass: 'fa-edit',
             open: false,
+            openForFilter: false,
             dragData: {
                 type: 'map'
             },
@@ -75,6 +81,7 @@
             label: 'FlatMap',
             faIconClass: 'fa-edit',
             open: false,
+            openForFilter: false,
             dragData: {
                 type: 'flatmap'
             },
@@ -83,6 +90,7 @@
             label: 'Reduce',
             faIconClass: 'fa-edit',
             open: false,
+            openForFilter: false,
             dragData: {
                 type: 'reduce'
             },
@@ -91,6 +99,7 @@
             label: 'Sinks',
             faIconClass: 'fa-table',
             open: false,
+            openForFilter: false,
             subItems: [{
                 label: 'CSV Datasink',
                 dragData: {
@@ -98,6 +107,17 @@
                 }
             }]
         }];
+
+        $scope.$watch('search.label', function(searchLabel) {
+            var openForFilter = false,
+                menuItemLength = $scope.menuItems.length;
+            if (typeof searchLabel !== 'undefined' && searchLabel.length > 1) {
+                openForFilter = true;
+            }
+            for (var index = 0; index < menuItemLength; index++) {
+                $scope.menuItems[index].openForFilter = openForFilter;
+            }
+        });
 
     }
 
