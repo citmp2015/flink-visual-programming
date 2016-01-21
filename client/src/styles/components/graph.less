@@ -1,0 +1,105 @@
+@_componentColorCoupled: #31d0c6;
+@_componentColorAtomic: #feb663;
+@_componentColorHighlighted: #fe854f;
+@_portColor: #7c68fc;
+@_portColorHovered: #ff7e5d;
+@_linkColor: #4b4f6a;
+@_linkArrowColor: #31d0c6;
+@_linkArrowColorHovered: #f39c12;
+@_linkDeleteColor: #fe854f;
+
+
+/*** Canvas ***/
+
+joint-diagram
+{
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+
+
+/*** Elements ***/
+
+.devs //Discrete EVent System
+{
+	text
+	{
+		text-transform: uppercase;
+		font-weight: 800;
+	}
+
+	.body
+	{
+		fill: white;
+		stroke: @_componentColorCoupled;
+		stroke-width: 6px;
+	}
+
+	.label
+	{
+		fill: @_componentColorCoupled;
+		font-size: 11px;
+	}
+
+	.port-body
+	{
+		stroke: white;
+		stroke-width: 3px;
+		fill: @_portColor;
+
+		&:hover
+		{
+			opacity: 1.0;
+			fill: @_portColorHovered;
+		}
+	}
+
+	.port-label
+	{
+		font-size: 11px;
+		fill: @_portColor;
+	}
+
+	&.Atomic //uncoupled
+	{
+		.body {stroke: @_componentColorAtomic;}
+		.label {fill: @_componentColorAtomic;}
+	}
+
+	//highlighting
+	&.highlighted-parent
+	{
+		.body
+		{
+			stroke: @_componentColorHighlighted;
+			transition: stroke 1s;
+		}
+
+		.label
+		{
+			fill: @_componentColorHighlighted;
+			transition: fill 1s;
+			text-decoration: underline;
+		}
+	}
+}
+
+
+/*** Links ***/
+
+.link
+{
+	.connection
+	{
+		stroke: @_linkColor;
+		stroke-width: 4px;
+	}
+
+	.marker-arrowhead, .marker-vertex {fill: @_linkArrowColor;}
+	.marker-arrowhead:hover {fill: @_linkArrowColorHovered;}
+}
+
+.link-tools .tool-remove circle {fill: @_linkDeleteColor;}
