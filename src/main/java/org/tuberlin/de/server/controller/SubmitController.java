@@ -54,7 +54,7 @@ public class SubmitController extends HttpServlet {
     }
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws
             ServletException, IOException {
         BackendController backendController = new BackendControllerImpl();
         String json = req.getParameter("graph");

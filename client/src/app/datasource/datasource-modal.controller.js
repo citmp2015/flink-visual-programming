@@ -27,10 +27,10 @@
         }];
 
         $scope.datasource = {
-            path: cell.attributes.data.path,
-            countColumns: cell.attributes.data.countColumns,
-            columns: cell.attributes.data.columns,
-            javaSourceCode: cell.attributes.data.javaSourceCode
+            filePath: cell.attributes.formdata.filePath,
+            countColumns: cell.attributes.formdata.countColumns,
+            columns: cell.attributes.formdata.columns,
+            javaSourceCode: cell.attributes.formdata.javaSourceCode
         };
 
         $scope.save = save;
@@ -53,10 +53,10 @@
         });
 
         function save() {
-            cell.attributes.data.path = $scope.datasource.path;
-            cell.attributes.data.countColumns = $scope.datasource.countColumns;
-            cell.attributes.data.columns = $scope.datasource.columns;
-            cell.attributes.data.javaSourceCode = templateFactory.createCSVDatasourceTemplate($scope.datasource.columns, $scope.datasource.path);
+            cell.attributes.formdata.filePath = $scope.datasource.filePath;
+            cell.attributes.formdata.countColumns = $scope.datasource.countColumns;
+            cell.attributes.formdata.columns = $scope.datasource.columns;
+            cell.attributes.formdata.javaSourceCode = templateFactory.createCSVDatasourceTemplate($scope.datasource.columns, $scope.datasource.filePath);
             graphFactory.saveToLocalStorage($rootScope.graph);
             $uibModalInstance.close();
         }
@@ -72,16 +72,16 @@
         var cell = $rootScope.graph.getCell($stateParams.id);
 
         $scope.datasource = {
-            path: cell.attributes.data.path,
-            javaSourceCode: cell.attributes.data.javaSourceCode
+            filePath: cell.attributes.formdata.filePath,
+            javaSourceCode: cell.attributes.formdata.javaSourceCode
         };
 
         $scope.save = save;
         $scope.cancel = cancel;
 
         function save() {
-            cell.attributes.data.path = $scope.datasource.path;
-            cell.attributes.data.javaSourceCode = templateFactory.createTextDatasourceTemplate($scope.datasource.path);
+            cell.attributes.formdata.filePath = $scope.datasource.filePath;
+            cell.attributes.formdata.javaSourceCode = templateFactory.createTextDatasourceTemplate($scope.datasource.filePath);
             graphFactory.saveToLocalStorage($rootScope.graph);
             $uibModalInstance.close();
         }
