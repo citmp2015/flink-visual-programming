@@ -1,12 +1,17 @@
-@_componentColorCoupled: #31d0c6;
-@_componentColorAtomic: #feb663;
-@_componentColorHighlighted: #fe854f;
-@_portColor: #7c68fc;
-@_portColorHovered: #ff7e5d;
-@_linkColor: #4b4f6a;
-@_linkArrowColor: #31d0c6;
-@_linkArrowColorHovered: #f39c12;
-@_linkDeleteColor: #fe854f;
+@import (reference) "../defines.less";
+
+@_componentBackgroundColor: white;
+@_componentColorCoupled: #dddddd;
+@_componentColorHighlighted: @themeColor;
+@_textColor: #707070;
+@_portColor: @themeColor;
+@_portColorHovered: @themeColorLead;
+@_portBorderColor: #dddddd;
+@_portLabelColor: #808080;
+@_linkColor: #a0a0a0;
+@_linkArrowColor: #a0a0a0;
+@_linkArrowColorHovered: @themeColorLead;
+@_linkDeleteColor: @colorWarning;
 
 
 /*** Canvas ***/
@@ -18,6 +23,8 @@ joint-diagram
 	left: 0;
 	width: 100%;
 	height: 100%;
+
+	&> svg {display: block;}
 }
 
 
@@ -25,30 +32,38 @@ joint-diagram
 
 .devs //Discrete EVent System
 {
-	text
-	{
-		text-transform: uppercase;
-		font-weight: 800;
-	}
+	text {font-weight: 400;}
 
 	.body
 	{
-		fill: white;
+		fill: @_componentBackgroundColor;
 		stroke: @_componentColorCoupled;
-		stroke-width: 6px;
+		stroke-width: 1px;
+
+		&.component-source, &.component-sink
+		{
+			stroke: @_componentColorHighlighted;
+			stroke-dasharray: 4, 1;
+		}
 	}
 
 	.label
 	{
-		fill: @_componentColorCoupled;
-		font-size: 11px;
+		fill: @_textColor;
+		font-size: 13px;
 	}
 
 	.port-body
 	{
-		stroke: white;
-		stroke-width: 3px;
+		stroke: @_portBorderColor;
+		stroke-width: 1px;
 		fill: @_portColor;
+
+		@_scale: 0.85;
+		-webkit-transform: scale(@_scale);
+		-moz-transform: scale(@_scale);
+		-ms-transform: scale(@_scale);
+		transform: scale(@_scale);
 
 		&:hover
 		{
@@ -59,14 +74,9 @@ joint-diagram
 
 	.port-label
 	{
-		font-size: 11px;
-		fill: @_portColor;
-	}
-
-	&.Atomic //uncoupled
-	{
-		.body {stroke: @_componentColorAtomic;}
-		.label {fill: @_componentColorAtomic;}
+		font-size: 10px;
+		font-weight: 300;
+		fill: @_portLabelColor;
 	}
 
 	//highlighting
@@ -95,7 +105,7 @@ joint-diagram
 	.connection
 	{
 		stroke: @_linkColor;
-		stroke-width: 4px;
+		stroke-width: 1.5px;
 	}
 
 	.marker-arrowhead, .marker-vertex {fill: @_linkArrowColor;}
