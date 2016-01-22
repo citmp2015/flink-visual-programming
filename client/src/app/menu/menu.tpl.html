@@ -5,19 +5,24 @@
             <span class="sr-only">Toggle navigation</span>
             <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" ui-sref="app.dashboard">Flink Visual</a>
+        <a class="navbar-brand" ui-sref="app.dashboard">
+            <img alt="Flink Visual Programming" src="/img/logo.png" />
+            Flink Visual
+        </a>
     </div>
 
     <ul class="nav navbar-top-links navbar-right" ng-controller="MenuNavbarTopCtrl">
-        <li><a><i class="fa fa-play"></i> Deploy and Run</a></li>
+        <li><a class="new-section"><i class="fa fa-play-circle text-primary"></i> Deploy &amp; Run</a></li>
         <li><a href="/dummydata/Wordcount.java.tar.gz" target="_blank"><i class="fa fa-download"></i> Download Java Project</a></li>
-        <li><a ng-click="clearGraph()"><i class="fa fa-history"></i> Reset</a></li>
-        <li><a ng-href="{{exportHref}}" download="export.json" ng-click="exportGraph()"><i class="fa fa-cloud-download"></i> Export</a></li>
-        <li class="import-wrapper">
-            <a ng-click="importGraph()"><i class="fa fa-cloud-upload"></i> Import</a>
-            <input file-import type="file" ng-model="importFile" on-file-loaded="onFileLoaded()" on-file-error="onFileError($error)">
+        <li><a class="new-section" ng-click="clearGraph()"><i class="fa fa-undo"></i> Reset</a></li>
+        <li><a class="new-section" ng-href="{{exportHref}}" download="export.json" ng-click="exportGraph()"><i class="fa fa-sign-out"></i> Export</a></li>
+        <li>
+            <a ng-click="importGraph()"><i class="fa fa-sign-in"></i> Import</a>
+            <div class="import-wrapper">
+                <input file-import type="file" ng-model="importFile" on-file-loaded="onFileLoaded()" on-file-error="onFileError($error)">
+            </div>
         </li>
-        <li><a><i class="fa fa-cog"></i> Configuration</a></li>
+        <li><a class="new-section"><i class="fa fa-cog"></i> Config</a></li>
     </ul>
 
     <div class="navbar-default sidebar" role="navigation">
@@ -27,7 +32,7 @@
 
                 <li class="sidebar-search">
                     <div class="input-group custom-search-form">
-                        <input type="text" class="form-control" placeholder="Search...">
+                        <input type="search" class="form-control" placeholder="Search...">
                         <span class="input-group-btn">
                             <button class="btn btn-default" type="button">
                                 <i class="fa fa-search"></i>
@@ -38,14 +43,14 @@
 
                 <li ng-repeat="menuItem in menuItems">
                     <a ng-click="menuItem.open = !menuItem.open;" ng-drag="{{menuItem.dragData ? true : false}}" ng-drag-data="{{menuItem.dragData}}">
-                        <i ng-if="menuItem.faIconClass" class="fa" ng-class="menuItem.faIconClass"></i>
+                        <i ng-if="menuItem.faIconClass" class="fa fa-fw" ng-class="menuItem.faIconClass"></i>
                         {{menuItem.label}}
-                        <i ng-if="menuItem.subItems.length" class="fa fa-caret-down"></i>
+                        <i ng-if="menuItem.subItems.length" class="fa fa-fw fa-caret-down"></i>
                     </a>
                     <ul class="nav nav-second-level" ng-if="menuItem.subItems.length" ng-show="menuItem.open">
                         <li ng-repeat="subMenuItem in menuItem.subItems">
                             <a ng-drag="{{subMenuItem.dragData ? true : false}}" ng-drag-data="{{subMenuItem.dragData}}">
-                                <i ng-if="subMenuItem.faIconClass" class="fa" ng-class="subMenuItem.faIconClass"></i> {{subMenuItem.label}}
+                                <i ng-if="subMenuItem.faIconClass" class="fa fa-fw" ng-class="subMenuItem.faIconClass"></i> {{subMenuItem.label}}
                             </a>
                         </li>
                     </ul>

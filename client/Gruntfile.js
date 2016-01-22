@@ -174,11 +174,6 @@ module.exports = function (grunt) {
                 }
             },
             styles: {
-                options: {
-                    imports: {
-                        reference: ['<%= flinkVisual.app %>/styles/defines.less']
-                    }
-                },
                 files: [
                     {
                         expand: true,

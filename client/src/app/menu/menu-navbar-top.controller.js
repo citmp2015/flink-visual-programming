@@ -37,7 +37,7 @@
         }
 
         function importGraph(argument) {
-            // body...
+            $(".import-wrapper input[type='file']").click();
         }
 
     }
