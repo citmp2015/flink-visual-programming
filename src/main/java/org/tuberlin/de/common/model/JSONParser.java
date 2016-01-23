@@ -22,7 +22,7 @@ public class JSONParser {
         JSONArray connections = obj.getJSONArray("connections");
 
         Map<String, Object> jobGraphParameters = new HashMap<>();
-        JobGraph graph = new BaseJobGraph("testkey", "testname", "testpackage", jobGraphParameters);
+        JobGraph graph = new BaseJobGraph("testkey", Constants.ENTRY_CLASS_NAME, "testpackage", jobGraphParameters);
 
         for(String key : processes.keySet()){
             Map<String, Object> parameters = new HashMap<>();
