@@ -48,8 +48,6 @@
                 templateUrl: '/app/generalsettings/generalsettings-modal.tpl.html',
                 controller: 'generalsettingsModalCtrl',
                 backdrop: 'static'
-            }).result.finally(function() {
-                $state.go('app.dashboard');
             });
         };
 
