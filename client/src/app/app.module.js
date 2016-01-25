@@ -19,6 +19,7 @@
         'app.group',
         'app.sum',
         'app.flatmap',
+        'app.customfilter',
         'app.generalsettings'
 
     ]);

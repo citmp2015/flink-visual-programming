@@ -51,6 +51,11 @@
                 dragData: {
                     type: 'stringFilter'
                 }
+            }, {
+                label: 'Custom Filter',
+                dragData: {
+                    type: 'customFilter'
+                }
             }]
         }, {
             label: 'Sum',

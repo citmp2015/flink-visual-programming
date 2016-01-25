@@ -64,6 +64,37 @@
         flink.renderStringFilter = function(posX, posY, $state) {
             return fastCreate(posX, posY, 1, 1, 'String Filter');
         };
+        
+        flink.renderCustomFilter = function(posX, posY, $state) {
+            return new flink.Atomic({
+                position: {
+                    x: posX,
+                    y: posY
+                },
+                size: {
+                    width: 140,
+                    height: 60
+                },
+                inPorts: ['IN0'],
+                outPorts: ['OUT0'],
+                attrs: {
+                    rect: {
+                        fill: 'green'
+                    },
+                    '.label': {
+                        text: 'Custom Filter'
+                    }
+                },
+                componentType: 'customfilter',
+                data: {
+                    modalController: 'customfilterModalCtrl',
+                    modalTemplateUrl: '/app/customfilter/customfilter-modal.tpl.html'
+                },
+                formdata: {
+                    javaSourceCode: templateFactory.createCustomFilterTemplate()
+                }
+            });
+        };
 
         flink.renderMap = function(posX, posY, $state) {
             return fastCreate(posX, posY, 1, 1, 'Map');

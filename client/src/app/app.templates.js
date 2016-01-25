@@ -32,6 +32,10 @@
         template.createFlatMapTemplate = function() {
             return 'public class Tokenizer implements FlatMapFunction<String, String> {\n  @Override\n  public void flatMap(String value, Collector<String> out) {\n    for (String token : value.split("\\W")) {\n      out.collect(token);\n    }\n  }\n}';
         };
+        
+        template.createCustomFilterTemplate = function() {
+            return 'data.filter(new FilterFunction<Integer>() {\n  public boolean filter(Integer value) {\n   return value > 1000;\n  }\n});';
+        };
 
         return template;
     }
