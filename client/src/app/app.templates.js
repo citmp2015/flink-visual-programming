@@ -61,6 +61,10 @@
             return 'public class Tokenizer implements FlatMapFunction<String, String> {\n  @Override\n  public void flatMap(String value, Collector<String> out) {\n    for (String token : value.split("\\W")) {\n      out.collect(token);\n    }\n  }\n}';
         };
         
+        template.createMapTemplate = function() {
+            return 'public class IntAdder implements MapFunction<Tuple2<Integer, Integer>, Integer> {\n  @Override\n  public Integer map(Tuple2<Integer, Integer> in) {\n    return in.f0 + in.f1;\n  }\n}';
+        };
+        
         template.createCustomFilterTemplate = function() {
             return 'data.filter(new FilterFunction<Integer>() {\n  public boolean filter(Integer value) {\n   return value > 1000;\n  }\n});';
         };

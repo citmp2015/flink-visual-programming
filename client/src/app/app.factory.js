@@ -130,7 +130,34 @@
         };
 
         flink.renderMap = function(posX, posY, $state) {
-            return fastCreate(posX, posY, 1, 1, 'Map');
+            return new flink.Atomic({
+                position: {
+                    x: posX,
+                    y: posY
+                },
+                size: {
+                    width: 140,
+                    height: 60
+                },
+                inPorts: ['IN0'],
+                outPorts: ['OUT0'],
+                attrs: {
+                    rect: {
+                        fill: 'green'
+                    },
+                    '.label': {
+                        text: 'Map'
+                    }
+                },
+                componentType: 'map',
+                data: {
+                    modalController: 'MapModalCtrl',
+                    modalTemplateUrl: '/app/map/map-modal.tpl.html'
+                },
+                formdata: {
+                    javaSourceCode: templateFactory.createMapTemplate()
+                }
+            });
         };
 
         flink.renderFlatMap = function(posX, posY, $state) {

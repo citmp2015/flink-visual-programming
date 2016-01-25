@@ -19,6 +19,7 @@
         'app.group',
         'app.sum',
         'app.flatmap',
+        'app.map',
         'app.generalsettings'
 
     ]);
