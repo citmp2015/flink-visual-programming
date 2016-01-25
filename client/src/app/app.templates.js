@@ -66,7 +66,11 @@
         };
         
         template.createCustomFilterTemplate = function() {
-            return 'data.filter(new FilterFunction<Integer>() {\n  public boolean filter(Integer value) {\n   return value > 1000;\n  }\n});';
+            return 'public class NaturalNumberFilter implements FilterFunction<Integer> {\n  @Override\n  public boolean filter(Integer number) {\n    return number >= 0;\n  }\n}';
+        };
+        
+        template.createReduceTemplate = function() {
+            return 'public class IntSummer implements ReduceFunction<Integer> {\n  @Override\n  public Integer reduce(Integer num1, Integer num2) {\n    return num1 + num2;\n  }\n}';
         };
 
         return template;

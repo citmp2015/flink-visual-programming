@@ -258,7 +258,34 @@
         };
 
         flink.renderReduce = function(posX, posY, $state) {
-            return fastCreate(posX, posY, 1, 1, 'Reduce');
+            return new flink.Atomic({
+                position: {
+                    x: posX,
+                    y: posY
+                },
+                size: {
+                    width: 140,
+                    height: 60
+                },
+                inPorts: ['IN0'],
+                outPorts: ['OUT0'],
+                attrs: {
+                    rect: {
+                        fill: 'green'
+                    },
+                    '.label': {
+                        text: 'Reduce'
+                    }
+                },
+                componentType: 'reduce',
+                data: {
+                    modalController: 'ReduceModalCtrl',
+                    modalTemplateUrl: '/app/reduce/reduce-modal.tpl.html'
+                },
+                formdata: {
+                    javaSourceCode: templateFactory.createReduceTemplate()
+                }
+            });
         };
 
         flink.renderCsvDatasource = function(posX, posY, $state) {
