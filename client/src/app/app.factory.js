@@ -87,8 +87,8 @@
                 },
                 componentType: 'customfilter',
                 data: {
-                    modalController: 'customfilterModalCtrl',
-                    modalTemplateUrl: '/app/customfilter/customfilter-modal.tpl.html'
+                    modalController: 'CustomfilterModalCtrl',
+                    modalTemplateUrl: '/app/filter/customfilter-modal.tpl.html'
                 },
                 formdata: {
                     javaSourceCode: templateFactory.createCustomFilterTemplate()
