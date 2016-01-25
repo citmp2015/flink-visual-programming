@@ -1,0 +1,14 @@
+@import (reference) "defines.less";
+
+#wrapper {width: 100%;}
+
+#page-wrapper
+{
+    position: relative;
+    padding: 0;
+    min-height: ~"calc(100vh - @{headerHeight})";
+    background: @colorWindow;
+    line-height: 1.0em;
+
+    @media(min-width: @screen-sm-min) {margin-left: @sidebarWidth;}
+}

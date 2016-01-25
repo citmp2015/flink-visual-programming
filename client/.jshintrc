@@ -23,6 +23,7 @@
       "joint": false,
       "window": false,
       "_": false,
-      "graphlib": false
+      "graphlib": false,
+	  "$": false
     }
 }

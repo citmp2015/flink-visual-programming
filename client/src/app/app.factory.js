@@ -183,7 +183,8 @@
                 outPorts: ['OUT0'],
                 attrs: {
                     rect: {
-                        fill: 'green'
+                        fill: 'green',
+                        class: 'body component-source'
                     },
                     '.label': {
                         text: 'CSV Datasource'
@@ -217,7 +218,8 @@
                 outPorts: ['OUT0'],
                 attrs: {
                     rect: {
-                        fill: 'green'
+                        fill: 'green',
+                        class: 'body component-source'
                     },
                     '.label': {
                         text: 'Text Datasource'
@@ -236,7 +238,7 @@
         };
 
         flink.renderCsvDatasink = function(posX, posY) {
-            return fastCreate(posX, posY, 1, 0, 'CSV Datasink');
+            return fastCreate(posX, posY, 1, 0, 'CSV Datasink', 'component-sink');
         };
 
         flink.Model = joint.shapes.basic.Generic.extend(_.extend({}, joint.shapes.basic.PortsModelInterface, {
@@ -362,7 +364,7 @@
         flink.AtomicView = flink.ModelView;
         flink.CoupledView = flink.ModelView;
 
-        function fastCreate(posX, posY, inCnt, outCnt, label) {
+        function fastCreate(posX, posY, inCnt, outCnt, label, cssClass) {
             var portsIn = _.range(inCnt).map(function(a) {
                 return 'IN' + a;
             });
@@ -378,6 +380,9 @@
                 inPorts: portsIn,
                 outPorts: portsOut,
                 attrs: {
+                    rect: {
+                       class: 'body'+(cssClass !== undefined ? ' '+cssClass : '')
+                    },
                     '.label': {
                         text: label
                     }

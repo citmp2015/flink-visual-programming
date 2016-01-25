@@ -11,23 +11,25 @@
 
         $scope.menuItems = [{
             label: 'Datasources',
-            faIconClass: 'fa-table',
+            faIconClass: 'fa-database',
             open: false,
             openForFilter: false,
             subItems: [{
                 label: 'CSV Datasource',
+                faIconClass: 'fa-table',
                 dragData: {
                     type: 'csvDatasource'
                 }
             }, {
                 label: 'Text Datasource',
+                faIconClass: 'fa-file-text',
                 dragData: {
                     type: 'textDatasource'
                 }
             }]
         }, {
             label: 'Join',
-            faIconClass: 'fa-link',
+            faIconClass: 'fa-share-alt fa-rotate-270',
             open: false,
             openForFilter: false,
             dragData: {
@@ -40,12 +42,12 @@
             open: false,
             openForFilter: false,
             subItems: [{
-                label: 'Number filter',
+                label: 'Number Filter',
                 dragData: {
                     type: 'numberFilter'
                 }
             }, {
-                label: 'String filter',
+                label: 'String Filter',
                 dragData: {
                     type: 'stringFilter'
                 }
@@ -61,7 +63,7 @@
             subItems: []
         }, {
             label: 'Group',
-            faIconClass: 'fa-list',
+            faIconClass: 'fa-folder',
             open: false,
             openForFilter: false,
             dragData: {
@@ -70,7 +72,7 @@
             subItems: []
         }, {
             label: 'Map',
-            faIconClass: 'fa-edit',
+            faIconClass: 'fa-clone',
             open: false,
             openForFilter: false,
             dragData: {
@@ -79,7 +81,7 @@
             subItems: []
         }, {
             label: 'FlatMap',
-            faIconClass: 'fa-edit',
+            faIconClass: 'fa-sitemap',
             open: false,
             openForFilter: false,
             dragData: {
@@ -88,7 +90,7 @@
             subItems: []
         }, {
             label: 'Reduce',
-            faIconClass: 'fa-edit',
+            faIconClass: 'fa-code-fork',
             open: false,
             openForFilter: false,
             dragData: {
@@ -97,11 +99,12 @@
             subItems: []
         }, {
             label: 'Sinks',
-            faIconClass: 'fa-table',
+            faIconClass: 'fa-sign-out',
             open: false,
             openForFilter: false,
             subItems: [{
                 label: 'CSV Datasink',
+                faIconClass: 'fa-table',
                 dragData: {
                     type: 'csvDatasink'
                 }
