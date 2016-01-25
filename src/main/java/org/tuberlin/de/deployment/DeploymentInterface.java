@@ -2,6 +2,7 @@ package org.tuberlin.de.deployment;
 
 import java.io.InputStream;
 import java.util.List;
+import java.util.Map;
 
 /**
  * This interface describes the interaction between the code generation module and the deployment of the generated code.
@@ -40,19 +41,19 @@ public interface DeploymentInterface {
      *               The configurations will be saved into config files (default) and can later in the project be overwritten by
      *               a dialogue in the frontend.
      */
-    public void generateProjectJAR(String entryClass, List<String> clazzes, boolean deploy);
+    public void generateProjectJAR(String entryClass, Map<String, String> clazzes, boolean deploy);
 
     /**
-     * This method is called after the JAR was generated. It will return a InputStream that contains the JAR File.
+     * This method will return a InputStream that contains the JAR File.
      * This is mainly for frontend functions to download the generated JAR.
      * @return a InputStream containing the Jar file
      */
-    public InputStream getJarStream();
+    public InputStream getJarStream(String entryClass, Map<String, String> clazzes);
 
     /**
      * This method returns a InputStream that contains a ZIP file with the entire project (source code files,
      * not compiled)
      * @return InputStream containing a Zip file with the project (source code, not compiled)
      */
-    public InputStream getZipSource(String entryClass, List<String> clazzes);
+    public InputStream getZipSource(String entryClass, Map<String, String> clazzes);
 }
