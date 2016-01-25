@@ -4,17 +4,18 @@
 
     angular
         .module('app.filter')
-        .controller('NumberfilterModalCtrl', FilterModalCtrl)
+        .controller('NumberfilterModalCtrl', NumberfilterModalCtrl)
+        .controller('StringfilterModalCtrl', StringfilterModalCtrl)
         .controller('CustomfilterModalCtrl', CustomfilterModalCtrl);
 
     /*@ngInject*/
-    function FilterModalCtrl($scope, $rootScope, $uibModalInstance, $stateParams, $timeout, graphFactory, templateFactory, $log) {
+    function NumberfilterModalCtrl($scope, $rootScope, $uibModalInstance, $stateParams, $timeout, graphFactory, templateFactory, $log) {
 
         var cell = $rootScope.graph.getCell($stateParams.id);
 
         $scope.operationTypes = [{
             label: '=',
-            key: '='
+            key: '=='
         }, {
             label: '>',
             key: '>'
@@ -43,7 +44,60 @@
             cell.attributes.formdata.tupleIndex = $scope.numberfilter.tupleIndex;
             cell.attributes.formdata.operationType = $scope.numberfilter.operationType;
             cell.attributes.formdata.compareValue = $scope.numberfilter.compareValue;
-			cell.attributes.formdata.javaSourceCode = templateFactory.createNumberFilterTemplate($scope.numberfilter.operationType, $scope.numberfilter.compareValue);
+			cell.attributes.formdata.javaSourceCode = templateFactory.createNumberFilterTemplate($scope.numberfilter.operationType.key, $scope.numberfilter.compareValue);
+            graphFactory.saveToLocalStorage($rootScope.graph);
+            $uibModalInstance.close();
+        }
+
+        function cancel() {
+            $uibModalInstance.close();
+        }
+
+    }
+    
+    /*@ngInject*/
+    function StringfilterModalCtrl($scope, $rootScope, $uibModalInstance, $stateParams, $timeout, graphFactory, templateFactory, $log) {
+
+        var cell = $rootScope.graph.getCell($stateParams.id);
+
+        $scope.operationTypes = [{
+            label: 'Equals',
+            key: 'Equals'
+        }, {
+            label: 'Not Equals',
+            key: 'NotEquals'
+        }, {
+            label: 'Contains',
+            key: 'Contains'
+        }, {
+            label: 'Not Contains',
+            key: 'NotContains'
+        }, {
+            label: 'Starts With',
+            key: 'StartsWith'
+        }, {
+            label: 'Ends With',
+            key: 'EndsWith'
+        }, {
+            label: 'Matches (RegEx Pattern)',
+            key: 'Matches'
+        }];
+
+        $scope.stringfilter = {
+            tupleIndex: cell.attributes.formdata.tupleIndex,
+            operationType: cell.attributes.formdata.operationType,
+            compareValue: cell.attributes.formdata.compareValue,
+			javaSourceCode: cell.attributes.formdata.javaSourceCode
+        };
+
+        $scope.save = save;
+        $scope.cancel = cancel;
+
+        function save() {
+            cell.attributes.formdata.tupleIndex = $scope.stringfilter.tupleIndex;
+            cell.attributes.formdata.operationType = $scope.stringfilter.operationType;
+            cell.attributes.formdata.compareValue = $scope.stringfilter.compareValue;
+			cell.attributes.formdata.javaSourceCode = templateFactory.createStringFilterTemplate($scope.stringfilter.operationType.key, $scope.stringfilter.compareValue);
             graphFactory.saveToLocalStorage($rootScope.graph);
             $uibModalInstance.close();
         }

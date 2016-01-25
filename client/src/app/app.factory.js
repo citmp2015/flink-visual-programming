@@ -53,7 +53,7 @@
                     tupleIndex: 0,
                     operationType: {
                         label: '=',
-                        key: '='
+                        key: '=='
                     },
                     compareValue: 0,
                     javaSourceCode: ''
@@ -62,7 +62,40 @@
         };
 
         flink.renderStringFilter = function(posX, posY, $state) {
-            return fastCreate(posX, posY, 1, 1, 'String Filter');
+            return new flink.Atomic({
+                position: {
+                    x: posX,
+                    y: posY
+                },
+                size: {
+                    width: 140,
+                    height: 60
+                },
+                inPorts: ['IN0'],
+                outPorts: ['OUT0'],
+                attrs: {
+                    rect: {
+                        fill: 'green'
+                    },
+                    '.label': {
+                        text: 'String Filter'
+                    }
+                },
+                componentType: 'stringfilter',
+                data: {
+                    modalController: 'StringfilterModalCtrl',
+                    modalTemplateUrl: '/app/filter/stringfilter-modal.tpl.html'
+                },
+                formdata: {
+                    tupleIndex: 0,
+                    operationType: {
+                        label: 'Equals',
+                        key: 'Equals'
+                    },
+                    compareValue: '',
+                    javaSourceCode: ''
+                }
+            });
         };
         
         flink.renderCustomFilter = function(posX, posY, $state) {
