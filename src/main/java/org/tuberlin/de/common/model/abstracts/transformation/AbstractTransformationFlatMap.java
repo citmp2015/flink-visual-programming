@@ -2,6 +2,7 @@ package org.tuberlin.de.common.model.abstracts.transformation;
 
 import org.tuberlin.de.common.model.interfaces.JobComponent;
 import org.tuberlin.de.common.model.interfaces.transorfmation.TransformationFlatMap;
+import org.tuberlin.de.common.model.types.RelationTypes;
 
 import java.util.Collection;
 
@@ -74,9 +75,10 @@ public abstract class AbstractTransformationFlatMap extends AbstractTransformati
 
     @Override
     public boolean verify() {
-        //TODO
-        if (!this.initialized) return false;
-        return true;
+        //Checks whether the component is initialized and the amount of parents/children is correct
+        return      this.initialized
+                &&  this.getParents().size() == RelationTypes.ONE.getVal()
+                &&  this.getChildren().size() == RelationTypes.ONE.getVal();
     }
 
     private void cleanUpAfterInit(){
