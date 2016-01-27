@@ -7,7 +7,7 @@
         .controller('MenuNavbarTopCtrl', MenuNavbarTopCtrl);
 
     /*@ngInject*/
-    function MenuNavbarTopCtrl($scope, $rootScope, graphFactory, jsonBuilder, $log, $http, $uibModal) {
+    function MenuNavbarTopCtrl($scope, $rootScope, graphFactory, jsonBuilder, $log, $http, $uibModal, ENDPOINT) {
 
         $scope.clearGraph = clearGraph;
         $scope.exportGraph = exportGraph;
@@ -53,16 +53,14 @@
 
         function sendGraph(action) {
             var json = jsonBuilder.buildJson($rootScope.graph);
-            //console.log('initial', $rootScope.graph.toJSON());
-            console.log('sending the following object', json);
             var formData = {
                 action: action,
-                graph: JSON.stringify(json)
+                graph: json
             };
             var config = {
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
             };
-            $http.post('submit_jobgraph', formData, config).then(
+            $http.post(ENDPOINT + '/submit_jobgraph', formData, config).then(
                 function successCallback(response) {
                     console.log(response);
                 }, function errorCallback(response) {

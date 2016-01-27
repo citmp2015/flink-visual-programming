@@ -1,5 +1,7 @@
 package org.tuberlin.de.server.controller;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.tuberlin.de.common.codegenerator.CodeGenerator;
@@ -57,24 +59,33 @@ public class SubmitController extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws
             ServletException, IOException {
         BackendController backendController = new BackendControllerImpl();
-        String json = req.getParameter("graph");
 
-        if (json == null || json.equals("")) {
+        String body = req.getReader().lines().reduce("", (accumulator, actual) -> accumulator + actual);
+        JSONObject bodyObject = null;
+
+        try {
+            bodyObject = new JSONObject(body);
+        } catch (JSONException e) {
+            LOG.debug("Request did not contain data");
+            return;
+        }
+
+        if (!bodyObject.has("graph")) {
             LOG.debug("Request did not contain data for parameter graph");
             return;
         } else {
-            LOG.debug("Graph: " + json);
+            LOG.debug("Graph: " + bodyObject.getJSONObject("graph").toString());
         }
 
         JobGraph jobGraph;
         try {
-            jobGraph = backendController.getJobGraph(json);
+            jobGraph = backendController.getJobGraph(bodyObject.getJSONObject("graph"));
         } catch (Exception e) {
             LOG.error("Error in construction jobGraph.", e);
             return;
         }
 
-        String action = req.getParameter("action");
+        String action = bodyObject.getString("action");
         if (action == null) {
             LOG.error("No action specified in the 'action' parameter");
             return;
