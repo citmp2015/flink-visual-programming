@@ -6,8 +6,6 @@
         .module('app')
         .factory('jsonBuilder', jsonBuilder);
 
-
-
     /*@ngInject*/
     function jsonBuilder() {
         var builder = {};
@@ -16,7 +14,7 @@
             var initialJson = graph.toJSON();
 
             var json = {
-                processes: [],
+                processes: {},
                 connections: []
             };
 
@@ -28,12 +26,10 @@
                 var cell = initialJson.cells[i];
                 var id = cell.id;
                 if (cell.type === 'devs.Atomic') { // component
-                    var process = {};
-                    process[id] = {
+                    json.processes[id] = {
                         component: cell.componentType || 'unknown',
                         data: cell.formdata
                     };
-                    json.processes.push(process);
                 } else if (cell.type === 'devs.Link') { // link
                     json.connections.push({
                         id: id,
