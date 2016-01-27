@@ -103,6 +103,19 @@ public class JSONParser {
                     comp = new BaseDataSinkPrint(graph, parameters);
                     break;
 
+                case "flatmap":
+                    comp = new BaseTransformationFlatMap(graph, parameters);
+                    break;
+
+                /*
+                case "map":
+                    comp = new BaseTransformationMap(graph, parameters);
+                    break;
+
+                case "reduce":
+                    ...
+                */
+
                 case "sum":
                     parameters.put(TransformationAggregate.FUNCTION_KEY, "SUM");
                     comp = new BaseTransformationAggregate(graph, parameters);
