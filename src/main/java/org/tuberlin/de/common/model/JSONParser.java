@@ -107,7 +107,8 @@ public class JSONParser {
                     comp = new BaseTransformationAggregate(graph, parameters);
 
                 default:
-                    //TODO what about custom components?
+                    System.out.println("Ignoring component " + componentName);
+                    continue; //FIXME should throw errors in the future
             }
 
             graph.addComponent(comp);
