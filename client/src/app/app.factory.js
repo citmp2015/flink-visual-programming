@@ -97,7 +97,7 @@
                 }
             });
         };
-        
+
         flink.renderCustomFilter = function(posX, posY, $state) {
             return new flink.Atomic({
                 position: {
@@ -246,7 +246,7 @@
                         text: 'Group'
                     }
                 },
-                componentType: 'group',
+                componentType: 'groupBy',
                 data: {
                     modalController: 'groupModalCtrl',
                     modalTemplateUrl: '/app/group/group-modal.tpl.html'
