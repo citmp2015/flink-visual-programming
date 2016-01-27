@@ -380,11 +380,6 @@ module.exports = function(grunt) {
                     cwd: 'bower_components/components-bootstrap/fonts',
                     dest: '<%= flinkVisual.dist %>/fonts',
                     src: ['*']
-                }, {
-                    expand: true,
-                    cwd: '<%= flinkVisual.app %>/dummydata',
-                    dest: '<%= flinkVisual.dist %>/dummydata',
-                    src: ['*']
                 }]
             }
         }
