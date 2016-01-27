@@ -106,6 +106,7 @@ public class JSONParser {
                 case "sum":
                     parameters.put(TransformationAggregate.FUNCTION_KEY, "SUM");
                     comp = new BaseTransformationAggregate(graph, parameters);
+                    break;
 
                 default:
                     System.out.println("Ignoring component " + componentName);
