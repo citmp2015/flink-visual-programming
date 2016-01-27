@@ -8,6 +8,7 @@ import org.tuberlin.de.common.model.interfaces.JobComponent;
 import org.tuberlin.de.common.model.interfaces.JobGraph;
 import org.tuberlin.de.common.model.interfaces.transorfmation.TransformationAggregate;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -29,8 +30,8 @@ public class JSONParser {
 
             //connections
             //TODO multiple connections per process
-            String parent = null;
-            String children = null;
+            ArrayList<String> parent = null;
+            ArrayList<String> children = null;
 
             for(int i = 0; i < connections.length(); i++){
                 JSONObject connection = connections.getJSONObject(i);
@@ -38,11 +39,11 @@ public class JSONParser {
                 String target = connection.getString("tgt");
 
                 if(key.equals(source)){
-                    children = target;
+                    children.add(target);
                 }
 
                 if(key.equals(target)){
-                    parent = source;
+                    children.add(source);
                 }
             }
 
@@ -59,13 +60,13 @@ public class JSONParser {
                 String inputType = data.has("input_type")
                         ? data.getString("input_type")
                         : parent != null
-                            ? getOptData(processes.getJSONObject(parent), "output_type")
+                            ? getOptData(processes.getJSONObject(parent.get(0)), "output_type")
                             : null;
 
                 String outputType = data.has("output_type")
                         ? data.getString("output_type")
                         : parent != null
-                            ? getOptData(processes.getJSONObject(parent), "input_type")
+                            ? getOptData(processes.getJSONObject(parent.get(0)), "input_type")
                             : null;
 
                 parameters.put(Constants.JOB_COMPONENT_INPUT_TYPE, inputType);
@@ -83,7 +84,7 @@ public class JSONParser {
 
             //type
             String componentName = val.getString("component");
-            JobComponent comp = null;
+            JobComponent comp;
 
             // or:
             switch(componentName){
