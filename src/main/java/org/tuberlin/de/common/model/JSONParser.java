@@ -15,8 +15,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class JSONParser {
-    public static JobGraph getJobGraph(String json){
-        JSONObject obj = new JSONObject(json);
+    public static JobGraph getJobGraph(JSONObject obj){
         JSONObject processes = obj.getJSONObject("processes");
         // JSONObject components = obj.getJSONObject("components");
         JSONArray connections = obj.getJSONArray("connections");
