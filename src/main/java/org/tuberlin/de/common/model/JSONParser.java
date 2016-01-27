@@ -2,10 +2,7 @@ package org.tuberlin.de.common.model;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.tuberlin.de.common.base.BaseDataSinkPrint;
-import org.tuberlin.de.common.base.BaseDataSourceComponentText;
-import org.tuberlin.de.common.base.BaseGroupBy;
-import org.tuberlin.de.common.base.BaseJobGraph;
+import org.tuberlin.de.common.base.*;
 import org.tuberlin.de.common.model.interfaces.CompilationUnitComponent;
 import org.tuberlin.de.common.model.interfaces.JobComponent;
 import org.tuberlin.de.common.model.interfaces.JobGraph;
@@ -80,8 +77,8 @@ public class JSONParser {
 
                 addIfData(parameters, Constants.COMPONENT_PATH_JSON, data, "filePath");
                 addIfData(parameters, CompilationUnitComponent.COMPONENT_SOURCE_JSON, data, "javaSourceCode");
-
-                //TODO source code
+                addIfData(parameters, CompilationUnitComponent.PACKAGE_NAME_KEY, data, "packageName");
+                addIfData(parameters, CompilationUnitComponent.FUNCTION_NAME_KEY, data, "functionName");
             }
 
             //type
@@ -90,20 +87,24 @@ public class JSONParser {
 
             // or:
             switch(componentName){
+                case "textdatasource":
                 case "readFile":
                     comp = new BaseDataSourceComponentText(graph, parameters);
                     break;
 
+                case "group":
                 case "groupBy":
                     comp = new BaseGroupBy(graph, parameters);
                     break;
 
+                case "fastCreate: CSV Datasink":
                 case "writeCSV":
                     comp = new BaseDataSinkPrint(graph, parameters);
                     break;
 
                 case "sum":
-                    //TODO need base classes
+                    parameters.put(TransformationAggregate.FUNCTION_KEY, "SUM");
+                    comp = new BaseTransformationAggregate(graph, parameters);
 
                 default:
                     //TODO what about custom components?
