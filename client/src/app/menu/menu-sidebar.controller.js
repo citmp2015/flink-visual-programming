@@ -43,13 +43,21 @@
             openForFilter: false,
             subItems: [{
                 label: 'Number Filter',
+                faIconClass: 'fa-filter',
                 dragData: {
                     type: 'numberFilter'
                 }
             }, {
                 label: 'String Filter',
+                faIconClass: 'fa-file-text',
                 dragData: {
                     type: 'stringFilter'
+                }
+            }, {
+                label: 'Custom Filter',
+                faIconClass: 'fa-asterisk',
+                dragData: {
+                    type: 'customFilter'
                 }
             }]
         }, {

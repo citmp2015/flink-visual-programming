@@ -19,6 +19,8 @@
         'app.group',
         'app.sum',
         'app.flatmap',
+        'app.map',
+        'app.reduce',
         'app.generalsettings'
 
     ]);

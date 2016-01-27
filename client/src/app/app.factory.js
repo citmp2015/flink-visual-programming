@@ -53,7 +53,7 @@
                     tupleIndex: 0,
                     operationType: {
                         label: '=',
-                        key: '='
+                        key: '=='
                     },
                     compareValue: 0,
                     javaSourceCode: ''
@@ -62,11 +62,102 @@
         };
 
         flink.renderStringFilter = function(posX, posY, $state) {
-            return fastCreate(posX, posY, 1, 1, 'String Filter');
+            return new flink.Atomic({
+                position: {
+                    x: posX,
+                    y: posY
+                },
+                size: {
+                    width: 140,
+                    height: 60
+                },
+                inPorts: ['IN0'],
+                outPorts: ['OUT0'],
+                attrs: {
+                    rect: {
+                        fill: 'green'
+                    },
+                    '.label': {
+                        text: 'String Filter'
+                    }
+                },
+                componentType: 'stringfilter',
+                data: {
+                    modalController: 'StringfilterModalCtrl',
+                    modalTemplateUrl: '/app/filter/stringfilter-modal.tpl.html'
+                },
+                formdata: {
+                    tupleIndex: 0,
+                    operationType: {
+                        label: 'Equals',
+                        key: 'Equals'
+                    },
+                    compareValue: '',
+                    javaSourceCode: ''
+                }
+            });
+        };
+        
+        flink.renderCustomFilter = function(posX, posY, $state) {
+            return new flink.Atomic({
+                position: {
+                    x: posX,
+                    y: posY
+                },
+                size: {
+                    width: 140,
+                    height: 60
+                },
+                inPorts: ['IN0'],
+                outPorts: ['OUT0'],
+                attrs: {
+                    rect: {
+                        fill: 'green'
+                    },
+                    '.label': {
+                        text: 'Custom Filter'
+                    }
+                },
+                componentType: 'customfilter',
+                data: {
+                    modalController: 'CustomfilterModalCtrl',
+                    modalTemplateUrl: '/app/filter/customfilter-modal.tpl.html'
+                },
+                formdata: {
+                    javaSourceCode: templateFactory.createCustomFilterTemplate()
+                }
+            });
         };
 
         flink.renderMap = function(posX, posY, $state) {
-            return fastCreate(posX, posY, 1, 1, 'Map');
+            return new flink.Atomic({
+                position: {
+                    x: posX,
+                    y: posY
+                },
+                size: {
+                    width: 140,
+                    height: 60
+                },
+                inPorts: ['IN0'],
+                outPorts: ['OUT0'],
+                attrs: {
+                    rect: {
+                        fill: 'green'
+                    },
+                    '.label': {
+                        text: 'Map'
+                    }
+                },
+                componentType: 'map',
+                data: {
+                    modalController: 'MapModalCtrl',
+                    modalTemplateUrl: '/app/map/map-modal.tpl.html'
+                },
+                formdata: {
+                    javaSourceCode: templateFactory.createMapTemplate()
+                }
+            });
         };
 
         flink.renderFlatMap = function(posX, posY, $state) {
@@ -167,7 +258,34 @@
         };
 
         flink.renderReduce = function(posX, posY, $state) {
-            return fastCreate(posX, posY, 1, 1, 'Reduce');
+            return new flink.Atomic({
+                position: {
+                    x: posX,
+                    y: posY
+                },
+                size: {
+                    width: 140,
+                    height: 60
+                },
+                inPorts: ['IN0'],
+                outPorts: ['OUT0'],
+                attrs: {
+                    rect: {
+                        fill: 'green'
+                    },
+                    '.label': {
+                        text: 'Reduce'
+                    }
+                },
+                componentType: 'reduce',
+                data: {
+                    modalController: 'ReduceModalCtrl',
+                    modalTemplateUrl: '/app/reduce/reduce-modal.tpl.html'
+                },
+                formdata: {
+                    javaSourceCode: templateFactory.createReduceTemplate()
+                }
+            });
         };
 
         flink.renderCsvDatasource = function(posX, posY, $state) {

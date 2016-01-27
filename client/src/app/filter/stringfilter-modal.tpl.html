@@ -1,0 +1,25 @@
+<div class="modal-header">
+    <h3 class="modal-title">String Filter</h3>
+</div>
+<div class="modal-body">
+
+    <form>
+        <div class="form-group">
+            <label for="stringfilterTupleIndex">InputIndex (0 indexed, should be of a number type)</label>
+            <input type="number" min="0" class="form-control" id="stringfilterTupleIndex" ng-model="stringfilter.tupleIndex">
+        </div>
+        <div class="form-group">
+            <label for="stringfilterOperation">Operator</label>
+            <select class="form-control" id="stringfilterOperation" ng-options="operationType as operationType.label for operationType in operationTypes track by operationType.key" ng-model="stringfilter.operationType"></select>
+        </div>
+        <div class="form-group">
+            <label for="stringfilterCompareValue">Compare Value</label>
+            <input type="text" class="form-control" id="stringfilterCompareValue" ng-model="stringfilter.compareValue">
+        </div>
+    </form>
+
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" type="button" ng-click="save()">Save</button>
+    <button class="btn btn-default" type="button" ng-click="cancel()">Cancel</button>
+</div>
