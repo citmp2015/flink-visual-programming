@@ -46,7 +46,14 @@
         };
 
         template.createFlatMapTemplate = function() {
-            return 'public class Tokenizer implements FlatMapFunction<String, String> {\n  @Override\n  public void flatMap(String value, Collector<String> out) {\n    for (String token : value.split("\\W")) {\n      out.collect(token);\n    }\n  }\n}';
+            return 'public class Tokenizer implements FlatMapFunction<String, Tuple2<String, Integer>> {\n' +
+                    '@Override\n' +
+                    'public void flatMap(String value, Collector<Tuple2<String, Integer>> out) {\n' +
+                    '    for (String token : value.split("\\W")) {\n' +
+                    '      out.collect(new Tuple2<String, Integer>(token, 1));\n' +
+                    '    }\n' +
+                    '  }\n' +
+                    '}';
         };
 
         template.createMapTemplate = function() {
