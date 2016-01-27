@@ -1,4 +1,4 @@
-module.exports = function (grunt) {
+module.exports = function(grunt) {
 
     'use strict';
 
@@ -104,7 +104,7 @@ module.exports = function (grunt) {
             livereload: {
                 options: {
                     open: true,
-                    middleware: function (connect) {
+                    middleware: function(connect) {
                         var serveStatic = require('serve-static');
                         return [
                             connect().use(
@@ -139,7 +139,7 @@ module.exports = function (grunt) {
             app: {
                 src: ['<%= flinkVisual.app %>/index.html'],
                 exclude: [
-                  'bower_components/underscore/underscore.js'
+                    'bower_components/underscore/underscore.js'
                 ]
             }
         },
@@ -149,12 +149,6 @@ module.exports = function (grunt) {
             options: {
                 algorithm: 'md5',
                 length: 8
-            },
-            images: {
-                src: [
-                    '<%= flinkVisual.dist %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
-                    '<%= flinkVisual.dist %>/app/**/*.{png,jpg,jpeg,gif,webp,svg}'
-                ]
             },
             js: {
                 src: '<%= flinkVisual.dist %>/scripts/{,*/}*.js'
@@ -230,16 +224,16 @@ module.exports = function (grunt) {
             }
         },
 
-				ngAnnotate: {
-					dist: {
-						files: [{
-							expand: true,
-							cwd: '<%= flinkVisual.tmp %>/concat/scripts',
-							src: ['*.js', '!oldieshim.js'],
-							dest: '<%= flinkVisual.tmp %>/concat/scripts'
-						}]
-					}
-				},
+        ngAnnotate: {
+            dist: {
+                files: [{
+                    expand: true,
+                    cwd: '<%= flinkVisual.tmp %>/concat/scripts',
+                    src: ['*.js', '!oldieshim.js'],
+                    dest: '<%= flinkVisual.tmp %>/concat/scripts'
+                }]
+            }
+        },
 
         htmlmin: {
             dist: {
@@ -300,7 +294,7 @@ module.exports = function (grunt) {
                         require('postcss-merge-longhand')(),
                         require('postcss-merge-rules')(),
                         require('postcss-discard-empty')(),
-                        require('perfectionist')({format: 'compressed' })
+                        require('perfectionist')({format: 'compressed'})
                     ]
                 },
                 src: [
@@ -330,9 +324,9 @@ module.exports = function (grunt) {
         // Empties folders to start fresh
         clean: {
             dist: {
-								options: {
-									force: true
-								},
+                options: {
+                    force: true
+                },
                 files: [{
                     dot: true,
                     src: [
@@ -373,9 +367,9 @@ module.exports = function (grunt) {
                     ]
                 }, {
                     expand: true,
-                    cwd: '<%= flinkVisual.tmp %>/images',
+                    cwd: '<%= flinkVisual.app %>/images',
                     dest: '<%= flinkVisual.dist %>/images',
-                    src: ['generated/*']
+                    src: ['*']
                 }, {
                     expand: true,
                     cwd: 'bower_components/components-font-awesome/fonts',
@@ -422,7 +416,7 @@ module.exports = function (grunt) {
         'wiredep',
         'useminPrepare',
         'concat:generated',
-		'ngAnnotate',
+        'ngAnnotate',
         'postcss:dist',
         'cssmin:generated',
         'uglify:generated',
