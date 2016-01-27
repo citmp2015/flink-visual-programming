@@ -373,9 +373,9 @@ module.exports = function (grunt) {
                     ]
                 }, {
                     expand: true,
-                    cwd: '<%= flinkVisual.tmp %>/images',
+                    cwd: '<%= flinkVisual.app %>/images',
                     dest: '<%= flinkVisual.dist %>/images',
-                    src: ['generated/*']
+                    src: ['*']
                 }, {
                     expand: true,
                     cwd: 'bower_components/components-font-awesome/fonts',
