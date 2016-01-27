@@ -56,9 +56,20 @@
             cell.attributes.formdata.filePath = $scope.datasource.filePath;
             cell.attributes.formdata.countColumns = $scope.datasource.countColumns;
             cell.attributes.formdata.columns = $scope.datasource.columns;
-            cell.attributes.formdata.javaSourceCode = templateFactory.createCSVDatasourceTemplate($scope.datasource.columns, $scope.datasource.filePath);
+            cell.attributes.formdata.output_type = getTypeString(cell.attributes.formdata.columns);
             graphFactory.saveToLocalStorage($rootScope.graph);
             $uibModalInstance.close();
+        }
+
+        function getTypeString(columns) {
+            if (columns.length > 0) {
+                var types = columns[0].type.label;
+
+                for (var index = 1; index < columns.length; index++) {
+                    types = types + ',' + columns[index].type.label;
+                }
+                return 'Tuple' + columns.length + '<' + types + '>';
+            }
         }
 
         function cancel() {
@@ -67,13 +78,12 @@
 
     }
 
-    function TextDatasourceModalCtrl($scope, $rootScope, $uibModalInstance, $stateParams, $timeout, graphFactory, templateFactory, $log) {
+    function TextDatasourceModalCtrl($scope, $rootScope, $uibModalInstance, $stateParams, $timeout, graphFactory, $log) {
 
         var cell = $rootScope.graph.getCell($stateParams.id);
 
         $scope.datasource = {
-            filePath: cell.attributes.formdata.filePath,
-            javaSourceCode: cell.attributes.formdata.javaSourceCode
+            filePath: cell.attributes.formdata.filePath
         };
 
         $scope.save = save;
@@ -81,7 +91,7 @@
 
         function save() {
             cell.attributes.formdata.filePath = $scope.datasource.filePath;
-            cell.attributes.formdata.javaSourceCode = templateFactory.createTextDatasourceTemplate($scope.datasource.filePath);
+            cell.attributes.formdata.output_type = 'String';
             graphFactory.saveToLocalStorage($rootScope.graph);
             $uibModalInstance.close();
         }
