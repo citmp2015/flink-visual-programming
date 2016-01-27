@@ -316,8 +316,7 @@
                 formdata: {
                     filePath: null,
                     countColumns: 2,
-                    columns: [],
-                    javaSourceCode: ''
+                    columns: []
                 }
 
             });
@@ -349,8 +348,7 @@
                     modalTemplateUrl: '/app/datasource/text-datasource-modal.tpl.html'
                 },
                 formdata: {
-                    filePath: null,
-                    javaSourceCode: ''
+                    filePath: null
                 }
             });
         };
