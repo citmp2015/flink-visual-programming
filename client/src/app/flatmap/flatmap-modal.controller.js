@@ -26,8 +26,10 @@
             cell.attributes.formdata.javaSourceCode = $scope.editor;
             cell.attributes.formdata.functionName = getClassName(cell.attributes.formdata.javaSourceCode);
             var types = getTypes(cell.attributes.formdata.javaSourceCode);
+            /* jshint ignore:start */
             cell.attributes.formdata.input_type = types.inType;
             cell.attributes.formdata.output_type = types.outType;
+            /* jshint ignore:end */
             graphFactory.saveToLocalStorage($rootScope.graph);
             $uibModalInstance.close();
         }

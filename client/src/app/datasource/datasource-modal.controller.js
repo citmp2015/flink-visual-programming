@@ -55,7 +55,7 @@
             cell.attributes.formdata.filePath = $scope.datasource.filePath;
             cell.attributes.formdata.countColumns = $scope.datasource.countColumns;
             cell.attributes.formdata.columns = $scope.datasource.columns;
-            cell.attributes.formdata.output_type = getTypeString(cell.attributes.formdata.columns);
+            cell.attributes.formdata.output_type = getTypeString(cell.attributes.formdata.columns); // jshint ignore:line
             graphFactory.saveToLocalStorage($rootScope.graph);
             $uibModalInstance.close();
         }
@@ -90,7 +90,7 @@
 
         function save() {
             cell.attributes.formdata.filePath = $scope.datasource.filePath;
-            cell.attributes.formdata.output_type = 'String';
+            cell.attributes.formdata.output_type = 'String'; // jshint ignore:line
             graphFactory.saveToLocalStorage($rootScope.graph);
             $uibModalInstance.close();
         }
