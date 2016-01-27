@@ -29,8 +29,7 @@
         $scope.datasource = {
             filePath: cell.attributes.formdata.filePath,
             countColumns: cell.attributes.formdata.countColumns,
-            columns: cell.attributes.formdata.columns,
-            javaSourceCode: cell.attributes.formdata.javaSourceCode
+            columns: cell.attributes.formdata.columns
         };
 
         $scope.save = save;
