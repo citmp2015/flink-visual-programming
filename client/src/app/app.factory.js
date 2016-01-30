@@ -11,6 +11,19 @@
 
         var flink = {};
 
+        flink.getGeneralSettings = function() {
+            return localStorageService.get('config');
+        };
+
+        flink.setGeneralSettings = function(extConfig) {
+            var config = extConfig || {};
+            config.
+            localStorageService.set('config', {
+                flinkURL: config.flinkURL || '',
+                flinkPort: config.flinkPort || ''
+            });
+        };
+
         flink.saveToLocalStorage = function(graph) {
             localStorageService.set('graph', graph.toJSON());
         };

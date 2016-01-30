@@ -6,7 +6,10 @@
     <form>
         <div class="form-group">
             <label for="datasourcePath">Path</label>
-            <input type="text" class="form-control" id="datasourcePath" placeholder="hdfs://data/example.txt" ng-model="datasource.filePath">
+            <div class="input-group">
+                <span class="input-group-addon">{{generalsettings.flinkURL}}:{{generalsettings.flinkPort}}</span>
+                <input type="text" class="form-control" id="datasourcePath" placeholder="data/example.csv" ng-model="datasource.filePath">
+            </div>
         </div>
     </form>
 
