@@ -122,14 +122,21 @@
         $scope.$watch('search.label', function(searchLabel) {
             var openForFilter = false,
                 menuItemLength = $scope.menuItems.length;
+            $scope.showClearSearchButton = false;
+
             if (typeof searchLabel !== 'undefined' && searchLabel.length > 1) {
+                $scope.showClearSearchButton = true;
                 openForFilter = true;
             }
+
             for (var index = 0; index < menuItemLength; index++) {
                 $scope.menuItems[index].openForFilter = openForFilter;
             }
         });
 
+        $scope.clearSearch = function() {
+            $scope.search.label = '';
+        };
     }
 
 })();
