@@ -430,8 +430,8 @@ module.exports = function(grunt) {
 
     grunt.registerTask('serve', [
         'clean:server',
-        'less',
         'bower',
+        'less',
         'wiredep',
         'postcss:serve',
         'connect:livereload',
@@ -441,8 +441,8 @@ module.exports = function(grunt) {
     grunt.registerTask('test', [
         'clean:server',
         'bower',
+        'less',
         'wiredep',
-        'copy:styles',
         'postcss:serve',
         'connect:test',
         'jshint:all',
