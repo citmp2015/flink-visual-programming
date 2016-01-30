@@ -120,7 +120,10 @@ module.exports = function(grunt) {
                     middleware: function(connect) {
                         var serveStatic = require('serve-static');
                         return [
-                            serveStatic('<%= flinkVisual.tmp %>'),
+                            connect().use(
+                                '/.tmp',
+                                serveStatic('./.tmp')
+                            ),
                             connect().use(
                                 '/bower_components',
                                 serveStatic('./bower_components')
