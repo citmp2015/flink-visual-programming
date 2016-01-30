@@ -27,10 +27,9 @@
         }];
 
         $scope.datasource = {
-            path: cell.attributes.data.path,
-            countColumns: cell.attributes.data.countColumns,
-            columns: cell.attributes.data.columns,
-            javaSourceCode: cell.attributes.data.javaSourceCode
+            filePath: cell.attributes.formdata.filePath,
+            countColumns: cell.attributes.formdata.countColumns,
+            columns: cell.attributes.formdata.columns
         };
 
         $scope.save = save;
@@ -53,12 +52,23 @@
         });
 
         function save() {
-            cell.attributes.data.path = $scope.datasource.path;
-            cell.attributes.data.countColumns = $scope.datasource.countColumns;
-            cell.attributes.data.columns = $scope.datasource.columns;
-            cell.attributes.data.javaSourceCode = templateFactory.createCSVDatasourceTemplate($scope.datasource.columns, $scope.datasource.path);
+            cell.attributes.formdata.filePath = $scope.datasource.filePath;
+            cell.attributes.formdata.countColumns = $scope.datasource.countColumns;
+            cell.attributes.formdata.columns = $scope.datasource.columns;
+            cell.attributes.formdata.output_type = getTypeString(cell.attributes.formdata.columns); // jshint ignore:line
             graphFactory.saveToLocalStorage($rootScope.graph);
             $uibModalInstance.close();
+        }
+
+        function getTypeString(columns) {
+            if (columns.length > 0) {
+                var types = columns[0].type.label;
+
+                for (var index = 1; index < columns.length; index++) {
+                    types = types + ',' + columns[index].type.label;
+                }
+                return 'Tuple' + columns.length + '<' + types + '>';
+            }
         }
 
         function cancel() {
@@ -67,21 +77,20 @@
 
     }
 
-    function TextDatasourceModalCtrl($scope, $rootScope, $uibModalInstance, $stateParams, $timeout, graphFactory, templateFactory, $log) {
+    function TextDatasourceModalCtrl($scope, $rootScope, $uibModalInstance, $stateParams, $timeout, graphFactory, $log) {
 
         var cell = $rootScope.graph.getCell($stateParams.id);
 
         $scope.datasource = {
-            path: cell.attributes.data.path,
-            javaSourceCode: cell.attributes.data.javaSourceCode
+            filePath: cell.attributes.formdata.filePath
         };
 
         $scope.save = save;
         $scope.cancel = cancel;
 
         function save() {
-            cell.attributes.data.path = $scope.datasource.path;
-            cell.attributes.data.javaSourceCode = templateFactory.createTextDatasourceTemplate($scope.datasource.path);
+            cell.attributes.formdata.filePath = $scope.datasource.filePath;
+            cell.attributes.formdata.output_type = 'String'; // jshint ignore:line
             graphFactory.saveToLocalStorage($rootScope.graph);
             $uibModalInstance.close();
         }

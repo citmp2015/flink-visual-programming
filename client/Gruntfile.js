@@ -35,9 +35,17 @@ module.exports = function(grunt) {
                     spawn: false
                 },
             },
+            bootstrapStyle: {
+                files: ['<%= flinkVisual.app %>/styles/defines.less', '<%= flinkVisual.app %>/styles/bootstrap/*.less'],
+                tasks: ['less:bootstrap'],
+                options: {
+                    livereload: '<%= connect.options.livereload %>',
+                    spawn: false
+                }
+            },
             styles: {
-                files: ['<%= flinkVisual.app %>/styles/{,*/}*.css', '<%= flinkVisual.app %>/app/{,*/}*.css'],
-                tasks: ['newer:copy:styles', 'postcss:serve'],
+                files: ['<%= flinkVisual.app %>/styles/{,components/}*.{less,css}', '<%= flinkVisual.app %>/app/{,*/}*.{less,css}'],
+                tasks: ['less:styles', 'postcss:serve'],
                 options: {
                     livereload: '<%= connect.options.livereload %>',
                     spawn: false
@@ -133,7 +141,10 @@ module.exports = function(grunt) {
                     middleware: function(connect) {
                         var serveStatic = require('serve-static');
                         return [
-                            serveStatic('<%= flinkVisual.tmp %>'),
+                            connect().use(
+                                '/.tmp',
+                                serveStatic('./.tmp')
+                            ),
                             connect().use(
                                 '/bower_components',
                                 serveStatic('./bower_components')
@@ -173,17 +184,40 @@ module.exports = function(grunt) {
                 algorithm: 'md5',
                 length: 8
             },
-            images: {
-                src: [
-                    '<%= flinkVisual.dist %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
-                    '<%= flinkVisual.dist %>/app/**/*.{png,jpg,jpeg,gif,webp,svg}'
-                ]
-            },
             js: {
                 src: '<%= flinkVisual.dist %>/scripts/{,*/}*.js'
             },
             css: {
-                src: '<%= flinkVisual.dist %>/styles/*.css'
+                src: '<%= flinkVisual.tmp %>/styles/*.css'
+            }
+        },
+
+        less: {
+            bootstrap: {
+                options: {
+                    paths: ['bower_components/components-bootstrap/less']
+                },
+                files: {
+                    'bower_components/components-bootstrap/css/bootstrap.css': 'src/styles/bootstrap/bootstrap.less'
+                }
+            },
+            styles: {
+                files: [
+                    {
+                        expand: true,
+                        cwd: '<%= flinkVisual.app %>/styles',
+                        src: ['*.less', '!defines.less'],
+                        dest: '<%= flinkVisual.tmp %>/styles',
+                        ext: '.css'
+                    },
+                    {
+                        expand: true,
+                        cwd: '<%= flinkVisual.app %>/styles/components',
+                        src: ['*.less'],
+                        dest: '<%= flinkVisual.tmp %>/styles',
+                        ext: '.css'
+                    }
+                ]
             }
         },
 
@@ -203,7 +237,7 @@ module.exports = function(grunt) {
                 '<%= flinkVisual.dist %>/{,*/}*.html'
             ],
             css: [
-                '<%= flinkVisual.dist %>/styles/{,*/}*.css',
+                '<%= flinkVisual.tmp %>/styles/{,*/}*.css',
                 '<%= flinkVisual.dist %>/app/**/*.css'
             ],
             options: {
@@ -296,9 +330,7 @@ module.exports = function(grunt) {
                         require('postcss-merge-longhand')(),
                         require('postcss-merge-rules')(),
                         require('postcss-discard-empty')(),
-                        require('perfectionist')({
-                            format: 'compressed'
-                        })
+                        require('perfectionist')({format: 'compressed'})
                     ]
                 },
                 src: [
@@ -320,7 +352,7 @@ module.exports = function(grunt) {
                     ],
                 },
                 src: [
-                    '<%= flinkVisual.app %>/styles/{,*/}*.css',
+                    '<%= flinkVisual.tmp %>/styles/{,*/}*.css',
                     '<%= flinkVisual.app %>/app/{,*/}*.css'
                 ]
             }
@@ -373,9 +405,9 @@ module.exports = function(grunt) {
                     ]
                 }, {
                     expand: true,
-                    cwd: '<%= flinkVisual.tmp %>/images',
+                    cwd: '<%= flinkVisual.app %>/images',
                     dest: '<%= flinkVisual.dist %>/images',
-                    src: ['generated/*']
+                    src: ['*']
                 }, {
                     expand: true,
                     cwd: 'bower_components/components-font-awesome/fonts',
@@ -386,18 +418,7 @@ module.exports = function(grunt) {
                     cwd: 'bower_components/components-bootstrap/fonts',
                     dest: '<%= flinkVisual.dist %>/fonts',
                     src: ['*']
-                }, {
-                    expand: true,
-                    cwd: '<%= flinkVisual.app %>/dummydata',
-                    dest: '<%= flinkVisual.dist %>/dummydata',
-                    src: ['*']
                 }]
-            },
-            styles: {
-                expand: true,
-                cwd: '<%= flinkVisual.app %>/styles',
-                dest: '<%= flinkVisual.tmp %>/styles/',
-                src: '{,*/}*.css'
             }
         }
 
@@ -409,9 +430,9 @@ module.exports = function(grunt) {
 
     grunt.registerTask('serve', [
         'clean:server',
+        'less',
         'bower',
         'wiredep',
-        'copy:styles',
         'postcss:serve',
         'connect:livereload',
         'watch'
@@ -431,6 +452,7 @@ module.exports = function(grunt) {
     grunt.registerTask('build', [
         'clean:dist',
         'bower',
+        'less',
         'wiredep',
         'useminPrepare',
         'concat:generated',

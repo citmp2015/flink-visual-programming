@@ -44,13 +44,16 @@
                         text: 'Number Filter'
                     }
                 },
+                componentType: 'numberfilter',
                 data: {
                     modalController: 'NumberfilterModalCtrl',
-                    modalTemplateUrl: '/app/filter/numberfilter-modal.tpl.html',
-                    inputIndex: 0,
+                    modalTemplateUrl: '/app/filter/numberfilter-modal.tpl.html'
+                },
+                formdata: {
+                    tupleIndex: 0,
                     operationType: {
                         label: '=',
-                        key: '='
+                        key: '=='
                     },
                     compareValue: 0,
                     javaSourceCode: ''
@@ -59,11 +62,102 @@
         };
 
         flink.renderStringFilter = function(posX, posY, $state) {
-            return fastCreate(posX, posY, 1, 1, 'String Filter');
+            return new flink.Atomic({
+                position: {
+                    x: posX,
+                    y: posY
+                },
+                size: {
+                    width: 140,
+                    height: 60
+                },
+                inPorts: ['IN0'],
+                outPorts: ['OUT0'],
+                attrs: {
+                    rect: {
+                        fill: 'green'
+                    },
+                    '.label': {
+                        text: 'String Filter'
+                    }
+                },
+                componentType: 'stringfilter',
+                data: {
+                    modalController: 'StringfilterModalCtrl',
+                    modalTemplateUrl: '/app/filter/stringfilter-modal.tpl.html'
+                },
+                formdata: {
+                    tupleIndex: 0,
+                    operationType: {
+                        label: 'Equals',
+                        key: 'Equals'
+                    },
+                    compareValue: '',
+                    javaSourceCode: ''
+                }
+            });
+        };
+
+        flink.renderCustomFilter = function(posX, posY, $state) {
+            return new flink.Atomic({
+                position: {
+                    x: posX,
+                    y: posY
+                },
+                size: {
+                    width: 140,
+                    height: 60
+                },
+                inPorts: ['IN0'],
+                outPorts: ['OUT0'],
+                attrs: {
+                    rect: {
+                        fill: 'green'
+                    },
+                    '.label': {
+                        text: 'Custom Filter'
+                    }
+                },
+                componentType: 'customfilter',
+                data: {
+                    modalController: 'CustomfilterModalCtrl',
+                    modalTemplateUrl: '/app/filter/customfilter-modal.tpl.html'
+                },
+                formdata: {
+                    javaSourceCode: templateFactory.createCustomFilterTemplate()
+                }
+            });
         };
 
         flink.renderMap = function(posX, posY, $state) {
-            return fastCreate(posX, posY, 1, 1, 'Map');
+            return new flink.Atomic({
+                position: {
+                    x: posX,
+                    y: posY
+                },
+                size: {
+                    width: 140,
+                    height: 60
+                },
+                inPorts: ['IN0'],
+                outPorts: ['OUT0'],
+                attrs: {
+                    rect: {
+                        fill: 'green'
+                    },
+                    '.label': {
+                        text: 'Map'
+                    }
+                },
+                componentType: 'map',
+                data: {
+                    modalController: 'MapModalCtrl',
+                    modalTemplateUrl: '/app/map/map-modal.tpl.html'
+                },
+                formdata: {
+                    javaSourceCode: templateFactory.createMapTemplate()
+                }
+            });
         };
 
         flink.renderFlatMap = function(posX, posY, $state) {
@@ -86,9 +180,12 @@
                         text: 'FlatMap'
                     }
                 },
+                componentType: 'flatmap',
                 data: {
                     modalController: 'flatmapModalCtrl',
-                    modalTemplateUrl: '/app/flatmap/flatmap-modal.tpl.html',
+                    modalTemplateUrl: '/app/flatmap/flatmap-modal.tpl.html'
+                },
+                formdata: {
                     javaSourceCode: templateFactory.createFlatMapTemplate()
                 }
             });
@@ -114,10 +211,13 @@
                         text: 'Sum'
                     }
                 },
+                componentType: 'sum',
                 data: {
                     modalController: 'sumModalCtrl',
-                    modalTemplateUrl: '/app/sum/sum-modal.tpl.html',
-                    inputIndex: 0
+                    modalTemplateUrl: '/app/sum/sum-modal.tpl.html'
+                },
+                formdata: {
+                    tupleIndex: 0
                 }
             });
         };
@@ -146,16 +246,46 @@
                         text: 'Group'
                     }
                 },
+                componentType: 'groupBy',
                 data: {
                     modalController: 'groupModalCtrl',
-                    modalTemplateUrl: '/app/group/group-modal.tpl.html',
-                    inputIndex: 0
+                    modalTemplateUrl: '/app/group/group-modal.tpl.html'
+                },
+                formdata: {
+                    tupleIndex: 0
                 }
             });
         };
 
         flink.renderReduce = function(posX, posY, $state) {
-            return fastCreate(posX, posY, 1, 1, 'Reduce');
+            return new flink.Atomic({
+                position: {
+                    x: posX,
+                    y: posY
+                },
+                size: {
+                    width: 140,
+                    height: 60
+                },
+                inPorts: ['IN0'],
+                outPorts: ['OUT0'],
+                attrs: {
+                    rect: {
+                        fill: 'green'
+                    },
+                    '.label': {
+                        text: 'Reduce'
+                    }
+                },
+                componentType: 'reduce',
+                data: {
+                    modalController: 'ReduceModalCtrl',
+                    modalTemplateUrl: '/app/reduce/reduce-modal.tpl.html'
+                },
+                formdata: {
+                    javaSourceCode: templateFactory.createReduceTemplate()
+                }
+            });
         };
 
         flink.renderCsvDatasource = function(posX, posY, $state) {
@@ -171,20 +301,24 @@
                 outPorts: ['OUT0'],
                 attrs: {
                     rect: {
-                        fill: 'green'
+                        fill: 'green',
+                        class: 'body component-source'
                     },
                     '.label': {
                         text: 'CSV Datasource'
                     }
                 },
+                componentType: 'csvdatasource',
                 data: {
                     modalController: 'CSVDatasourceModalCtrl',
                     modalTemplateUrl: '/app/datasource/csv-datasource-modal.tpl.html',
-                    path: null,
+                },
+                formdata: {
+                    filePath: null,
                     countColumns: 2,
-                    columns: [],
-                    javaSourceCode: ''
+                    columns: []
                 }
+
             });
         };
 
@@ -201,29 +335,32 @@
                 outPorts: ['OUT0'],
                 attrs: {
                     rect: {
-                        fill: 'green'
+                        fill: 'green',
+                        class: 'body component-source'
                     },
                     '.label': {
                         text: 'Text Datasource'
                     }
                 },
+                componentType: 'textdatasource',
                 data: {
                     modalController: 'TextDatasourceModalCtrl',
-                    modalTemplateUrl: '/app/datasource/text-datasource-modal.tpl.html',
-                    path: null,
-                    javaSourceCode: ''
+                    modalTemplateUrl: '/app/datasource/text-datasource-modal.tpl.html'
+                },
+                formdata: {
+                    filePath: null
                 }
             });
         };
 
         flink.renderCsvDatasink = function(posX, posY) {
-            return fastCreate(posX, posY, 1, 0, 'CSV Datasink');
+            return fastCreate(posX, posY, 1, 0, 'CSV Datasink', 'component-sink');
         };
 
         flink.Model = joint.shapes.basic.Generic.extend(_.extend({}, joint.shapes.basic.PortsModelInterface, {
 
             markup: '<g class="rotatable"><g class="scalable"><rect class="body"/></g><text class="label"/><g class="inPorts"/><g class="outPorts"/></g>',
-            portMarkup: '<g class="port port<%= id %>"><circle class="port-body"/><text class="port-label"/></g>',
+            portMarkup: '<g class="port port<%= id %>"><circle class="port-body"/></g>',
 
             defaults: joint.util.deepSupplement({
 
@@ -232,7 +369,9 @@
                     width: 1,
                     height: 1
                 },
-                java: 'not set',
+                componentType: '',
+                data: {},
+                formdata: {},
                 inPorts: [],
                 outPorts: [],
 
@@ -259,17 +398,6 @@
                         'ref-y': 45,
                         ref: '.body',
                         'text-anchor': 'middle',
-                        fill: '#000000'
-                    },
-                    '.inPorts .port-label': {
-                        x: -15,
-                        dy: 4,
-                        'text-anchor': 'end',
-                        fill: '#000000'
-                    },
-                    '.outPorts .port-label': {
-                        x: 15,
-                        dy: 4,
                         fill: '#000000'
                     }
                 }
@@ -352,7 +480,7 @@
         flink.AtomicView = flink.ModelView;
         flink.CoupledView = flink.ModelView;
 
-        function fastCreate(posX, posY, inCnt, outCnt, label) {
+        function fastCreate(posX, posY, inCnt, outCnt, label, cssClass) {
             var portsIn = _.range(inCnt).map(function(a) {
                 return 'IN' + a;
             });
@@ -364,10 +492,13 @@
                     x: posX,
                     y: posY
                 },
+                componentType: 'fastCreate: ' + label,
                 inPorts: portsIn,
-                java: 'package blab.ablab.alba\nimport stuff',
                 outPorts: portsOut,
                 attrs: {
+                    rect: {
+                       class: 'body'+(cssClass !== undefined ? ' '+cssClass : '')
+                    },
                     '.label': {
                         text: label
                     }

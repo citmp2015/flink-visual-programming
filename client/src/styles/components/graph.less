@@ -1,0 +1,115 @@
+@import (reference) "../defines.less";
+
+@_componentBackgroundColor: white;
+@_componentColorCoupled: #dddddd;
+@_componentColorHighlighted: @themeColor;
+@_textColor: #707070;
+@_portColor: @themeColor;
+@_portColorHovered: @themeColorLead;
+@_portBorderColor: #dddddd;
+@_portLabelColor: #808080;
+@_linkColor: #a0a0a0;
+@_linkArrowColor: #a0a0a0;
+@_linkArrowColorHovered: @themeColorLead;
+@_linkDeleteColor: @colorWarning;
+
+
+/*** Canvas ***/
+
+joint-diagram
+{
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+
+	&> svg {display: block;}
+}
+
+
+/*** Elements ***/
+
+.devs //Discrete EVent System
+{
+	text {font-weight: 400;}
+
+	.body
+	{
+		fill: @_componentBackgroundColor;
+		stroke: @_componentColorCoupled;
+		stroke-width: 1px;
+
+		&.component-source, &.component-sink
+		{
+			stroke: @_componentColorHighlighted;
+			stroke-dasharray: 4, 1;
+		}
+	}
+
+	.label
+	{
+		fill: @_textColor;
+		font-size: 13px;
+	}
+
+	.port-body
+	{
+		stroke: @_portBorderColor;
+		stroke-width: 1px;
+		fill: @_portColor;
+
+		@_scale: 0.85;
+		-webkit-transform: scale(@_scale);
+		-moz-transform: scale(@_scale);
+		-ms-transform: scale(@_scale);
+		transform: scale(@_scale);
+
+		&:hover
+		{
+			opacity: 1.0;
+			fill: @_portColorHovered;
+		}
+	}
+
+	.port-label
+	{
+		font-size: 10px;
+		font-weight: 300;
+		fill: @_portLabelColor;
+	}
+
+	//highlighting
+	&.highlighted-parent
+	{
+		.body
+		{
+			stroke: @_componentColorHighlighted;
+			transition: stroke 1s;
+		}
+
+		.label
+		{
+			fill: @_componentColorHighlighted;
+			transition: fill 1s;
+			text-decoration: underline;
+		}
+	}
+}
+
+
+/*** Links ***/
+
+.link
+{
+	.connection
+	{
+		stroke: @_linkColor;
+		stroke-width: 1.5px;
+	}
+
+	.marker-arrowhead, .marker-vertex {fill: @_linkArrowColor;}
+	.marker-arrowhead:hover {fill: @_linkArrowColorHovered;}
+}
+
+.link-tools .tool-remove circle {fill: @_linkDeleteColor;}

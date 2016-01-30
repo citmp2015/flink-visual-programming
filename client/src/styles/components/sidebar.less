@@ -1,0 +1,166 @@
+@import (reference) "../defines.less";
+
+@_bgColor: #2f4050;
+@_bgHoverColor: #293846;
+@_hoverColor: @themeColor;
+@_activeColor: @_hoverColor;
+@_textColor: #a7b1c2;
+@_textHoverColor: #ffffff;
+@_searchHeight: 32px;
+@_searchBackgroundColor: rgba(255, 255, 255, 0.1);
+@_searchTextColor: rgba(255, 255, 255, 0.25);
+@_searchActiveBackgroundColor: #f0f0f0;
+@_searchActiveTextColor: @textColor;
+
+body {background-color: @_bgColor;} //workaround for the previously used layout
+
+.sidebar
+{
+    .sidebar-nav
+    {
+        background: @_bgColor;
+        padding-top: 8px;
+
+        &.navbar-collapse
+        {
+            padding-right: 0;
+            padding-left: 0;
+        }
+    }
+
+    ul
+    {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+
+        &> li > a
+        {
+            display: block;
+            padding: 16px 24px;
+            font-size: 14px;
+            font-weight: 600;
+            color: @_textColor;
+            border-left: 4px solid transparent;
+            position: relative;
+
+            -moz-transition: background-color 0.1s, color 0.1s, border-left-color 0.1s;
+            -webkit-transition: background-color 0.1s, color 0.1s, border-left-color 0.1s;
+            transition: background-color 0.1s, color 0.1s, border-left-color 0.1s;
+
+            .fa:first-child {margin-right: 4px;}
+            .fa-caret-down {opacity: 0.5;}
+
+            cursor: pointer;
+            &[ng-drag="true"] {cursor: default;}
+        }
+
+        &> li > a:before
+        {
+            @size: 20px;
+            .faIconAsPseudoElement("\f0da", @size);
+            left: -8px;
+            top: 28px - (@size/2);
+            color: transparent;
+
+            -moz-transition: all 0.1s;
+            -webkit-transition: all 0.1s;
+            transition: all 0.1s;
+        }
+
+        &> li > a:hover, &> li.active > a, &> li > a.active
+        {
+            background: @_bgHoverColor;
+            color: @_textHoverColor;
+            text-decoration: none;
+        }
+        &> li.active > a, &> li > a.active
+        {
+            border-left-color: @_activeColor;
+            &:before {color: @_activeColor;}
+        }
+    }
+
+    .arrow {float: right;}
+    .fa.arrow:before {content: "\f104";}
+    .active > a > .fa.arrow:before {content: "\f107";}
+
+    .nav-second-level li, .nav-third-level li {border-bottom: 0 !important;}
+    .nav-second-level li a
+    {
+        padding-left: 60px;
+        .fa:first-child {margin-left: -8px;}
+    }
+    .nav-third-level li a {padding-left: 90px;}
+
+    @media(min-width: @screen-sm-min)
+    {
+        z-index: 1;
+        position: absolute;
+        width: @sidebarWidth;
+        margin-top: @headerHeight;
+    }
+
+    .sidebar-search
+    {
+        padding: 8px;
+
+        .input-group {width: 100%;}
+
+        input[type="search"]
+        {
+            width: 100%;
+            height: @_searchHeight;
+            padding: 0 6px;
+            border: 0;
+            background-color: @_searchBackgroundColor;
+            .noBoxShadow();
+            color: @_searchTextColor;
+
+            -moz-transition: background-color 0.1s, color 0.1s;
+            -webkit-transition: background-color 0.1s, color 0.1s;
+            transition: background-color 0.1s, color 0.1s;
+
+            //grouping not possible
+            &::-moz-placeholder {color: @_searchTextColor !important; opacity: 1.0;}
+            &:-ms-input-placeholder {color: @_searchTextColor !important; opacity: 1.0;}
+            &::-webkit-input-placeholder {color: @_searchTextColor !important; opacity: 1.0;}
+
+            &:focus
+            {
+                background: @_searchActiveBackgroundColor;
+                color: @_searchActiveTextColor;
+            }
+        }
+
+        .input-group-btn
+        {
+            @media(min-width: @screen-sm-min) {width: 25px;}
+        }
+
+        .btn-default
+        {
+            height: @_searchHeight;
+            padding: 0 6px;
+            margin-left: 0 !important;
+            border: 0;
+            background: @_searchBackgroundColor;
+            color: @_searchTextColor;
+
+            -moz-transition: background-color 0.1s, color 0.1s;
+            -webkit-transition: background-color 0.1s, color 0.1s;
+            transition: background-color 0.1s, color 0.1s;
+
+            &:hover
+            {
+                background: @themeColor !important;
+                color: white !important;
+            }
+        }
+        input[type="search"]:focus + .input-group-btn .btn-default, .btn-default:focus, .btn-default.focus
+        {
+            background: @_searchActiveBackgroundColor;
+            color: @_searchActiveTextColor;
+        }
+    }
+}

@@ -1,0 +1,83 @@
+
+/*** Colors ***/
+
+@themeColor: #1ab394;
+@themeColorMuted: lighten(@themeColor, 15%);
+@themeColorLead: darken(@themeColor, 15%);
+@themeColorActive: #ffffff;
+
+@textColor: #444444;
+@textColorMuted: #999999;
+
+@linkColor: darken(@themeColor, 5%);
+@linkHoverColor: @themeColorLead;
+
+@colorWindow: #f2f2f2;
+
+@grayDarker: lighten(#000, 13.5%);
+@grayDark: lighten(#000, 20%);
+@gray: lighten(#000, 33.5%);
+@grayLight: lighten(#000, 60%);
+@grayLighter: lighten(#000, 93.5%);
+
+@colorSuccess: #5cb85c;
+@colorInfo: #5bc0de;
+@colorWarning: #f0ad4e;
+@colorDanger: #d9534f;
+
+
+/*** Constants ***/
+
+@headerHeight: 51px;
+@sidebarWidth: 250px;
+
+@defaultBorderRadius: 2px;
+
+
+/*** Helpers ***/
+
+@screen-xs-min: 480px; //phone
+@screen-sm-min: 768px; //tablet
+@screen-md-min: 992px; //screen
+@screen-lg-min: 1200px; //large screen
+@screen-xs-max: (@screen-sm-min - 1);
+@screen-sm-max: (@screen-md-min - 1);
+@screen-md-max: (@screen-lg-min - 1);
+
+.noBorderRadius()
+{
+	-webkit-border-radius: 0;
+	-moz-border-radius: 0;
+	border-radius: 0;
+}
+
+.boxShadow(@xOffset, @yOffset, @blurSize, @color)
+{
+	-moz-box-shadow: @xOffset @yOffset @blurSize @color;
+	-webkit-box-shadow: @xOffset @yOffset @blurSize @color;
+	box-shadow: @xOffset @yOffset @blurSize @color;
+}
+
+.noBoxShadow()
+{
+	-moz-box-shadow: none;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+}
+
+.faIconAsPseudoElement(@iconHexCode, @iconSize)
+{
+	display: inline-block;
+	position: absolute;
+	content: @iconHexCode;
+	font-family: FontAwesome;
+	font-size: @iconSize;
+	font-weight: normal;
+	font-style: normal;
+	width: @iconSize;
+	height: @iconSize;
+	line-height: @iconSize;
+	text-align: center;
+	pointer-events: none;
+	speak: none;
+}

@@ -6,7 +6,7 @@
     <form>
         <div class="form-group">
             <label for="datasourcePath">Path</label>
-            <input type="text" class="form-control" id="datasourcePath" placeholder="hdfs://data/example.csv" ng-model="datasource.path">
+            <input type="text" class="form-control" id="datasourcePath" placeholder="hdfs://data/example.csv" ng-model="datasource.filePath">
         </div>
         <div class="form-group">
             <label for="datasourceColumns">Columns</label>
@@ -21,5 +21,5 @@
 </div>
 <div class="modal-footer">
     <button class="btn btn-primary" type="button" ng-click="save()">Save</button>
-    <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+    <button class="btn btn-default" type="button" ng-click="cancel()">Cancel</button>
 </div>

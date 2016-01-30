@@ -1,12 +1,15 @@
 package org.tuberlin.de.common.model.interfaces;
 
+import org.json.JSONObject;
+
 import java.util.Map;
 
 /**
  * Created by Malcolm-X on 08.12.2015.
  */
 public interface BackendController {
-    public JobGraph getJobGraph(String json) throws Exception;
+
+    public JobGraph getJobGraph(JSONObject json) throws Exception;
 
     public boolean validateJobGraph(JobGraph jobGraph) throws Exception;
 
