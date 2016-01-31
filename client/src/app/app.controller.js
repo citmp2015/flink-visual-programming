@@ -7,7 +7,7 @@
         .controller('AppCtrl', AppCtrl);
 
     /*@ngInject*/
-    function AppCtrl($scope, $rootScope, $state, graphFactory, $log) {
+    function AppCtrl($scope, $rootScope, $state, graphFactory, $http, $log) {
 
         var graph = new joint.dia.Graph();
 
@@ -15,6 +15,15 @@
         graph.on('paper:ready', function() {
             if (graphLocalstorage) {
                 graph.fromJSON(graphLocalstorage);
+            } else {
+                $http({
+                    method: 'GET',
+                    url: '/examples/wordcount.json'
+                }).then(function successCallback(response) {
+                    graph.fromJSON(response.data);
+                }, function errorCallback(response) {
+                    $log.error('Error loading /examples/wordcount.json');
+                });
             }
         });
 
