@@ -10,8 +10,8 @@ import org.tuberlin.de.common.model.types.RelationTypes;
 public abstract class AbstractDataSink extends AbstractJobComponent implements DataSink {
     @Override
     public boolean verify() {
-        //Checks whether the component is initialized and the amount of parents/children is correct
-        return      this.initialized
+        //Checks whether the component is stateModel and the amount of parents/children is correct
+        return      this.isInitialized()
                 &&  this.getChildren().size() == RelationTypes.NONE.getVal();
     }
 

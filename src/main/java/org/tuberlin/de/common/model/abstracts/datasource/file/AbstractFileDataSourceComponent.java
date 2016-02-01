@@ -28,9 +28,9 @@ public abstract class AbstractFileDataSourceComponent extends AbstractDataSource
 
 
     @Override
-    public void init(JobGraph jobGraph, Map<String, Object> parameters) {
+    public boolean init(JobGraph jobGraph, Map<String, Object> parameters) {
         super.init(jobGraph, parameters);
-
+        return true;
     }
 
 }

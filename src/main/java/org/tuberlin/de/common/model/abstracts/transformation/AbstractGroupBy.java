@@ -11,7 +11,7 @@ public abstract class AbstractGroupBy extends AbstractTransformation implements 
 
     @Override
     public String getJobSource() {
-        if (!this.initialized) throw new IllegalStateException("Forgot to init!");
+        if (!this.isInitialized()) throw new IllegalStateException("Forgot to init!");
         String source = "";
         source += ".groupBy(" + parameters.get(COMPONENT_GROUP_BY_FIELD) + ")";
         return source;
@@ -22,8 +22,8 @@ public abstract class AbstractGroupBy extends AbstractTransformation implements 
     }
     @Override
     public boolean verify() {
-        //Checks whether the component is initialized and the amount of parents/children is correct
-        return      this.initialized
+        //Checks whether the component is stateModel and the amount of parents/children is correct
+        return      this.isInitialized()
                 &&  this.getParents().size() == RelationTypes.ONE.getVal()
                 &&  this.getChildren().size() == RelationTypes.ONE.getVal();
     }

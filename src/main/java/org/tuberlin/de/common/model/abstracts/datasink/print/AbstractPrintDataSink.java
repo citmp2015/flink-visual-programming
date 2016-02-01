@@ -10,7 +10,7 @@ public abstract class AbstractPrintDataSink extends AbstractDataSink implements 
 
     @Override
     public String getJobSource() {
-        if (!initialized) throw new IllegalStateException("Must be initialized");
+        if (!isInitialized()) throw new IllegalStateException("Must be stateModel");
         //TODO: Integrity checks
         String result = ".print();";
         return result;

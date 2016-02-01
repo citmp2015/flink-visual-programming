@@ -14,7 +14,7 @@ public abstract class AbstractTransformationAggregate extends AbstractTransforma
 
 /*    private FUNCTION_TYPES functionName;
     private int fieldIndex;
-    private boolean initialized = false;*/
+    private boolean stateModel = false;*/
 
 
  /*   @Override
@@ -40,21 +40,21 @@ public abstract class AbstractTransformationAggregate extends AbstractTransforma
             //TODO make exception more readable
             throw new IllegalArgumentException("Wrong parameter");
         }
-        this.initialized = true;
+        this.stateModel = true;
     }*/
 
 
     @Override
     public String getJobSource() {
-        if (!this.initialized) throw new IllegalStateException("Forgot to init!");
+        if (!this.isInitialized()) throw new IllegalStateException("Forgot to init!");
         String source = "";
         source += ".aggregate(Aggregations." + parameters.get(TransformationAggregate.FUNCTION_KEY) + ", "+ parameters.get(TransformationAggregate.FIELD_KEY) + ")";
         return source;
     }
     @Override
     public boolean verify() {
-        //Checks whether the component is initialized and the amount of parents/children is correct
-        return      this.initialized
+        //Checks whether the component is stateModel and the amount of parents/children is correct
+        return      this.isInitialized()
                 &&  this.getParents().size() == RelationTypes.ONE.getVal();
     }
 }

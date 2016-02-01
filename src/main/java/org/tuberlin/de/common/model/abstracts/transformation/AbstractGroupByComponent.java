@@ -17,11 +17,12 @@ public abstract class AbstractGroupByComponent implements TransformationGroupBy{
     protected JobGraph jobGraph;
 
     @Override
-    public void init(JobGraph jobGraph, Map<String, Object> parameters) throws IllegalArgumentException {
+    public boolean init(JobGraph jobGraph, Map<String, Object> parameters) throws IllegalArgumentException {
         if(parameters == null || jobGraph == null) throw new IllegalArgumentException("Arguments must not be null!");
         this.parameters = parameters;
         this.initialized = true;
         this.jobGraph = jobGraph;
+        return true;
     }
 
     @Override

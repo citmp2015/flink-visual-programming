@@ -16,8 +16,8 @@ public abstract class AbstractDataSourceComponent extends AbstractJobComponent i
 
     @Override
     public boolean verify() {
-        //Checks whether the component is initialized and the amount of parents/children is correct
-        return      this.initialized
+        //Checks whether the component is stateModel and the amount of parents/children is correct
+        return      this.isInitialized()
                 &&  this.getParents().size() == RelationTypes.NONE.getVal();
 
     }
