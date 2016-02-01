@@ -1,6 +1,7 @@
 package org.tuberlin.de.common.model.abstracts.transformation;
 
 import org.tuberlin.de.common.model.interfaces.transorfmation.TransformationAggregate;
+import org.tuberlin.de.common.model.types.RelationTypes;
 
 /**
  * Created by Malcolm-X on 09.12.2015.
@@ -50,6 +51,10 @@ public abstract class AbstractTransformationAggregate extends AbstractTransforma
         source += ".aggregate(Aggregations." + parameters.get(TransformationAggregate.FUNCTION_KEY) + ", "+ parameters.get(TransformationAggregate.FIELD_KEY) + ")";
         return source;
     }
-
-
+    @Override
+    public boolean verify() {
+        //Checks whether the component is initialized and the amount of parents/children is correct
+        return      this.initialized
+                &&  this.getParents().size() == RelationTypes.ONE.getVal();
+    }
 }

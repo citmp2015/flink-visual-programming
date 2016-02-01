@@ -9,7 +9,7 @@ package org.tuberlin.de.common.model.types;
  */
 public enum RelationTypes {
 
-    UNDEFINED(-1), NONE(0), ONE(1), TWO(2), MANY(3);
+    ARBITRARY(-1), NONE(0), ONE(1), TWO(2), MANY(3);
 
     private final int relationValue;
 

@@ -4,7 +4,6 @@ import org.tuberlin.de.common.model.Constants;
 import org.tuberlin.de.common.model.interfaces.JobComponent;
 import org.tuberlin.de.common.model.interfaces.JobGraph;
 import org.tuberlin.de.common.model.types.ComponentTypes;
-import org.tuberlin.de.common.model.types.RelationTypes;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -27,8 +26,6 @@ public abstract class AbstractJobComponent implements JobComponent {
     protected Collection<String> imports;
     protected Collection<String> children;
     protected Collection<String> parents;
-    protected RelationTypes parentAmount;
-    protected RelationTypes childrenAmount;
     //TODO syncronization
 
     @Override
@@ -40,17 +37,12 @@ public abstract class AbstractJobComponent implements JobComponent {
         this.jobGraph = jobGraph;
         this.parents = new ArrayList<String>();
         this.children = new ArrayList<String>();
-        this.parentAmount = RelationTypes.UNDEFINED;
-        this.childrenAmount = RelationTypes.UNDEFINED;
         //TODO integrity: other types
-        if (!(parameters.get(JobComponent.PARENT) == null) && parameters.get(JobComponent.PARENT) instanceof String){
-            parents.add((String) parameters.get(JobComponent.PARENT));
+        if (!(parameters.get(JobComponent.PARENT) == null) && parameters.get(JobComponent.PARENT) instanceof ArrayList){
+            parents = (Collection<String>) parameters.get(JobComponent.PARENT);
         }
-        if (!(parameters.get(JobComponent.CHILD) == null) && parameters.get(JobComponent.CHILD) instanceof String)
-        children.add((String) parameters.get(JobComponent.CHILD));
-
-
-
+        if (!(parameters.get(JobComponent.CHILD) == null) && parameters.get(JobComponent.CHILD) instanceof ArrayList)
+            children = (Collection<String>) parameters.get(JobComponent.CHILD);
     }
 
     @Override
@@ -122,21 +114,5 @@ public abstract class AbstractJobComponent implements JobComponent {
     @Override
     public String getTypeDeclaration() throws IllegalStateException {
         return "DataSet<" + parameters.get(JobComponent.OUTPUT_TYPE) + ">";
-    }
-
-    public RelationTypes getParentAmount() {
-        return parentAmount;
-    }
-
-    public void setParentAmount(RelationTypes parentAmount) {
-        this.parentAmount = parentAmount;
-    }
-
-    public RelationTypes getChildrenAmount() {
-        return childrenAmount;
-    }
-
-    public void setChildrenAmount(RelationTypes childrenAmount) {
-        this.childrenAmount = childrenAmount;
     }
 }
