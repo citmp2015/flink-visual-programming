@@ -64,9 +64,7 @@
                     action: action,
                     graph: json
                 };
-                var config = {
-                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
-                };
+                console.log('Sending', JSON.stringify(json));
                 $http.post(ENDPOINT + '/submit_jobgraph', formData, config).then(
                     function successCallback(response) {
                         console.log(response);

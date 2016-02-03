@@ -122,11 +122,11 @@ public class DeploymentImplementation implements DeploymentInterface {
 
             createClasses(temporaryProjectFolder, entryClass, clazzes);
 
-            String zipFilePath = temporaryProjectFolder.toString() + "/FlinkProject.zip";
+            String zipFilePath = temporaryProjectFolder.getParentFile().toString() + "/FlinkProject.zip";
             File zipFile = new File(zipFilePath);
 
             // Zip src folder and not tmp root, because output zip also is created there and this might lead to an error
-            String srcFolderPath = temporaryProjectFolder.toString() + "/src/";
+            String srcFolderPath = temporaryProjectFolder.toString();
             File srcFolderToZip = new File(srcFolderPath);
             FileUtils.zipFolder(srcFolderToZip, zipFile);
 
@@ -136,8 +136,6 @@ public class DeploymentImplementation implements DeploymentInterface {
         } catch (URISyntaxException | IOException e) {
             LOG.error("Failed to getJarStream", e);
             e.printStackTrace();
-        } finally {
-            cleanUp(temporaryProjectFolder);
         }
         return null;
     }
@@ -158,7 +156,8 @@ public class DeploymentImplementation implements DeploymentInterface {
 
         // Creating tmp directory
         Path tmpDirectory = Files.createTempDirectory(randomUUID);
-        File tmpProjectFolder = tmpDirectory.toFile();
+        File tmpProjectFolderParent = tmpDirectory.toFile();
+        File tmpProjectFolder = new File(tmpProjectFolderParent.getAbsolutePath() + "/FlinkProject");
 
         File skeletonFolder = new File(getClass().getClassLoader().getResource("FlinkSkeleton/").toURI());
 
@@ -202,7 +201,7 @@ public class DeploymentImplementation implements DeploymentInterface {
      */
     private void saveClass(File temporarayFolder, String clazzName, String clazz){
         try {
-            File outputFile = new File(temporarayFolder.getPath() + "/src/" + clazzName + ".java");
+            File outputFile = new File(temporarayFolder.getPath() + "/src/main/java/org/test/de/" + clazzName + ".java");
             FileOutputStream stream = new FileOutputStream(outputFile);
             stream.write(clazz.getBytes());
             stream.flush();
@@ -228,7 +227,7 @@ public class DeploymentImplementation implements DeploymentInterface {
      *
      * @param tmpProjectFolder The temporary project folder
      */
-    private void cleanUp(File tmpProjectFolder) {
+    public void cleanUp(File tmpProjectFolder) {
 
         if (tmpProjectFolder == null) {
             LOG.debug("Nothing to clean up as tmpProjectFolder is null");

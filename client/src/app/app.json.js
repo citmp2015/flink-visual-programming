@@ -10,6 +10,11 @@
     function jsonBuilder() {
         var builder = {};
 
+        // make sure the id starts with a character and only contains alphanumeric characters
+        builder.fixId = function(id) {
+            return ('a' + id).replace(/-/g, '');
+        };
+
         builder.buildJson = function(graph) {
             var initialJson = graph.toJSON();
 
@@ -24,7 +29,7 @@
 
             for (var i = 0; i < initialJson.cells.length; i++) {
                 var cell = initialJson.cells[i];
-                var id = cell.id;
+                var id = this.fixId(cell.id);
                 if (cell.type === 'devs.Atomic') { // component
                     json.processes[id] = {
                         component: cell.componentType || 'unknown',
@@ -33,8 +38,8 @@
                 } else if (cell.type === 'devs.Link') { // link
                     json.connections.push({
                         id: id,
-                        src: cell.source.id,
-                        tgt: cell.target.id
+                        src: this.fixId(cell.source.id),
+                        tgt: this.fixId(cell.target.id)
                     });
 
                 }

@@ -38,11 +38,11 @@ public abstract class AbstractJobComponent implements JobComponent {
         this.parents = new ArrayList<String>();
         this.children = new ArrayList<String>();
         //TODO integrity: other types
-        if (!(parameters.get(JobComponent.PARENT) == null) && parameters.get(JobComponent.PARENT) instanceof String){
-            parents.add((String) parameters.get(JobComponent.PARENT));
+        if (!(parameters.get(JobComponent.PARENT) == null) && parameters.get(JobComponent.PARENT) instanceof ArrayList){
+            parents = (Collection<String>) parameters.get(JobComponent.PARENT);
         }
-        if (!(parameters.get(JobComponent.CHILD) == null) && parameters.get(JobComponent.CHILD) instanceof String)
-        children.add((String) parameters.get(JobComponent.CHILD));
+        if (!(parameters.get(JobComponent.CHILD) == null) && parameters.get(JobComponent.CHILD) instanceof ArrayList)
+            children = (Collection<String>) parameters.get(JobComponent.CHILD);
     }
 
     @Override
