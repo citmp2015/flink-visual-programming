@@ -71,7 +71,7 @@ public class JSONParser {
                 parameters.put(Constants.JOB_COMPONENT_OUTPUT_TYPE, outputType);
 
                 if(data.has("tupleIndex")){
-                    parameters.put(TransformationAggregate.FIELD_KEY, data.getInt("tupleIndex") + "");
+                    parameters.put(Constants.TUPLE_INDEX, data.getInt("tupleIndex") + "");
                 }
 
                 addIfData(parameters, Constants.COMPONENT_PATH_JSON, data, "filePath");
