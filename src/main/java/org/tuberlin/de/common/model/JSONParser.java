@@ -21,32 +21,83 @@ public class JSONParser {
         Map<String, Object> jobGraphParameters = new HashMap<>();
         JobGraph graph = new BaseJobGraph("testkey", Constants.ENTRY_CLASS_NAME, "testpackage", jobGraphParameters);
 
+        HashMap<String, ArrayList<String>> parentMap = new HashMap<>();
+        HashMap<String, ArrayList<String>> childrenMap = new HashMap<>();
+
+        for(int i = 0; i < connections.length(); i++){
+            JSONObject connection = connections.getJSONObject(i);
+            String source = connection.getString("src");
+            String target = connection.getString("tgt");
+
+            if(!parentMap.containsKey(target)){
+                parentMap.put(target, new ArrayList<>());
+            }
+
+            if(!childrenMap.containsKey(source)){
+                childrenMap.put(source, new ArrayList<>());
+            }
+
+            parentMap.get(target).add(source);
+            childrenMap.get(source).add(target);
+        }
+
+        HashMap<String, String> inputTypes = new HashMap<>();
+        HashMap<String, String> outputTypes = new HashMap<>();
+
+        for(String key : processes.keySet()){
+            JSONObject val = processes.getJSONObject(key);
+            if(!val.has("data")) continue;
+
+            JSONObject data = val.getJSONObject("data");
+
+            if(data.has("output_type")){
+                outputTypes.put(key, data.getString("output_type"));
+            }
+
+            if(data.has("input_type")){
+                inputTypes.put(key, data.getString("input_type"));
+            }
+        }
+
+        //loop until all possible types were resolved
+        boolean allResolved = false;
+
+        while(!allResolved){
+            allResolved = true;
+
+            for(String key : processes.keySet()){
+                if(!parentMap.containsKey(key)) continue;
+                if(inputTypes.containsKey(key)) continue;
+                if(outputTypes.containsKey(key)) continue;
+
+                for(String parent : parentMap.get(key)){
+                    String type = outputTypes.getOrDefault(parent, null);
+
+                    if(type == null && inputTypes.containsKey(parent)){
+                        type = inputTypes.get(parent);
+                        outputTypes.put(parent, type);
+                    }
+
+                    if(type != null){
+                        inputTypes.put(key, type);
+                        allResolved = false;
+                    }
+                }
+            }
+        }
+
         for(String key : processes.keySet()){
             Map<String, Object> parameters = new HashMap<>();
 
             //name
             parameters.put(Constants.JOB_COMPOENT_KEY, key);
 
-            //connections
-            ArrayList<String> parent = new ArrayList<>();
-            ArrayList<String> children = new ArrayList<>();
+            parameters.put(Constants.JOB_COMPONENT_PARENT, parentMap.getOrDefault(key, new ArrayList<>(0)));
+            parameters.put(Constants.JOB_COMPONENT_CHILDREN, childrenMap.getOrDefault(key, new ArrayList<>(0)));
 
-            for(int i = 0; i < connections.length(); i++){
-                JSONObject connection = connections.getJSONObject(i);
-                String source = connection.getString("src");
-                String target = connection.getString("tgt");
-
-                if(key.equals(source)){
-                    children.add(target);
-                }
-
-                if(key.equals(target)){
-                    parent.add(source);
-                }
-            }
-
-            parameters.put(Constants.JOB_COMPONENT_PARENT, parent);
-            parameters.put(Constants.JOB_COMPONENT_CHILDREN, children);
+            //in- & output types
+            parameters.put(Constants.JOB_COMPONENT_INPUT_TYPE, inputTypes.getOrDefault(key, null));
+            parameters.put(Constants.JOB_COMPONENT_OUTPUT_TYPE, outputTypes.getOrDefault(key, null));
 
             //parameters
             JSONObject val = processes.getJSONObject(key);
@@ -54,21 +105,6 @@ public class JSONParser {
             if(val.has("data")){
                 JSONObject data = val.getJSONObject("data");
 
-                //in- & output types
-                String inputType = data.has("input_type")
-                        ? data.getString("input_type")
-                        : !children.isEmpty()
-                        ? getOptData(processes.getJSONObject(children.get(0)), "output_type")
-                        : null;
-
-                String outputType = data.has("output_type")
-                        ? data.getString("output_type")
-                        : !parent.isEmpty()
-                        ? getOptData(processes.getJSONObject(parent.get(0)), "input_type")
-                        : null;
-
-                parameters.put(Constants.JOB_COMPONENT_INPUT_TYPE, inputType);
-                parameters.put(Constants.JOB_COMPONENT_OUTPUT_TYPE, outputType);
 
                 if(data.has("tupleIndex")){
                     parameters.put(Constants.TUPLE_INDEX, data.getInt("tupleIndex") + "");
@@ -133,10 +169,6 @@ public class JSONParser {
 //        graph.addComponent(new BaseAggregateComponent()); //TODO complete when class implemented
 //        graph.addComponent(new BaseDataSinkComponentPrint()); //TODO complete when class implemented
         return graph;
-    }
-
-    private static String getOptData(JSONObject process, String dataKey){
-        return process.has("data") ? process.getJSONObject("data").optString(dataKey, null) : null;
     }
 
     private static void addIfData(Map<String, Object> parameters, String objKey, JSONObject data, String dataKey){
