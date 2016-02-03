@@ -40,6 +40,7 @@ public class Constants {
     public static final String TYPE_TRANSFORMATION_SORT_PARTITION = "SORT_PARTITION";
     public static final String TYPE_TRANSFORMATION_UNION = "UNION";
 
+    public static final String TUPLE_INDEX = "TUPLE_INDEX";
 
     public static final String TYPE_DATA_SINK_PRINT = "PRINT";
 

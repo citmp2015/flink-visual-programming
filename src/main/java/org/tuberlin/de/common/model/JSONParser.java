@@ -28,9 +28,8 @@ public class JSONParser {
             parameters.put(Constants.JOB_COMPOENT_KEY, key);
 
             //connections
-            //TODO multiple connections per process
-            ArrayList<String> parent = null;
-            ArrayList<String> children = null;
+            ArrayList<String> parent = new ArrayList<>();
+            ArrayList<String> children = new ArrayList<>();
 
             for(int i = 0; i < connections.length(); i++){
                 JSONObject connection = connections.getJSONObject(i);
@@ -42,7 +41,7 @@ public class JSONParser {
                 }
 
                 if(key.equals(target)){
-                    children.add(source);
+                    parent.add(source);
                 }
             }
 
@@ -58,21 +57,21 @@ public class JSONParser {
                 //in- & output types
                 String inputType = data.has("input_type")
                         ? data.getString("input_type")
-                        : parent != null
-                            ? getOptData(processes.getJSONObject(parent.get(0)), "output_type")
-                            : null;
+                        : !children.isEmpty()
+                        ? getOptData(processes.getJSONObject(children.get(0)), "output_type")
+                        : null;
 
                 String outputType = data.has("output_type")
                         ? data.getString("output_type")
-                        : parent != null
-                            ? getOptData(processes.getJSONObject(parent.get(0)), "input_type")
-                            : null;
+                        : !parent.isEmpty()
+                        ? getOptData(processes.getJSONObject(parent.get(0)), "input_type")
+                        : null;
 
                 parameters.put(Constants.JOB_COMPONENT_INPUT_TYPE, inputType);
                 parameters.put(Constants.JOB_COMPONENT_OUTPUT_TYPE, outputType);
 
                 if(data.has("tupleIndex")){
-                    parameters.put(TransformationAggregate.FIELD_KEY, data.getInt("tupleIndex") + "");
+                    parameters.put(Constants.TUPLE_INDEX, data.getInt("tupleIndex") + "");
                 }
 
                 addIfData(parameters, Constants.COMPONENT_PATH_JSON, data, "filePath");
@@ -142,7 +141,7 @@ public class JSONParser {
 
     private static void addIfData(Map<String, Object> parameters, String objKey, JSONObject data, String dataKey){
         if(data.has(dataKey)){
-            parameters.put(objKey, data.getInt(dataKey));
+            parameters.put(objKey, data.getString(dataKey));
         }
     }
 }
