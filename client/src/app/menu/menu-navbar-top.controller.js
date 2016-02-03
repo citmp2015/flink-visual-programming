@@ -60,9 +60,9 @@
             console.log('Sending', JSON.stringify(json));
             $http.post(ENDPOINT + '/submit_jobgraph', formData, {responseType: 'blob'}).then(
                 function successCallback(response) {
-                    var contentDisposition = response.headers('Content-Disposition') || '';
-                    var filename = contentDisposition.split('; filename="')[1];
-                    filename = filename.replace('"', '');
+                    var regex = /filename="([\w\.]+)"/ig;
+                    var contentDisposition = response.headers('Content-Disposition') || 'filename="default.zip"';
+                    var filename = regex.exec(contentDisposition)[1];
                     var blob = new Blob([response.data], {type: 'application/zip'});
                     if (window.navigator.msSaveOrOpenBlob) {
                         window.navigator.msSaveBlob(blob, filename);
