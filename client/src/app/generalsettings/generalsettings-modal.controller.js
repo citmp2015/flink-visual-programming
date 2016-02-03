@@ -7,19 +7,15 @@
         .controller('generalsettingsModalCtrl', GeneralsettingsModalCtrl);
 
     /*@ngInject*/
-    function GeneralsettingsModalCtrl($scope, $rootScope, $uibModalInstance, $stateParams, $timeout, localStorageService, $log) {
+    function GeneralsettingsModalCtrl($scope, $rootScope, $uibModalInstance, $stateParams, $timeout, graphFactory, $log) {
 
-        var config = localStorageService.get('config') || {};
-        $scope.generalsettings = {
-            flinkURL: config.flinkURL || '',
-            flinkPort: config.flinkPort || ''
-        };
+        $scope.generalsettings = graphFactory.getGeneralSettings();
 
         $scope.save = save;
         $scope.cancel = cancel;
 
         function save() {
-            localStorageService.set('config', $scope.generalsettings);
+            graphFactory.setGeneralSettings($scope.generalsettings);
             $uibModalInstance.close();
         }
 
