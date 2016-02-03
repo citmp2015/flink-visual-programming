@@ -513,16 +513,10 @@
         
 
         // TODO add arrow for direction?
-        flink.Link = joint.dia.Link.extend({
-            defaults: {
-                type: 'devs.Link',
-                attrs: {
-                    '.connection': {
-                        'stroke-width': 2
-                    }
-                }
-            }
-        });
+        flink.Link = new joint.dia.Link({
+        attrs: {
+                '.marker-target': { d: 'M 10 0 L 0 5 L 10 10 z' }}
+    });
 
         joint.shapes.flink.ModelView = joint.dia.ElementView.extend(joint.shapes.basic.PortsViewInterface);
 
