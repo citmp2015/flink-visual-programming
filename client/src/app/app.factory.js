@@ -10,6 +10,7 @@
     function GraphFactory(localStorageService, templateFactory) {
 
         var flink = {};
+        joint.shapes.flink = {};
 
         flink.getGeneralSettings = function() {
             return localStorageService.get('config');
@@ -37,7 +38,7 @@
         };
 
         flink.renderNumberFilter = function(posX, posY, $state) {
-            return new flink.Atomic({
+            flink.Atomic=new joint.shapes.flink.Model({
                 position: {
                     x: posX,
                     y: posY
@@ -71,10 +72,12 @@
                     javaSourceCode: ''
                 }
             });
+            
+            return flink.Atomic;
         };
 
         flink.renderStringFilter = function(posX, posY, $state) {
-            return new flink.Atomic({
+            flink.Atomic=new joint.shapes.flink.Model({
                 position: {
                     x: posX,
                     y: posY
@@ -108,10 +111,11 @@
                     javaSourceCode: ''
                 }
             });
+            return flink.Atomic;
         };
 
         flink.renderCustomFilter = function(posX, posY, $state) {
-            return new flink.Atomic({
+            flink.Atomic=new joint.shapes.flink.Model({
                 position: {
                     x: posX,
                     y: posY
@@ -139,10 +143,11 @@
                     javaSourceCode: templateFactory.createCustomFilterTemplate()
                 }
             });
+            return flink.Atomic;
         };
 
         flink.renderMap = function(posX, posY, $state) {
-            return new flink.Atomic({
+            flink.Atomic=new joint.shapes.flink.Model({
                 position: {
                     x: posX,
                     y: posY
@@ -170,10 +175,11 @@
                     javaSourceCode: templateFactory.createMapTemplate()
                 }
             });
+            return flink.Atomic;
         };
 
         flink.renderFlatMap = function(posX, posY, $state) {
-            return new flink.Atomic({
+            flink.Atomic=new joint.shapes.flink.Model({
                 position: {
                     x: posX,
                     y: posY
@@ -201,10 +207,11 @@
                     javaSourceCode: templateFactory.createFlatMapTemplate()
                 }
             });
+            return flink.Atomic;
         };
 
         flink.renderSum = function(posX, posY, $state) {
-            return new flink.Atomic({
+            flink.Atomic=new joint.shapes.flink.Model({
                 position: {
                     x: posX,
                     y: posY
@@ -232,6 +239,7 @@
                     tupleIndex: 0
                 }
             });
+            return flink.Atomic;
         };
 
         flink.renderJoin = function(posX, posY, $state) {
@@ -239,7 +247,7 @@
         };
 
         flink.renderGroup = function(posX, posY, $state) {
-            return new flink.Atomic({
+            flink.Atomic=new joint.shapes.flink.Model({
                 position: {
                     x: posX,
                     y: posY
@@ -267,10 +275,11 @@
                     tupleIndex: 0
                 }
             });
+            return flink.Atomic;
         };
 
         flink.renderReduce = function(posX, posY, $state) {
-            return new flink.Atomic({
+            flink.Atomic=new joint.shapes.flink.Model({
                 position: {
                     x: posX,
                     y: posY
@@ -298,10 +307,11 @@
                     javaSourceCode: templateFactory.createReduceTemplate()
                 }
             });
+            return flink.Atomic;
         };
 
         flink.renderCsvDatasource = function(posX, posY, $state) {
-            return new flink.Atomic({
+            flink.Atomic=new joint.shapes.flink.Model({
                 position: {
                     x: posX,
                     y: posY
@@ -332,10 +342,11 @@
                 }
 
             });
+            return flink.Atomic;
         };
 
         flink.renderTextDatasource = function(posX, posY, $state) {
-            return new flink.Atomic({
+            flink.Atomic=new joint.shapes.flink.Model({
                 position: {
                     x: posX,
                     y: posY
@@ -363,20 +374,21 @@
                     filePath: null
                 }
             });
+            return flink.Atomic;
         };
 
         flink.renderCsvDatasink = function(posX, posY) {
             return fastCreate(posX, posY, 1, 0, 'CSV Datasink', 'component-sink');
         };
 
-        flink.Model = joint.shapes.basic.Generic.extend(_.extend({}, joint.shapes.basic.PortsModelInterface, {
+        joint.shapes.flink.Model = joint.shapes.basic.Generic.extend(_.extend({}, joint.shapes.basic.PortsModelInterface, {
 
             markup: '<g class="rotatable"><g class="scalable"><rect class="body"/></g><text class="label"/><g class="inPorts"/><g class="outPorts"/></g>',
             portMarkup: '<g class="port port<%= id %>"><circle class="port-body"/></g>',
 
             defaults: joint.util.deepSupplement({
 
-                type: 'devs.Model',
+                type: 'flink.Model',
                 size: {
                     width: 1,
                     height: 1
@@ -446,35 +458,7 @@
                 return attrs;
             }
         }));
-
-
-        flink.Atomic = flink.Model.extend({
-
-            defaults: joint.util.deepSupplement({
-
-                type: 'devs.Atomic',
-                size: {
-                    width: 120,
-                    height: 100
-                },
-                attrs: {
-                    '.body': {
-                        fill: 'salmon'
-                    },
-                    '.label': {
-                        text: 'Atomic'
-                    },
-                    '.inPorts .port-body': {
-                        fill: 'PaleGreen'
-                    },
-                    '.outPorts .port-body': {
-                        fill: 'Tomato'
-                    }
-                }
-
-            }, flink.Model.prototype.defaults)
-
-        });
+        
 
         // TODO add arrow for direction?
         flink.Link = joint.dia.Link.extend({
@@ -488,7 +472,7 @@
             }
         });
 
-        flink.ModelView = joint.dia.ElementView.extend(joint.shapes.basic.PortsViewInterface);
+        joint.shapes.flink.ModelView = joint.dia.ElementView.extend(joint.shapes.basic.PortsViewInterface);
         flink.AtomicView = flink.ModelView;
         flink.CoupledView = flink.ModelView;
 
