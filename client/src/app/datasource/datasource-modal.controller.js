@@ -10,6 +10,8 @@
     /*@ngInject*/
     function CSVDatasourceModalCtrl($scope, $rootScope, $uibModalInstance, $stateParams, $timeout, graphFactory, templateFactory, $log) {
 
+        $scope.generalsettings = graphFactory.getGeneralSettings();
+
         var cell = $rootScope.graph.getCell($stateParams.id);
 
         $scope.dataTypes = [{
@@ -78,6 +80,8 @@
     }
 
     function TextDatasourceModalCtrl($scope, $rootScope, $uibModalInstance, $stateParams, $timeout, graphFactory, $log) {
+
+        $scope.generalsettings = graphFactory.getGeneralSettings();
 
         var cell = $rootScope.graph.getCell($stateParams.id);
 
