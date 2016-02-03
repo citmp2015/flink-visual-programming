@@ -65,7 +65,7 @@
                     graph: json
                 };
                 console.log('Sending', JSON.stringify(json));
-                $http.post(ENDPOINT + '/submit_jobgraph', formData, config).then(
+                $http.post(ENDPOINT + '/submit_jobgraph', formData).then(
                     function successCallback(response) {
                         console.log(response);
                         loadingModal.close();
