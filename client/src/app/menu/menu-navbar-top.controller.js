@@ -52,21 +52,31 @@
         };
 
         function sendGraph(action) {
-            var json = jsonBuilder.buildJson($rootScope.graph);
-            var formData = {
-                action: action,
-                graph: json
-            };
-            var config = {
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
-            };
-            $http.post(ENDPOINT + '/submit_jobgraph', formData, config).then(
-                function successCallback(response) {
-                    console.log(response);
-                }, function errorCallback(response) {
-                    console.log(response);
-                }
-            );
+            var loadingModal = $uibModal.open({
+                templateUrl: '/app/loadingmodal/loadingmodal.tpl.html',
+                controller: 'loadingModalCtrl',
+                backdrop: 'static'
+            });
+
+            setTimeout(function(){
+                var json = jsonBuilder.buildJson($rootScope.graph);
+                var formData = {
+                    action: action,
+                    graph: json
+                };
+                var config = {
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+                };
+                $http.post(ENDPOINT + '/submit_jobgraph', formData, config).then(
+                    function successCallback(response) {
+                        console.log(response);
+                        loadingModal.close();
+                    }, function errorCallback(response) {
+                        console.log(response);
+                        loadingModal.close();
+                    }
+                );
+            }, 1500);
         }
 
         function runGraph() {
