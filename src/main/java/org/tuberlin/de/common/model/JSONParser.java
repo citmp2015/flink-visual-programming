@@ -65,8 +65,7 @@ public class JSONParser {
         while(!allResolved){
             allResolved = true;
 
-            for(String key : processes.keySet()){
-                if(!parentMap.containsKey(key)) continue;
+            for(String key : parentMap.keySet()){
                 if(inputTypes.containsKey(key)) continue;
                 if(outputTypes.containsKey(key)) continue;
 
@@ -105,7 +104,6 @@ public class JSONParser {
             if(val.has("data")){
                 JSONObject data = val.getJSONObject("data");
 
-
                 if(data.has("tupleIndex")){
                     parameters.put(Constants.TUPLE_INDEX, data.getInt("tupleIndex") + "");
                 }
@@ -116,59 +114,47 @@ public class JSONParser {
                 addIfData(parameters, CompilationUnitComponent.FUNCTION_NAME_KEY, data, "functionName");
             }
 
-            //type
-            String componentName = val.getString("component");
-            JobComponent comp;
-
-            // or:
-            switch(componentName){
-                case "textdatasource":
-                case "readFile":
-                    comp = new BaseDataSourceComponentText(graph, parameters);
-                    break;
-
-                case "group":
-                case "groupBy":
-                    comp = new BaseGroupBy(graph, parameters);
-                    break;
-
-                case "fastCreate: CSV Datasink":
-                case "writeCSV":
-                    comp = new BaseDataSinkPrint(graph, parameters);
-                    break;
-
-                case "flatmap":
-                    comp = new BaseTransformationFlatMap(graph, parameters);
-                    break;
-
-                /*
-                case "map":
-                    comp = new BaseTransformationMap(graph, parameters);
-                    break;
-
-                case "reduce":
-                    ...
-                */
-
-                case "sum":
-                    parameters.put(TransformationAggregate.FUNCTION_KEY, "SUM");
-                    comp = new BaseTransformationAggregate(graph, parameters);
-                    break;
-
-                default:
-                    System.out.println("Ignoring component " + componentName);
-                    continue; //FIXME should throw errors in the future
-            }
-
-            graph.addComponent(comp);
+            graph.addComponent(getComponent(val.getString("component"), graph, parameters));
         }
 
-//        graph.addComponent(new BaseDataSourceComponentCSV()); //TODO complete when class implemented
-//        graph.addComponent(new BaseFlatMapComponent()); //TODO complete when class implemented
-//        graph.addComponent(new BaseGroupByComponent()); //TODO complete when class implemented
-//        graph.addComponent(new BaseAggregateComponent()); //TODO complete when class implemented
-//        graph.addComponent(new BaseDataSinkComponentPrint()); //TODO complete when class implemented
         return graph;
+    }
+
+    private static JobComponent getComponent(String componentName, JobGraph graph, Map<String, Object> parameters){
+        switch(componentName){
+            case "textdatasource":
+            case "readFile":
+                return new BaseDataSourceComponentText(graph, parameters);
+
+            case "group":
+            case "groupBy":
+                return new BaseGroupBy(graph, parameters);
+
+            case "fastCreate: CSV Datasink":
+            case "writeCSV":
+                return new BaseDataSinkPrint(graph, parameters);
+
+            case "flatmap":
+                return new BaseTransformationFlatMap(graph, parameters);
+
+            /*
+            case "map":
+                comp = new BaseTransformationMap(graph, parameters);
+                break;
+
+            case "reduce":
+                ...
+            */
+
+            case "sum":
+                parameters.put(TransformationAggregate.FUNCTION_KEY, "SUM");
+                return new BaseTransformationAggregate(graph, parameters);
+
+            default:
+                //FIXME should throw errors in the future
+                System.out.println("Ignoring component " + componentName);
+                return null;
+        }
     }
 
     private static void addIfData(Map<String, Object> parameters, String objKey, JSONObject data, String dataKey){
