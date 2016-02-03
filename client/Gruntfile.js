@@ -1,4 +1,4 @@
-module.exports = function(grunt) {
+ module.exports = function(grunt) {
 
     'use strict';
 
@@ -29,12 +29,19 @@ module.exports = function(grunt) {
             },
             js: {
                 files: ['<%= flinkVisual.app %>/app/{,*/}*.js'],
-                tasks: ['jshint'],
+                tasks: ['jshint', 'karma:server:run'],
                 options: {
                     livereload: '<%= connect.options.livereload %>',
                     spawn: false
                 },
             },
+            jsTest: {
+				files: ['test/spec/{,*/}*.js', 'test/mock/{,*/}*.js'],
+				tasks: ['jshint', 'karma:server'],
+				options: {
+					livereload: false
+				}
+			},
             bootstrapStyle: {
                 files: ['<%= flinkVisual.app %>/styles/defines.less', '<%= flinkVisual.app %>/styles/bootstrap/*.less'],
                 tasks: ['less:bootstrap'],
@@ -94,6 +101,18 @@ module.exports = function(grunt) {
                 ]
             }
         },
+
+        karma: {
+			server: {
+				configFile: 'test/karma.conf.js',
+				background: true,
+				singleRun: false
+			},
+			test: {
+				configFile: 'test/karma.conf.js',
+				singleRun: true,
+			}
+		},
 
         protractor: {
             options: {
@@ -438,6 +457,7 @@ module.exports = function(grunt) {
         'wiredep',
         'postcss:serve',
         'connect:livereload',
+		'karma:server',
         'watch'
     ]);
 
@@ -449,6 +469,7 @@ module.exports = function(grunt) {
         'postcss:serve',
         'connect:test',
         'jshint:all',
+		'karma:test',
         'protractor:test'
     ]);
 

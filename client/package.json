@@ -50,7 +50,12 @@
     "postcss-minify-font-weight": "~2.x",
     "postcss-ordered-values": "~2.x",
     "serve-static": "^1.10.0",
-    "time-grunt": "~1.x"
+    "time-grunt": "~1.x",
+    "grunt-karma": "~0.12.x",
+    "karma": "~0.13.x",
+    "karma-jasmine": "~0.3.x",
+    "karma-chrome-launcher": "~0.2.x",
+    "karma-phantomjs-launcher": "~1.0.x"
   },
   "scripts": {
     "install": "node node_modules/protractor/bin/webdriver-manager update"
