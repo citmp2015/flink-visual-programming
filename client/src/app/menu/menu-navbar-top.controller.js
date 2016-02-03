@@ -58,11 +58,24 @@
                 graph: json
             };
             console.log('Sending', JSON.stringify(json));
-            var generalSettings = graphFactory.getGeneralSettings(),
-                postURL = generalSettings.flinkURL + ':' + generalSettings.flinkPort;
-            $http.post(postURL + '/submit_jobgraph', formData).then(
+            var generalSettings = graphFactory.getGeneralSettings();
+            var postURL = generalSettings.flinkURL + ':' + generalSettings.flinkPort;
+            $http.post(postURL + '/submit_jobgraph', formData, {responseType: 'blob'}).then(
                 function successCallback(response) {
-                    console.log(response);
+                    var regex = /filename="([\w\.]+)"/ig;
+                    var contentDisposition = response.headers('Content-Disposition') || 'filename="default.zip"';
+                    var filename = regex.exec(contentDisposition)[1];
+                    var blob = new Blob([response.data], {type: 'application/zip'});
+                    if (window.navigator.msSaveOrOpenBlob) {
+                        window.navigator.msSaveBlob(blob, filename);
+                    } else {
+                        var elem = window.document.createElement('a');
+                        elem.href = window.URL.createObjectURL(blob);
+                        elem.download = filename;
+                        document.body.appendChild(elem);
+                        elem.click();
+                        document.body.removeChild(elem);
+                    }
                 }, function errorCallback(response) {
                     console.log(response);
                 }
