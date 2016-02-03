@@ -17,7 +17,6 @@
 
         flink.setGeneralSettings = function(extConfig) {
             var config = extConfig || {};
-            config.
             localStorageService.set('config', {
                 flinkURL: config.flinkURL || 'http://localhost',
                 flinkPort: config.flinkPort || '8080'
