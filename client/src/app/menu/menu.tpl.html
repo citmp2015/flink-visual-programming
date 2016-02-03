@@ -32,9 +32,9 @@
                 <li class="sidebar-search">
                     <div class="input-group custom-search-form">
                         <input type="search" class="form-control" placeholder="Search..." ng-model="search.label">
-                        <span class="input-group-btn">
-                            <button class="btn btn-default" type="button">
-                                <i class="fa fa-search"></i>
+                        <span class="input-group-btn" ng-show="showClearSearchButton">
+                            <button class="btn btn-default" type="button" ng-click="clearSearch()">
+                                <i class="fa fa-times" ></i>
                             </button>
                         </span>
                     </div>

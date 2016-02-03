@@ -122,8 +122,8 @@ public class SubmitController extends HttpServlet {
     private void startZipDownload(HttpServletResponse resp, String entryClass, Map<String, String> classez) {
         InputStream inputStream = deploymentInterface.getZipSource(entryClass, classez);
 
-        resp.setContentType("application/zip, application/octet-stream");
-        resp.setHeader("Content-disposition", "attachment; filename=FlinkJobArchive.zip");
+        resp.setContentType("application/zip");
+        resp.setHeader("Content-Disposition", "attachment; filename=\"FlinkJobArchive.zip\"");
 
         startDownload(resp, inputStream);
     }
