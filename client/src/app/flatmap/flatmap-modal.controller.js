@@ -35,7 +35,7 @@
         }
 
         function getTypes(code) {
-            var regex = /public\s+class\s+[\w]+\s+implements\s+FlatMapFunction\s*<([\w\s<>,]+)>\s*\{/igm;
+            var regex = /class\s+[\w]+\s+implements\s+FlatMapFunction\s*<([\w\s<>,]+)>\s*\{/igm;
             // this gives us whats inside the diamond of the FlatMapFunction
             // FlatMapFunction<Tuple3<String, Integer, Float>, Tuple2<Integer, Float>>
             // -> Tuple3<String, Integer, Float>, Tuple2<Integer, Float>
@@ -70,7 +70,7 @@
         }
 
         function getClassName(code) {
-            var regex = /public\s+class\s+([\w]+)\s+implements/igm;
+            var regex = /class\s+([\w]+)\s+implements\s+FlatMapFunction/igm;
             return regex.exec(code)[1];
         }
 
