@@ -105,6 +105,8 @@ public interface JobGraph{
      */
     public JobComponent getComponent(String componentName);
 
+    Map<String,String> getComponentSources();
+
     /**
      *
      * @param jobComponent

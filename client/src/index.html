@@ -10,6 +10,8 @@
 
     <title>Flink Visual</title>
 
+    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:300,400,600,800" />
+
     <!-- build:css styles/vendor.css -->
     <link rel="stylesheet" href="../bower_components/components-bootstrap/css/bootstrap.css" />
     <!-- bower:css -->
@@ -20,9 +22,10 @@
     <!-- endbuild -->
 
     <!-- build:css styles/main.css -->
-    <link href="./styles/devs.css" rel="stylesheet">
-    <link href="./styles/theme.css" rel="stylesheet">
-    <link href="./styles/diagram.css" rel="stylesheet">
+    <link href="../.tmp/styles/layout.css" rel="stylesheet">
+    <link href="../.tmp/styles/navigation.css" rel="stylesheet">
+    <link href="../.tmp/styles/sidebar.css" rel="stylesheet">
+    <link href="../.tmp/styles/graph.css" rel="stylesheet">
     <!-- endbuild -->
 
 </head>
@@ -36,9 +39,8 @@
     </div>
 
     <!-- build:js scripts/vendor.js -->
-    <script src="./app/chrome48.js"></script>
     <!-- bower:js -->
-    <script src="../bower_components/jquery/dist/jquery.js"></script>
+    <script src="../bower_components/jquery/jquery.js"></script>
     <script src="../bower_components/lodash/lodash.js"></script>
     <script src="../bower_components/backbone/backbone.js"></script>
     <script src="../bower_components/graphlib/dist/graphlib.core.js"></script>
@@ -69,7 +71,7 @@
     <script src="./app/app.routes.js"></script>
     <script src="./app/app.factory.js"></script>
     <script src="./app/app.templates.js"></script>
-        <script src="./app/app.codemirror.js"></script>
+    <script src="./app/app.json.js"></script>
 
     <script src="./app/menu/menu.module.js"></script>
     <script src="./app/menu/menu.controller.js"></script>
@@ -82,18 +84,31 @@
     <script src="./app/filter/filter.module.js"></script>
     <script src="./app/filter/numberfilter-modal.controller.js"></script>
     
+    <script src="./app/filter/filter.module.js"></script>
+    <script src="./app/filter/filter-modal.controller.js"></script>
+    
     <script src="./app/group/group.module.js"></script>
     <script src="./app/group/group-modal.controller.js"></script>
-    
+
     <script src="./app/sum/sum.module.js"></script>
     <script src="./app/sum/sum-modal.controller.js"></script>
-    
+
     <script src="./app/flatmap/flatmap.module.js"></script>
     <script src="./app/flatmap/flatmap-modal.controller.js"></script>
     
+    <script src="./app/map/map.module.js"></script>
+    <script src="./app/map/map-modal.controller.js"></script>
+    
+    <script src="./app/reduce/reduce.module.js"></script>
+    <script src="./app/reduce/reduce-modal.controller.js"></script>
+
+    <script src="./app/generalsettings/generalsettings.module.js"></script>
+    <script src="./app/generalsettings/generalsettings-modal.controller.js"></script>
 
     <script src="./directive/joint-diagram.js"></script>
     <script src="./directive/file-import.js"></script>
+
+    <script src="./filter/menu-search.js"></script>
     <!-- endbuild -->
 
 </body>

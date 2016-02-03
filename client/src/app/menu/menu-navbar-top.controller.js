@@ -7,11 +7,14 @@
         .controller('MenuNavbarTopCtrl', MenuNavbarTopCtrl);
 
     /*@ngInject*/
-    function MenuNavbarTopCtrl($scope, $rootScope, graphFactory, $log) {
+    function MenuNavbarTopCtrl($scope, $rootScope, graphFactory, jsonBuilder, $log, $http, $uibModal, ENDPOINT) {
 
         $scope.clearGraph = clearGraph;
         $scope.exportGraph = exportGraph;
         $scope.importGraph = importGraph;
+        $scope.runGraph = runGraph;
+        $scope.getCode = getCode;
+        $scope.getJar = getJar;
         $scope.exportHref = '#';
 
         $scope.importFile = null;
@@ -37,7 +40,43 @@
         }
 
         function importGraph(argument) {
-            // body...
+            $('.import-wrapper input[type="file"]').click();
+        }
+
+        $scope.openConfiguration = function() {
+            $uibModal.open({
+                templateUrl: '/app/generalsettings/generalsettings-modal.tpl.html',
+                controller: 'generalsettingsModalCtrl',
+                backdrop: 'static'
+            });
+        };
+
+        function sendGraph(action) {
+            var json = jsonBuilder.buildJson($rootScope.graph);
+            var formData = {
+                action: action,
+                graph: json
+            };
+            console.log('Sending', JSON.stringify(json));
+            $http.post(ENDPOINT + '/submit_jobgraph', formData).then(
+                function successCallback(response) {
+                    console.log(response);
+                }, function errorCallback(response) {
+                    console.log(response);
+                }
+            );
+        }
+
+        function runGraph() {
+            sendGraph('deploy');
+        }
+
+        function getCode() {
+            sendGraph('download_sources');
+        }
+
+        function getJar() {
+            sendGraph('download_jar');
         }
 
     }

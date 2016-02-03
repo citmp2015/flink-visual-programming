@@ -1,9 +1,7 @@
-package org.tuberlin.de.test.model;
+package org.tuberlin.de.common.test;
 
 import org.junit.After;
 import org.junit.Before;
-
-import static org.junit.Assert.*;
 
 /**
  * Created by Malcolm-X on 26.12.2015.

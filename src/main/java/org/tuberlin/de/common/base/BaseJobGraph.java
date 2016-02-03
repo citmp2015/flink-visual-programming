@@ -1,6 +1,7 @@
 package org.tuberlin.de.common.base;
 
 import org.tuberlin.de.common.codegenerator.CodeGenerator;
+import org.tuberlin.de.common.model.interfaces.CompilationUnitComponent;
 import org.tuberlin.de.common.model.interfaces.JobComponent;
 import org.tuberlin.de.common.model.interfaces.JobGraph;
 import org.tuberlin.de.common.model.interfaces.datasink.DataSink;
@@ -88,6 +89,16 @@ public class BaseJobGraph implements JobGraph {
     public JobComponent getComponent(String componentName){
         //TODO integrity
         return componentMap.get(componentName);
+    }
+    @Override
+    public Map<String,String> getComponentSources(){
+        Map<String, String> sources = new HashMap<String,String>();
+        for (JobComponent jc : this.componentMap.values()){
+            if(jc instanceof CompilationUnitComponent){
+                sources.put((String) jc.getParameter(CompilationUnitComponent.FUNCTION_NAME_KEY), ((CompilationUnitComponent)jc).getSource());
+            }
+        }
+        return sources;
     }
     @Override
     public void addComponent(JobComponent component){

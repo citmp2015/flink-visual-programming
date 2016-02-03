@@ -1,24 +1,26 @@
 package org.tuberlin.de.server.controller;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.tuberlin.de.common.codegenerator.CodeGenerator;
 import org.tuberlin.de.common.model.BackendControllerImpl;
 import org.tuberlin.de.common.model.interfaces.BackendController;
 import org.tuberlin.de.common.model.interfaces.JobGraph;
 import org.tuberlin.de.deployment.DeploymentImplementation;
 import org.tuberlin.de.deployment.DeploymentInterface;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.Map;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Controller that is invoked when clicking on any of the following buttons:
@@ -44,7 +46,7 @@ import java.util.List;
 public class SubmitController extends HttpServlet {
 
     private static final long serialVersionUID = 23523652345L;
-    private static final Logger LOG = LoggerFactory.getLogger(BaseController.class);
+    private static final Logger LOG = LoggerFactory.getLogger(SubmitController.class);
 
     private DeploymentInterface deploymentInterface;
 
@@ -54,43 +56,56 @@ public class SubmitController extends HttpServlet {
     }
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws
             ServletException, IOException {
         BackendController backendController = new BackendControllerImpl();
-        String json = req.getParameter("graph");
 
-//        TODO Uncomment one of the following to test the behavior
-//        deploymentInterface.generateProjectJAR("", new ArrayList<>(), false);
-//        startZipDownload(resp, "", new ArrayList<>());
-//        startJarDownload(resp);
+        String body = req.getReader().lines().reduce("", (accumulator, actual) -> accumulator + actual);
+        JSONObject bodyObject = null;
+
+        try {
+            bodyObject = new JSONObject(body);
+        } catch (JSONException e) {
+            LOG.debug("Request did not contain data");
+            return;
+        }
+
+        if (!bodyObject.has("graph")) {
+            LOG.debug("Request did not contain data for parameter graph");
+            return;
+        } else {
+            LOG.debug("Graph: " + bodyObject.getJSONObject("graph").toString());
+        }
 
         JobGraph jobGraph;
         try {
-            jobGraph = backendController.getJobGraph(json);
+            jobGraph = backendController.getJobGraph(bodyObject.getJSONObject("graph"));
         } catch (Exception e) {
             LOG.error("Error in construction jobGraph.", e);
             return;
         }
 
-        String action = req.getParameter("action");
+        String action = bodyObject.getString("action");
         if (action == null) {
             LOG.error("No action specified in the 'action' parameter");
             return;
         }
 
-        // TODO Fill with method calls with real parameters
+        String mainClass = CodeGenerator.generateCode(jobGraph);
+        Map<String, String> clazzes = CodeGenerator.getComponentSources(jobGraph);
+
         switch (action) {
             case "deploy":
                 LOG.debug("Starting deployment");
-                deploymentInterface.generateProjectJAR("", new ArrayList<>(), false);
+                deploymentInterface.generateProjectJAR(mainClass, clazzes, false);
                 break;
             case "download_sources":
                 LOG.debug("Starting download source");
-                startZipDownload(resp, "", new ArrayList<>());
+                startZipDownload(resp, mainClass, clazzes);
                 break;
             case "download_jar":
                 LOG.debug("Starting download jar");
-                startJarDownload(resp);
+                startJarDownload(resp, mainClass, clazzes);
                 break;
             default:
                 LOG.debug("No action specified");
@@ -104,11 +119,11 @@ public class SubmitController extends HttpServlet {
      * @param entryClass The entry class
      * @param classez    The classes
      */
-    private void startZipDownload(HttpServletResponse resp, String entryClass, List<String> classez) {
+    private void startZipDownload(HttpServletResponse resp, String entryClass, Map<String, String> classez) {
         InputStream inputStream = deploymentInterface.getZipSource(entryClass, classez);
 
-        resp.setContentType("application/zip, application/octet-stream");
-        resp.setHeader("Content-disposition", "attachment; filename=FlinkJobArchive.zip");
+        resp.setContentType("application/zip");
+        resp.setHeader("Content-Disposition", "attachment; filename=\"FlinkJobArchive.zip\"");
 
         startDownload(resp, inputStream);
     }
@@ -118,8 +133,10 @@ public class SubmitController extends HttpServlet {
      *
      * @param resp The response object
      */
-    private void startJarDownload(HttpServletResponse resp) {
-        InputStream inputStream = deploymentInterface.getJarStream();
+    private void startJarDownload(HttpServletResponse resp, String entryClass, Map<String, String> clazzes) {
+        deploymentInterface.generateProjectJAR(entryClass, clazzes, false);
+
+        InputStream inputStream = deploymentInterface.getJarStream(entryClass, clazzes);
 
         resp.setContentType("application/java-archive");
         resp.setHeader("Content-disposition", "attachment; filename=FlinkJob.jar");

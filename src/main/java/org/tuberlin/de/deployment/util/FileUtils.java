@@ -40,7 +40,6 @@ public class FileUtils {
             //if directory not exists, create it
             if (!dest.exists()) {
                 dest.mkdir();
-                LOG.debug("Directory copied from " + src + "  to " + dest);
             }
 
             //list all the directory contents

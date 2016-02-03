@@ -2,19 +2,21 @@ package org.tuberlin.de.deployment;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.tuberlin.de.common.model.Constants;
+import org.tuberlin.de.deployment.util.DOMParser;
 import org.tuberlin.de.deployment.util.ExecuteShell;
 import org.tuberlin.de.deployment.util.FileUtils;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Implements the DeploymentInterface and is responsible for building the project, executing it on a cluster and return
@@ -48,11 +50,12 @@ public class DeploymentImplementation implements DeploymentInterface {
     }
 
     @Override
-    public void generateProjectJAR(String entryClass, List<String> clazzes, boolean deploy) {
+    public void generateProjectJAR(String entryClass, Map<String, String> clazzes, boolean deploy) {
 
         File temporaryFolder = null;
         try {
-             temporaryFolder = createTemporaryProjectFolder();
+
+            temporaryFolder = createTemporaryProjectFolder();
 
             createClasses(temporaryFolder, entryClass, clazzes);
 
@@ -79,19 +82,21 @@ public class DeploymentImplementation implements DeploymentInterface {
     }
 
     @Override
-    public InputStream getJarStream() {
+    public InputStream getJarStream(String entryClass, Map<String, String> clazzes) {
 
         File temporaryProjectFolder = null;
-        try {
-             temporaryProjectFolder = createTemporaryProjectFolder();
 
-            // TODO something missing. Creation of jar with empty project?
+        try {
+
+            temporaryProjectFolder = createTemporaryProjectFolder();
+
+            createClasses(temporaryProjectFolder, entryClass, clazzes);
 
             // Trigger Maven Build
             LOG.debug("Maven Invocation " + ExecuteShell.executeCommand(mavenPath + " package", temporaryProjectFolder));
 
-            // Get jar name
-            String outputJarName = temporaryProjectFolder.toString() + "/target/" + "original-flink-job-1.0.jar";
+            // Get ouput jar name
+            String outputJarName = temporaryProjectFolder.toString() + "/target/" + Constants.FLINK_JOB_NAME + "-1.0.jar";
             File outputJar = new File(outputJarName);
 
             // Return created jar as stream
@@ -107,19 +112,21 @@ public class DeploymentImplementation implements DeploymentInterface {
     }
 
     @Override
-    public InputStream getZipSource(String entryClass, List<String> clazzes) {
+    public InputStream getZipSource(String entryClass, Map<String, String> clazzes) {
 
         File temporaryProjectFolder = null;
+
         try {
+
             temporaryProjectFolder = createTemporaryProjectFolder();
 
             createClasses(temporaryProjectFolder, entryClass, clazzes);
 
-            String zipFilePath = temporaryProjectFolder.toString() + "/FlinkProject.zip";
+            String zipFilePath = temporaryProjectFolder.getParentFile().toString() + "/FlinkProject.zip";
             File zipFile = new File(zipFilePath);
 
             // Zip src folder and not tmp root, because output zip also is created there and this might lead to an error
-            String srcFolderPath = temporaryProjectFolder.toString() + "/src/";
+            String srcFolderPath = temporaryProjectFolder.toString();
             File srcFolderToZip = new File(srcFolderPath);
             FileUtils.zipFolder(srcFolderToZip, zipFile);
 
@@ -129,8 +136,6 @@ public class DeploymentImplementation implements DeploymentInterface {
         } catch (URISyntaxException | IOException e) {
             LOG.error("Failed to getJarStream", e);
             e.printStackTrace();
-        } finally {
-            cleanUp(temporaryProjectFolder);
         }
         return null;
     }
@@ -151,12 +156,27 @@ public class DeploymentImplementation implements DeploymentInterface {
 
         // Creating tmp directory
         Path tmpDirectory = Files.createTempDirectory(randomUUID);
-        File tmpProjectFolder = tmpDirectory.toFile();
+        File tmpProjectFolderParent = tmpDirectory.toFile();
+        File tmpProjectFolder = new File(tmpProjectFolderParent.getAbsolutePath() + "/FlinkProject");
 
         File skeletonFolder = new File(getClass().getClassLoader().getResource("FlinkSkeleton/").toURI());
 
         // Copying skeleton to tmp directory
+        LOG.debug("Copy directory from " + skeletonFolder.toString() + "  to " + tmpDirectory.toString());
         FileUtils.copyFolder(skeletonFolder, tmpProjectFolder);
+
+        // Map containing the values to be replaced in the pom.xml
+        HashMap<String, String> map = new HashMap<>();
+        // TODO Replace with entry class name
+        map.put(Constants.ENTRY_CLASS_KEY, Constants.ENTRY_CLASS_NAME);
+        map.put(Constants.ARTIFACT_ID_KEY, Constants.FLINK_JOB_NAME);
+
+        // Get jar name
+        String pomXMLPath = tmpProjectFolder.toString() + "/pom.xml";
+        File pomFile = new File(pomXMLPath);
+
+        // Replaces values in pom.xml corresponding to the map above
+        DOMParser.replaceXMLValues(pomFile, map);
 
         return tmpProjectFolder;
     }
@@ -168,15 +188,38 @@ public class DeploymentImplementation implements DeploymentInterface {
      * @param entryClass      The entry class from the source code generator
      * @param clazzes         The classes from the source code generator
      */
-    private void createClasses(File temporaryFolder, String entryClass, List<String> clazzes) {
+    private void createClasses(File temporaryFolder, String entryClass, Map<String, String> clazzes) {
+        saveClass(temporaryFolder, Constants.ENTRY_CLASS_NAME, entryClass);
+        clazzes.forEach((className, clazz) -> saveClass(temporaryFolder, className, clazz));
+    }
 
+    /**
+     * This methods saves a class as a child of the temporary folder
+     * @param temporarayFolder the parent folder
+     * @param clazzName the className of the class
+     * @param clazz the content of the class (source code)
+     */
+    private void saveClass(File temporarayFolder, String clazzName, String clazz){
+        try {
+            File outputFile = new File(temporarayFolder.getPath() + "/src/main/java/org/test/de/" + clazzName + ".java");
+            FileOutputStream stream = new FileOutputStream(outputFile);
+            stream.write(clazz.getBytes());
+            stream.flush();
+            stream.close();
+        } catch (IOException e){
+            LOG.error("could not write class ", e);
+        }
+    }
 
-        // TODO Copy java class files to tmp directory
-//            String classToJar = new Scanner(
-//                    getClass().getClassLoader().getResourceAsStream("FlinkSkeleton/src/main/java/org/test/de/WordCount.java"),
-//                    "utf-8").useDelimiter("\\Z").next();
-//
-//            LOG.debug("Showing class content:\n" + classToJar);
+    /**
+     * This method parses the classname of a file
+     * @param clazz the entire class
+     */
+    private String getClassName(String clazz){
+        Pattern pattern = Pattern.compile("class (\\w+)\\s*[i{]");
+        Matcher matcher = pattern.matcher(clazz);
+        LOG.debug("Found class name - " + matcher.group(0));
+        return matcher.group(0);
     }
 
     /**
@@ -184,7 +227,7 @@ public class DeploymentImplementation implements DeploymentInterface {
      *
      * @param tmpProjectFolder The temporary project folder
      */
-    private void cleanUp(File tmpProjectFolder) {
+    public void cleanUp(File tmpProjectFolder) {
 
         if (tmpProjectFolder == null) {
             LOG.debug("Nothing to clean up as tmpProjectFolder is null");

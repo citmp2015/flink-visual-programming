@@ -2,25 +2,24 @@ package org.tuberlin.de.common.model;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.tuberlin.de.common.base.BaseDataSinkPrint;
-import org.tuberlin.de.common.base.BaseDataSourceComponentText;
-import org.tuberlin.de.common.base.BaseGroupBy;
-import org.tuberlin.de.common.base.BaseJobGraph;
+import org.tuberlin.de.common.base.*;
+import org.tuberlin.de.common.model.interfaces.CompilationUnitComponent;
 import org.tuberlin.de.common.model.interfaces.JobComponent;
 import org.tuberlin.de.common.model.interfaces.JobGraph;
+import org.tuberlin.de.common.model.interfaces.transorfmation.TransformationAggregate;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 public class JSONParser {
-    public static JobGraph getJobGraph(String json){
-        JSONObject obj = new JSONObject(json);
+    public static JobGraph getJobGraph(JSONObject obj){
         JSONObject processes = obj.getJSONObject("processes");
-        JSONObject components = obj.getJSONObject("components");
+        // JSONObject components = obj.getJSONObject("components");
         JSONArray connections = obj.getJSONArray("connections");
 
         Map<String, Object> jobGraphParameters = new HashMap<>();
-        JobGraph graph = new BaseJobGraph("testkey", "testname", "testpackage", jobGraphParameters);
+        JobGraph graph = new BaseJobGraph("testkey", Constants.ENTRY_CLASS_NAME, "testpackage", jobGraphParameters);
 
         for(String key : processes.keySet()){
             Map<String, Object> parameters = new HashMap<>();
@@ -30,8 +29,8 @@ public class JSONParser {
 
             //connections
             //TODO multiple connections per process
-            String parent = null;
-            String children = null;
+            ArrayList<String> parent = null;
+            ArrayList<String> children = null;
 
             for(int i = 0; i < connections.length(); i++){
                 JSONObject connection = connections.getJSONObject(i);
@@ -39,11 +38,11 @@ public class JSONParser {
                 String target = connection.getString("tgt");
 
                 if(key.equals(source)){
-                    children = target;
+                    children.add(target);
                 }
 
                 if(key.equals(target)){
-                    parent = source;
+                    children.add(source);
                 }
             }
 
@@ -60,63 +59,70 @@ public class JSONParser {
                 String inputType = data.has("input_type")
                         ? data.getString("input_type")
                         : parent != null
-                            ? getOptData(processes.getJSONObject(parent), "output_type")
+                            ? getOptData(processes.getJSONObject(parent.get(0)), "output_type")
                             : null;
 
                 String outputType = data.has("output_type")
                         ? data.getString("output_type")
                         : parent != null
-                            ? getOptData(processes.getJSONObject(parent), "input_type")
+                            ? getOptData(processes.getJSONObject(parent.get(0)), "input_type")
                             : null;
 
                 parameters.put(Constants.JOB_COMPONENT_INPUT_TYPE, inputType);
                 parameters.put(Constants.JOB_COMPONENT_OUTPUT_TYPE, outputType);
 
-                //TODO source code
-                //TODO function parameters
-                //eg. data.has("tupleIndex") / data.data.getInt("tupleIndex")
+                if(data.has("tupleIndex")){
+                    parameters.put(TransformationAggregate.FIELD_KEY, data.getInt("tupleIndex") + "");
+                }
+
+                addIfData(parameters, Constants.COMPONENT_PATH_JSON, data, "filePath");
+                addIfData(parameters, CompilationUnitComponent.COMPONENT_SOURCE_JSON, data, "javaSourceCode");
+                addIfData(parameters, CompilationUnitComponent.PACKAGE_NAME_KEY, data, "packageName");
+                addIfData(parameters, CompilationUnitComponent.FUNCTION_NAME_KEY, data, "functionName");
             }
 
             //type
             String componentName = val.getString("component");
-            JobComponent comp = null;
-
-            //TODO what is the source of truth for types? Either:
-            /*
-            JSONObject component = components.getJSONObject(componentName);
-
-            switch(component.getString("type")){
-                case "source":
-                    comp = new BaseDataSourceComponentText(graph, parameters);
-                    break;
-
-                case "transform":
-
-                case "sink":
-                    comp = new BaseDataSinkPrint(graph, parameters);
-                    break;
-            }
-            */
+            JobComponent comp;
 
             // or:
             switch(componentName){
+                case "textdatasource":
                 case "readFile":
                     comp = new BaseDataSourceComponentText(graph, parameters);
                     break;
 
+                case "group":
                 case "groupBy":
                     comp = new BaseGroupBy(graph, parameters);
                     break;
 
+                case "fastCreate: CSV Datasink":
                 case "writeCSV":
                     comp = new BaseDataSinkPrint(graph, parameters);
                     break;
 
+                case "flatmap":
+                    comp = new BaseTransformationFlatMap(graph, parameters);
+                    break;
+
+                /*
+                case "map":
+                    comp = new BaseTransformationMap(graph, parameters);
+                    break;
+
+                case "reduce":
+                    ...
+                */
+
                 case "sum":
-                    //TODO need base classes
+                    parameters.put(TransformationAggregate.FUNCTION_KEY, "SUM");
+                    comp = new BaseTransformationAggregate(graph, parameters);
+                    break;
 
                 default:
-                    //TODO what about custom components?
+                    System.out.println("Ignoring component " + componentName);
+                    continue; //FIXME should throw errors in the future
             }
 
             graph.addComponent(comp);
@@ -132,5 +138,11 @@ public class JSONParser {
 
     private static String getOptData(JSONObject process, String dataKey){
         return process.has("data") ? process.getJSONObject("data").optString(dataKey, null) : null;
+    }
+
+    private static void addIfData(Map<String, Object> parameters, String objKey, JSONObject data, String dataKey){
+        if(data.has(dataKey)){
+            parameters.put(objKey, data.getInt(dataKey));
+        }
     }
 }

@@ -1,13 +1,13 @@
-package org.tuberlin.de.test.model;
+package org.tuberlin.de.common.test;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.tuberlin.de.common.base.BaseTransformationAggregate;
 import org.tuberlin.de.common.base.BaseDataSinkPrint;
 import org.tuberlin.de.common.base.BaseDataSourceComponentText;
-import org.tuberlin.de.common.base.BaseTransformationFlatMap;
 import org.tuberlin.de.common.base.BaseGroupBy;
 import org.tuberlin.de.common.base.BaseJobGraph;
+import org.tuberlin.de.common.base.BaseTransformationAggregate;
+import org.tuberlin.de.common.base.BaseTransformationFlatMap;
 import org.tuberlin.de.common.codegenerator.CodeGenerator;
 import org.tuberlin.de.common.model.Constants;
 import org.tuberlin.de.common.model.interfaces.CompilationUnitComponent;
@@ -18,7 +18,6 @@ import org.tuberlin.de.common.model.interfaces.transorfmation.TransformationAggr
 import org.tuberlin.de.common.model.interfaces.transorfmation.TransformationFlatMap;
 import org.tuberlin.de.common.model.interfaces.transorfmation.TransformationGroupBy;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -48,7 +47,6 @@ public class BaseJobGraphTest {
     @Before
     public void setUp() throws Exception {
 
-
         Map<String, Object> jGraphParamters = new HashMap<String, Object>();
         Map<String, Object> dSourceCompParameters = new HashMap<String, Object>();
         Map<String, Object> fMapPrarameters = new HashMap<String, Object>();
@@ -59,7 +57,7 @@ public class BaseJobGraphTest {
 
         aggParameters.put(TransformationAggregate.FIELD_KEY, 1);
         aggParameters.put(TransformationAggregate.FUNCTION_KEY, TransformationAggregate.FUNCTION_TYPES.SUM);
-//        TransformationAggregate aggregateComponent = new BaseTransformationAggregate(jobGraph, aggParameters);
+        TransformationAggregate aggregateComponent = new BaseTransformationAggregate(jobGraph, aggParameters);
 
         //DataSink
         Map<String, Object> dSinkParameters = new HashMap<String, Object>();

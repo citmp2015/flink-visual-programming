@@ -1,5 +1,6 @@
 package org.tuberlin.de.common.model;
 
+import org.json.JSONObject;
 import org.tuberlin.de.common.model.interfaces.BackendController;
 import org.tuberlin.de.common.model.interfaces.JobGraph;
 
@@ -10,10 +11,9 @@ import java.util.Map;
  */
 public class BackendControllerImpl implements BackendController {
     @Override
-    public JobGraph getJobGraph(String json) throws Exception {
+    public JobGraph getJobGraph(JSONObject json) throws Exception {
         //TODO: parser is currently dummy, no json
-
-        return null;
+        return JSONParser.getJobGraph(json);
     }
 
     @Override
