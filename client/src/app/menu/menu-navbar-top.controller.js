@@ -7,7 +7,7 @@
         .controller('MenuNavbarTopCtrl', MenuNavbarTopCtrl);
 
     /*@ngInject*/
-    function MenuNavbarTopCtrl($scope, $rootScope, graphFactory, jsonBuilder, $log, $http, $uibModal, ENDPOINT) {
+    function MenuNavbarTopCtrl($scope, $rootScope, graphFactory, jsonBuilder, $log, $http, $uibModal) {
 
         $scope.clearGraph = clearGraph;
         $scope.exportGraph = exportGraph;
@@ -58,7 +58,9 @@
                 graph: json
             };
             console.log('Sending', JSON.stringify(json));
-            $http.post(ENDPOINT + '/submit_jobgraph', formData).then(
+            var generalSettings = graphFactory.getGeneralSettings(),
+                postURL = generalSettings.flinkURL + ':' + generalSettings.flinkPort;
+            $http.post(postURL + '/submit_jobgraph', formData).then(
                 function successCallback(response) {
                     console.log(response);
                 }, function errorCallback(response) {

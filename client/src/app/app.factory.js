@@ -19,8 +19,8 @@
             var config = extConfig || {};
             config.
             localStorageService.set('config', {
-                flinkURL: config.flinkURL || '',
-                flinkPort: config.flinkPort || ''
+                flinkURL: config.flinkURL || 'http://localhost',
+                flinkPort: config.flinkPort || '8080'
             });
         };
 
