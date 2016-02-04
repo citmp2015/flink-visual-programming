@@ -12,6 +12,7 @@
     "bower": "1.5.4",
     "grunt": "~0.4.x",
     "grunt-bower-task": "~0.4.x",
+    "grunt-cli": "0.1.13",
     "grunt-concurrent": "~2.x",
     "grunt-contrib-clean": "~0.7.x",
     "grunt-contrib-concat": "^0.5.1",
@@ -24,16 +25,20 @@
     "grunt-contrib-less": "~1.x",
     "grunt-contrib-uglify": "~0.9.x",
     "grunt-contrib-watch": "~0.6.x",
-    "grunt-ng-annotate": "~0.9.x",
-    "grunt-cli": "0.1.13",
     "grunt-filerev": "~2.3.x",
+    "grunt-karma": "~0.12.x",
     "grunt-newer": "~1.1.x",
+    "grunt-ng-annotate": "~0.9.x",
     "grunt-postcss": "~0.6.x",
     "grunt-protractor-runner": "^3.0.0",
     "grunt-usemin": "~3.1.x",
     "grunt-wiredep": "~2.0.x",
     "jshint": "~2.x",
     "jshint-stylish": "~2.0.x",
+    "karma": "~0.13.x",
+    "karma-chrome-launcher": "~0.2.x",
+    "karma-jasmine": "~0.3.x",
+    "karma-phantomjs-launcher": "~1.0.x",
     "load-grunt-tasks": "^3.3.0",
     "perfectionist": "~2.x",
     "phantomjs": "^1.9.19",
@@ -50,14 +55,9 @@
     "postcss-minify-font-weight": "~2.x",
     "postcss-ordered-values": "~2.x",
     "serve-static": "^1.10.0",
-    "time-grunt": "~1.x",
-    "grunt-karma": "~0.12.x",
-    "karma": "~0.13.x",
-    "karma-jasmine": "~0.3.x",
-    "karma-chrome-launcher": "~0.2.x",
-    "karma-phantomjs-launcher": "~1.0.x"
+    "time-grunt": "~1.x"
   },
   "scripts": {
-    "install": "node ./node_modules/protractor/bin/webdriver-manager update"
+    "install": "node ./node_modules/grunt-protractor-runner/scripts/webdriver-manager-update"
   }
 }
