@@ -38,10 +38,10 @@
     "karma": "~0.13.x",
     "karma-chrome-launcher": "~0.2.x",
     "karma-jasmine": "~0.3.x",
-    "karma-phantomjs-launcher": "~1.0.x",
+    "karma-phantomjs-launcher": "~1.x",
     "load-grunt-tasks": "^3.3.0",
     "perfectionist": "~2.x",
-    "phantomjs": "^1.9.19",
+    "phantomjs-prebuilt": "~2.x",
     "pixrem": "~2.x",
     "postcss-color-rgba-fallback": "~2.x",
     "postcss-colormin": "~2.x",
@@ -58,6 +58,7 @@
     "time-grunt": "~1.x"
   },
   "scripts": {
-    "install": "node ./node_modules/grunt-protractor-runner/scripts/webdriver-manager-update"
+    "install": "node ./node_modules/grunt-protractor-runner/scripts/webdriver-manager-update",
+    "test": "grunt test"
   }
 }
