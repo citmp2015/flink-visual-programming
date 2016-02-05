@@ -1,7 +1,7 @@
 package org.tuberlin.de.common.model.abstracts.transformation;
 
-import org.tuberlin.de.common.model.interfaces.JobComponent;
 import org.tuberlin.de.common.model.interfaces.transorfmation.TransformationFlatMap;
+import org.tuberlin.de.common.model.types.RelationTypes;
 
 import java.util.Collection;
 
@@ -34,7 +34,7 @@ public abstract class AbstractTransformationFlatMap extends AbstractTransformati
             //TODO make exception more readable
             throw new IllegalArgumentException("Wrong parameter");
         }
-        this.initialized = true;
+        this.stateModel = true;
         }
 */
 
@@ -49,14 +49,14 @@ public abstract class AbstractTransformationFlatMap extends AbstractTransformati
     public String getSource() throws IllegalStateException{
         //TODO nice exception
         //TODO integrity
-        if (!this.initialized) throw new IllegalStateException("Forgot to init!");
+        if (!this.isInitialized()) throw new IllegalStateException("Forgot to init!");
         return (String) parameters.get(COMPONENT_SOURCE_JSON);
                 //this.functionSource;
     }
 
     @Override
     public String getJobSource() {
-        if (!this.initialized) throw new IllegalStateException("Forgot to init!");
+        if (!this.isInitialized()) throw new IllegalStateException("Forgot to init!");
         String source = "";
         source += ".flatMap(new " + parameters.get(FUNCTION_NAME_KEY) + "())";
         return source;
@@ -64,7 +64,7 @@ public abstract class AbstractTransformationFlatMap extends AbstractTransformati
 
     @Override
     public String[] getJobImports() {
-        if (!this.initialized) throw new IllegalStateException("Forgot to init!");
+        if (!this.isInitialized()) throw new IllegalStateException("Forgot to init!");
         String imports = "";
         imports += parameters.get(PACKAGE_NAME_KEY) + "." + parameters.get(FUNCTION_NAME_KEY);
         //TODO: support other imports?
@@ -74,9 +74,10 @@ public abstract class AbstractTransformationFlatMap extends AbstractTransformati
 
     @Override
     public boolean verify() {
-        //TODO
-        if (!this.initialized) return false;
-        return true;
+        //Checks whether the component is stateModel and the amount of parents/children is correct
+        return      this.isInitialized()
+                &&  this.getParents().size() == RelationTypes.ONE.getVal()
+                &&  this.getChildren().size() == RelationTypes.ONE.getVal();
     }
 
     private void cleanUpAfterInit(){

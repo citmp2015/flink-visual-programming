@@ -2,6 +2,7 @@ package org.tuberlin.de.common.model.interfaces;
 
 import org.tuberlin.de.common.model.Constants;
 import org.tuberlin.de.common.model.types.ComponentTypes;
+import org.tuberlin.de.common.model.types.StateModelTypes;
 
 import java.util.Collection;
 import java.util.Map;
@@ -31,7 +32,7 @@ public interface JobComponent {
     public static final String COMPONENT_IMPORTS = Constants.JOB_COMPONENT_IMPORTS_JSON;
 
     //TODO syncronization
-    void init(JobGraph jobGraph, Map<String, Object> parameters) throws IllegalArgumentException;
+    boolean init(JobGraph jobGraph, Map<String, Object> parameters) throws IllegalArgumentException;
 
 
     /**
@@ -82,6 +83,8 @@ public interface JobComponent {
     public Collection<String> getChildren() throws IllegalStateException;
 
     public String getComponentKey();
+
+    public boolean setStateModel(StateModelTypes t);
 
     public String getInputType();
 
