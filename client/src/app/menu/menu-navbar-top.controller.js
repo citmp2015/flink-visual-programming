@@ -57,7 +57,7 @@
                 action: action,
                 graph: json
             };
-            console.log('Sending', JSON.stringify(json));
+            $log.info('Sending', JSON.stringify(json));
             var generalSettings = graphFactory.getGeneralSettings();
             var postURL = generalSettings.flinkURL + ':' + generalSettings.flinkPort;
             $http.post(postURL + '/submit_jobgraph', formData, {responseType: 'blob'}).then(
@@ -77,7 +77,7 @@
                         document.body.removeChild(elem);
                     }
                 }, function errorCallback(response) {
-                    console.log(response);
+                    $log.error('error while sending the jobgraph', response);
                 }
             );
         }
