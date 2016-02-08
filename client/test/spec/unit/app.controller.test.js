@@ -12,7 +12,8 @@ describe('AppCtrl', function() {
 
     describe('$rootScope.graph', function() {
         it('should be defined', function() {
-            var $scope = {}, $rootScope = {};
+            var $scope = {},
+                $rootScope = {};
             var controller = $controller('AppCtrl', {
                 $scope: $scope,
                 $rootScope: $rootScope
