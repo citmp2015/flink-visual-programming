@@ -5,7 +5,6 @@ import org.tuberlin.de.common.model.abstracts.datasource.file.AbstractFileDataSo
 import org.tuberlin.de.common.model.interfaces.JobGraph;
 import org.tuberlin.de.common.model.interfaces.datasources.DataSource;
 import org.tuberlin.de.common.model.interfaces.datasources.file.DataSourceFile;
-import org.tuberlin.de.common.model.interfaces.datasources.file.read.DataSourceFileReadCsvFile;
 
 import java.util.Collection;
 import java.util.Map;
@@ -15,13 +14,14 @@ import java.util.Map;
  */
 public class BaseDataSourceComponentCSV extends AbstractFileDataSourceComponent implements DataSource, DataSourceFile {
     @Override
-    public void init(JobGraph jobGraph, Map<String, Object> parameters) {
+    public boolean init(JobGraph jobGraph, Map<String, Object> parameters) {
         super.init(jobGraph, parameters);
+        return true;
     }
 
     @Override
     public String getJobSource() {
-        if (!initialized) throw new IllegalStateException("Must be initialized");
+        if (!isInitialized()) throw new IllegalStateException("Must be stateModel");
         //TODO: Integrity checks
         String result = jobGraph.getEnvironmentIdentifier() + ".readCsvFile(" + parameters.get(Constants.COMPONENT_PATH_JSON) + ")";
         //TODO do not include constants file

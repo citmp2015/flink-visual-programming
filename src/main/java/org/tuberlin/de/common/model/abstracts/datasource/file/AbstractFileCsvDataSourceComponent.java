@@ -13,7 +13,7 @@ public abstract class AbstractFileCsvDataSourceComponent extends AbstractDataSou
 
     @Override
     public String getJobSource() {
-        if (!initialized) throw new IllegalStateException("Must be initialized");
+        if (!this.isInitialized()) throw new IllegalStateException("Must be stateModel");
         //TODO: Integrity checks
         String result = jobGraph.getEnvironmentIdentifier() + ".readCsvFile(" + parameters.get(Constants.COMPONENT_PATH_JSON) + ")";
         result += ";";
