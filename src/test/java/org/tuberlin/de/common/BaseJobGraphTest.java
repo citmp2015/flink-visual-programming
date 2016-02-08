@@ -1,4 +1,4 @@
-package org.tuberlin.de.common.test;
+package org.tuberlin.de.common;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -55,9 +55,7 @@ public class BaseJobGraphTest {
 
         ArrayList<String> alParents, alChildren;
 
-        aggParameters.put(TransformationAggregate.FIELD_KEY, 1);
-        aggParameters.put(TransformationAggregate.FUNCTION_KEY, TransformationAggregate.FUNCTION_TYPES.SUM);
-        TransformationAggregate aggregateComponent = new BaseTransformationAggregate(jobGraph, aggParameters);
+
 
         //DataSink
         Map<String, Object> dSinkParameters = new HashMap<String, Object>();
@@ -153,6 +151,10 @@ public class BaseJobGraphTest {
 
         //JobGraph
         jobGraph = new BaseJobGraph("testkey", "testname", null, jGraphParamters);
+
+        aggParameters.put(TransformationAggregate.FIELD_KEY, 1);
+        aggParameters.put(TransformationAggregate.FUNCTION_KEY, TransformationAggregate.FUNCTION_TYPES.SUM);
+        TransformationAggregate aggregateComponent = new BaseTransformationAggregate(jobGraph, aggParameters);
 
         //DataSource
         DataSource dataSourceComponent = new BaseDataSourceComponentText(jobGraph,  dSourceCompParameters);
