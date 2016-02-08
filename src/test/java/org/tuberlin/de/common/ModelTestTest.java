@@ -1,4 +1,4 @@
-package org.tuberlin.de.common.test;
+package org.tuberlin.de.common;
 
 import org.junit.After;
 import org.junit.Before;
