@@ -54,7 +54,7 @@
         }
 
     }
-    
+
     /*@ngInject*/
     function StringfilterModalCtrl($scope, $rootScope, $uibModalInstance, $stateParams, $timeout, graphFactory, templateFactory, $log) {
 
@@ -107,7 +107,7 @@
         }
 
     }
-    
+
     /*@ngInject*/
     function CustomfilterModalCtrl($scope, $rootScope, $uibModalInstance, $stateParams, $timeout, graphFactory, $log) {
 

@@ -1,4 +1,4 @@
-module.exports = function(grunt) {
+ module.exports = function(grunt) {
 
     'use strict';
 
@@ -29,12 +29,19 @@ module.exports = function(grunt) {
             },
             js: {
                 files: ['<%= flinkVisual.app %>/app/{,*/}*.js'],
-                tasks: ['jshint'],
+                tasks: ['jshint', 'karma:server:run'],
                 options: {
                     livereload: '<%= connect.options.livereload %>',
                     spawn: false
                 },
             },
+            jsTest: {
+				files: ['test/spec/{,*/}*.js', 'test/mock/{,*/}*.js'],
+				tasks: ['jshint', 'karma:server'],
+				options: {
+					livereload: false
+				}
+			},
             bootstrapStyle: {
                 files: ['<%= flinkVisual.app %>/styles/defines.less', '<%= flinkVisual.app %>/styles/bootstrap/*.less'],
                 tasks: ['less:bootstrap'],
@@ -95,15 +102,64 @@ module.exports = function(grunt) {
             }
         },
 
+        karma: {
+			server: {
+				configFile: 'test/karma.conf.js',
+				background: true,
+				singleRun: false
+			},
+			test: {
+				configFile: 'test/karma.conf.js',
+				singleRun: true,
+			}
+		},
+
+        protractor: {
+            options: {
+                configFile: 'test/protractor.conf.js',
+            },
+            test: {
+                options: {
+                    args: {
+                        baseUrl: 'http://localhost:9001',
+                    }
+                }
+            }
+        },
+
         connect: {
             options: {
-                port: 9000,
-                hostname: 'localhost',
-                livereload: 35729
+                livereload: 35729,
+                hostname: 'localhost'
             },
             livereload: {
                 options: {
+                    port: 9000,
                     open: true,
+                    middleware: function(connect) {
+                        var serveStatic = require('serve-static');
+                        return [
+                            connect().use(
+                                '/.tmp',
+                                serveStatic('./.tmp')
+                            ),
+                            connect().use(
+                                '/bower_components',
+                                serveStatic('./bower_components')
+                            ),
+                            connect().use(
+                                '/node_modules',
+                                serveStatic('./node_modules')
+                            ),
+                            serveStatic(appConfig.app)
+                        ];
+                    }
+                }
+            },
+            test: {
+                options: {
+                    port: 9001,
+                    livereload: false,
                     middleware: function(connect) {
                         var serveStatic = require('serve-static');
                         return [
@@ -285,7 +341,9 @@ module.exports = function(grunt) {
                         require('postcss-color-rgba-fallback')(),
                         require('postcss-gradientfixer')(),
                         require('postcss-flexboxfixer')(),
-                        require('autoprefixer')({browsers: ['last 3 versions']}),
+                        require('autoprefixer')({
+                            browsers: ['last 3 versions']
+                        }),
                         require('postcss-discard-comments')(),
                         require('postcss-colormin')(),
                         require('postcss-convert-values')(),
@@ -310,8 +368,10 @@ module.exports = function(grunt) {
                         require('postcss-color-rgba-fallback')(),
                         require('postcss-gradientfixer')(),
                         require('postcss-flexboxfixer')(),
-                        require('autoprefixer')({browsers: ['last 3 versions']})
-                    ]
+                        require('autoprefixer')({
+                            browsers: ['last 3 versions']
+                        })
+                    ],
                 },
                 src: [
                     '<%= flinkVisual.tmp %>/styles/{,*/}*.css',
@@ -390,18 +450,27 @@ module.exports = function(grunt) {
         grunt.config('jshint.all.src', filepath);
     });
 
-    grunt.registerTask('test', [
-        'jshint'
-    ]);
-
     grunt.registerTask('serve', [
         'clean:server',
-        'less',
         'bower',
+        'less',
         'wiredep',
         'postcss:serve',
         'connect:livereload',
+		'karma:server',
         'watch'
+    ]);
+
+    grunt.registerTask('test', [
+        'clean:server',
+        'bower',
+        'less',
+        'wiredep',
+        'postcss:serve',
+        'connect:test',
+        'jshint:all',
+		'karma:test',
+        'protractor:test'
     ]);
 
     grunt.registerTask('build', [
