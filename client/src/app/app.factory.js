@@ -38,7 +38,7 @@
         };
 
         flink.renderNumberFilter = function(posX, posY, $state) {
-            flink.Element=new joint.shapes.flink.Model({
+            flink.Element = new joint.shapes.flink.Model({
                 position: {
                     x: posX,
                     y: posY
@@ -72,12 +72,12 @@
                     javaSourceCode: ''
                 }
             });
-            
+
             return flink.Element;
         };
 
         flink.renderStringFilter = function(posX, posY, $state) {
-            flink.Element=new joint.shapes.flink.Model({
+            flink.Element = new joint.shapes.flink.Model({
                 position: {
                     x: posX,
                     y: posY
@@ -115,7 +115,7 @@
         };
 
         flink.renderCustomFilter = function(posX, posY, $state) {
-            flink.Element=new joint.shapes.flink.Model({
+            flink.Element = new joint.shapes.flink.Model({
                 position: {
                     x: posX,
                     y: posY
@@ -147,7 +147,7 @@
         };
 
         flink.renderMap = function(posX, posY, $state) {
-            flink.Element=new joint.shapes.flink.Model({
+            flink.Element = new joint.shapes.flink.Model({
                 position: {
                     x: posX,
                     y: posY
@@ -179,7 +179,7 @@
         };
 
         flink.renderFlatMap = function(posX, posY, $state) {
-            flink.Element=new joint.shapes.flink.Model({
+            flink.Element = new joint.shapes.flink.Model({
                 position: {
                     x: posX,
                     y: posY
@@ -211,7 +211,7 @@
         };
 
         flink.renderSum = function(posX, posY, $state) {
-            flink.Element=new joint.shapes.flink.Model({
+            flink.Element = new joint.shapes.flink.Model({
                 position: {
                     x: posX,
                     y: posY
@@ -243,7 +243,7 @@
         };
 
         flink.renderJoin = function(posX, posY, $state) {
-            flink.Element=new joint.shapes.flink.Model({
+            flink.Element = new joint.shapes.flink.Model({
                 position: {
                     x: posX,
                     y: posY
@@ -252,7 +252,7 @@
                     width: 140,
                     height: 60
                 },
-                inPorts: ['IN0','IN1'],
+                inPorts: ['IN0', 'IN1'],
                 outPorts: ['OUT0'],
                 attrs: {
                     rect: {
@@ -272,7 +272,7 @@
         };
 
         flink.renderGroup = function(posX, posY, $state) {
-            flink.Element=new joint.shapes.flink.Model({
+            flink.Element = new joint.shapes.flink.Model({
                 position: {
                     x: posX,
                     y: posY
@@ -304,7 +304,7 @@
         };
 
         flink.renderReduce = function(posX, posY, $state) {
-            flink.Element=new joint.shapes.flink.Model({
+            flink.Element = new joint.shapes.flink.Model({
                 position: {
                     x: posX,
                     y: posY
@@ -336,7 +336,7 @@
         };
 
         flink.renderCsvDatasource = function(posX, posY, $state) {
-            flink.Element=new joint.shapes.flink.Model({
+            flink.Element = new joint.shapes.flink.Model({
                 position: {
                     x: posX,
                     y: posY
@@ -371,7 +371,7 @@
         };
 
         flink.renderTextDatasource = function(posX, posY, $state) {
-            flink.Element=new joint.shapes.flink.Model({
+            flink.Element = new joint.shapes.flink.Model({
                 position: {
                     x: posX,
                     y: posY
@@ -403,7 +403,7 @@
         };
 
         flink.renderCsvDatasink = function(posX, posY, $state) {
-            flink.Element=new joint.shapes.flink.Model({
+            flink.Element = new joint.shapes.flink.Model({
                 position: {
                     x: posX,
                     y: posY
@@ -510,13 +510,14 @@
                 return attrs;
             }
         }));
-        
+
 
         // TODO add arrow for direction?
         flink.Link = new joint.dia.Link({
-        attrs: {
-                '.marker-target': { d: 'M 10 0 L 0 5 L 10 10 z' }}
-    });
+            attrs: {
+                '.marker-target': {d: 'M 10 0 L 0 5 L 10 10 z'}
+            }
+        });
 
         joint.shapes.flink.ModelView = joint.dia.ElementView.extend(joint.shapes.basic.PortsViewInterface);
 
