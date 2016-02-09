@@ -30,7 +30,7 @@
             for (var i = 0; i < initialJson.cells.length; i++) {
                 var cell = initialJson.cells[i];
                 var id = this.fixId(cell.id);
-                if (cell.type === 'devs.Atomic') { // component
+                if (cell.type === 'flink.Model') { // component
                     json.processes[id] = {
                         component: cell.componentType || 'unknown',
                         data: cell.formdata
