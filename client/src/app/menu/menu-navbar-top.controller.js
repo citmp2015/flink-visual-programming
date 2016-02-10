@@ -112,6 +112,26 @@
             }
         }
 
+        $scope.$watch(function() {
+            return graphFactory.graphHistory.size();
+        }, function(newVal, oldVal) {
+            if (newVal > 0) {
+                $scope.canUndo = true;
+            } else {
+                $scope.canUndo = false;
+            }
+        });
+
+        $scope.$watch(function() {
+            return graphFactory.graphRedoStack.size();
+        }, function(newVal, oldVal) {
+            if (newVal > 0) {
+                $scope.canRedo = true;
+            } else {
+                $scope.canRedo = false;
+            }
+        });
+
     }
 
 })();

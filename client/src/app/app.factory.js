@@ -49,6 +49,12 @@
             return graphHistory;
         };
 
+        flink.graphHistory.size = function() {
+            var graphHistory = this.getAll();
+
+            return graphHistory === null ? 0 : graphHistory.length;
+        }
+
         flink.graphHistory.add = function(element) {
             var graphHistory = this.getAll();
             if (graphHistory === null) {
@@ -87,6 +93,12 @@
                 graphRedoStack = JSON.parse(graphRedoStack);
             }
             return graphRedoStack;
+        }
+
+        flink.graphRedoStack.size = function() {
+            var graphRedoStack = this.getAll();
+
+            return graphRedoStack === null ? 0 : graphRedoStack.length;
         }
 
         flink.graphRedoStack.add = function(element) {
