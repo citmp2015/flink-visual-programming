@@ -135,7 +135,8 @@ public class Constants {
     public static final String COMPONENT_PATH_JSON = "COMPONENT_CLASS_JSON";
 
     // Default values for the FlinkSkeleton
-    public static final String ENTRY_CLASS_NAME = "testpackage.Jobgraph";
+    public static final String ENTRY_CLASS_NAME = "Jobgraph";
+    public static final String ENTRY_CLASS_NAME_WITH_PACKAGE = "testpackage.Jobgraph";
     public static final String FLINK_JOB_NAME = "FlinkJob";
 
     // The following values should be used, when referring to tags in the pom.xml, which text values should be replaced by the DOMParser
