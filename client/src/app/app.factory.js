@@ -12,15 +12,24 @@
         var flink = {};
         joint.shapes.flink = {};
 
+        var defaultConfig = {
+            flinkURL: 'http://asok16.cit.tu-berlin.de',
+            flinkPort: 8082
+        }
+
         flink.getGeneralSettings = function() {
-            return localStorageService.get('config');
+            var config = localStorageService.get('config') || {};
+            return {
+                flinkURL: config.flinkURL || defaultConfig.flinkURL,
+                flinkPort: config.flinkPort || defaultConfig.flinkPort
+            };
         };
 
         flink.setGeneralSettings = function(extConfig) {
             var config = extConfig || {};
             localStorageService.set('config', {
-                flinkURL: config.flinkURL || 'http://localhost',
-                flinkPort: config.flinkPort || '8080'
+                flinkURL: config.flinkURL || defaultConfig.flinkURL,
+                flinkPort: config.flinkPort || defaultConfig.flinkPort
             });
         };
 
