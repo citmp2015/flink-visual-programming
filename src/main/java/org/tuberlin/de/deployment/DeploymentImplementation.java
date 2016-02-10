@@ -168,7 +168,7 @@ public class DeploymentImplementation implements DeploymentInterface {
         // Map containing the values to be replaced in the pom.xml
         HashMap<String, String> map = new HashMap<>();
         // TODO Replace with entry class name
-        map.put(Constants.ENTRY_CLASS_KEY, Constants.ENTRY_CLASS_NAME);
+        map.put(Constants.ENTRY_CLASS_KEY, Constants.ENTRY_CLASS_NAME_WITH_PACKAGE);
         map.put(Constants.ARTIFACT_ID_KEY, Constants.FLINK_JOB_NAME);
 
         // Get jar name
