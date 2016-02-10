@@ -97,7 +97,10 @@
         }
 
         function undoGraph() {
-
+            var lastGraph = graphFactory.graphHistory.pop();
+            if (lastGraph !== null) {
+                $rootScope.graph.fromJSON(lastGraph);
+            }
         }
 
         function redoGraph() {

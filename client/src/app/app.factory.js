@@ -25,7 +25,9 @@
         };
 
         flink.saveToLocalStorage = function(graph) {
+            var oldGraphData = this.loadFromLocalStorage();
             localStorageService.set('graph', graph.toJSON());
+            this.graphHistory.save(oldGraphData);
         };
 
         flink.loadFromLocalStorage = function() {
@@ -35,6 +37,50 @@
         flink.clearGraph = function(graph) {
             graph.clear();
             localStorageService.remove('graph');
+        };
+
+        flink.graphHistory = {};
+
+        flink.graphHistory.getAll = function() {
+            var graphHistory = localStorageService.get('graphHistory');
+            if (graphHistory !== null) {
+                graphHistory = JSON.parse(graphHistory);
+            }
+            return graphHistory;
+        };
+
+        flink.graphHistory.save = function(graph) {
+            var graphHistory = this.getAll();
+            if (graphHistory === null) {
+                graphHistory = [graph];
+            } else {
+                if (graphHistory.length > 100) {
+                    graphHistory.shift();
+                }
+                graphHistory.push(graph);
+            }
+            localStorageService.set('graphHistory', JSON.stringify(graphHistory));
+        };
+
+        flink.graphHistory.clear = function() {
+            localStorageService.remove('graphHistory');
+        };
+
+        flink.graphHistory.replace = function(newGraph) {
+            localStorageService.remove('graphHistory');
+            localStorageService.set('graphHistory', JSON.stringify(newGraph));
+        }
+
+        flink.graphHistory.pop = function() {
+            var history = this.getAll(),
+                lastGraph = null;
+
+            if (history !== null && history.length > 0) {
+                lastGraph = history.pop();
+                flink.graphHistory.replace(history);
+            }
+
+            return lastGraph;
         };
 
         flink.renderNumberFilter = function(posX, posY, $state) {
