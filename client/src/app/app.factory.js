@@ -55,9 +55,9 @@
         };
 
         flink.graphHistory.size = function() {
-            var graphHistory = this.getAll();
+            var graphHistory = this.getAll() || [];
 
-            return graphHistory === null ? 0 : graphHistory.length;
+            return graphHistory.length;
         }
 
         flink.graphHistory.add = function(element) {
@@ -105,9 +105,9 @@
         }
 
         flink.graphRedoStack.size = function() {
-            var graphRedoStack = this.getAll();
+            var graphRedoStack = this.getAll() || [];
 
-            return graphRedoStack === null ? 0 : graphRedoStack.length;
+            return graphRedoStack.length;
         }
 
         flink.graphRedoStack.add = function(element) {
