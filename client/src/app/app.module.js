@@ -11,6 +11,7 @@
         'ngDraggable',
         'LocalStorageModule',
         'ui.codemirror',
+        'cfp.hotkeys',
 
         'app.menu',
         'app.datasource',

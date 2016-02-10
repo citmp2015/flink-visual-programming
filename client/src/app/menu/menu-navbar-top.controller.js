@@ -7,7 +7,19 @@
         .controller('MenuNavbarTopCtrl', MenuNavbarTopCtrl);
 
     /*@ngInject*/
-    function MenuNavbarTopCtrl($scope, $rootScope, graphFactory, jsonBuilder, $log, $http, $uibModal, localStorageService) {
+    function MenuNavbarTopCtrl($scope, $rootScope, graphFactory, jsonBuilder, $log, $http, $uibModal, localStorageService, hotkeys) {
+
+        hotkeys.add({
+            combo: 'ctrl+z',
+            description: 'Undo last action',
+            callback: undoGraph
+        });
+
+        hotkeys.add({
+            combo: 'ctrl+shift+z',
+            description: 'Redo last action',
+            callback: redoGraph
+        });
 
         $scope.clearGraph = clearGraph;
         $scope.exportGraph = exportGraph;
