@@ -58,7 +58,7 @@
             var graphHistory = this.getAll() || [];
 
             return graphHistory.length;
-        }
+        };
 
         flink.graphHistory.add = function(element) {
             if (element === null) {
@@ -80,7 +80,7 @@
         flink.graphHistory.replace = function(newGraph) {
             localStorageService.remove('graphHistory');
             localStorageService.set('graphHistory', JSON.stringify(newGraph));
-        }
+        };
 
         flink.graphHistory.pop = function() {
             var history = this.getAll(),
@@ -102,13 +102,13 @@
                 graphRedoStack = JSON.parse(graphRedoStack);
             }
             return graphRedoStack;
-        }
+        };
 
         flink.graphRedoStack.size = function() {
             var graphRedoStack = this.getAll() || [];
 
             return graphRedoStack.length;
-        }
+        };
 
         flink.graphRedoStack.add = function(element) {
             if (element === null) {
@@ -126,16 +126,16 @@
                 graphRedoStack.push(element);
             }
             localStorageService.set('graphRedoStack', JSON.stringify(graphRedoStack));
-        }
+        };
 
         flink.graphRedoStack.clear = function() {
             localStorageService.remove('graphRedoStack');
-        }
+        };
 
         flink.graphRedoStack.replace = function(newGraph) {
             flink.graphRedoStack.clear();
             localStorageService.set('graphRedoStack', JSON.stringify(newGraph));
-        }
+        };
 
         flink.graphRedoStack.pop = function() {
             var graphRedoStack = this.getAll(),
