@@ -58,6 +58,10 @@
         }
 
         flink.graphHistory.add = function(element) {
+            if (element === null) {
+                return;
+            }
+
             var graphHistory = this.getAll();
             if (graphHistory === null) {
                 graphHistory = [element];
@@ -104,6 +108,10 @@
         }
 
         flink.graphRedoStack.add = function(element) {
+            if (element === null) {
+                return;
+            }
+
             var graphRedoStack = this.getAll();
 
             if (graphRedoStack === null) {
