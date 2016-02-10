@@ -58,7 +58,7 @@
                 backdrop: 'static'
             });
 
-            setTimeout(function(){
+            $timeout(function(){
                 var json = jsonBuilder.buildJson($rootScope.graph);
                 var formData = {
                     action: action,
