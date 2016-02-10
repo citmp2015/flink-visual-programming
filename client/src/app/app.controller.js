@@ -21,6 +21,7 @@
                     url: '/examples/wordcount.json'
                 }).then(function successCallback(response) {
                     graph.fromJSON(response.data);
+                    graphFactory.saveToLocalStorage(graph);
                 }, function errorCallback(response) {
                     $log.error('Error loading /examples/wordcount.json');
                 });
