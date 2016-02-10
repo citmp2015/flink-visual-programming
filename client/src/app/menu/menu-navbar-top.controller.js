@@ -7,7 +7,7 @@
         .controller('MenuNavbarTopCtrl', MenuNavbarTopCtrl);
 
     /*@ngInject*/
-    function MenuNavbarTopCtrl($scope, $rootScope, graphFactory, jsonBuilder, $log, $http, $uibModal) {
+    function MenuNavbarTopCtrl($scope, $rootScope, graphFactory, jsonBuilder, $log, $http, $uibModal, localStorageService) {
 
         $scope.clearGraph = clearGraph;
         $scope.exportGraph = exportGraph;
@@ -15,6 +15,8 @@
         $scope.runGraph = runGraph;
         $scope.getCode = getCode;
         $scope.getJar = getJar;
+        $scope.undoGraph = undoGraph;
+        $scope.redoGraph = redoGraph;
         $scope.exportHref = '#';
 
         $scope.importFile = null;
@@ -92,6 +94,14 @@
 
         function getJar() {
             sendGraph('download_jar');
+        }
+
+        function undoGraph() {
+
+        }
+
+        function redoGraph() {
+
         }
 
     }
