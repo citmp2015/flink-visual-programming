@@ -3,7 +3,6 @@
     'use strict';
 
     angular.module('app', [
-
         'ngAnimate',
         'ngTouch',
         'ui.router',
@@ -23,7 +22,6 @@
         'app.reduce',
         'app.generalsettings',
         'app.loadingmodal'
-
     ]);
 
 })();

@@ -40,6 +40,7 @@ public class Constants {
     public static final String TYPE_TRANSFORMATION_SORT_PARTITION = "SORT_PARTITION";
     public static final String TYPE_TRANSFORMATION_UNION = "UNION";
 
+    public static final String TUPLE_INDEX = "TUPLE_INDEX";
 
     public static final String TYPE_DATA_SINK_PRINT = "PRINT";
 
@@ -135,6 +136,7 @@ public class Constants {
 
     // Default values for the FlinkSkeleton
     public static final String ENTRY_CLASS_NAME = "Jobgraph";
+    public static final String ENTRY_CLASS_NAME_WITH_PACKAGE = "testpackage.Jobgraph";
     public static final String FLINK_JOB_NAME = "FlinkJob";
 
     // The following values should be used, when referring to tags in the pom.xml, which text values should be replaced by the DOMParser

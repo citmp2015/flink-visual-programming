@@ -16,13 +16,14 @@ import java.util.Map;
 //TODO
 public class BaseDataSinkFileText extends AbstractDataSinkFile implements DataSink, DataSinkFile {
     @Override
-    public void init(JobGraph jobGraph, Map<String, Object> parameters) {
+    public boolean init(JobGraph jobGraph, Map<String, Object> parameters) {
         super.init(jobGraph, parameters);
+        return true;
     }
 
     @Override
     public String getJobSource() {
-        if (!initialized) throw new IllegalStateException("Must be initialized");
+        if (!this.isInitialized()) throw new IllegalStateException("Must be stateModel");
         //TODO: Integrity checks
         //TODO check constant naming
         String result = ".writeAsText(" + parameters.get(Constants.COMPONENT_PATH_JSON) + ")";

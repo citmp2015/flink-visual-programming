@@ -7,6 +7,7 @@ import org.tuberlin.de.common.model.interfaces.JobGraph;
 import org.tuberlin.de.common.model.interfaces.datasink.DataSink;
 import org.tuberlin.de.common.model.interfaces.datasources.DataSource;
 import org.tuberlin.de.common.model.interfaces.transorfmation.Transformation;
+import org.tuberlin.de.common.model.types.StateModelTypes;
 
 import java.util.*;
 
@@ -59,7 +60,8 @@ public class BaseJobGraph implements JobGraph {
         }
         else{
             for(JobComponent comp : componentMap.values()){
-                if (!comp.verify()) return false;
+                return !comp.verify() ? false : comp.setStateModel(StateModelTypes.VERIFIED);
+
                 //TODO check forward / backward relations
             }
         }

@@ -111,7 +111,7 @@
                 el: element[0],
                 gridSize: scope.gridSize,
                 linkPinning: false,
-                defaultLink: new graphFactory.Link(),
+                defaultLink: graphFactory.Link,
                 model: scope.graph,
                 snapLinks: { radius: 75 },
                 validateMagnet: isMagnetUsable,

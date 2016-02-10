@@ -20,7 +20,7 @@ public interface TransformationAggregate extends Transformation {
     public static final String TYPE = Constants.TYPE_TRANSFORMATION_AGGREGATE;
 
     String FUNCTION_KEY = "aggregate_function";
-    String FIELD_KEY = "aggregate_field";
+    String FIELD_KEY = Constants.TUPLE_INDEX;
     String PACKAGE_NAME_KEY = "package_name";
 
     public enum FUNCTION_TYPES {SUM}
