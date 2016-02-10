@@ -7,14 +7,14 @@
         .factory('graphFactory', GraphFactory);
 
     /*@ngInject*/
-    function GraphFactory(localStorageService, templateFactory) {
+    function GraphFactory($window, localStorageService, templateFactory) {
 
         var flink = {};
         joint.shapes.flink = {};
 
         var defaultConfig = {
-            flinkURL: 'http://asok16.cit.tu-berlin.de',
-            flinkPort: 8082
+            flinkURL: $window.location.protocol + '//' + $window.location.hostname,
+            flinkPort: parseInt($window.location.port) || 80
         }
 
         flink.getGeneralSettings = function() {
