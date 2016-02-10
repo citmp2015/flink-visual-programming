@@ -37,6 +37,8 @@
         flink.clearGraph = function(graph) {
             graph.clear();
             localStorageService.remove('graph');
+            localStorageService.remove('graphHistory');
+            localStorageService.remove('graphRedoStack');
         };
 
         flink.graphHistory = {};
