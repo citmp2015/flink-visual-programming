@@ -201,7 +201,7 @@ public class DeploymentImplementation implements DeploymentInterface {
      */
     private void saveClass(File temporarayFolder, String clazzName, String clazz){
         try {
-            File outputFile = new File(temporarayFolder.getPath() + "/src/main/java/org/test/de/" + clazzName + ".java");
+            File outputFile = new File(temporarayFolder.getPath() + "/src/main/java/testpackage/" + clazzName + ".java");
             FileOutputStream stream = new FileOutputStream(outputFile);
             stream.write(clazz.getBytes());
             stream.flush();
