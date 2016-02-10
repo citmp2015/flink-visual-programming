@@ -26,6 +26,7 @@
 
         flink.saveToLocalStorage = function(graph) {
             flink.graphHistory.add(graph.toJSON());
+            flink.graphRedoStack.clear();
         };
 
         flink.loadFromLocalStorage = function() {
@@ -127,8 +128,12 @@
             localStorageService.set('graphRedoStack', JSON.stringify(graphRedoStack));
         }
 
-        flink.graphRedoStack.replace = function(newGraph) {
+        flink.graphRedoStack.clear = function() {
             localStorageService.remove('graphRedoStack');
+        }
+
+        flink.graphRedoStack.replace = function(newGraph) {
+            flink.graphRedoStack.clear();
             localStorageService.set('graphRedoStack', JSON.stringify(newGraph));
         }
 
