@@ -35,7 +35,7 @@
                         component: cell.componentType || 'unknown',
                         data: cell.formdata
                     };
-                } else if (cell.type === 'devs.Link') { // link
+                } else if (cell.type === 'devs.Link' || cell.type === 'link') { // link
                     json.connections.push({
                         id: id,
                         src: this.fixId(cell.source.id),
