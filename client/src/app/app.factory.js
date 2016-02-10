@@ -15,7 +15,7 @@
         var defaultConfig = {
             flinkURL: $window.location.protocol + '//' + $window.location.hostname,
             flinkPort: parseInt($window.location.port) || 80
-        }
+        };
 
         flink.getGeneralSettings = function() {
             var config = localStorageService.get('config') || {};
