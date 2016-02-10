@@ -7,20 +7,29 @@
         .factory('graphFactory', GraphFactory);
 
     /*@ngInject*/
-    function GraphFactory(localStorageService, templateFactory) {
+    function GraphFactory($window, localStorageService, templateFactory) {
 
         var flink = {};
         joint.shapes.flink = {};
 
+        var defaultConfig = {
+            flinkURL: $window.location.protocol + '//' + $window.location.hostname,
+            flinkPort: parseInt($window.location.port) || 80
+        };
+
         flink.getGeneralSettings = function() {
-            return localStorageService.get('config');
+            var config = localStorageService.get('config') || {};
+            return {
+                flinkURL: config.flinkURL || defaultConfig.flinkURL,
+                flinkPort: config.flinkPort || defaultConfig.flinkPort
+            };
         };
 
         flink.setGeneralSettings = function(extConfig) {
             var config = extConfig || {};
             localStorageService.set('config', {
-                flinkURL: config.flinkURL || 'http://localhost',
-                flinkPort: config.flinkPort || '8080'
+                flinkURL: config.flinkURL || defaultConfig.flinkURL,
+                flinkPort: config.flinkPort || defaultConfig.flinkPort
             });
         };
 
