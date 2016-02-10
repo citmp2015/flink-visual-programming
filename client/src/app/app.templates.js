@@ -46,7 +46,16 @@
         };
 
         template.createFlatMapTemplate = function() {
-            return 'public class Tokenizer implements FlatMapFunction<String, Tuple2<String, Integer>> {\n' +
+            return 'package testpackage;\n' +
+                    'import org.apache.flink.*;\n' +
+                    'import org.apache.flink.util.*;\n' +
+                    'import org.apache.flink.api.java.operators.*;\n' +
+                    'import org.apache.flink.api.java.*;\n' +
+                    'import org.apache.flink.api.common.*;\n' +
+                    'import org.apache.flink.api.common.functions.*;\n' +
+                    'import org.apache.flink.api.java.aggregation.Aggregations;\n' +
+                    'import org.apache.flink.api.java.tuple.*;\n' +
+                    'public class Tokenizer implements FlatMapFunction<String, Tuple2<String, Integer>> {\n' +
                     '@Override\n' +
                     'public void flatMap(String value, Collector<Tuple2<String, Integer>> out) {\n' +
                     '    for (String token : value.split("\\W")) {\n' +
