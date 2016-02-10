@@ -109,39 +109,42 @@
         }
 
         function undoGraph() {
-            var lastGraph = graphFactory.graphHistory.pop();
-            if (lastGraph !== null) {
-                if ($rootScope.graph !== null) {
-                    graphFactory.graphRedoStack.add($rootScope.graph.toJSON());
-                }
-                $rootScope.graph.fromJSON(lastGraph);
+            var currentPosition = graphFactory.currentGraphStackPosition.get();
+            if (currentPosition > 0) {
+                currentPosition--;
             }
+            graphFactory.currentGraphStackPosition.set(currentPosition);
+            renderGraph();
         }
 
         function redoGraph() {
-            var lastGraph = graphFactory.graphRedoStack.pop();
+            var currentPosition = graphFactory.currentGraphStackPosition.get();
+            if (currentPosition < graphFactory.graphStack.size() - 1) {
+                currentPosition++;
+            }
+            graphFactory.currentGraphStackPosition.set(currentPosition);
+            renderGraph();
+        }
+
+        function renderGraph() {
+            var currentPosition = graphFactory.currentGraphStackPosition.get(),
+                lastGraph = graphFactory.graphStack.get(currentPosition);
+
             if (lastGraph !== null) {
-                if ($rootScope.graph !== null) {
-                    graphFactory.graphHistory.add($rootScope.graph.toJSON());
-                }
                 $rootScope.graph.fromJSON(lastGraph);
             }
         }
 
         $scope.$watch(function() {
-            return graphFactory.graphHistory.size();
+            return graphFactory.currentGraphStackPosition.get();
         }, function(newVal, oldVal) {
-            if (newVal > 0) {
-                $scope.canUndo = true;
-            } else {
+            if (newVal <= 0) {
                 $scope.canUndo = false;
+            } else {
+                $scope.canUndo = true;
             }
-        });
 
-        $scope.$watch(function() {
-            return graphFactory.graphRedoStack.size();
-        }, function(newVal, oldVal) {
-            if (newVal > 0) {
+            if (newVal < graphFactory.graphStack.size() - 1) {
                 $scope.canRedo = true;
             } else {
                 $scope.canRedo = false;
