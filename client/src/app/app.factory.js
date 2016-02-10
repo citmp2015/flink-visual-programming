@@ -25,18 +25,20 @@
         };
 
         flink.saveToLocalStorage = function(graph) {
-            var oldGraphData = this.loadFromLocalStorage();
-            localStorageService.set('graph', graph.toJSON());
-            this.graphHistory.add(oldGraphData);
+            flink.graphHistory.add(graph.toJSON());
         };
 
         flink.loadFromLocalStorage = function() {
-            return localStorageService.get('graph');
+            var history = flink.graphHistory.getAll(),
+                lastGraph = null;
+            if (history !== null && history.length > 0) {
+                lastGraph = history.pop();
+            }
+            return lastGraph;
         };
 
         flink.clearGraph = function(graph) {
             graph.clear();
-            localStorageService.remove('graph');
             localStorageService.remove('graphHistory');
             localStorageService.remove('graphRedoStack');
         };
