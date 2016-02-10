@@ -99,12 +99,17 @@
         function undoGraph() {
             var lastGraph = graphFactory.graphHistory.pop();
             if (lastGraph !== null) {
+                graphFactory.graphRedoStack.add($rootScope.graph.toJSON());
                 $rootScope.graph.fromJSON(lastGraph);
             }
         }
 
         function redoGraph() {
-
+            var lastGraph = graphFactory.graphRedoStack.pop();
+            if (lastGraph !== null) {
+                graphFactory.graphHistory.add($rootScope.graph.toJSON());
+                $rootScope.graph.fromJSON(lastGraph);
+            }
         }
 
     }

@@ -27,7 +27,7 @@
         flink.saveToLocalStorage = function(graph) {
             var oldGraphData = this.loadFromLocalStorage();
             localStorageService.set('graph', graph.toJSON());
-            this.graphHistory.save(oldGraphData);
+            this.graphHistory.add(oldGraphData);
         };
 
         flink.loadFromLocalStorage = function() {
@@ -49,21 +49,17 @@
             return graphHistory;
         };
 
-        flink.graphHistory.save = function(graph) {
+        flink.graphHistory.add = function(element) {
             var graphHistory = this.getAll();
             if (graphHistory === null) {
-                graphHistory = [graph];
+                graphHistory = [element];
             } else {
                 if (graphHistory.length > 100) {
                     graphHistory.shift();
                 }
-                graphHistory.push(graph);
+                graphHistory.push(element);
             }
             localStorageService.set('graphHistory', JSON.stringify(graphHistory));
-        };
-
-        flink.graphHistory.clear = function() {
-            localStorageService.remove('graphHistory');
         };
 
         flink.graphHistory.replace = function(newGraph) {
@@ -77,7 +73,48 @@
 
             if (history !== null && history.length > 0) {
                 lastGraph = history.pop();
-                flink.graphHistory.replace(history);
+                this.replace(history);
+            }
+
+            return lastGraph;
+        };
+
+        flink.graphRedoStack = {};
+
+        flink.graphRedoStack.getAll = function() {
+            var graphRedoStack = localStorageService.get('graphRedoStack');
+            if (graphRedoStack !== null) {
+                graphRedoStack = JSON.parse(graphRedoStack);
+            }
+            return graphRedoStack;
+        }
+
+        flink.graphRedoStack.add = function(element) {
+            var graphRedoStack = this.getAll();
+
+            if (graphRedoStack === null) {
+                graphRedoStack = [element];
+            } else {
+                if (graphRedoStack.length > 100) {
+                    graphRedoStack.shift();
+                }
+                graphRedoStack.push(element);
+            }
+            localStorageService.set('graphRedoStack', JSON.stringify(graphRedoStack));
+        }
+
+        flink.graphRedoStack.replace = function(newGraph) {
+            localStorageService.remove('graphRedoStack');
+            localStorageService.set('graphRedoStack', JSON.stringify(newGraph));
+        }
+
+        flink.graphRedoStack.pop = function() {
+            var graphRedoStack = this.getAll(),
+                lastGraph = null;
+
+            if (graphRedoStack !== null && graphRedoStack.length > 0) {
+                lastGraph = graphRedoStack.pop();
+                this.replace(graphRedoStack);
             }
 
             return lastGraph;
