@@ -15,6 +15,7 @@
 
         'app.menu',
         'app.datasource',
+        'app.datasink',
         'app.filter',
         'app.group',
         'app.sum',
