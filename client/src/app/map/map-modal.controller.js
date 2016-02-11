@@ -7,7 +7,7 @@
         .controller('MapModalCtrl', MapModalCtrl);
 
     /*@ngInject*/
-    function MapModalCtrl($scope, $rootScope, $uibModalInstance, $stateParams, $timeout, graphFactory, $log) {
+    function MapModalCtrl($scope, $rootScope, $uibModalInstance, $stateParams, $timeout, graphFactory, $log, parsing, verification) {
 
         var cell = $rootScope.graph.getCell($stateParams.id);
 
@@ -24,6 +24,15 @@
 
         function save() {
             cell.attributes.formdata.javaSourceCode = $scope.editor;
+            cell.attributes.formdata.functionName = parsing.parseClassName($scope.editor);
+            var types = parsing.parseTypeParameters($scope.editor);
+            /* jshint ignore:start */
+            cell.attributes.formdata.input_type = types.inType;
+            cell.attributes.formdata.output_type = types.outType;
+            /* jshint ignore:end */
+            if(!verification.verifyClassNames($rootScope.graph)){
+                return;
+            }
             graphFactory.saveToLocalStorage($rootScope.graph);
             $uibModalInstance.close();
         }
