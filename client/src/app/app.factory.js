@@ -424,8 +424,8 @@
                 },
                 componentType: 'csvdatasink',
                 data: {
-                    modalController: '',
-                    modalTemplateUrl: ''
+                    modalController: 'CSVDatasinkModalCtrl',
+                    modalTemplateUrl: '/app/datasink/csv-datasink-modal.tpl.html'
                 },
                 formdata: {
                     filePath: null
@@ -435,7 +435,7 @@
         };
         joint.shapes.flink.Model = joint.shapes.basic.Generic.extend(_.extend({}, joint.shapes.basic.PortsModelInterface, {
 
-            markup: '<g class="rotatable"><g class="scalable"><rect class="body"/></g><text class="label"/><g class="inPorts"/><g class="outPorts"/></g>',
+            markup: '<g class="rotatable"><g class="scalable"><rect class="body"/></g><text class="label"/><text class="infoLabel"/><g class="inPorts"/><g class="outPorts"/></g>',
             portMarkup: '<g class="port port<%= id %>"><circle class="port-body"/></g>',
 
             defaults: joint.util.deepSupplement({
@@ -472,6 +472,14 @@
                         text: 'Model',
                         'ref-x': 0.5,
                         'ref-y': 45,
+                        ref: '.body',
+                        'text-anchor': 'middle',
+                        fill: '#000000'
+                    },
+                    '.infoLabel': {
+                        text: '',
+                        'ref-x': 0.5,
+                        'ref-y': 20,
                         ref: '.body',
                         'text-anchor': 'middle',
                         fill: '#000000'

@@ -45,6 +45,7 @@
             cell.attributes.formdata.operationType = $scope.numberfilter.operationType;
             cell.attributes.formdata.compareValue = $scope.numberfilter.compareValue;
 			cell.attributes.formdata.javaSourceCode = templateFactory.createNumberFilterTemplate($scope.numberfilter.operationType.key, $scope.numberfilter.compareValue);
+            cell.attr('.infoLabel/text', $scope.numberfilter.operationType.label+' '+$scope.numberfilter.compareValue);
             graphFactory.saveToLocalStorage($rootScope.graph);
             $uibModalInstance.close();
         }
@@ -98,6 +99,7 @@
             cell.attributes.formdata.operationType = $scope.stringfilter.operationType;
             cell.attributes.formdata.compareValue = $scope.stringfilter.compareValue;
 			cell.attributes.formdata.javaSourceCode = templateFactory.createStringFilterTemplate($scope.stringfilter.operationType.key, $scope.stringfilter.compareValue);
+            cell.attr('.infoLabel/text', $scope.stringfilter.operationType.label+' '+'"'+$scope.stringfilter.compareValue+'"');
             graphFactory.saveToLocalStorage($rootScope.graph);
             $uibModalInstance.close();
         }

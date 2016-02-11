@@ -24,7 +24,9 @@
 
         function save() {
             cell.attributes.formdata.javaSourceCode = $scope.editor;
-            cell.attributes.formdata.functionName = parsing.parseClassName($scope.editor);
+            var className = parsing.parseClassName($scope.editor);
+            cell.attributes.formdata.functionName = className;
+            cell.attr('.infoLabel/text', className);
             var types = parsing.parseTypeParameters($scope.editor);
             /* jshint ignore:start */
             cell.attributes.formdata.input_type = types.inType;
