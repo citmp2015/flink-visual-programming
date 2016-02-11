@@ -25,7 +25,7 @@
             }
 
              // test for duplicates
-            for (var i = 0; i < classNames.length; i++) {
+            for (i = 0; i < classNames.length; i++) {
                 for (var j = i + 1; j < classNames.length; j++) {
                     if (classNames[i] === classNames[j]) {
                        toaster.pop('error', 'Duplicate Class Name Found', 'Class "'+classNames[i]+'" must be unique!');
