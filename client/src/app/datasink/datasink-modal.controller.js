@@ -12,7 +12,7 @@
 
         var cell = $rootScope.graph.getCell($stateParams.id);
 
-        $scope.datasource = {
+        $scope.datasink = {
             filePath: cell.attributes.formdata.filePath
         };
 
@@ -20,7 +20,7 @@
         $scope.cancel = cancel;
 
         function save() {
-            cell.attributes.formdata.filePath = $scope.datasource.filePath;
+            cell.attributes.formdata.filePath = $scope.datasink.filePath;
             cell.attributes.formdata.output_type = 'String'; // jshint ignore:line
             cell.attr('.infoLabel/text', $scope.datasink.filePath.replace(/^.*[\\\/]/, ''));
             graphFactory.saveToLocalStorage($rootScope.graph);
