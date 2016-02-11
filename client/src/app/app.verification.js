@@ -7,7 +7,7 @@
         .factory('verification', verification);
 
     /*@ngInject*/
-    function verification() {
+    function verification(toaster) {
         var verify = {};
 
         verify.verifyClassNames = function(graph) {
@@ -28,7 +28,7 @@
             for (var i = 0; i < classNames.length; i++) {
                 for (var j = i + 1; j < classNames.length; j++) {
                     if (classNames[i] === classNames[j]) {
-                       console.log('Duplicate Class Name Found! Class "'+classNames[i]+'" must be unique!');
+                       toaster.pop('error', 'Duplicate Class Name Found', 'Class "'+classNames[i]+'" must be unique!');
                        return false;
                     }
                 }

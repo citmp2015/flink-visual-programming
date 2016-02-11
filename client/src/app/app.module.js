@@ -11,6 +11,7 @@
         'ngDraggable',
         'LocalStorageModule',
         'ui.codemirror',
+        'toaster',
 
         'app.menu',
         'app.datasource',

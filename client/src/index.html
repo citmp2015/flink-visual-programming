@@ -20,6 +20,7 @@
     <link rel="stylesheet" href="../bower_components/components-font-awesome/css/font-awesome.css" />
     <link rel="stylesheet" href="../bower_components/jointjs/dist/joint.css" />
     <link rel="stylesheet" href="../bower_components/codemirror/lib/codemirror.css" />
+    <link rel="stylesheet" href="../bower_components/AngularJS-Toaster/toaster.css" />
     <!-- endbower -->
     <!-- endbuild -->
 
@@ -39,6 +40,21 @@
         <div id="page-wrapper" ui-view></div>
 
     </div>
+
+    <toaster-container toaster-options="{
+    'closeButton': true,
+    'debug': false,
+    'position-class': 'toast-bottom-center',
+    'onclick': null,
+    'showDuration': '200',
+    'hideDuration': '1000',
+    'timeOut': '5000',
+    'extendedTimeOut': '1000',
+    'showEasing': 'swing',
+    'hideEasing': 'linear',
+    'showMethod': 'fadeIn',
+    'hideMethod': 'fadeOut',
+    }"></toaster-container>
 
     <!-- build:js scripts/vendor.js -->
     <!-- bower:js -->
@@ -62,6 +78,7 @@
     <script src="../bower_components/codemirror/lib/codemirror.js"></script>
     <script src="../bower_components/codemirror/mode/clike/clike.js"></script>
     <script src="../bower_components/angular-ui-codemirror/ui-codemirror.js"></script>
+    <script src="../bower_components/AngularJS-Toaster/toaster.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
