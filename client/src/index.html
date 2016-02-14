@@ -20,6 +20,7 @@
     <link rel="stylesheet" href="../bower_components/components-font-awesome/css/font-awesome.css" />
     <link rel="stylesheet" href="../bower_components/jointjs/dist/joint.css" />
     <link rel="stylesheet" href="../bower_components/codemirror/lib/codemirror.css" />
+    <link rel="stylesheet" href="../bower_components/nanoscroller/bin/css/nanoscroller.css" />
     <!-- endbower -->
     <!-- endbuild -->
 
@@ -33,11 +34,10 @@
 </head>
 
 <body>
+    <nav class="navbar navbar-default navbar-fixed-top" role="navigation" ng-include="'app/menu/menu-navbar-top.tpl.html'"></nav>
     <div id="wrapper">
-
-        <nav class="navbar navbar-default navbar-static-top" role="navigation" ng-include="'app/menu/menu.tpl.html'"></nav>
-        <div id="page-wrapper" ui-view></div>
-
+        <aside class="sidebar" role="complementary" ng-include="'app/menu/menu-sidebar.tpl.html'"></aside>
+        <div role="main" id="page-wrapper" ui-view></div>
     </div>
 
     <!-- build:js scripts/vendor.js -->
@@ -62,6 +62,7 @@
     <script src="../bower_components/codemirror/lib/codemirror.js"></script>
     <script src="../bower_components/codemirror/mode/clike/clike.js"></script>
     <script src="../bower_components/angular-ui-codemirror/ui-codemirror.js"></script>
+    <script src="../bower_components/nanoscroller/bin/javascripts/jquery.nanoscroller.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 

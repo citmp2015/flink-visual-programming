@@ -12,21 +12,13 @@
 @_searchActiveBackgroundColor: #f0f0f0;
 @_searchActiveTextColor: @textColor;
 
-body {background-color: @_bgColor;} //workaround for the previously used layout
-
 .sidebar
 {
-    .sidebar-nav
-    {
-        background: @_bgColor;
-        padding-top: 8px;
-
-        &.navbar-collapse
-        {
-            padding-right: 0;
-            padding-left: 0;
-        }
-    }
+    display: table-cell;
+    width: @sidebarWidth;
+    height: 100%;
+    vertical-align: top;
+    background: @_bgColor;
 
     ul
     {
@@ -93,17 +85,9 @@ body {background-color: @_bgColor;} //workaround for the previously used layout
     }
     .nav-third-level li a {padding-left: 90px;}
 
-    @media(min-width: @screen-sm-min)
-    {
-        z-index: 1;
-        position: absolute;
-        width: @sidebarWidth;
-        margin-top: @headerHeight;
-    }
-
     .sidebar-search
     {
-        padding: 8px;
+        padding: 16px 8px 8px;
 
         .input-group {width: 100%;}
 
@@ -163,4 +147,25 @@ body {background-color: @_bgColor;} //workaround for the previously used layout
             color: @_searchActiveTextColor;
         }
     }
+
+    .nano-pane
+    {
+        background: rgba(255,255,255, 0.075);
+        width: 6px;
+        right: 1px;
+        -moz-border-radius: 3px;
+        -webkit-border-radius: 3px;
+        border-radius: 3px;
+
+        &> .nano-slider
+        {
+            background: rgba(255,255,255, 0.075);
+            margin: 0;
+            -moz-border-radius: 3px;
+            -webkit-border-radius: 3px;
+            border-radius: 3px;
+        }
+    }
+
+    &.is-mobile .nano-pane {visibility: hidden !important;}
 }
