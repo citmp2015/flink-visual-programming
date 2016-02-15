@@ -19,8 +19,10 @@
             if(/iP(hone|od|ad)/i.test(window.navigator.userAgent) || /Android/i.test(window.navigator.userAgent))
                 $sidebar.addClass('is-mobile');
             
-            $(document).ready(function(){setTimeout(function(){$sidebar.nanoScroller();}, 0);}); //workaround: scrollbars didn't show up if needed right away
-            $sidebar.on('menuPropertiesChanged', function(){setTimeout(function(){$sidebar.nanoScroller();}, 40);}); //workaround: expanding/collapsing items didn't refresh the scrollbars
+            var refreshFn = function(){$sidebar.nanoScroller();};
+
+            $(document).ready(function(){setTimeout(refreshFn, 0);}); //workaround: scrollbars didn't show up if needed right away
+            $sidebar.on('menuPropertiesChanged', function(){setTimeout(refreshFn, 40);}); //workaround: expanding/collapsing items didn't refresh the scrollbars
         });
 
         var graph = new joint.dia.Graph();
