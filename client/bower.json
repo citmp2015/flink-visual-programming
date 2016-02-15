@@ -28,6 +28,7 @@
     "lodash": "~3.10.x",
     "angular-local-storage": "~0.2.x",
     "angular-ui-codemirror": "~0.3.x",
+    "angular-sanitize": "~1.x",
     "nanoscroller": "~0.8.x"
   },
   "devDependencies": {

@@ -13,6 +13,7 @@
         'ui.codemirror',
 
         'app.menu',
+        'app.console',
         'app.datasource',
         'app.filter',
         'app.group',

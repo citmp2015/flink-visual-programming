@@ -1,0 +1,14 @@
+<div class="panel panel-primary" ng-controller="ConsoleCtrl">
+    <div class="panel-heading" ng-click="titleBarClicked()">
+        Console Output
+        <button type="button" class="btn btn-xs" ng-click="minimize(); $event.stopPropagation();" ng-show="!minimized"><i class="fa fa-minus"></i></button>
+        <button type="button" class="btn btn-xs" ng-click="maximize(); $event.stopPropagation();" ng-show="minimized"><i class="fa fa-plus"></i></button>
+    </div>
+    <div class="panel-body nano">
+        <div class="nano-content">
+            <ul>
+                <li ng-repeat="item in items" ng-bind-html="item"></li>
+            </ul>
+        </div>
+    </div>
+</div>
