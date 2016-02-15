@@ -21,7 +21,8 @@
         'app.flatmap',
         'app.map',
         'app.reduce',
-        'app.generalsettings'
+        'app.generalsettings',
+        'app.loadingmodal'
     ]);
 
 })();
