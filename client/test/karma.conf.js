@@ -62,6 +62,9 @@ module.exports = function(config) {
             'src/app/menu/menu-sidebar.controller.js',
             'src/app/menu/menu-navbar-top.controller.js',
 
+            'src/app/console/console.module.js',
+            'src/app/console/console.controller.js',
+
             'src/app/datasource/datasource.module.js',
             'src/app/datasource/datasource-modal.controller.js',
 

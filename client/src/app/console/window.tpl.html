@@ -1,4 +1,4 @@
-<div class="panel panel-primary" ng-controller="ConsoleCtrl">
+<div class="panel panel-primary">
     <div class="panel-heading" ng-click="titleBarClicked()">
         Console Output
         <button type="button" class="btn btn-xs" ng-click="minimize(); $event.stopPropagation();" ng-show="!minimized"><i class="fa fa-minus"></i></button>
@@ -7,7 +7,10 @@
     <div class="panel-body nano">
         <div class="nano-content">
             <ul>
-                <li ng-repeat="item in items" ng-bind-html="item"></li>
+                <li ng-repeat="item in items track by $index">
+                    <span class="time" ng-if="item.date != null">[{{item.date | amDateFormat: 'HH:mm:ss'}}]</span>
+                    <span ng-bind-html="item.text"></span>
+                </li>
             </ul>
         </div>
     </div>

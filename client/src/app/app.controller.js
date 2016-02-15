@@ -11,10 +11,6 @@
 
         $('aside.sidebar').each(function() {
             var $sidebar = $(this);
-            var $list = $sidebar.children().first();
-            
-            $sidebar.addClass('nano');
-            $list.wrap('<div class="nano-content"></div>');
 
             if(/iP(hone|od|ad)/i.test(window.navigator.userAgent) || /Android/i.test(window.navigator.userAgent))
                 $sidebar.addClass('is-mobile');

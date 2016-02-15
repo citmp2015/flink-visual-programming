@@ -12,48 +12,39 @@
         //the console window is completely hidden per default
         //it will be visible after the first call to addItem()
 
-        var $console = $('aside.console');
-        var $scrollBar = $console.find('.nano');
-
         $scope.items = [];
+        $scope.visible = false;
         $scope.minimized = false;
+
+        var $scrollBar = null;
 
         $scope.$watch('items', function() {
             setTimeout(function(){
+                if($scrollBar === null)
+                {
+                    var test = $('#console .nano');
+                    if(test.length > 0)
+                        $scrollBar = test;
+                    else
+                        return;
+                }
+
                 $scrollBar.nanoScroller();
                 $scrollBar.nanoScroller({scroll: 'bottom'});
             }, 0);
         }, true);
 
-        $scope.$watch('minimized', function() {
-            //$console is outside the controller, otherwise could've used ng-class in the tpl
-            if($scope.minimized)
-                $console.addClass('minimized');
-            else
-                $console.removeClass('minimized');
-        });
-
         //text may be formatted using <font>
         //prependDate is optional (default: false)
         $scope.addItem = function(text, prependDate) {
 
-            if(!$console.is(':visible'))
-                $console.show();
+            if(!$scope.visible)
+                $scope.visible = true;
 
-            if(prependDate)
-            {
-                var dt = new Date();
-                text = '<span class="time">'+
-                    '['+
-                    (dt.getHours() < 10 ? '0' : '')+dt.getHours()+
-                    ':'+(dt.getMinutes() < 10 ? '0' : '')+dt.getMinutes()+
-                    ':'+(dt.getSeconds() < 10 ? '0' : '')+dt.getSeconds()+
-                    ']</span>'+
-                    text
-                ;
-            }
-
-            $scope.items.push(text);
+            $scope.items.push({
+                date: (prependDate ? new Date() : null),
+                text: text
+            });
 
         };
 
@@ -63,16 +54,14 @@
 
         $scope.minimize = function() {
             $scope.minimized = true;
-            $console.find('.panel-heading .btn').blur();
         };
 
         $scope.maximize = function() {
             $scope.minimized = false;
-            $console.find('.panel-heading .btn').blur();
         };
 
         $scope.hide = function() {
-            $console.hide();
+            $scope.visible = false;
         };
 
         $scope.titleBarClicked = function() {
