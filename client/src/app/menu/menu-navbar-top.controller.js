@@ -7,7 +7,7 @@
         .controller('MenuNavbarTopCtrl', MenuNavbarTopCtrl);
 
     /*@ngInject*/
-    function MenuNavbarTopCtrl($scope, $rootScope, graphFactory, jsonBuilder, $log, $http, $uibModal, $timeout) {
+    function MenuNavbarTopCtrl($scope, $rootScope, graphFactory, jsonBuilder, $log, $http, $uibModal, $timeout, verification) {
 
         $scope.clearGraph = clearGraph;
         $scope.exportGraph = exportGraph;
@@ -52,6 +52,11 @@
         };
 
         function sendGraph(action) {
+            
+            if(!verification.verifyClassNames($rootScope.graph)){
+                return;
+            }
+            
             var loadingModal = $uibModal.open({
                 templateUrl: '/app/loadingmodal/loadingmodal.tpl.html',
                 controller: 'loadingModalCtrl',
