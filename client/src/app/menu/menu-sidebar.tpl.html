@@ -1,6 +1,6 @@
 <ul class="nav" ng-controller="MenuSidebarCtrl">
     <li class="sidebar-search">
-        <div class="input-group custom-search-form">
+        <div ng-class="{'custom-search-form': true, 'input-group': showClearSearchButton}">
             <input type="search" class="form-control" placeholder="Search..." ng-model="search.label">
             <span class="input-group-btn" ng-show="showClearSearchButton">
                 <button class="btn btn-default" type="button" ng-click="clearSearch()">
