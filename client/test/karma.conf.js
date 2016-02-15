@@ -91,6 +91,9 @@ module.exports = function(config) {
             'src/app/generalsettings/generalsettings.module.js',
             'src/app/generalsettings/generalsettings-modal.controller.js',
 
+            'src/app/loadingmodal/loadingmodal.module.js',
+            'src/app/loadingmodal/loadingmodal.controller.js',
+
             'src/directive/joint-diagram.js',
             'src/directive/file-import.js',
 
