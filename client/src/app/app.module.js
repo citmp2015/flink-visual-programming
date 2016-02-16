@@ -11,11 +11,13 @@
         'ngDraggable',
         'LocalStorageModule',
         'ui.codemirror',
+        'toaster',
         'cfp.hotkeys',
 
         'app.menu',
         'app.console',
         'app.datasource',
+        'app.datasink',
         'app.filter',
         'app.group',
         'app.sum',

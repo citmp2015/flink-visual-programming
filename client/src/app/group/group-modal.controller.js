@@ -20,6 +20,7 @@
 
         function save() {
             cell.attributes.formdata.tupleIndex = $scope.group.tupleIndex;
+            cell.attr('.infoLabel/text', 'groupBy('+$scope.group.tupleIndex+')');
             graphFactory.saveToLocalStorage($rootScope.graph);
             $uibModalInstance.close();
         }

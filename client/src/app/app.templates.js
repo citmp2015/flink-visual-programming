@@ -14,7 +14,16 @@
         var template = {};
 
         template.createNumberFilterTemplate = function(operator, value) {
-            return 'data.filter(new FilterFunction<Integer>() {\n  public boolean filter(Integer value) {\n   return value ' + operator + ' ' + value + ';\n }\n});';
+            var uuid=joint.util.uuid();
+            return 'package testpackage;\n'+
+                   'import org.apache.flink.api.common.functions.FilterFunction;\n'+
+                   '\n'+
+                   'public class NumberFilter'+uuid+' implements FilterFunction<Integer> {\n'+
+                   '    @Override\n'+
+                   '    public boolean filter(Integer value) {\n'+
+                   '        return value ' + operator + ' ' + value + ';\n }'+
+                   '    }\n'+
+                   '}';            
         };
 
         template.createStringFilterTemplate = function(operator, value) {
@@ -42,7 +51,17 @@
                 operation = 'value.endsWith("' + value + '")';
             }
 
-            return 'data.filter(new FilterFunction<String>() {\n  public boolean filter(String value) {\n    return ' + operation + '; \n  }\n});';
+            var uuid=joint.util.uuid();
+            return 'package testpackage;\n'+
+                   '\n'+
+                   'import org.apache.flink.api.common.functions.FilterFunction;'+
+                   '\n'+
+                   'public class StringFilter'+uuid+' implements FilterFunction<String> {\n'+
+                   '    @Override\n'+
+                   '    public boolean filter(String value) {\n'+
+                   '        return ' + operation + '; \n'+
+                   '    }\n'+
+                   '}';               
         };
 
         template.createFlatMapTemplate = function() {
@@ -55,6 +74,7 @@
                     'import org.apache.flink.api.common.functions.*;\n' +
                     'import org.apache.flink.api.java.aggregation.Aggregations;\n' +
                     'import org.apache.flink.api.java.tuple.*;\n' +
+                    '\n' +
                     'public class Tokenizer implements FlatMapFunction<String, Tuple2<String, Integer>> {\n' +
                     '@Override\n' +
                     'public void flatMap(String value, Collector<Tuple2<String, Integer>> out) {\n' +
@@ -70,7 +90,15 @@
         };
 
         template.createCustomFilterTemplate = function() {
-            return 'public class NaturalNumberFilter implements FilterFunction<Integer> {\n  @Override\n  public boolean filter(Integer number) {\n    return number >= 0;\n  }\n}';
+            return 'package testpackage;\n'+
+                   'import org.apache.flink.api.common.functions.FilterFunction;\n'+
+                   '\n'+
+                   'public class NaturalNumberFilter implements FilterFunction<Integer> {\n'+
+                   '    @Override\n'+
+                   '    public boolean filter(Integer number) {\n'+
+                   '        return number >= 0;\n'+
+                   '    }\n'+
+                   '}';
         };
 
         template.createReduceTemplate = function() {
