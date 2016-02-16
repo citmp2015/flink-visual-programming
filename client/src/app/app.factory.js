@@ -33,17 +33,102 @@
             });
         };
 
-        flink.saveToLocalStorage = function(graph) {
-            localStorageService.set('graph', graph.toJSON());
+        flink.graphStack = {};
+
+        flink.graphStack.getAll = function() {
+            var graphStack = localStorageService.get('graphStack');
+            if (graphStack !== null) {
+                graphStack = JSON.parse(graphStack);
+            }
+            return graphStack;
         };
 
-        flink.loadFromLocalStorage = function() {
-            return localStorageService.get('graph');
+        flink.graphStack.get = function(position) {
+            var graphStack = flink.graphStack.getAll(),
+                lastGraph = null;
+
+            if (graphStack !== null && graphStack.length > 0 && graphStack.length > position) {
+                lastGraph = graphStack[position];
+            }
+
+            return lastGraph;
+        };
+
+        flink.graphStack.getLast = function() {
+            var graphStack = flink.graphStack.getAll(),
+                lastGraph = null;
+
+            if (graphStack !== null && graphStack.length > 0) {
+                var lastPosition = graphStack.length - 1;
+                lastGraph = graphStack[lastPosition];
+            }
+
+            return lastGraph;
+        };
+
+        flink.graphStack.getCurrent = function() {
+            var graphStack = flink.graphStack.getAll(),
+                currentPosition = flink.currentGraphStackPosition.get(),
+                currentGraph = null;
+
+            if (graphStack !== null && graphStack.length > 0) {
+                if (currentPosition >= 0 && graphStack.length > currentPosition) {
+                    currentGraph = graphStack[currentPosition];
+                } else {
+                    currentGraph = flink.graphStack.getLast();
+                }
+            }
+
+            return currentGraph;
+        };
+
+        flink.graphStack.add = function(element) {
+            if (element === null) {
+                return;
+            }
+
+            var graphStack = this.getAll();
+            if (graphStack === null) {
+                graphStack = [element];
+            } else {
+                if (graphStack.length > 100) {
+                    graphStack.shift();
+                }
+                graphStack.push(element);
+            }
+            localStorageService.set('graphStack', JSON.stringify(graphStack));
+            flink.currentGraphStackPosition.set(this.size());
+        };
+
+        flink.graphStack.size = function() {
+            var graphStack = this.getAll() || [];
+
+            return graphStack.length;
+        };
+
+        flink.currentGraphStackPosition = {};
+
+        flink.currentGraphStackPosition.set = function(position) {
+            localStorageService.set('currentGraphStackPosition', position);
+        };
+
+        flink.currentGraphStackPosition.get = function() {
+            return localStorageService.get('currentGraphStackPosition');
+        };
+
+        flink.currentGraphStackPosition.clear = function() {
+            localStorageService.set('currentGraphStackPosition', 0);
+        };
+
+        flink.saveToLocalStorage = function(graph) {
+            flink.graphStack.add(graph.toJSON());
+            flink.graphStack.currentPosition = flink.graphStack.size() - 1;
         };
 
         flink.clearGraph = function(graph) {
             graph.clear();
-            localStorageService.remove('graph');
+            localStorageService.remove('graphStack');
+            flink.currentGraphStackPosition.clear();
         };
 
         flink.renderNumberFilter = function(posX, posY, $state) {

@@ -14,7 +14,7 @@
 
             if(/iP(hone|od|ad)/i.test(window.navigator.userAgent) || /Android/i.test(window.navigator.userAgent))
                 $sidebar.addClass('is-mobile');
-            
+
             var refreshFn = function(){$sidebar.nanoScroller();};
 
             $(document).ready(function(){setTimeout(refreshFn, 0);}); //workaround: scrollbars didn't show up if needed right away
@@ -23,7 +23,7 @@
 
         var graph = new joint.dia.Graph();
 
-        var graphLocalstorage = graphFactory.loadFromLocalStorage();
+        var graphLocalstorage = graphFactory.graphStack.getCurrent();
         graph.on('paper:ready', function() {
             if (graphLocalstorage) {
                 graph.fromJSON(graphLocalstorage);
@@ -33,6 +33,7 @@
                     url: '/examples/wordcount.json'
                 }).then(function successCallback(response) {
                     graph.fromJSON(response.data);
+                    graphFactory.saveToLocalStorage(graph);
                 }, function errorCallback(response) {
                     $log.error('Error loading /examples/wordcount.json');
                 });
