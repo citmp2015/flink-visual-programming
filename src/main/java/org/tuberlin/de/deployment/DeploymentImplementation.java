@@ -64,11 +64,11 @@ public class DeploymentImplementation implements DeploymentInterface {
     }
 
     /**
-     * Logs message to local LOG and to Websocket simultaneously
+     * Logs the message to the local LOG and to the Websocket simultaneously
      * @param clientSession The Websocket session
      * @param message The message to be logged
      */
-    private void LogEvent(Session clientSession, String message) {
+    private void logEvent(Session clientSession, String message) {
         LOG.debug(message);
         if (clientSession != null && clientSession.isOpen()) {
             try {
@@ -90,16 +90,16 @@ public class DeploymentImplementation implements DeploymentInterface {
 
             createClasses(temporaryFolder, entryClass, clazzes);
 
-            LogEvent(clientSession, "graph:" + uuid + ":mvnBuildStarted");
+            logEvent(clientSession, "graph:" + uuid + ":mvnBuildStarted");
 
             String mvnOutput = ExecuteShell.executeCommand(mavenPath + " package", temporaryFolder);
 
-            LogEvent(clientSession, "graph:" + uuid + ":mvnBuildOutput " + mvnOutput);
+            logEvent(clientSession, "graph:" + uuid + ":mvnBuildOutput " + mvnOutput);
 
             if (!mvnOutput.contains("BUILD FAILURE")) {
-                LogEvent(clientSession, "graph:" + uuid + ":mvnBuildSucceeded");
+                logEvent(clientSession, "graph:" + uuid + ":mvnBuildSucceeded");
             } else {
-                LogEvent(clientSession, "graph:" + uuid + ":mvnBuildError");
+                logEvent(clientSession, "graph:" + uuid + ":mvnBuildError");
             }
 
             return;
@@ -112,36 +112,29 @@ public class DeploymentImplementation implements DeploymentInterface {
             e.printStackTrace();
         }
 
-        LogEvent(clientSession, "graph:" + uuid + ":mvnBuildError");
-    }
-
-    public void DeleteProjectFolder() {
-        // TODO Introduce mapping between client and uuid, and remove project from /tmp,
-        // TODO when client disconnects
+        logEvent(clientSession, "graph:" + uuid + ":mvnBuildError");
     }
 
     public void deploy(Session clientSession, String uuid) {
 
-        File temporaryFolder;
-
         try {
 
-            temporaryFolder = loadTemporaryProjectFolder(uuid);
+            File temporaryFolder = loadTemporaryProjectFolder(uuid);
 
-            LogEvent(clientSession, "graph:" + uuid + ":deployStarted");
+            logEvent(clientSession, "graph:" + uuid + ":deployStarted");
 
             String outputJar = temporaryFolder.getAbsolutePath() + "/target/";
             String flinkClusterExecutionCommand = flinkPath + " run -m " + flinkClusterAddress + ":" + flinkPort + " " + outputJar;
 
             LOG.debug("Flink cluster execution command: " + flinkClusterExecutionCommand);
-            LogEvent(clientSession, "graph:" + uuid + ":deployOutput " +
+            logEvent(clientSession, "graph:" + uuid + ":deployOutput " +
                     ExecuteShell.executeCommand(flinkClusterExecutionCommand, temporaryFolder));
 
-            LogEvent(clientSession, "graph:" + uuid + ":deploySucceeded");
+            logEvent(clientSession, "graph:" + uuid + ":deploySucceeded");
 
         } catch (IOException | URISyntaxException e) {
             e.printStackTrace();
-            LogEvent(clientSession, "graph:" + uuid + ":deployError");
+            logEvent(clientSession, "graph:" + uuid + ":deployError");
         }
     }
 
@@ -153,11 +146,11 @@ public class DeploymentImplementation implements DeploymentInterface {
             File temporaryProjectFolder = loadTemporaryProjectFolder(uuid);
 
             if (!temporaryProjectFolder.exists()) {
-                LogEvent(clientSession, "Failed to load project folder");
+                logEvent(clientSession, "Failed to load project folder");
                 return null;
             }
 
-            LogEvent(clientSession, "Loaded temporary project folder: " + temporaryProjectFolder.getAbsolutePath());
+            logEvent(clientSession, "Loaded temporary project folder: " + temporaryProjectFolder.getAbsolutePath());
 
             // Get ouput jar name
             String outputJarName = temporaryProjectFolder.toString() + "/target/" + Constants.FLINK_JOB_NAME + "-1.0.jar";
@@ -176,18 +169,16 @@ public class DeploymentImplementation implements DeploymentInterface {
     @Override
     public InputStream getZipSource(Session clientSession, String uuid) {
 
-        File temporaryProjectFolder;
-
         try {
 
-            temporaryProjectFolder = loadTemporaryProjectFolder(uuid);
+            File temporaryProjectFolder = loadTemporaryProjectFolder(uuid);
 
             if (!temporaryProjectFolder.exists()) {
-                LogEvent(clientSession, "Failed to load project folder");
+                logEvent(clientSession, "Failed to load project folder");
                 return null;
             }
 
-            LogEvent(clientSession, "Loaded temporary project folder: " + temporaryProjectFolder.getAbsolutePath());
+            logEvent(clientSession, "Loaded temporary project folder: " + temporaryProjectFolder.getAbsolutePath());
 
             String zipFilePath = temporaryProjectFolder.getParentFile().toString() + "/FlinkProject.zip";
             File zipFile = new File(zipFilePath);
@@ -217,7 +208,7 @@ public class DeploymentImplementation implements DeploymentInterface {
      */
     private File createTemporaryProjectFolder(Session clientSession, String uuid) throws IOException, URISyntaxException {
 
-        LogEvent(clientSession, "Creating temporary folders");
+        logEvent(clientSession, "Creating temporary folders");
 
         // Creating tmp directory
         Path tmpDirectory = Files.createTempDirectory(uuid);

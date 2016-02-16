@@ -70,16 +70,7 @@ public class GraphController extends HttpServlet {
             return;
         }
 
-        JobGraph jobGraph;
-        try {
-            jobGraph = backendController.getJobGraph(jobGraphJSON);
-        } catch (Exception e) {
-            LOG.error("Error in construction jobGraph.", e);
-            return;
-        }
-
-        String mainClass = CodeGenerator.generateCode(jobGraph);
-        Map<String, String> clazzes = CodeGenerator.getComponentSources(jobGraph);
+        String uuid = UUID.randomUUID().toString();
 
         Session clientSession = JettyWebSocket.getSession(req.getRemoteAddr());
 
@@ -87,7 +78,20 @@ public class GraphController extends HttpServlet {
             LOG.debug("Could not find Websocket for current client");
         }
 
-        String uuid = UUID.randomUUID().toString();
+        sendToWebsocket(clientSession, "graph:" + uuid + ":generationStarted");
+
+        JobGraph jobGraph;
+        try {
+            jobGraph = backendController.getJobGraph(jobGraphJSON);
+        } catch (Exception e) {
+            sendToWebsocket(clientSession, "graph:" + uuid + ":generationError");
+            return;
+        }
+
+        sendToWebsocket(clientSession, "graph:" + uuid + ":generationSucceeded");
+
+        String mainClass = CodeGenerator.generateCode(jobGraph);
+        Map<String, String> clazzes = CodeGenerator.getComponentSources(jobGraph);
 
         JSONObject jsonResponse = new JSONObject();
         jsonResponse.put("uuid", uuid);
@@ -99,5 +103,16 @@ public class GraphController extends HttpServlet {
         }).start();
 
         ServletUtil.sendJson(resp, jsonResponse);
+    }
+
+    private void sendToWebsocket(Session clientSession, String message) {
+        if (clientSession != null) {
+            try {
+                clientSession.getRemote().sendString(message);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        LOG.debug(message);
     }
 }
