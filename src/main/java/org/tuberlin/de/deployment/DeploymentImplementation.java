@@ -1,5 +1,11 @@
 package org.tuberlin.de.deployment;
 
+import org.apache.maven.shared.invoker.DefaultInvocationRequest;
+import org.apache.maven.shared.invoker.DefaultInvoker;
+import org.apache.maven.shared.invoker.InvocationRequest;
+import org.apache.maven.shared.invoker.InvocationResult;
+import org.apache.maven.shared.invoker.Invoker;
+import org.apache.maven.shared.invoker.MavenInvocationException;
 import org.eclipse.jetty.websocket.api.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,11 +22,13 @@ import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 
 /**
  * Implements the DeploymentInterface and is responsible for building the project, executing it on a cluster and return
@@ -36,7 +44,6 @@ public class DeploymentImplementation implements DeploymentInterface {
 
     public static String PROPERTIES_FILE_NAME = "deploy.properties";
 
-    private String mavenPath;
     private String flinkPath;
     private String flinkClusterAddress;
     private String flinkPort;
@@ -57,7 +64,6 @@ public class DeploymentImplementation implements DeploymentInterface {
             e.printStackTrace();
         }
 
-        mavenPath = myProperties.getProperty("maven.path");
         flinkPath = myProperties.getProperty("flink.path");
         flinkClusterAddress = myProperties.getProperty("flink.jobmanager.address");
         flinkPort = myProperties.getProperty("flink.jobmanager.port");
@@ -92,11 +98,20 @@ public class DeploymentImplementation implements DeploymentInterface {
 
             logEvent(clientSession, "graph:" + uuid + ":mvnBuildStarted");
 
-            String mvnOutput = ExecuteShell.executeCommand(mavenPath + " package", temporaryFolder);
+            InvocationRequest request = new DefaultInvocationRequest();
+            StringBuilder mvnOutput = new StringBuilder();
+            request.setOutputHandler(s -> {
+                mvnOutput.append(s);
+                mvnOutput.append("\n");
+            });
+            request.setPomFile( new File( temporaryFolder.getAbsolutePath() + "/pom.xml" ) );
+            request.setGoals( Collections.singletonList( "package" ) );
+            Invoker invoker = new DefaultInvoker();
+            InvocationResult invocationResult = invoker.execute(request);
 
             logEvent(clientSession, "graph:" + uuid + ":mvnBuildOutput " + mvnOutput);
 
-            if (!mvnOutput.contains("BUILD FAILURE")) {
+            if (invocationResult.getExitCode() == 0) {
                 logEvent(clientSession, "graph:" + uuid + ":mvnBuildSucceeded");
             } else {
                 logEvent(clientSession, "graph:" + uuid + ":mvnBuildError");
@@ -109,6 +124,8 @@ public class DeploymentImplementation implements DeploymentInterface {
             e.printStackTrace();
         } catch (URISyntaxException e) {
             LOG.error("Error", e);
+            e.printStackTrace();
+        } catch (MavenInvocationException e) {
             e.printStackTrace();
         }
 
