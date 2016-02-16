@@ -66,6 +66,22 @@
             return lastGraph;
         };
 
+        flink.graphStack.getCurrent = function() {
+            var graphStack = flink.graphStack.getAll(),
+                currentPosition = flink.currentGraphStackPosition.get(),
+                currentGraph = null;
+
+            if (graphStack !== null && graphStack.length > 0) {
+                if (currentPosition >= 0 && graphStack.length > currentPosition) {
+                    currentGraph = graphStack[currentPosition];
+                } else {
+                    currentGraph = flink.graphStack.getLast();
+                }
+            }
+
+            return currentGraph;
+        }
+
         flink.graphStack.add = function(element) {
             if (element === null) {
                 return;
@@ -107,10 +123,6 @@
         flink.saveToLocalStorage = function(graph) {
             flink.graphStack.add(graph.toJSON());
             flink.graphStack.currentPosition = flink.graphStack.size() - 1;
-        };
-
-        flink.loadFromLocalStorage = function() {
-            return flink.graphStack.getLast();
         };
 
         flink.clearGraph = function(graph) {
