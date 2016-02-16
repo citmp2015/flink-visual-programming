@@ -1,0 +1,26 @@
+@import (reference) "../defines.less";
+
+.loading-wrapper {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    height: 230px;
+    justify-content: center;
+}
+
+.loading-logo {
+    animation: loading 1s infinite;
+    height: 119px;
+    width: 118px;
+}
+
+@keyframes loading {
+    0%, 100% {
+        transform: translateY(0px);
+        animation-timing-function: ease-out;
+    }
+    50% {
+        transform: translateY(-30px);
+        animation-timing-function: ease-in;
+    }
+}

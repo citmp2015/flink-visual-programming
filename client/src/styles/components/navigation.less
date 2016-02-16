@@ -8,9 +8,11 @@
 @_borderSize: 3px;
 @_separatorColor: @_backgroundHoverColor;
 
+body {padding-top: @headerHeight;}
+
 .navbar
 {
-    height: @headerHeight;
+    min-height: @headerHeight;
     margin-bottom: 0;
 
     &> div {height: 100%;}
@@ -51,7 +53,19 @@
         }
 
         img {display: inline;}
+
+        @media (min-width: @screen-sm-min) and (max-width: @screen-sm-max)
+        {
+            padding: 0 16px;
+            span {display: none;}
+        }
     }
+}
+
+@media(max-width: @screen-xs-max)
+{
+    .navbar {position: relative !important;}
+    body {padding-top: 0;}
 }
 
 .navbar-top-links

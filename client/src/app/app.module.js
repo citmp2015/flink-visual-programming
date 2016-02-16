@@ -14,6 +14,7 @@
         'cfp.hotkeys',
 
         'app.menu',
+        'app.console',
         'app.datasource',
         'app.filter',
         'app.group',
@@ -21,7 +22,8 @@
         'app.flatmap',
         'app.map',
         'app.reduce',
-        'app.generalsettings'
+        'app.generalsettings',
+        'app.loadingmodal'
     ]);
 
 })();

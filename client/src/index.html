@@ -20,6 +20,7 @@
     <link rel="stylesheet" href="../bower_components/components-font-awesome/css/font-awesome.css" />
     <link rel="stylesheet" href="../bower_components/jointjs/dist/joint.css" />
     <link rel="stylesheet" href="../bower_components/codemirror/lib/codemirror.css" />
+    <link rel="stylesheet" href="../bower_components/nanoscroller/bin/css/nanoscroller.css" />
     <link rel="stylesheet" href="../bower_components/angular-hotkeys/build/hotkeys.css" />
     <!-- endbower -->
     <!-- endbuild -->
@@ -29,17 +30,19 @@
     <link href="../.tmp/styles/navigation.css" rel="stylesheet">
     <link href="../.tmp/styles/sidebar.css" rel="stylesheet">
     <link href="../.tmp/styles/graph.css" rel="stylesheet">
+    <link href="../.tmp/styles/modal.css" rel="stylesheet">
+    <link href="../.tmp/styles/console.css" rel="stylesheet">
     <!-- endbuild -->
 
 </head>
 
 <body>
+    <nav class="navbar navbar-default navbar-fixed-top" role="navigation" ng-include="'app/menu/menu-navbar-top.tpl.html'"></nav>
     <div id="wrapper">
-
-        <nav class="navbar navbar-default navbar-static-top" role="navigation" ng-include="'app/menu/menu.tpl.html'"></nav>
-        <div id="page-wrapper" ui-view></div>
-
+        <aside class="sidebar nano" role="complementary" ng-include="'app/menu/menu-sidebar.tpl.html'"></aside>
+        <div role="main" id="page-wrapper" ui-view></div>
     </div>
+    <aside id="console" ng-class="{console: true, minimized: minimized}" role="complementary" ng-controller="ConsoleCtrl" ng-include="'app/console/window.tpl.html'"></aside>
 
     <!-- build:js scripts/vendor.js -->
     <!-- bower:js -->
@@ -63,6 +66,8 @@
     <script src="../bower_components/codemirror/lib/codemirror.js"></script>
     <script src="../bower_components/codemirror/mode/clike/clike.js"></script>
     <script src="../bower_components/angular-ui-codemirror/ui-codemirror.js"></script>
+    <script src="../bower_components/angular-sanitize/angular-sanitize.js"></script>
+    <script src="../bower_components/nanoscroller/bin/javascripts/jquery.nanoscroller.js"></script>
     <script src="../bower_components/angular-hotkeys/build/hotkeys.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
@@ -81,6 +86,9 @@
     <script src="./app/menu/menu.controller.js"></script>
     <script src="./app/menu/menu-sidebar.controller.js"></script>
     <script src="./app/menu/menu-navbar-top.controller.js"></script>
+
+    <script src="./app/console/console.module.js"></script>
+    <script src="./app/console/console.controller.js"></script>
 
     <script src="./app/datasource/datasource.module.js"></script>
     <script src="./app/datasource/datasource-modal.controller.js"></script>
@@ -105,6 +113,9 @@
 
     <script src="./app/generalsettings/generalsettings.module.js"></script>
     <script src="./app/generalsettings/generalsettings-modal.controller.js"></script>
+
+    <script src="./app/loadingmodal/loadingmodal.module.js"></script>
+    <script src="./app/loadingmodal/loadingmodal.controller.js"></script>
 
     <script src="./directive/joint-diagram.js"></script>
     <script src="./directive/file-import.js"></script>
