@@ -40,6 +40,8 @@ module.exports = function(config) {
             'bower_components/codemirror/lib/codemirror.js',
             'bower_components/codemirror/mode/clike/clike.js',
             'bower_components/angular-ui-codemirror/ui-codemirror.js',
+            'bower_components/angular-sanitize/angular-sanitize.js',
+            'bower_components/nanoscroller/bin/javascripts/jquery.nanoscroller.js',
             // end bower dependencies
 
 
