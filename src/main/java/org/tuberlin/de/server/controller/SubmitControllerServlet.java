@@ -5,7 +5,7 @@ import org.eclipse.jetty.websocket.servlet.WebSocketServletFactory;
 
 import javax.servlet.annotation.WebServlet;
 
-@WebServlet(urlPatterns="/ControllerWebSocket")
+@WebServlet(urlPatterns="/ControllerWebSocket/")
 public class SubmitControllerServlet extends WebSocketServlet{
 
     @Override

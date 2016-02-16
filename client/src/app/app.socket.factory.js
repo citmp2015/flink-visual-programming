@@ -12,11 +12,16 @@
         var generalSettings = graphFactory.getGeneralSettings();
         var domain = generalSettings.flinkURL + ':' + generalSettings.flinkPort;
 
-        var myIoSocket = io.connect(domain + '/ControllerWebsocket');
+        var myIoSocket = io.connect(domain, {
+            path: '/ControllerWebSocket',
+            query: ''
+        });
 
-        return socketFactory({
+        var mySocket = socketFactory({
             ioSocket: myIoSocket
         });
+        mySocket.forward();
+        return mySocket;
     }
 
 })();
