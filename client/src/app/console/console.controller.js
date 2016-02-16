@@ -10,56 +10,56 @@
     function ConsoleCtrl($scope, $rootScope) {
 
         $scope.items = [];
-        $scope.visible = true;
         $scope.minimized = true;
 
+        $scope.addItem = addItem;
+        $scope.clear = clear;
+        $scope.minimize = minimize;
+        $scope.maximize = maximize;
+        $scope.titleBarClicked = titleBarClicked;
+
         var $scrollBar = null;
-
         $scope.$watch('items', function() {
-            setTimeout(function(){
-                if($scrollBar === null)
-                {
-                    var test = $('#console .nano');
-                    if(test.length > 0)
-                        $scrollBar = test;
-                    else
-                        return;
+            if ($scrollBar === null) {
+                var test = $('#console .nano');
+                if (test.length > 0) {
+                    $scrollBar = test;
+                } else {
+                    return;
                 }
-
-                $scrollBar.nanoScroller();
-                $scrollBar.nanoScroller({scroll: 'bottom'});
-            }, 0);
+            }
+            $scrollBar.nanoScroller({
+                scroll: 'bottom'
+            });
         }, true);
 
         //text may be formatted using <font>
         //prependDate is optional (default: false)
-        $scope.addItem = function(text, prependDate) {
-
+        function addItem(text, prependDate) {
             $scope.items.push({
                 date: (prependDate ? new Date() : null),
                 text: text
             });
+        }
 
-        };
-
-        $scope.clear = function() {
+        function clear() {
             $scope.items = [];
-        };
+        }
 
-        $scope.minimize = function() {
+        function minimize() {
             $scope.minimized = true;
-        };
+        }
 
-        $scope.maximize = function() {
+        function maximize() {
             $scope.minimized = false;
-        };
+        }
 
-        $scope.titleBarClicked = function() {
-            if(!$scope.minimized)
+        function titleBarClicked() {
+            if (!$scope.minimized) {
                 return;
-
+            }
             $scope.minimized = false;
-        };
+        }
 
     }
 
