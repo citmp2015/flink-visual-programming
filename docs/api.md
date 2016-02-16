@@ -27,10 +27,10 @@ Response Body:
 }
 ```
 
-#### GET /graph/:UUID/source.zip
+#### GET /graph/zip/:UUID
 Response: ZIP file
 
-#### GET /graph/:UUID/job.jar
+#### GET /graph/jar/:UUID
 Response: JAR file
 
 #### DEPLOY /graph/:UUID
@@ -42,7 +42,6 @@ Response Body:
   "log": null //String
 }
 ```
-
 
 ## WebSocket Server Events
 
