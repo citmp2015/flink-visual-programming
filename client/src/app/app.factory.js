@@ -80,7 +80,7 @@
             }
 
             return currentGraph;
-        }
+        };
 
         flink.graphStack.add = function(element) {
             if (element === null) {
