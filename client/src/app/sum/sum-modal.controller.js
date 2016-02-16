@@ -20,6 +20,7 @@
 
         function save() {
             cell.attributes.formdata.tupleIndex = $scope.sum.tupleIndex;
+            cell.attr('.infoLabel/text', 'sum('+$scope.sum.tupleIndex+')');
             graphFactory.saveToLocalStorage($rootScope.graph);
             $uibModalInstance.close();
         }

@@ -41,6 +41,7 @@ module.exports = function(config) {
             'bower_components/codemirror/lib/codemirror.js',
             'bower_components/codemirror/mode/clike/clike.js',
             'bower_components/angular-ui-codemirror/ui-codemirror.js',
+            'bower_components/AngularJS-Toaster/toaster.js',
             'bower_components/angular-sanitize/angular-sanitize.js',
             'bower_components/nanoscroller/bin/javascripts/jquery.nanoscroller.js',
             'bower_components/angular-hotkeys/build/hotkeys.js',
@@ -60,7 +61,7 @@ module.exports = function(config) {
             'src/app/app.factory.js',
             'src/app/app.templates.js',
             'src/app/app.json.js',
-            'src/app/app.websocket.factory.js',
+            'src/app/app.verification.js',
 
             'src/app/menu/menu.module.js',
             'src/app/menu/menu.controller.js',
@@ -72,6 +73,9 @@ module.exports = function(config) {
 
             'src/app/datasource/datasource.module.js',
             'src/app/datasource/datasource-modal.controller.js',
+            
+            'src/app/datasink/datasink.module.js',
+            'src/app/datasink/datasink-modal.controller.js',
 
             'src/app/filter/filter.module.js',
             'src/app/filter/filter-modal.controller.js',

@@ -45,6 +45,7 @@
             cell.attributes.formdata.operationType = $scope.numberfilter.operationType;
             cell.attributes.formdata.compareValue = $scope.numberfilter.compareValue;
 			cell.attributes.formdata.javaSourceCode = templateFactory.createNumberFilterTemplate($scope.numberfilter.operationType.key, $scope.numberfilter.compareValue);
+            cell.attr('.infoLabel/text', $scope.numberfilter.operationType.label+' '+$scope.numberfilter.compareValue);
             graphFactory.saveToLocalStorage($rootScope.graph);
             $uibModalInstance.close();
         }
@@ -98,6 +99,7 @@
             cell.attributes.formdata.operationType = $scope.stringfilter.operationType;
             cell.attributes.formdata.compareValue = $scope.stringfilter.compareValue;
 			cell.attributes.formdata.javaSourceCode = templateFactory.createStringFilterTemplate($scope.stringfilter.operationType.key, $scope.stringfilter.compareValue);
+            cell.attr('.infoLabel/text', $scope.stringfilter.operationType.label+' '+'"'+$scope.stringfilter.compareValue+'"');
             graphFactory.saveToLocalStorage($rootScope.graph);
             $uibModalInstance.close();
         }
@@ -109,7 +111,7 @@
     }
 
     /*@ngInject*/
-    function CustomfilterModalCtrl($scope, $rootScope, $uibModalInstance, $stateParams, $timeout, graphFactory, $log) {
+    function CustomfilterModalCtrl($scope, $rootScope, $uibModalInstance, $stateParams, $timeout, graphFactory, $log, parsing, verification) {
 
         var cell = $rootScope.graph.getCell($stateParams.id);
 
@@ -126,6 +128,15 @@
 
         function save() {
             cell.attributes.formdata.javaSourceCode = $scope.editor;
+            cell.attributes.formdata.functionName = parsing.parseClassName($scope.editor);
+            var types = parsing.parseTypeParameters($scope.editor);
+            /* jshint ignore:start */
+            cell.attributes.formdata.input_type = types.inType;
+            cell.attributes.formdata.output_type = types.outType;
+            /* jshint ignore:end */
+            if(!verification.verifyClassNames($rootScope.graph)){
+                return;
+            }
             graphFactory.saveToLocalStorage($rootScope.graph);
             $uibModalInstance.close();
         }
