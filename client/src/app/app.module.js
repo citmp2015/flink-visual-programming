@@ -12,6 +12,7 @@
         'LocalStorageModule',
         'ui.codemirror',
         'cfp.hotkeys',
+        'ngWebSocket',
 
         'app.menu',
         'app.console',

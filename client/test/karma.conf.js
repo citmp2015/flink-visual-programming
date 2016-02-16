@@ -60,7 +60,7 @@ module.exports = function(config) {
             'src/app/app.factory.js',
             'src/app/app.templates.js',
             'src/app/app.json.js',
-            'src/app/app.socket.factory.js',
+            'src/app/app.websocket.factory.js',
 
             'src/app/menu/menu.module.js',
             'src/app/menu/menu.controller.js',
