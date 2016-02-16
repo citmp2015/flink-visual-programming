@@ -7,14 +7,16 @@
         .controller('AppCtrl', AppCtrl);
 
     /*@ngInject*/
-    function AppCtrl($scope, $rootScope, $state, graphFactory, $http, $log) {
+    function AppCtrl($scope, $rootScope, $state, graphFactory, $http, $log, Socket) {
+
+        $rootScope.scope = Socket;
 
         $('aside.sidebar').each(function() {
             var $sidebar = $(this);
 
             if(/iP(hone|od|ad)/i.test(window.navigator.userAgent) || /Android/i.test(window.navigator.userAgent))
                 $sidebar.addClass('is-mobile');
-            
+
             var refreshFn = function(){$sidebar.nanoScroller();};
 
             $(document).ready(function(){setTimeout(refreshFn, 0);}); //workaround: scrollbars didn't show up if needed right away

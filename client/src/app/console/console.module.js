@@ -3,7 +3,8 @@
     'use strict';
 
     angular.module('app.console', [
-    	'ngSanitize'
+    	'ngSanitize',
+        'btford.socket-io'
     ]);
 
 })();

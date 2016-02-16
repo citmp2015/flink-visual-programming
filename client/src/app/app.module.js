@@ -11,6 +11,7 @@
         'ngDraggable',
         'LocalStorageModule',
         'ui.codemirror',
+        'btford.socket-io',
 
         'app.menu',
         'app.console',
