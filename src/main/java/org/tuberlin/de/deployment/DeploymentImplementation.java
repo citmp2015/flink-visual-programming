@@ -199,11 +199,11 @@ public class DeploymentImplementation implements DeploymentInterface {
      * All further modifications (addition of files/classes) should be done to this temporary project.
      *
      * @return A file object that represents the temporary project directory
-     * @param clientSession
+     * @param clientSession The websocket session
      */
     private File createTemporaryProjectFolder(Session clientSession, String uuid) throws IOException, URISyntaxException {
 
-        clientSession.getRemote().sendString("Creating temporary folders");
+        LogEvent(clientSession, "Creating temporary folders");
 
         // Creating tmp directory
         Path tmpDirectory = Files.createTempDirectory(uuid);

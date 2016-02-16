@@ -230,7 +230,7 @@ under the License.
 				<configuration>
 					<archive>
 						<manifestEntries>
-							<Main-Class>org.test.de.WordCount</Main-Class>
+							<Main-Class>testpackage.Jobgraph</Main-Class>
 						</manifestEntries>
 					</archive>
 				</configuration>
