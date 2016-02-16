@@ -38,22 +38,22 @@ public interface DeploymentInterface {
      * @param entryClass this is the class that contains the job graph. This class is essentially the entry point of
      *                   the flink job and contains only the calls of the user defined functions
      * @param clazzes this is a list of all user defined functions, each of those a class.
-     * @param deploy when this flag is true the compiled JAR will be deployed to a running Flink cluster
-*               The configurations will be saved into config files (default) and can later in the project be overwritten by
      */
-    public void generateProjectJAR(Session clientSession, String entryClass, Map<String, String> clazzes, boolean deploy);
+    void generateProjectDirectory(Session clientSession, String uuid, String entryClass, Map<String, String> clazzes);
 
     /**
      * This method will return a InputStream that contains the JAR File.
      * This is mainly for frontend functions to download the generated JAR.
      * @return a InputStream containing the Jar file
      */
-    public InputStream getJarStream(Session clientSession, String entryClass, Map<String, String> clazzes);
+    InputStream getJarStream(Session clientSession, String uuid);
 
     /**
      * This method returns a InputStream that contains a ZIP file with the entire project (source code files,
      * not compiled)
      * @return InputStream containing a Zip file with the project (source code, not compiled)
      */
-    public InputStream getZipSource(Session clientSession, String entryClass, Map<String, String> clazzes);
+    InputStream getZipSource(Session clientSession, String uuid);
+
+    void deploy(Session clientSession, String uuid);
 }

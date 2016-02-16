@@ -5,7 +5,7 @@
 
     <servlet>
         <servlet-name>DeployController</servlet-name>
-        <servlet-class>org.tuberlin.de.server.controller.SubmitController</servlet-class>
+        <servlet-class>org.tuberlin.de.server.controller.GraphController</servlet-class>
     </servlet>
 
     <servlet-mapping>
