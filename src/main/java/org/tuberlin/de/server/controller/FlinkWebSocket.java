@@ -1,9 +1,5 @@
 package org.tuberlin.de.server.controller;
 
-import org.eclipse.jetty.websocket.api.Session;
-import org.eclipse.jetty.websocket.api.annotations.OnWebSocketClose;
-import org.eclipse.jetty.websocket.api.annotations.OnWebSocketConnect;
-import org.eclipse.jetty.websocket.api.annotations.OnWebSocketMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -11,6 +7,11 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.websocket.CloseReason;
+import javax.websocket.OnClose;
+import javax.websocket.OnMessage;
+import javax.websocket.OnOpen;
+import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
 
 @ServerEndpoint("/ControllerWebSocket")
@@ -32,33 +33,22 @@ public class FlinkWebSocket {
         }
     }
 
-    @OnWebSocketConnect
+    @OnOpen
     public void onConnect(Session session) throws IOException {
-        LOG.debug(session.getRemoteAddress().getHostString() + " connected!");
-        LOG.debug(session.getRemoteAddress().getAddress() + " connected!");
-        LOG.debug(session.getRemoteAddress().getHostName() + " connected!");
-        hostSessionMapping.put(session.getRemoteAddress().getHostString(), session);
+        LOG.debug("New client: " + session.getId() + " connected!");
     }
 
-    @OnWebSocketMessage
-    public void onText(Session session, String message) throws IOException {
+    @OnMessage
+    public void onText(String message, Session session) throws IOException {
         LOG.debug("Message received:" + message);
         if (session.isOpen()) {
-            switch (message) {
-                case "Start":
-                    LOG.debug("Received Start");
-                    break;
-                default:
-                    LOG.debug("Unrecognized command");
-            }
-
             String response = message.toUpperCase();
-            session.getRemote().sendString(response);
+            session.getBasicRemote().sendText(response);
         }
     }
 
-    @OnWebSocketClose
-    public void onClose(Session session, int status, String reason) {
-        LOG.debug(session.getRemoteAddress().getHostString() + " closed!");
+    @OnClose
+    public void onClose(CloseReason reason, Session session) {
+        LOG.debug(session.getId() + " closed!" + reason.getReasonPhrase());
     }
 }

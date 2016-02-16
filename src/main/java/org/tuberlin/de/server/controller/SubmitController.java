@@ -95,20 +95,20 @@ public class SubmitController extends HttpServlet {
         Map<String, String> clazzes = CodeGenerator.getComponentSources(jobGraph);
 
 
-        Session clientSession = FlinkWebSocket.getSession(req.getRemoteAddr());
+//        Session clientSession = FlinkWebSocket.getSession(req.getRemoteAddr());
 
         switch (action) {
             case "deploy":
                 LOG.debug("Starting deployment");
-                deploymentInterface.generateProjectJAR(clientSession, mainClass, clazzes, false);
+//                deploymentInterface.generateProjectJAR(clientSession, mainClass, clazzes, false);
                 break;
             case "download_sources":
                 LOG.debug("Starting download source");
-                startZipDownload(clientSession, resp, mainClass, clazzes);
+//                startZipDownload(clientSession, resp, mainClass, clazzes);
                 break;
             case "download_jar":
                 LOG.debug("Starting download jar");
-                startJarDownload(clientSession, resp, mainClass, clazzes);
+//                startJarDownload(clientSession, resp, mainClass, clazzes);
                 break;
             default:
                 LOG.debug("No action specified");
