@@ -59,28 +59,19 @@ public class GraphController extends HttpServlet {
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        LOG.debug("DoPut called");
-
         String body = req.getReader().lines().reduce("", (accumulator, actual) -> accumulator + actual);
-        JSONObject bodyObject;
+        JSONObject jobGraphJSON;
 
         try {
-            bodyObject = new JSONObject(body);
+            jobGraphJSON = new JSONObject(body);
         } catch (JSONException e) {
             LOG.debug("Request did not contain data");
             return;
         }
 
-        if (!bodyObject.has("graph")) {
-            LOG.debug("Request did not contain data for parameter graph");
-            return;
-        } else {
-            LOG.debug("Graph: " + bodyObject.getJSONObject("graph").toString());
-        }
-
         JobGraph jobGraph;
         try {
-            jobGraph = backendController.getJobGraph(bodyObject.getJSONObject("graph"));
+            jobGraph = backendController.getJobGraph(jobGraphJSON);
         } catch (Exception e) {
             LOG.error("Error in construction jobGraph.", e);
             return;
@@ -106,7 +97,7 @@ public class GraphController extends HttpServlet {
             deploymentInterface.generateProjectDirectory(clientSession, uuid, mainClass, clazzes);
         }).start();
 
-        startDownload(resp, response);
+        sendJson(resp, response);
     }
 
     /**
@@ -114,7 +105,7 @@ public class GraphController extends HttpServlet {
      * @param resp The response object
      * @param jsonObject The JSON object to be send
      */
-    private void startDownload(HttpServletResponse resp, JSONObject jsonObject) {
+    private void sendJson(HttpServletResponse resp, JSONObject jsonObject) {
         try {
             resp.getOutputStream().write(jsonObject.toString().getBytes(Charset.forName("UTF-8")));
         } catch (IOException e) {
