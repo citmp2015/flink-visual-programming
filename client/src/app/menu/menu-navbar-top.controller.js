@@ -67,9 +67,7 @@
                     graph: json
                 };
                 $log.info('Sending', JSON.stringify(json));
-                var generalSettings = graphFactory.getGeneralSettings();
-                var postURL = generalSettings.flinkURL + ':' + generalSettings.flinkPort;
-                $http.post(postURL + '/submit_jobgraph', formData, {responseType: 'blob'}).then(
+                $http.post(graphFactory.getGeneralSettings().flinkUrl + '/submit_jobgraph', formData, {responseType: 'blob'}).then(
                     function successCallback(response) {
                         var regex = /filename="([\w\.]+)"/ig;
                         var contentDisposition = response.headers('Content-Disposition') || 'filename="default.zip"';
