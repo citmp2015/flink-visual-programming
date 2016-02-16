@@ -60,7 +60,12 @@ public class DeploymentImplementation implements DeploymentInterface {
 
             createClasses(temporaryFolder, entryClass, clazzes);
 
-            LOG.debug("Maven Invocation " + ExecuteShell.executeCommand(mavenPath + " package", temporaryFolder));
+            clientSession.getRemote().sendString("Classes created");
+
+            String mvnOutput = ExecuteShell.executeCommand(mavenPath + " package", temporaryFolder);
+
+            LOG.debug("Maven Invocation " + mvnOutput);
+            clientSession.getRemote().sendString(mvnOutput);
 
             if (deploy) {
 

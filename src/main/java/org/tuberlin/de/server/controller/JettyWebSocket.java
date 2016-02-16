@@ -4,6 +4,7 @@ import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketClose;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketConnect;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketMessage;
+import org.eclipse.jetty.websocket.api.annotations.WebSocket;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -11,16 +12,14 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.websocket.server.ServerEndpoint;
+@WebSocket
+public class JettyWebSocket {
 
-@ServerEndpoint("/ControllerWebSocket")
-public class FlinkWebSocket {
-
-    private static final Logger LOG = LoggerFactory.getLogger(FlinkWebSocket.class);
+    private static final Logger LOG = LoggerFactory.getLogger(JettyWebSocket.class);
 
     private static Map<String, Session> hostSessionMapping;
 
-    public FlinkWebSocket() {
+    public JettyWebSocket() {
         hostSessionMapping = new HashMap<>();
     }
 
@@ -35,23 +34,13 @@ public class FlinkWebSocket {
     @OnWebSocketConnect
     public void onConnect(Session session) throws IOException {
         LOG.debug(session.getRemoteAddress().getHostString() + " connected!");
-        LOG.debug(session.getRemoteAddress().getAddress() + " connected!");
-        LOG.debug(session.getRemoteAddress().getHostName() + " connected!");
         hostSessionMapping.put(session.getRemoteAddress().getHostString(), session);
     }
 
     @OnWebSocketMessage
     public void onText(Session session, String message) throws IOException {
-        LOG.debug("Message received:" + message);
+        LOG.debug("Message received: " + message);
         if (session.isOpen()) {
-            switch (message) {
-                case "Start":
-                    LOG.debug("Received Start");
-                    break;
-                default:
-                    LOG.debug("Unrecognized command");
-            }
-
             String response = message.toUpperCase();
             session.getRemote().sendString(response);
         }
@@ -59,6 +48,7 @@ public class FlinkWebSocket {
 
     @OnWebSocketClose
     public void onClose(Session session, int status, String reason) {
-        LOG.debug(session.getRemoteAddress().getHostString() + " closed!");
+        LOG.debug(session.getRemoteAddress().getHostString() + " closed! " + reason);
+        hostSessionMapping.remove(session.getRemoteAddress().getHostString());
     }
 }

@@ -95,7 +95,7 @@ public class SubmitController extends HttpServlet {
         Map<String, String> clazzes = CodeGenerator.getComponentSources(jobGraph);
 
 
-        Session clientSession = FlinkWebSocket.getSession(req.getRemoteAddr());
+        Session clientSession = JettyWebSocket.getSession(req.getRemoteAddr());
 
         switch (action) {
             case "deploy":
