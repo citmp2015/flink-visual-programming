@@ -4,24 +4,39 @@
 
     angular
         .module('app')
-        .factory('Socket', Socket);
+        .factory('webSocket', webSocket);
 
     /*@ngInject*/
-    function Socket(socketFactory, graphFactory, $log) {
+    function webSocket($websocket, graphFactory, $log) {
 
         var generalSettings = graphFactory.getGeneralSettings();
         var domain = generalSettings.flinkURL + ':' + generalSettings.flinkPort;
 
-        var myIoSocket = io.connect(domain, {
-            path: '/ControllerWebSocket',
-            query: ''
+        var dataStream = $websocket(domain.replace('http://', 'ws://') + '/ControllerWebSocket');
+
+        dataStream.onMessage(function(message) {
+            $log.debug(message);
         });
 
-        var mySocket = socketFactory({
-            ioSocket: myIoSocket
+        dataStream.onOpen(function() {
+            $log.debug('ws connection opened');
         });
-        mySocket.forward();
-        return mySocket;
+
+        dataStream.onClose(function() {
+            $log.debug('ws connection closed');
+        });
+
+        dataStream.onError(function() {
+            $log.debug('ws connection error');
+        });
+
+        var methods = {
+            get: function() {
+                dataStream.send('lala');
+            }
+        };
+
+        return methods;
     }
 
 })();

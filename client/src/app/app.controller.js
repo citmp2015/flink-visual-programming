@@ -7,9 +7,9 @@
         .controller('AppCtrl', AppCtrl);
 
     /*@ngInject*/
-    function AppCtrl($scope, $rootScope, $state, graphFactory, $http, $log, Socket) {
+    function AppCtrl($scope, $rootScope, $state, graphFactory, $http, $log, webSocket) {
 
-        $rootScope.scope = Socket;
+        webSocket.get();
 
         $('aside.sidebar').each(function() {
             var $sidebar = $(this);
