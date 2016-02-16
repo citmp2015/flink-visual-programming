@@ -7,7 +7,7 @@
         .controller('MenuNavbarTopCtrl', MenuNavbarTopCtrl);
 
     /*@ngInject*/
-    function MenuNavbarTopCtrl($scope, $rootScope, graphFactory, jsonBuilder, $log, $http, $uibModal, $timeout, localStorageService, hotkeys, verification) {
+    function MenuNavbarTopCtrl($scope, $rootScope, graphFactory, jsonBuilder, $q, $log, $http, $uibModal, $timeout, localStorageService, hotkeys, verification, $window) {
 
         $scope.clearGraph = clearGraph;
         $scope.exportGraph = exportGraph;
@@ -72,6 +72,10 @@
         }
 
         function sendGraph(action) {
+
+            if (!verification.verifyClassNames($rootScope.graph)) {
+                return;
+            }
 
             return $q(function(resolve, reject) {
 
