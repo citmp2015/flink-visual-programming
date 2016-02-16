@@ -11,32 +11,34 @@ Request Body:
 Response Body:
 ```js
 {
-  "id": ":ID", //String
+  "uuid": ":UUID", //String
   "status": "submitted" //String: submitted, generating, building, builded, error
-  "srcCodeUrl": null, //String
-  "jarUrl": null, //String
   "log": null //String
 }
 ```
 
-#### GET /graph/:ID
+#### GET /graph/:UUID
+Response Body:
 ```js
 {
-  "id": ":ID", //String
+  "uuid": ":UUID", //String
   "status": "submitted" //String: submitted, generating, building, builded, error
-  "srcCodeUrl": null, //String
-  "jarUrl": null, //String
   "log": null //String
 }
 ```
 
-#### DEPLOY /graph/:ID
+#### GET /graph/:UUID/source.zip
+Response: ZIP file
+
+#### GET /graph/:UUID/job.jar
+Response: JAR file
+
+#### DEPLOY /graph/:UUID
+Response Body:
 ```js
 {
-  "id": ":ID", //String
+  "uuid": ":UUID", //String
   "status": "submitted" //String: submitted, generating, building, builded, error
-  "srcCodeUrl": null, //String
-  "jarUrl": null, //String
   "log": null //String
 }
 ```
@@ -44,10 +46,10 @@ Response Body:
 
 ## WebSocket Server Events
 
-* `graph:ID:generationStarted`
-* `graph:ID:generationSucceeded`
-* `graph:ID:generationError`
-* `graph:ID:mvnBuildStarted`
-* `graph:ID:mvnBuildOutput OUTPUT`
-* `graph:ID:mvnBuildError`
-* `graph:ID:mvnBuildSucceeded`
+* `graph:UUID:generationStarted`
+* `graph:UUID:generationSucceeded`
+* `graph:UUID:generationError`
+* `graph:UUID:mvnBuildStarted`
+* `graph:UUID:mvnBuildOutput OUTPUT`
+* `graph:UUID:mvnBuildError`
+* `graph:UUID:mvnBuildSucceeded`
