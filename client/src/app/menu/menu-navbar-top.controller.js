@@ -134,7 +134,7 @@
             $http.get(graphFactory.getGeneralSettings().flinkUrl + path, {
                 responseType: 'blob'
             }).then(function successCallback(response) {
-                var filename = /filename="([\w\.]+)"/ig.exec(response.headers('Content-Disposition'))[1];
+                var filename = response.headers('Content-Disposition') ? /filename="([\w\.]+)"/ig.exec(response.headers('Content-Disposition'))[1] : 'download.zip'; //TODO do not hardocde the extension
                 var blob = new Blob([response.data], {
                     type: response.headers('Content-Type')
                 });

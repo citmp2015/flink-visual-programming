@@ -7,8 +7,9 @@
     <div class="panel-body nano">
         <div class="nano-content">
             <ul>
-                <li ng-repeat="item in items track by $index">
+                <li ng-repeat="item in items">
                     <span class="time" ng-if="item.date != null">[{{item.date | amDateFormat: 'HH:mm:ss'}}]</span>
+                    <span class="number" ng-if="item.number">[{{item.number}}]</span>
                     <span ng-bind-html="item.text"></span>
                 </li>
             </ul>
