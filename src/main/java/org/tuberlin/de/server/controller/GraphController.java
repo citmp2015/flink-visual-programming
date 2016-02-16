@@ -51,7 +51,7 @@ public class GraphController extends HttpServlet {
     private BackendController backendController;
 
     public GraphController() {
-        LOG.debug("Init " + GraphController.class.getSimpleName());
+        LOG.debug("Init");
         deploymentInterface = DeploymentImplementation.getInstance();
         backendController = BackendControllerImpl.getInstance();
     }
@@ -90,6 +90,10 @@ public class GraphController extends HttpServlet {
         Map<String, String> clazzes = CodeGenerator.getComponentSources(jobGraph);
 
         Session clientSession = JettyWebSocket.getSession(req.getRemoteAddr());
+
+        if (clientSession == null) {
+            LOG.debug("Could not find Websocket for current client");
+        }
 
         String uuid = UUID.randomUUID().toString();
 

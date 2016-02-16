@@ -17,11 +17,7 @@ public class JettyWebSocket {
 
     private static final Logger LOG = LoggerFactory.getLogger(JettyWebSocket.class);
 
-    private static Map<String, Session> hostSessionMapping;
-
-    public JettyWebSocket() {
-        hostSessionMapping = new HashMap<>();
-    }
+    private static Map<String, Session> hostSessionMapping = new HashMap<>();
 
     public static Session getSession(String host) {
         if (hostSessionMapping.containsKey(host)) {
