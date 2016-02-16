@@ -9,10 +9,7 @@
     /*@ngInject*/
     function webSocket($websocket, graphFactory, $log) {
 
-        var generalSettings = graphFactory.getGeneralSettings();
-        var domain = generalSettings.flinkURL + ':' + generalSettings.flinkPort;
-
-        var dataStream = $websocket(domain.replace('http://', 'ws://') + '/ControllerWebSocket');
+        var dataStream = $websocket(graphFactory.getGeneralSettings().flinkWsUrl + '/ControllerWebSocket');
         var scope;
 
         dataStream.onMessage(function(e) {
