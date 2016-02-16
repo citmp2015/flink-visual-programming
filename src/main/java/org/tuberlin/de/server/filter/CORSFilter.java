@@ -15,7 +15,7 @@ public class CORSFilter implements Filter {
         HttpServletResponse resp = (HttpServletResponse) servletResponse;
         resp.addHeader("Access-Control-Allow-Origin","http://localhost:9000"); //TODO could be an option
         resp.addHeader("Access-Control-Allow-Methods","GET,PUT,DEPLOY");
-        resp.addHeader("Access-Control-Allow-Headers","Origin,X-Requested-With,Content-Type,Accept,Content-Disposition");
+        resp.addHeader("Access-Control-Allow-Headers","Origin,X-Requested-With,Accept,Content-Type,Content-Length,Content-Disposition");
         resp.addHeader("Access-Control-Allow-Credentials", "true");
 
         HttpServletRequest request = (HttpServletRequest) servletRequest;

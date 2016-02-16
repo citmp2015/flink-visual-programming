@@ -43,7 +43,7 @@ public class GraphZipController extends HttpServlet {
         }
 
         resp.setContentType("application/zip");
-        resp.setHeader("Content-Disposition", "attachment; filename=\"FlinkJobArchive.zip\"");
+        resp.setHeader("Content-Disposition", "attachment; filename=\"FlinkJobSrc-\" + uuid + \".zip\"");
 
         DownloadUtils.startDownload(resp, inputStream);
     }
