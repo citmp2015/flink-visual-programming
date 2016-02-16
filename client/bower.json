@@ -28,7 +28,10 @@
     "lodash": "~3.10.x",
     "angular-local-storage": "~0.2.x",
     "angular-ui-codemirror": "~0.3.x",
-    "AngularJS-Toaster": "angularjs-toaster#^1.1.0"
+    "AngularJS-Toaster": "angularjs-toaster#^1.1.0",
+    "angular-sanitize": "~1.x",
+    "nanoscroller": "~0.8.x",
+    "angular-hotkeys": "chieffancypants/angular-hotkeys#~1.6.0"
   },
   "devDependencies": {
     "angular-mocks": "~1.4.x"

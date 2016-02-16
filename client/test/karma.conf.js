@@ -41,6 +41,9 @@ module.exports = function(config) {
             'bower_components/codemirror/mode/clike/clike.js',
             'bower_components/angular-ui-codemirror/ui-codemirror.js',
             'bower_components/AngularJS-Toaster/toaster.js',
+            'bower_components/angular-sanitize/angular-sanitize.js',
+            'bower_components/nanoscroller/bin/javascripts/jquery.nanoscroller.js',
+            'bower_components/angular-hotkeys/build/hotkeys.js',
             // end bower dependencies
 
 
@@ -63,6 +66,9 @@ module.exports = function(config) {
             'src/app/menu/menu.controller.js',
             'src/app/menu/menu-sidebar.controller.js',
             'src/app/menu/menu-navbar-top.controller.js',
+
+            'src/app/console/console.module.js',
+            'src/app/console/console.controller.js',
 
             'src/app/datasource/datasource.module.js',
             'src/app/datasource/datasource-modal.controller.js',
