@@ -78,7 +78,7 @@
                 $http.put(graphFactory.getGeneralSettings().flinkUrl + '/graph', jsonBuilder.buildJson($rootScope.graph), {
                     responseType: 'json'
                 }).then(function successCallback(response) {
-                    if (response.status !== 200) {
+                    if (response.status !== 200 || !response.data) {
                         $log.error('Error on PUT /graph', response);
                         return reject(response);
                     }
