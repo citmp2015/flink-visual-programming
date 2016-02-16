@@ -45,7 +45,7 @@ public class GraphJarController extends HttpServlet {
         }
 
         resp.setContentType("application/java-archive");
-        resp.setHeader("Content-disposition", "attachment; filename=FlinkJob.jar");
+        resp.setHeader("Content-Disposition", "attachment; filename=FlinkJob-" + uuid + ".jar");
 
         ServletUtil.startDownload(resp, inputStream);
     }

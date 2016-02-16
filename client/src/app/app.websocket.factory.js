@@ -13,14 +13,41 @@
         var scope;
 
         dataStream.onMessage(function(e) {
-            var data, eventKey = e.data;
-            if (eventKey.indexOf(' ') !== -1) {
-                eventKey = eventKey.substr(0, eventKey.indexOf(' '));
+
+            var events = [],
+                data, message = e.data;
+            var m, uuid, eventKey, regEx = /((graph):(.*):(\w+))/g;
+
+            while ((m = regEx.exec(message)) !== null) {
+                if (m.index === regEx.lastIndex) {
+                    regEx.lastIndex++;
+                }
+                if (m.length > 4) {
+                    uuid = m[3];
+                    eventKey = m[2] + ':' + m[4];
+                }
+            }
+            if (message.indexOf(' ') !== -1) {
                 data = e.data.substr(e.data.indexOf(' '));
             }
-            $log.debug(eventKey, data);
+
+            if (uuid && eventKey) {
+                events.push({
+                    key: eventKey,
+                    data: [uuid, data]
+                });
+            }
+
+            events.push({
+                key: message.indexOf(' ') !== -1 ? message.substr(0, message.indexOf(' ')) : message,
+                data: [data]
+            });
+
             if (scope && scope.$broadcast) {
-                scope.$broadcast(eventKey, data);
+                angular.forEach(events, function(event) {
+                    $log.debug(event.key, event.data[0], event.data[1]);
+                    scope.$broadcast(event.key, event.data[0], event.data[1]);
+                });
             }
         });
 

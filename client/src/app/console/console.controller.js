@@ -18,8 +18,26 @@
         $scope.maximize = maximize;
         $scope.titleBarClicked = titleBarClicked;
 
+        $scope.$on('graph:mvnBuildOutput', function(e, uuid, output) {
+            addItem(uuid, output, true);
+        });
+
+        //text may be formatted using <font>
+        //prependDate is optional (default: false)
         var $scrollBar = null;
-        $scope.$watch('items', function() {
+        var uuids = [];
+        function addItem(uuid, text, prependDate) {
+            var uuidIndex = uuids.indexOf(uuid);
+            if (uuidIndex === -1) {
+                uuidIndex = uuids.push(uuid) - 1;
+            }
+            $scope.items.push({
+                number: uuidIndex + 1,
+                uuid: uuid,
+                text: text,
+                date: (prependDate ? new Date() : null),
+            });
+            maximize();
             if ($scrollBar === null) {
                 var test = $('#console .nano');
                 if (test.length > 0) {
@@ -30,15 +48,6 @@
             }
             $scrollBar.nanoScroller({
                 scroll: 'bottom'
-            });
-        }, true);
-
-        //text may be formatted using <font>
-        //prependDate is optional (default: false)
-        function addItem(text, prependDate) {
-            $scope.items.push({
-                date: (prependDate ? new Date() : null),
-                text: text
             });
         }
 
