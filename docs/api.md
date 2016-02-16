@@ -50,5 +50,9 @@ Response Body:
 * `graph:UUID:generationError`
 * `graph:UUID:mvnBuildStarted`
 * `graph:UUID:mvnBuildOutput OUTPUT`
-* `graph:UUID:mvnBuildError`
 * `graph:UUID:mvnBuildSucceeded`
+* `graph:UUID:mvnBuildError`
+* `graph:UUID:deployStarted`
+* `graph:UUID:deploySucceeded`
+* `graph:UUID:deployOutput OUTPUT`
+* `graph:UUID:deployError`
