@@ -9,7 +9,7 @@
     /*@ngInject*/
     function AppCtrl($scope, $rootScope, $state, graphFactory, $http, $log, webSocket) {
 
-        webSocket.get();
+        webSocket.forward($rootScope);
 
         $('aside.sidebar').each(function() {
             var $sidebar = $(this);

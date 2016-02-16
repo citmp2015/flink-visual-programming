@@ -13,9 +13,19 @@
         var domain = generalSettings.flinkURL + ':' + generalSettings.flinkPort;
 
         var dataStream = $websocket(domain.replace('http://', 'ws://') + '/ControllerWebSocket');
+        var scope;
 
         dataStream.onMessage(function(message) {
-            $log.debug(message);
+            var eventKey = message;
+            var data = null;
+            if (eventKey.indexOf(' ')) {
+                eventKey = eventKey.substr(0, eventKey.indexOf(' '));
+                data = message.substr(message.indexOf(' '));
+            }
+            $log.debug(eventKey, data);
+            if (scope && scope.$broadcast) {
+                scope.$broadcast(eventKey, data);
+            }
         });
 
         dataStream.onOpen(function() {
@@ -30,13 +40,11 @@
             $log.debug('ws connection error');
         });
 
-        var methods = {
-            get: function() {
-                dataStream.send('lala');
+        return {
+            forward: function(thisScope) {
+                scope = thisScope;
             }
         };
-
-        return methods;
     }
 
 })();
