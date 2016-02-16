@@ -7,14 +7,16 @@
         .controller('MenuNavbarTopCtrl', MenuNavbarTopCtrl);
 
     /*@ngInject*/
-    function MenuNavbarTopCtrl($scope, $rootScope, graphFactory, jsonBuilder, $log, $http, $uibModal, $timeout, localStorageService, hotkeys) {
+    function MenuNavbarTopCtrl($scope, $rootScope, graphFactory, jsonBuilder, $q, $window, $log, $http, $uibModal, $timeout, localStorageService, hotkeys) {
 
         $scope.clearGraph = clearGraph;
         $scope.exportGraph = exportGraph;
         $scope.importGraph = importGraph;
-        $scope.runGraph = runGraph;
-        $scope.getCode = getCode;
-        $scope.getJar = getJar;
+
+        $scope.deployGraph = deployGraph;
+        $scope.downloadSrc = downloadSrc;
+        $scope.downloadJar = downloadJar;
+
         $scope.undoGraph = undoGraph;
         $scope.redoGraph = redoGraph;
         $scope.exportHref = '#';
@@ -22,6 +24,8 @@
         $scope.importFile = null;
         $scope.onFileLoaded = onFileLoaded;
         $scope.onFileError = onFileError;
+
+        $scope.openConfigModal = openConfigModal;
 
         function onFileLoaded() {
             var data = JSON.parse($scope.importFile);
@@ -45,63 +49,110 @@
             $('.import-wrapper input[type="file"]').click();
         }
 
-        $scope.openConfiguration = function() {
+        function openConfigModal() {
             $uibModal.open({
                 templateUrl: '/app/generalsettings/generalsettings-modal.tpl.html',
                 controller: 'generalsettingsModalCtrl',
                 backdrop: 'static'
             });
-        };
+        }
 
-        function sendGraph(action) {
-            var loadingModal = $uibModal.open({
+        var loadingModal;
+
+        function openLoadingModal() {
+            loadingModal = $uibModal.open({
                 templateUrl: '/app/loadingmodal/loadingmodal.tpl.html',
                 controller: 'loadingModalCtrl',
                 backdrop: 'static'
             });
+        }
 
-            $timeout(function(){
-                var json = jsonBuilder.buildJson($rootScope.graph);
-                var formData = {
-                    action: action,
-                    graph: json
-                };
-                $log.info('Sending', JSON.stringify(json));
-                $http.post(graphFactory.getGeneralSettings().flinkUrl + '/submit_jobgraph', formData, {responseType: 'blob'}).then(
-                    function successCallback(response) {
-                        var regex = /filename="([\w\.]+)"/ig;
-                        var contentDisposition = response.headers('Content-Disposition') || 'filename="default.zip"';
-                        var filename = regex.exec(contentDisposition)[1];
-                        var blob = new Blob([response.data], {type: 'application/zip'});
-                        if (window.navigator.msSaveOrOpenBlob) {
-                            window.navigator.msSaveBlob(blob, filename);
-                        } else {
-                            var elem = window.document.createElement('a');
-                            elem.href = window.URL.createObjectURL(blob);
-                            elem.download = filename;
-                            document.body.appendChild(elem);
-                            elem.click();
-                            document.body.removeChild(elem);
-                        }
-                        loadingModal.close();
-                    }, function errorCallback(response) {
-                        $log.error('error while sending the jobgraph', response);
-                        loadingModal.close();
+        function closeLoadingModal() {
+            loadingModal.close();
+        }
+
+        function sendGraph(action) {
+
+            return $q(function(resolve, reject) {
+
+                $http.put(graphFactory.getGeneralSettings().flinkUrl + '/graph', jsonBuilder.buildJson($rootScope.graph), {
+                    responseType: 'json'
+                }).then(function successCallback(response) {
+                    if (response.status !== 200) {
+                        $log.error('Error on PUT /graph', response);
+                        return reject(response);
                     }
-                );
-            }, 1500);
+                    $log.debug(response);
+                    resolve(response.data);
+                }, function errorCallback(response) {
+                    $log.error('Error on PUT /graph', response);
+                    reject(response);
+                });
+
+            });
+
         }
 
-        function runGraph() {
-            sendGraph('deploy');
+        function deployGraph() {
+            openLoadingModal();
+            sendGraph().then(function(data) {
+                $scope.$on('graph:' + data.uuid + ':deployed', function() {
+                    closeLoadingModal();
+                });
+            }, function() {
+                closeLoadingModal();
+            });
         }
 
-        function getCode() {
-            sendGraph('download_sources');
+        function downloadSrc() {
+            openLoadingModal();
+            sendGraph().then(function(data) {
+                $scope.$on('graph:' + data.uuid + ':mvnBuildSucceeded', function() {
+                    download('/graph/zip/' + data.uuid, function() {
+                        closeLoadingModal();
+                    });
+                });
+            }, function() {
+                closeLoadingModal();
+            });
         }
 
-        function getJar() {
-            sendGraph('download_jar');
+        function downloadJar() {
+            openLoadingModal();
+            sendGraph().then(function(data) {
+                $scope.$on('graph:' + data.uuid + ':mvnBuildSucceeded', function() {
+                    download('/graph/zip/' + data.uuid, function() {
+                        closeLoadingModal();
+                    });
+                });
+            }, function() {
+                closeLoadingModal();
+            });
+        }
+
+        function download(path, callback) {
+            $http.get(graphFactory.getGeneralSettings().flinkUrl + path, {
+                responseType: 'blob'
+            }).then(function successCallback(response) {
+                var filename = /filename="([\w\.]+)"/ig.exec(response.headers('Content-Disposition'))[1];
+                var blob = new Blob([response.data], {
+                    type: response.headers('Content-Type')
+                });
+                if ($window.navigator.msSaveOrOpenBlob) {
+                    $window.navigator.msSaveBlob(blob, filename);
+                } else {
+                    var elem = $window.document.createElement('a');
+                    elem.href = $window.URL.createObjectURL(blob);
+                    elem.download = filename;
+                    document.body.appendChild(elem);
+                    elem.click();
+                    document.body.removeChild(elem);
+                }
+                callback();
+            }, function errorCallback(response) {
+                $log.error('error while sending the jobgraph', response);
+                callback(response);
+            });
         }
 
         function undoGraph() {
