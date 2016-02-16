@@ -8,6 +8,8 @@
     </div>
 
     <ul class="nav navbar-top-links navbar-right" ng-controller="MenuNavbarTopCtrl">
+        <li><a class="new-section noselect" ng-click="undoGraph()" ng-class="{disabledButton: (canUndo==false)}"><i class="fa fa-undo"></i> Undo</a></li>
+        <li><a class="new-section noselect" ng-click="redoGraph()" ng-class="{disabledButton: (canRedo==false)}"><i class="fa fa-repeat"></i> Redo</a></li>
         <li><a class="new-section" ng-click="runGraph()"><i class="fa fa-play-circle text-primary"></i> Deploy &amp; Run</a></li>
         <li><a ng-click="getCode()"><i class="fa fa-download"></i> Code</a></li>
         <li><a ng-click="getJar()"><i class="fa fa-download"></i> Jar</a></li>

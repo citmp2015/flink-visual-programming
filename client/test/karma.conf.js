@@ -35,8 +35,7 @@ module.exports = function(config) {
             'bower_components/angular-moment/angular-moment.js',
             'bower_components/angular-touch/angular-touch.js',
             'bower_components/angular-animate/angular-animate.js',
-            'bower_components/angular-socket-io/socket.js',
-            'bower_components/socket.io.client/dist/socket.io-1.3.5.js',
+            'bower_components/angular-websocket/angular-websocket.min.js',
             'bower_components/ngDraggable/ngDraggable.js',
             'bower_components/angular-local-storage/dist/angular-local-storage.js',
             'bower_components/codemirror/lib/codemirror.js',
@@ -44,7 +43,7 @@ module.exports = function(config) {
             'bower_components/angular-ui-codemirror/ui-codemirror.js',
             'bower_components/angular-sanitize/angular-sanitize.js',
             'bower_components/nanoscroller/bin/javascripts/jquery.nanoscroller.js',
-
+            'bower_components/angular-hotkeys/build/hotkeys.js',
             // end bower dependencies
 
 
@@ -116,7 +115,7 @@ module.exports = function(config) {
         exclude: [],
 
         // web server port
-        port: 8080,
+        port: 8090,
 
         // Start these browsers, currently available:
         // - Chrome
