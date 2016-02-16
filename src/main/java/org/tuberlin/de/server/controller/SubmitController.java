@@ -1,5 +1,6 @@
 package org.tuberlin.de.server.controller;
 
+import org.eclipse.jetty.websocket.api.Session;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -31,7 +32,6 @@ import javax.servlet.http.HttpServletResponse;
  * </p>
  * <p/>
  * The information which button was pressed is stored into the POST parameter "action".
- * This Controller is currently only a Dummy.
  * In future this Controller should kick-off the following tasks:
  * <p/>
  * 1. Code generation from the graph
@@ -39,8 +39,7 @@ import javax.servlet.http.HttpServletResponse;
  * 3. Compile Maven project into Jar
  * 4. Deploy Jar to remote Flink maschine
  * <p/>
- * This Controller handles a POST event and awaits a JSON content that describes
- * the graph.
+ * This Controller handles a POST event and awaits a JSON content that describes the graph.
  */
 @WebServlet(urlPatterns = {"/submit_jobgraph"})
 public class SubmitController extends HttpServlet {
@@ -49,19 +48,20 @@ public class SubmitController extends HttpServlet {
     private static final Logger LOG = LoggerFactory.getLogger(SubmitController.class);
 
     private DeploymentInterface deploymentInterface;
+    private BackendController backendController;
 
     public SubmitController() {
         LOG.debug("Init " + SubmitController.class.getSimpleName());
         deploymentInterface = new DeploymentImplementation();
+        backendController = new BackendControllerImpl();
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws
             ServletException, IOException {
-        BackendController backendController = new BackendControllerImpl();
 
         String body = req.getReader().lines().reduce("", (accumulator, actual) -> accumulator + actual);
-        JSONObject bodyObject = null;
+        JSONObject bodyObject;
 
         try {
             bodyObject = new JSONObject(body);
@@ -94,18 +94,21 @@ public class SubmitController extends HttpServlet {
         String mainClass = CodeGenerator.generateCode(jobGraph);
         Map<String, String> clazzes = CodeGenerator.getComponentSources(jobGraph);
 
+
+        Session clientSession = FlinkWebSocket.getSession(req.getRemoteAddr());
+
         switch (action) {
             case "deploy":
                 LOG.debug("Starting deployment");
-                deploymentInterface.generateProjectJAR(mainClass, clazzes, false);
+                deploymentInterface.generateProjectJAR(clientSession, mainClass, clazzes, false);
                 break;
             case "download_sources":
                 LOG.debug("Starting download source");
-                startZipDownload(resp, mainClass, clazzes);
+                startZipDownload(clientSession, resp, mainClass, clazzes);
                 break;
             case "download_jar":
                 LOG.debug("Starting download jar");
-                startJarDownload(resp, mainClass, clazzes);
+                startJarDownload(clientSession, resp, mainClass, clazzes);
                 break;
             default:
                 LOG.debug("No action specified");
@@ -115,12 +118,13 @@ public class SubmitController extends HttpServlet {
     /**
      * Starts the ZIP download
      *
+     * @param clientSession
      * @param resp       The response object
      * @param entryClass The entry class
      * @param classez    The classes
      */
-    private void startZipDownload(HttpServletResponse resp, String entryClass, Map<String, String> classez) {
-        InputStream inputStream = deploymentInterface.getZipSource(entryClass, classez);
+    private void startZipDownload(Session clientSession, HttpServletResponse resp, String entryClass, Map<String, String> classez) {
+        InputStream inputStream = deploymentInterface.getZipSource(clientSession, entryClass, classez);
 
         resp.setContentType("application/zip");
         resp.setHeader("Content-Disposition", "attachment; filename=\"FlinkJobArchive.zip\"");
@@ -131,12 +135,13 @@ public class SubmitController extends HttpServlet {
     /**
      * Starts the Jar download
      *
+     * @param clientSession
      * @param resp The response object
      */
-    private void startJarDownload(HttpServletResponse resp, String entryClass, Map<String, String> clazzes) {
-        deploymentInterface.generateProjectJAR(entryClass, clazzes, false);
+    private void startJarDownload(Session clientSession, HttpServletResponse resp, String entryClass, Map<String, String> clazzes) {
+        deploymentInterface.generateProjectJAR(clientSession, entryClass, clazzes, false);
 
-        InputStream inputStream = deploymentInterface.getJarStream(entryClass, clazzes);
+        InputStream inputStream = deploymentInterface.getJarStream(clientSession, entryClass, clazzes);
 
         resp.setContentType("application/java-archive");
         resp.setHeader("Content-disposition", "attachment; filename=FlinkJob.jar");

@@ -123,7 +123,7 @@
         </dependency>
         <dependency>
             <groupId>org.eclipse.jetty.websocket</groupId>
-            <artifactId>websocket-server</artifactId>
+            <artifactId>javax-websocket-server-impl</artifactId>
             <version>${jetty-version}</version>
         </dependency>
         <!-- End Servlet Container Jetty -->

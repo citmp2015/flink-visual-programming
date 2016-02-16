@@ -1,5 +1,6 @@
 package org.tuberlin.de.deployment;
 
+import org.eclipse.jetty.websocket.api.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.tuberlin.de.common.model.Constants;
@@ -50,12 +51,12 @@ public class DeploymentImplementation implements DeploymentInterface {
     }
 
     @Override
-    public void generateProjectJAR(String entryClass, Map<String, String> clazzes, boolean deploy) {
+    public void generateProjectJAR(Session clientSession, String entryClass, Map<String, String> clazzes, boolean deploy) {
 
         File temporaryFolder = null;
         try {
 
-            temporaryFolder = createTemporaryProjectFolder();
+            temporaryFolder = createTemporaryProjectFolder(clientSession);
 
             createClasses(temporaryFolder, entryClass, clazzes);
 
@@ -82,13 +83,13 @@ public class DeploymentImplementation implements DeploymentInterface {
     }
 
     @Override
-    public InputStream getJarStream(String entryClass, Map<String, String> clazzes) {
+    public InputStream getJarStream(Session clientSession, String entryClass, Map<String, String> clazzes) {
 
         File temporaryProjectFolder = null;
 
         try {
 
-            temporaryProjectFolder = createTemporaryProjectFolder();
+            temporaryProjectFolder = createTemporaryProjectFolder(clientSession);
 
             createClasses(temporaryProjectFolder, entryClass, clazzes);
 
@@ -112,13 +113,13 @@ public class DeploymentImplementation implements DeploymentInterface {
     }
 
     @Override
-    public InputStream getZipSource(String entryClass, Map<String, String> clazzes) {
+    public InputStream getZipSource(Session clientSession, String entryClass, Map<String, String> clazzes) {
 
-        File temporaryProjectFolder = null;
+        File temporaryProjectFolder;
 
         try {
 
-            temporaryProjectFolder = createTemporaryProjectFolder();
+            temporaryProjectFolder = createTemporaryProjectFolder(clientSession);
 
             createClasses(temporaryProjectFolder, entryClass, clazzes);
 
@@ -146,13 +147,14 @@ public class DeploymentImplementation implements DeploymentInterface {
      * All further modifications (addition of files/classes) should be done to this temporary project.
      *
      * @return A file object that represents the temporary project directory
+     * @param clientSession
      */
-    private File createTemporaryProjectFolder() throws IOException, URISyntaxException {
+    private File createTemporaryProjectFolder(Session clientSession) throws IOException, URISyntaxException {
 
         // Used to create tmp folder for this specific project
         String randomUUID = UUID.randomUUID().toString();
 
-        LOG.debug("Current directory: " + ExecuteShell.executeCommand("pwd"));
+        clientSession.getRemote().sendString("Creating temporary folders");
 
         // Creating tmp directory
         Path tmpDirectory = Files.createTempDirectory(randomUUID);
