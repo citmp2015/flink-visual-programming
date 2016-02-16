@@ -5,7 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.tuberlin.de.deployment.DeploymentImplementation;
 import org.tuberlin.de.deployment.DeploymentInterface;
-import org.tuberlin.de.deployment.util.DownloadUtils;
+import org.tuberlin.de.deployment.util.ServletUtil;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -47,6 +47,6 @@ public class GraphJarController extends HttpServlet {
         resp.setContentType("application/java-archive");
         resp.setHeader("Content-disposition", "attachment; filename=FlinkJob.jar");
 
-        DownloadUtils.startDownload(resp, inputStream);
+        ServletUtil.startDownload(resp, inputStream);
     }
 }

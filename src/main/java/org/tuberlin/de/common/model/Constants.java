@@ -142,4 +142,5 @@ public class Constants {
     // The following values should be used, when referring to tags in the pom.xml, which text values should be replaced by the DOMParser
     public static final String ENTRY_CLASS_KEY = "mainClass";
     public static final String ARTIFACT_ID_KEY = "artifactId"; // Corresponds to the FLINK_JOB_NAME
+    public static final String MANIFEST_ENTRY_MAIN_CLASS = "Main-Class";
 }

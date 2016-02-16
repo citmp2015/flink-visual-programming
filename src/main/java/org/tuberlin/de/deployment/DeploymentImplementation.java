@@ -96,7 +96,11 @@ public class DeploymentImplementation implements DeploymentInterface {
 
             LogEvent(clientSession, "graph:" + uuid + ":mvnBuildOutput " + mvnOutput);
 
-            LogEvent(clientSession, "graph:" + uuid + ":mvnBuildSucceeded");
+            if (!mvnOutput.contains("BUILD FAILURE")) {
+                LogEvent(clientSession, "graph:" + uuid + ":mvnBuildSucceeded");
+            } else {
+                LogEvent(clientSession, "graph:" + uuid + ":mvnBuildError");
+            }
 
             return;
 
@@ -112,18 +116,33 @@ public class DeploymentImplementation implements DeploymentInterface {
     }
 
     public void DeleteProjectFolder() {
-        // TODO
+        // TODO Introduce mapping between client and uuid, and remove project from /tmp,
+        // TODO when client disconnects
     }
 
-    public void deploy() {
-        // TODO
-        File temporaryFolder = new File("lkdsj");
+    public void deploy(Session clientSession, String uuid) {
 
-        String outputJar = temporaryFolder.toString() + "/target/";
-        String flinkClusterExecutionCommand = flinkPath + " run -m " + flinkClusterAddress + ":" + flinkPort + " " + outputJar;
+        File temporaryFolder;
 
-        LOG.debug("Flink cluster execution command: " + flinkClusterExecutionCommand);
-        LOG.debug("Maven Invocation " + ExecuteShell.executeCommand(flinkClusterExecutionCommand, temporaryFolder));
+        try {
+
+            temporaryFolder = loadTemporaryProjectFolder(uuid);
+
+            LogEvent(clientSession, "graph:" + uuid + ":deployStarted");
+
+            String outputJar = temporaryFolder.getAbsolutePath() + "/target/";
+            String flinkClusterExecutionCommand = flinkPath + " run -m " + flinkClusterAddress + ":" + flinkPort + " " + outputJar;
+
+            LOG.debug("Flink cluster execution command: " + flinkClusterExecutionCommand);
+            LogEvent(clientSession, "graph:" + uuid + ":deployOutput " +
+                    ExecuteShell.executeCommand(flinkClusterExecutionCommand, temporaryFolder));
+
+            LogEvent(clientSession, "graph:" + uuid + ":deploySucceeded");
+
+        } catch (IOException | URISyntaxException e) {
+            e.printStackTrace();
+            LogEvent(clientSession, "graph:" + uuid + ":deployError");
+        }
     }
 
     @Override
@@ -188,11 +207,6 @@ public class DeploymentImplementation implements DeploymentInterface {
         return null;
     }
 
-    @Override
-    public void deploy(Session clientSession, String uuid) {
-
-    }
-
     /**
      * Creates a temporary project folder, that is only used once.
      * It copies all files from the FlinkSkeleton to /tmp/{SomeRandomUUID}.
@@ -218,9 +232,9 @@ public class DeploymentImplementation implements DeploymentInterface {
 
         // Map containing the values to be replaced in the pom.xml
         HashMap<String, String> map = new HashMap<>();
-        // TODO Replace with entry class name
-        map.put(Constants.ENTRY_CLASS_KEY, Constants.ENTRY_CLASS_NAME_WITH_PACKAGE);
         map.put(Constants.ARTIFACT_ID_KEY, Constants.FLINK_JOB_NAME);
+        map.put(Constants.ENTRY_CLASS_KEY, Constants.ENTRY_CLASS_NAME_WITH_PACKAGE);
+        map.put(Constants.MANIFEST_ENTRY_MAIN_CLASS, Constants.ENTRY_CLASS_NAME_WITH_PACKAGE);
 
         // Get jar name
         String pomXMLPath = tmpProjectFolder.toString() + "/pom.xml";

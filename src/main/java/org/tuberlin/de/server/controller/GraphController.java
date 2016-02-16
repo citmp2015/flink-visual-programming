@@ -11,6 +11,7 @@ import org.tuberlin.de.common.model.interfaces.BackendController;
 import org.tuberlin.de.common.model.interfaces.JobGraph;
 import org.tuberlin.de.deployment.DeploymentImplementation;
 import org.tuberlin.de.deployment.DeploymentInterface;
+import org.tuberlin.de.deployment.util.ServletUtil;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
@@ -88,29 +89,15 @@ public class GraphController extends HttpServlet {
 
         String uuid = UUID.randomUUID().toString();
 
-        JSONObject response = new JSONObject();
-        response.put("uuid", uuid);
-        response.put("status", "submitted");
-        response.put("log", "");
+        JSONObject jsonResponse = new JSONObject();
+        jsonResponse.put("uuid", uuid);
+        jsonResponse.put("status", "submitted");
+        jsonResponse.put("log", "");
 
         new Thread(() -> {
             deploymentInterface.generateProjectDirectory(clientSession, uuid, mainClass, clazzes);
         }).start();
 
-        sendJson(resp, response);
-    }
-
-    /**
-     * Starts the json download for a given JSON object
-     * @param resp The response object
-     * @param jsonObject The JSON object to be send
-     */
-    private void sendJson(HttpServletResponse resp, JSONObject jsonObject) {
-        try {
-            resp.getOutputStream().write(jsonObject.toString().getBytes(Charset.forName("UTF-8")));
-        } catch (IOException e) {
-            e.printStackTrace();
-            LOG.error("Failed to send JSON object: " + jsonObject);
-        }
+        ServletUtil.sendJson(resp, jsonResponse);
     }
 }
