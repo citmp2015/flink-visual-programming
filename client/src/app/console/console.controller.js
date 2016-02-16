@@ -9,12 +9,9 @@
     /*@ngInject*/
     function ConsoleCtrl($scope, $rootScope) {
 
-        //the console window is completely hidden per default
-        //it will be visible after the first call to addItem()
-
         $scope.items = [];
-        $scope.visible = false;
-        $scope.minimized = false;
+        $scope.visible = true;
+        $scope.minimized = true;
 
         var $scrollBar = null;
 
@@ -38,9 +35,6 @@
         //prependDate is optional (default: false)
         $scope.addItem = function(text, prependDate) {
 
-            if(!$scope.visible)
-                $scope.visible = true;
-
             $scope.items.push({
                 date: (prependDate ? new Date() : null),
                 text: text
@@ -58,10 +52,6 @@
 
         $scope.maximize = function() {
             $scope.minimized = false;
-        };
-
-        $scope.hide = function() {
-            $scope.visible = false;
         };
 
         $scope.titleBarClicked = function() {
