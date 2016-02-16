@@ -7,10 +7,14 @@
         .factory('webSocket', webSocket);
 
     /*@ngInject*/
-    function webSocket($websocket, graphFactory, $log) {
+    function webSocket($websocket, graphFactory, $interval, $log) {
 
         var dataStream = $websocket(graphFactory.getGeneralSettings().flinkWsUrl + '/ControllerWebSocket');
         var scope;
+
+        $interval(function() {
+            dataStream.send('still alive');
+        }, 30000);
 
         dataStream.onMessage(function(e) {
 
