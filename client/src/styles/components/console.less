@@ -1,0 +1,107 @@
+@import (reference) "../defines.less";
+
+@_width: 500px;
+@_widthMinimized: 200px;
+@_height: 200px; //without title bar
+@_itemSpacing: 6px;
+
+.console
+{
+    width: @_width;
+    position: fixed;
+    bottom: 0;
+    right: 32px;
+
+    .panel
+    {
+        margin: 0;
+        height: 100%;
+        border-bottom: none;
+        -moz-border-radius-bottomleft: 0;
+        -moz-border-radius-bottomright: 0;
+        -webkit-border-bottom-left-radius: 0;
+        -webkit-border-bottom-right-radius: 0;
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+    .nano {height: @_height;}
+
+    .panel-body {padding: 0;}
+
+    .panel-heading
+    {
+        padding: 5px 10px;
+
+        .btn
+        {
+            float: right;
+            border: none;
+            color: inherit;
+            background: none;
+
+            &:hover {background: rgba(255,255,255, 0.25);}
+        }
+    }
+
+    ul
+    {
+        list-style: none;
+        margin: 0;
+        padding: 0 10px;
+        line-height: 1.0em;
+        font-family: Consolas, Verdana;
+        font-size: 12px;
+
+        li {margin: @_itemSpacing 0;}
+
+        .time
+        {
+            color: @textColorMuted;
+            margin-right: 4px;
+        }
+    }
+
+    .nano-pane
+    {
+        background: rgba(0,0,0, 0.1);
+        width: 6px;
+        right: 1px;
+        -moz-border-radius: 3px;
+        -webkit-border-radius: 3px;
+        border-radius: 3px;
+
+        &> .nano-slider
+        {
+            background: rgba(0,0,0, 0.33);
+            margin: 0;
+            -moz-border-radius: 3px;
+            -webkit-border-radius: 3px;
+            border-radius: 3px;
+        }
+    }
+
+    &.minimized
+    {
+        width: @_widthMinimized;
+        
+        .panel-body {display: none;}
+
+        .panel
+        {
+            cursor: pointer;
+
+            &:hover
+            {
+                @_hoverColor: lighten(@themeColor, 10%);
+
+                border-color: @_hoverColor;
+
+                .panel-heading
+                {
+                    background-color: @_hoverColor;
+                    border-color: @_hoverColor;
+                }
+            }
+        }
+    }
+}

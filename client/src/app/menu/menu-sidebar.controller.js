@@ -137,6 +137,8 @@
         $scope.clearSearch = function() {
             $scope.search.label = '';
         };
+
+        $scope.$watch('menuItems', function(){$('aside.sidebar').trigger('menuPropertiesChanged');}, true);
     }
 
 })();

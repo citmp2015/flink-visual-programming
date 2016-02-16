@@ -9,6 +9,18 @@
     /*@ngInject*/
     function AppCtrl($scope, $rootScope, $state, graphFactory, $http, $log) {
 
+        $('aside.sidebar').each(function() {
+            var $sidebar = $(this);
+
+            if(/iP(hone|od|ad)/i.test(window.navigator.userAgent) || /Android/i.test(window.navigator.userAgent))
+                $sidebar.addClass('is-mobile');
+            
+            var refreshFn = function(){$sidebar.nanoScroller();};
+
+            $(document).ready(function(){setTimeout(refreshFn, 0);}); //workaround: scrollbars didn't show up if needed right away
+            $sidebar.on('menuPropertiesChanged', function(){setTimeout(refreshFn, 40);}); //workaround: expanding/collapsing items didn't refresh the scrollbars
+        });
+
         var graph = new joint.dia.Graph();
 
         var graphLocalstorage = graphFactory.loadFromLocalStorage();
