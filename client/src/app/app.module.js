@@ -11,7 +11,7 @@
         'ngDraggable',
         'LocalStorageModule',
         'ui.codemirror',
-        'ngWebSocket',
+        'cfp.hotkeys',
 
         'app.menu',
         'app.console',

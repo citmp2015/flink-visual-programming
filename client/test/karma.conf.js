@@ -43,7 +43,7 @@ module.exports = function(config) {
             'bower_components/angular-ui-codemirror/ui-codemirror.js',
             'bower_components/angular-sanitize/angular-sanitize.js',
             'bower_components/nanoscroller/bin/javascripts/jquery.nanoscroller.js',
-
+            'bower_components/angular-hotkeys/build/hotkeys.js',
             // end bower dependencies
 
 

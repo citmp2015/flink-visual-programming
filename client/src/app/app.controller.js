@@ -25,7 +25,7 @@
 
         var graph = new joint.dia.Graph();
 
-        var graphLocalstorage = graphFactory.loadFromLocalStorage();
+        var graphLocalstorage = graphFactory.graphStack.getCurrent();
         graph.on('paper:ready', function() {
             if (graphLocalstorage) {
                 graph.fromJSON(graphLocalstorage);
@@ -35,6 +35,7 @@
                     url: '/examples/wordcount.json'
                 }).then(function successCallback(response) {
                     graph.fromJSON(response.data);
+                    graphFactory.saveToLocalStorage(graph);
                 }, function errorCallback(response) {
                     $log.error('Error loading /examples/wordcount.json');
                 });

@@ -7,7 +7,7 @@
         .controller('MenuNavbarTopCtrl', MenuNavbarTopCtrl);
 
     /*@ngInject*/
-    function MenuNavbarTopCtrl($scope, $rootScope, graphFactory, jsonBuilder, $log, $http, $uibModal, $timeout) {
+    function MenuNavbarTopCtrl($scope, $rootScope, graphFactory, jsonBuilder, $log, $http, $uibModal, $timeout, localStorageService, hotkeys) {
 
         $scope.clearGraph = clearGraph;
         $scope.exportGraph = exportGraph;
@@ -15,6 +15,8 @@
         $scope.runGraph = runGraph;
         $scope.getCode = getCode;
         $scope.getJar = getJar;
+        $scope.undoGraph = undoGraph;
+        $scope.redoGraph = redoGraph;
         $scope.exportHref = '#';
 
         $scope.importFile = null;
@@ -103,6 +105,49 @@
         function getJar() {
             sendGraph('download_jar');
         }
+
+        function undoGraph() {
+            var currentPosition = graphFactory.currentGraphStackPosition.get();
+            if (currentPosition > 0) {
+                currentPosition--;
+            }
+            graphFactory.currentGraphStackPosition.set(currentPosition);
+            renderGraph();
+        }
+
+        function redoGraph() {
+            var currentPosition = graphFactory.currentGraphStackPosition.get();
+            if (currentPosition < graphFactory.graphStack.size() - 1) {
+                currentPosition++;
+            }
+            graphFactory.currentGraphStackPosition.set(currentPosition);
+            renderGraph();
+        }
+
+        function renderGraph() {
+            var currentPosition = graphFactory.currentGraphStackPosition.get(),
+                lastGraph = graphFactory.graphStack.get(currentPosition);
+
+            if (lastGraph !== null) {
+                $rootScope.graph.fromJSON(lastGraph);
+            }
+        }
+
+        $scope.$watch(function() {
+            return graphFactory.currentGraphStackPosition.get();
+        }, function(newVal, oldVal) {
+            if (newVal <= 0) {
+                $scope.canUndo = false;
+            } else {
+                $scope.canUndo = true;
+            }
+
+            if (newVal < graphFactory.graphStack.size() - 1) {
+                $scope.canRedo = true;
+            } else {
+                $scope.canRedo = false;
+            }
+        });
 
     }
 
