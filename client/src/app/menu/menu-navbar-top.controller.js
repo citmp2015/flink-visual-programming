@@ -54,7 +54,7 @@
         };
 
         function sendGraph(action) {
-            
+
             if(!verification.verifyClassNames($rootScope.graph)){
                 return;
             }
@@ -152,6 +152,18 @@
             } else {
                 $scope.canRedo = false;
             }
+        });
+
+        hotkeys.add({
+            combo: 'ctrl+z',
+            description: 'Undo last action',
+            callback: undoGraph
+        });
+
+        hotkeys.add({
+            combo: 'ctrl+shift+z',
+            description: 'Redo last action',
+            callback: redoGraph
         });
 
     }
