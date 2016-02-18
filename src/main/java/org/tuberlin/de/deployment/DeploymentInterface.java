@@ -9,8 +9,6 @@ import java.util.Map;
  * This interface describes the interaction between the code generation module and the deployment of the generated code.
  * The interface provides two main methods to (1) compile a JAR file from the sources and (2) to deploy this JAR file
  * to a Flink cluster
- *
- * Created by Fabian on 10.01.2016.
  */
 public interface DeploymentInterface {
 

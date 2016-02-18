@@ -23,6 +23,8 @@ import java.net.URISyntaxException;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -72,8 +74,9 @@ public class DeploymentImplementation implements DeploymentInterface {
 
     /**
      * Logs the message to the local LOG and to the Websocket simultaneously
+     *
      * @param clientSession The Websocket session
-     * @param message The message to be logged
+     * @param message       The message to be logged
      */
     private void logEvent(Session clientSession, String message) {
         LOG.debug(message);
@@ -105,8 +108,9 @@ public class DeploymentImplementation implements DeploymentInterface {
                 mvnOutput.append(s);
                 mvnOutput.append("\n");
             });
-            request.setPomFile( new File( temporaryFolder.getAbsolutePath() + "/pom.xml" ) );
-            request.setGoals( Collections.singletonList( "package" ) );
+            request.setPomFile(new File(temporaryFolder.getAbsolutePath() + "/pom.xml"));
+            request.setGoals(Arrays.asList("clean", "package"));
+            request.setProfiles(Collections.singletonList("build-jar"));
             Invoker invoker = new DefaultInvoker();
             InvocationResult invocationResult = invoker.execute(request);
 
@@ -141,7 +145,7 @@ public class DeploymentImplementation implements DeploymentInterface {
 
             logEvent(clientSession, "graph:" + uuid + ":deployStarted");
 
-            String outputJar = temporaryFolder.getAbsolutePath() + "/target/";
+            String outputJar = temporaryFolder.getAbsolutePath() + "/target/" + Constants.FLINK_JOB_NAME + "-1.0.jar";
             String flinkClusterExecutionCommand = flinkPath + " run -m " + flinkClusterAddress + ":" + flinkPort + " " + outputJar;
 
             LOG.debug("Flink cluster execution command: " + flinkClusterExecutionCommand);
@@ -221,8 +225,8 @@ public class DeploymentImplementation implements DeploymentInterface {
      * It copies all files from the FlinkSkeleton to /tmp/{SomeRandomUUID}.
      * All further modifications (addition of files/classes) should be done to this temporary project.
      *
-     * @return A file object that represents the temporary project directory
      * @param clientSession The websocket session
+     * @return A file object that represents the temporary project directory
      */
     private File createTemporaryProjectFolder(Session clientSession, String uuid) throws IOException, URISyntaxException {
 
@@ -276,27 +280,29 @@ public class DeploymentImplementation implements DeploymentInterface {
 
     /**
      * This methods saves a class as a child of the temporary folder
+     *
      * @param temporarayFolder the parent folder
-     * @param clazzName the className of the class
-     * @param clazz the content of the class (source code)
+     * @param clazzName        the className of the class
+     * @param clazz            the content of the class (source code)
      */
-    private void saveClass(File temporarayFolder, String clazzName, String clazz){
+    private void saveClass(File temporarayFolder, String clazzName, String clazz) {
         try {
             File outputFile = new File(temporarayFolder.getPath() + "/src/main/java/testpackage/" + clazzName + ".java");
             FileOutputStream stream = new FileOutputStream(outputFile);
             stream.write(clazz.getBytes());
             stream.flush();
             stream.close();
-        } catch (IOException e){
+        } catch (IOException e) {
             LOG.error("could not write class ", e);
         }
     }
 
     /**
      * This method parses the classname of a file
+     *
      * @param clazz the entire class
      */
-    private String getClassName(String clazz){
+    private String getClassName(String clazz) {
         Pattern pattern = Pattern.compile("class (\\w+)\\s*[i{]");
         Matcher matcher = pattern.matcher(clazz);
         LOG.debug("Found class name - " + matcher.group(0));
