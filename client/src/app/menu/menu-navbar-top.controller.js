@@ -125,7 +125,7 @@
             openLoadingModal();
             sendGraph().then(function(data) {
                 $scope.$on('graph:' + data.uuid + ':mvnBuildSucceeded', function() {
-                    download('/graph/zip/' + data.uuid, function() {
+                    download('/graph/jar/' + data.uuid, function() {
                         closeLoadingModal();
                     });
                 });
@@ -138,9 +138,17 @@
             $http.get(graphFactory.getGeneralSettings().flinkUrl + path, {
                 responseType: 'blob'
             }).then(function successCallback(response) {
-                var filename = response.headers('Content-Disposition') ? /filename="([\w\.]+)"/ig.exec(response.headers('Content-Disposition'))[1] : 'download.zip'; //TODO do not hardocde the extension
+                var contentType = response.headers('content-type');
+                if (!contentType) {
+                    return $log.error('No Content-Type header provided');
+                }
+                var filename = 'download.' + contentType.substr(contentType.indexOf('/')+1);
+                var regExResult = /filename="([\w\.]+)"/ig.exec(response.headers('Content-Disposition'));
+                if (regExResult && regExResult[1]) {
+                    filename = regExResult[1];
+                }
                 var blob = new Blob([response.data], {
-                    type: response.headers('Content-Type')
+                    type: contentType
                 });
                 if ($window.navigator.msSaveOrOpenBlob) {
                     $window.navigator.msSaveBlob(blob, filename);
