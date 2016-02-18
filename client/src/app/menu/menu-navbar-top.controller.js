@@ -202,6 +202,18 @@
             }
         });
 
+        hotkeys.add({
+            combo: 'ctrl+z',
+            description: 'Undo last action',
+            callback: undoGraph
+        });
+
+        hotkeys.add({
+            combo: 'ctrl+shift+z',
+            description: 'Redo last action',
+            callback: redoGraph
+        });
+
     }
 
 })();
