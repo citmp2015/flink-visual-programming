@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 public class GraphJarController extends HttpServlet {
 
     private static final long serialVersionUID = 23523652345L;
-    private static final Logger LOG = LoggerFactory.getLogger(GraphZipController.class);
+    private static final Logger LOG = LoggerFactory.getLogger(GraphJarController.class);
 
     private DeploymentInterface deploymentInterface;
 
@@ -31,10 +31,8 @@ public class GraphJarController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        LOG.debug("Request: " + req.getPathInfo().substring(1));
+        LOG.debug("Request: " + req.getPathInfo().substring(1) + " + Addr: " + req.getRemoteAddr());
         String uuid = req.getPathInfo().substring(1);
-
-        LOG.debug("UUID" + uuid + " addr" + req.getRemoteAddr());
 
         Session clientSession = JettyWebSocket.getSession(req.getRemoteAddr());
 

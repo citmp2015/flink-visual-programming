@@ -31,7 +31,7 @@ public class GraphZipController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        LOG.debug("Request: " + req.getPathInfo().substring(1));
+        LOG.debug("Request: " + req.getPathInfo().substring(1) + " + Addr: " + req.getRemoteAddr());
         String uuid = req.getPathInfo().substring(1);
 
         Session clientSession = JettyWebSocket.getSession(req.getRemoteAddr());

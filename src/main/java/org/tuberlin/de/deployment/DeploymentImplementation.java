@@ -20,6 +20,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URISyntaxException;
+import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Collections;
@@ -225,10 +226,13 @@ public class DeploymentImplementation implements DeploymentInterface {
      */
     private File createTemporaryProjectFolder(Session clientSession, String uuid) throws IOException, URISyntaxException {
 
-        logEvent(clientSession, "Creating temporary folders");
+        logEvent(clientSession, "Creating temporary folders: " + uuid);
 
         // Creating tmp directory
-        Path tmpDirectory = Files.createTempDirectory(uuid);
+        String tempDirPath = System.getProperty("java.io.tmpdir");
+        Path tempDir = FileSystems.getDefault().getPath(tempDirPath + "/" + uuid);
+        Path tmpDirectory = Files.createDirectory(tempDir);
+
         File tmpProjectFolderParent = tmpDirectory.toFile();
         File tmpProjectFolder = new File(tmpProjectFolderParent.getAbsolutePath() + "/FlinkProject");
 
