@@ -23,7 +23,6 @@ import java.net.URISyntaxException;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
@@ -141,7 +140,7 @@ public class DeploymentImplementation implements DeploymentInterface {
 
         try {
 
-            File temporaryFolder = loadTemporaryProjectFolder(uuid);
+            File temporaryFolder = loadTemporaryProjectFolder(clientSession, uuid);
 
             logEvent(clientSession, "graph:" + uuid + ":deployStarted");
 
@@ -165,7 +164,7 @@ public class DeploymentImplementation implements DeploymentInterface {
 
         try {
 
-            File temporaryProjectFolder = loadTemporaryProjectFolder(uuid);
+            File temporaryProjectFolder = loadTemporaryProjectFolder(clientSession, uuid);
 
             if (!temporaryProjectFolder.exists()) {
                 logEvent(clientSession, "Failed to load project folder");
@@ -193,7 +192,7 @@ public class DeploymentImplementation implements DeploymentInterface {
 
         try {
 
-            File temporaryProjectFolder = loadTemporaryProjectFolder(uuid);
+            File temporaryProjectFolder = loadTemporaryProjectFolder(clientSession, uuid);
 
             if (!temporaryProjectFolder.exists()) {
                 logEvent(clientSession, "Failed to load project folder");
@@ -262,8 +261,14 @@ public class DeploymentImplementation implements DeploymentInterface {
         return tmpProjectFolder;
     }
 
-    private File loadTemporaryProjectFolder(String uuid) throws IOException, URISyntaxException {
-        return new File("/tmp/" + uuid + "/FlinkProject");
+    private File loadTemporaryProjectFolder(Session clientSession, String uuid) throws IOException, URISyntaxException {
+
+        String tempDirPath = System.getProperty("java.io.tmpdir");
+        Path tempDir = FileSystems.getDefault().getPath(tempDirPath + "/" + uuid);
+
+        logEvent(clientSession, "Trying to load project folder from " + tempDir.toString() + "/FlinkProject");
+
+        return new File(tempDir + "/FlinkProject");
     }
 
     /**
