@@ -61,6 +61,7 @@ module.exports = function(config) {
             'src/app/app.factory.js',
             'src/app/app.templates.js',
             'src/app/app.json.js',
+            'src/app/app.websocket.factory.js',
             'src/app/app.verification.js',
 
             'src/app/menu/menu.module.js',
@@ -73,7 +74,7 @@ module.exports = function(config) {
 
             'src/app/datasource/datasource.module.js',
             'src/app/datasource/datasource-modal.controller.js',
-            
+
             'src/app/datasink/datasink.module.js',
             'src/app/datasink/datasink-modal.controller.js',
 
