@@ -131,7 +131,7 @@ public class JSONParser {
                 return new BaseGroupBy(graph, parameters);
 
             case "fastCreate: CSV Datasink":
-            case "writeCSV":
+            case "csvdatasink":
                 return new BaseDataSinkPrint(graph, parameters);
 
             case "flatmap":
