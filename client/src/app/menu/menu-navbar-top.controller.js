@@ -100,9 +100,10 @@
         function deployGraph() {
             openLoadingModal();
             sendGraph().then(function(data) {
-                $scope.$on('graph:' + data.uuid + ':deployed', function() {
-                    closeLoadingModal();
-                });
+                $scope.$on('graph:' + data.uuid + ':deployed', closeLoadingModal);
+                $scope.$on('graph:' + data.uuid + ':generationError', closeLoadingModal);
+                $scope.$on('graph:' + data.uuid + ':mvnBuildError', closeLoadingModal);
+                $scope.$on('graph:' + data.uuid + ':deployError', closeLoadingModal);
             }, function() {
                 closeLoadingModal();
             });
@@ -116,6 +117,8 @@
                         closeLoadingModal();
                     });
                 });
+                $scope.$on('graph:' + data.uuid + ':generationError', closeLoadingModal);
+                $scope.$on('graph:' + data.uuid + ':mvnBuildError', closeLoadingModal);
             }, function() {
                 closeLoadingModal();
             });
@@ -128,6 +131,8 @@
                     download('/graph/jar/' + data.uuid, function() {
                         closeLoadingModal();
                     });
+                    $scope.$on('graph:' + data.uuid + ':generationError', closeLoadingModal);
+                    $scope.$on('graph:' + data.uuid + ':mvnBuildError', closeLoadingModal);
                 });
             }, function() {
                 closeLoadingModal();
