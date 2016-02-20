@@ -9,14 +9,31 @@
     /*@ngInject*/
     function webSocket($websocket, graphFactory, $interval, $log) {
 
-        var dataStream = $websocket(graphFactory.getGeneralSettings().flinkWsUrl + '/ControllerWebSocket');
-        var scope;
+        var dataStream, scope, reconnectIntervalId, sendIntervalId;
 
-        $interval(function() {
-            dataStream.send('still alive');
-        }, 30000);
+        openConnection();
 
-        dataStream.onMessage(function(e) {
+        function openConnection() {
+
+            $log.debug('ws connection try');
+
+            dataStream = $websocket(graphFactory.getGeneralSettings().flinkWsUrl + '/ControllerWebSocket');
+
+            dataStream.onMessage(onMessage);
+            dataStream.onOpen(onOpen);
+            dataStream.onClose(onClose);
+            dataStream.onError(onError);
+
+            if (sendIntervalId) {
+                $interval.cancel(sendIntervalId);
+                sendIntervalId = -1;
+            }
+            sendIntervalId = $interval(function() {
+                dataStream.send('still alive');
+            }, 30000);
+        }
+
+        function onMessage(e) {
 
             var events = [],
                 data, message = e.data;
@@ -53,19 +70,31 @@
                     scope.$broadcast(event.key, event.data[0], event.data[1]);
                 });
             }
-        });
 
-        dataStream.onOpen(function() {
+        }
+
+        function onOpen(e) {
             $log.debug('ws connection opened');
-        });
+            if (reconnectIntervalId) {
+                $interval.cancel(reconnectIntervalId);
+                reconnectIntervalId = -1;
+            }
+        }
 
-        dataStream.onClose(function() {
+        function onClose(e) {
+            if (sendIntervalId) {
+                $interval.cancel(sendIntervalId);
+                sendIntervalId = -1;
+            }
+            if (!reconnectIntervalId) {
+                reconnectIntervalId = $interval(openConnection, 1500);
+            }
             $log.debug('ws connection closed');
-        });
+        }
 
-        dataStream.onError(function() {
-            $log.debug('ws connection error');
-        });
+        function onError(e) {
+            $log.debug('ws connection error', e);
+        }
 
         return {
             forward: function(thisScope) {
