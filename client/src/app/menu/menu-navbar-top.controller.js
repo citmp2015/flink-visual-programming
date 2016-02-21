@@ -102,11 +102,11 @@
             sendGraph().then(function(data) {
                 $scope.$on('graph:' + data.uuid + ':mvnBuildSucceeded', function() {
                     $http({
-                        method: 'DEPLOY',
-                        url: graphFactory.getGeneralSettings().flinkUrl + '/graph'
+                        method: 'GET',
+                        url: graphFactory.getGeneralSettings().flinkUrl + '/graph/deploy/' + data.uuid
                     });
                 });
-                $scope.$on('graph:' + data.uuid + ':deployed', closeLoadingModal);
+                $scope.$on('graph:' + data.uuid + ':deploySucceeded', closeLoadingModal);
                 $scope.$on('graph:' + data.uuid + ':generationError', closeLoadingModal);
                 $scope.$on('graph:' + data.uuid + ':mvnBuildError', closeLoadingModal);
                 $scope.$on('graph:' + data.uuid + ':deployError', closeLoadingModal);
