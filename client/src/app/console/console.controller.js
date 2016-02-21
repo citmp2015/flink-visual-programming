@@ -18,9 +18,12 @@
         $scope.maximize = maximize;
         $scope.titleBarClicked = titleBarClicked;
 
-        $scope.$on('graph:mvnBuildOutput', function(e, uuid, output) {
+        $scope.$on('graph:mvnBuildOutput', onOutput);
+        $scope.$on('graph:deployOutput', onOutput);
+
+        function onOutput(e, uuid, output) {
             addItem(uuid, output.replace(/(?:\r\n|\r|\n)/g, '<br>'), true);
-        });
+        }
 
         //text may be formatted using <font>
         //prependDate is optional (default: false)
