@@ -19,7 +19,7 @@
         $scope.titleBarClicked = titleBarClicked;
 
         $scope.$on('graph:mvnBuildOutput', function(e, uuid, output) {
-            addItem(uuid, output, true);
+            addItem(uuid, output.replace(/(?:\r\n|\r|\n)/g, '<br>'), true);
         });
 
         //text may be formatted using <font>

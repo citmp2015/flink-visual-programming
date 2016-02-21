@@ -131,9 +131,9 @@
                     download('/graph/jar/' + data.uuid, function() {
                         closeLoadingModal();
                     });
-                    $scope.$on('graph:' + data.uuid + ':generationError', closeLoadingModal);
-                    $scope.$on('graph:' + data.uuid + ':mvnBuildError', closeLoadingModal);
                 });
+                $scope.$on('graph:' + data.uuid + ':generationError', closeLoadingModal);
+                $scope.$on('graph:' + data.uuid + ':mvnBuildError', closeLoadingModal);
             }, function() {
                 closeLoadingModal();
             });
@@ -147,7 +147,7 @@
                 if (!contentType) {
                     return $log.error('No Content-Type header provided');
                 }
-                var filename = 'download.' + contentType.substr(contentType.indexOf('/')+1);
+                var filename = 'download.' + contentType.substr(contentType.indexOf('/') + 1);
                 var regExResult = /filename="([\w\.]+)"/ig.exec(response.headers('Content-Disposition'));
                 if (regExResult && regExResult[1]) {
                     filename = regExResult[1];
