@@ -7,7 +7,7 @@
         .controller('ConsoleCtrl', ConsoleCtrl);
 
     /*@ngInject*/
-    function ConsoleCtrl($scope, $rootScope) {
+    function ConsoleCtrl($scope, $rootScope, $timeout, $log) {
 
         $scope.items = [];
         $scope.minimized = true;
@@ -46,9 +46,11 @@
                     return;
                 }
             }
-            $scrollBar.nanoScroller({
-                scroll: 'bottom'
-            });
+            $timeout(function() {
+                $scrollBar.nanoScroller({
+                    scroll: 'bottom'
+                });
+            }, 300);
         }
 
         function clear() {
