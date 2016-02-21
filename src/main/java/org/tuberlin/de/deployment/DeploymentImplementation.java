@@ -1,5 +1,12 @@
 package org.tuberlin.de.deployment;
 
+import org.apache.maven.shared.invoker.DefaultInvocationRequest;
+import org.apache.maven.shared.invoker.DefaultInvoker;
+import org.apache.maven.shared.invoker.InvocationRequest;
+import org.apache.maven.shared.invoker.InvocationResult;
+import org.apache.maven.shared.invoker.Invoker;
+import org.apache.maven.shared.invoker.MavenInvocationException;
+import org.eclipse.jetty.websocket.api.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.tuberlin.de.common.model.Constants;
@@ -7,16 +14,23 @@ import org.tuberlin.de.deployment.util.DOMParser;
 import org.tuberlin.de.deployment.util.ExecuteShell;
 import org.tuberlin.de.deployment.util.FileUtils;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URISyntaxException;
+import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
-import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 
 /**
  * Implements the DeploymentInterface and is responsible for building the project, executing it on a cluster and return
@@ -26,15 +40,24 @@ import java.util.regex.Pattern;
  */
 public class DeploymentImplementation implements DeploymentInterface {
 
-    public static String PROPERTIES_FILE_NAME = "deploy.properties";
     private static final Logger LOG = LoggerFactory.getLogger(DeploymentImplementation.class);
 
-    private String mavenPath;
+    private static DeploymentInterface instance;
+
+    public static String PROPERTIES_FILE_NAME = "deploy.properties";
+
     private String flinkPath;
     private String flinkClusterAddress;
     private String flinkPort;
 
-    public DeploymentImplementation() {
+    public static DeploymentInterface getInstance() {
+        if (instance == null) {
+            instance = new DeploymentImplementation();
+        }
+        return instance;
+    }
+
+    private DeploymentImplementation() {
         Properties myProperties = new Properties();
         try {
             myProperties.load(getClass().getClassLoader().getResourceAsStream(PROPERTIES_FILE_NAME));
@@ -43,32 +66,62 @@ public class DeploymentImplementation implements DeploymentInterface {
             e.printStackTrace();
         }
 
-        mavenPath = myProperties.getProperty("maven.path");
         flinkPath = myProperties.getProperty("flink.path");
         flinkClusterAddress = myProperties.getProperty("flink.jobmanager.address");
         flinkPort = myProperties.getProperty("flink.jobmanager.port");
     }
 
-    @Override
-    public void generateProjectJAR(String entryClass, Map<String, String> clazzes, boolean deploy) {
+    /**
+     * Logs the message to the local LOG and to the Websocket simultaneously
+     *
+     * @param clientSession The Websocket session
+     * @param message       The message to be logged
+     */
+    private void logEvent(Session clientSession, String message) {
+        LOG.debug(message);
+        if (clientSession != null && clientSession.isOpen()) {
+            try {
+                clientSession.getRemote().sendString(message);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
-        File temporaryFolder = null;
+    @Override
+    public void generateProjectDirectory(Session clientSession, String uuid, String entryClass, Map<String, String> clazzes) {
+
+        File temporaryFolder;
+
         try {
 
-            temporaryFolder = createTemporaryProjectFolder();
+            temporaryFolder = createTemporaryProjectFolder(clientSession, uuid);
 
             createClasses(temporaryFolder, entryClass, clazzes);
 
-            LOG.debug("Maven Invocation " + ExecuteShell.executeCommand(mavenPath + " package", temporaryFolder));
+            logEvent(clientSession, "graph:" + uuid + ":mvnBuildStarted");
 
-            if (deploy) {
+            InvocationRequest request = new DefaultInvocationRequest();
+            StringBuilder mvnOutput = new StringBuilder();
+            request.setOutputHandler(s -> {
+                mvnOutput.append(s);
+                mvnOutput.append("\n");
+            });
+            request.setPomFile(new File(temporaryFolder.getAbsolutePath() + "/pom.xml"));
+            request.setGoals(Arrays.asList("clean", "package"));
+            request.setProfiles(Collections.singletonList("build-jar"));
+            Invoker invoker = new DefaultInvoker();
+            InvocationResult invocationResult = invoker.execute(request);
 
-                String outputJar = temporaryFolder.toString() + "/target/";
-                String flinkClusterExecutionCommand = flinkPath + " run -m " + flinkClusterAddress + ":" + flinkPort + " " + outputJar;
+            logEvent(clientSession, "graph:" + uuid + ":mvnBuildOutput " + mvnOutput);
 
-                LOG.debug("Flink cluster execution command: " + flinkClusterExecutionCommand);
-                LOG.debug("Maven Invocation " + ExecuteShell.executeCommand(flinkClusterExecutionCommand, temporaryFolder));
+            if (invocationResult.getExitCode() == 0) {
+                logEvent(clientSession, "graph:" + uuid + ":mvnBuildSucceeded");
+            } else {
+                logEvent(clientSession, "graph:" + uuid + ":mvnBuildError");
             }
+
+            return;
 
         } catch (IOException e) {
             LOG.error("Failed to create tmp directory");
@@ -76,24 +129,49 @@ public class DeploymentImplementation implements DeploymentInterface {
         } catch (URISyntaxException e) {
             LOG.error("Error", e);
             e.printStackTrace();
-        } finally {
-            cleanUp(temporaryFolder);
+        } catch (MavenInvocationException e) {
+            e.printStackTrace();
+        }
+
+        logEvent(clientSession, "graph:" + uuid + ":mvnBuildError");
+    }
+
+    public void deploy(Session clientSession, String uuid) {
+
+        try {
+
+            File temporaryFolder = loadTemporaryProjectFolder(clientSession, uuid);
+
+            logEvent(clientSession, "graph:" + uuid + ":deployStarted");
+
+            String outputJar = temporaryFolder.getAbsolutePath() + "/target/" + Constants.FLINK_JOB_NAME + "-1.0.jar";
+            String flinkClusterExecutionCommand = flinkPath + " run -m " + flinkClusterAddress + ":" + flinkPort + " " + outputJar;
+
+            LOG.debug("Flink cluster execution command: " + flinkClusterExecutionCommand);
+            logEvent(clientSession, "graph:" + uuid + ":deployOutput " +
+                    ExecuteShell.executeCommand(flinkClusterExecutionCommand, temporaryFolder));
+
+            logEvent(clientSession, "graph:" + uuid + ":deploySucceeded");
+
+        } catch (IOException | URISyntaxException e) {
+            e.printStackTrace();
+            logEvent(clientSession, "graph:" + uuid + ":deployError");
         }
     }
 
     @Override
-    public InputStream getJarStream(String entryClass, Map<String, String> clazzes) {
-
-        File temporaryProjectFolder = null;
+    public InputStream getJarStream(Session clientSession, String uuid) {
 
         try {
 
-            temporaryProjectFolder = createTemporaryProjectFolder();
+            File temporaryProjectFolder = loadTemporaryProjectFolder(clientSession, uuid);
 
-            createClasses(temporaryProjectFolder, entryClass, clazzes);
+            if (!temporaryProjectFolder.exists()) {
+                logEvent(clientSession, "Failed to load project folder");
+                return null;
+            }
 
-            // Trigger Maven Build
-            LOG.debug("Maven Invocation " + ExecuteShell.executeCommand(mavenPath + " package", temporaryProjectFolder));
+            logEvent(clientSession, "Loaded temporary project folder: " + temporaryProjectFolder.getAbsolutePath());
 
             // Get ouput jar name
             String outputJarName = temporaryProjectFolder.toString() + "/target/" + Constants.FLINK_JOB_NAME + "-1.0.jar";
@@ -105,22 +183,23 @@ public class DeploymentImplementation implements DeploymentInterface {
         } catch (URISyntaxException | IOException e) {
             LOG.error("Failed to getJarStream", e);
             e.printStackTrace();
-        } finally {
-            cleanUp(temporaryProjectFolder);
         }
         return null;
     }
 
     @Override
-    public InputStream getZipSource(String entryClass, Map<String, String> clazzes) {
-
-        File temporaryProjectFolder = null;
+    public InputStream getZipSource(Session clientSession, String uuid) {
 
         try {
 
-            temporaryProjectFolder = createTemporaryProjectFolder();
+            File temporaryProjectFolder = loadTemporaryProjectFolder(clientSession, uuid);
 
-            createClasses(temporaryProjectFolder, entryClass, clazzes);
+            if (!temporaryProjectFolder.exists()) {
+                logEvent(clientSession, "Failed to load project folder");
+                return null;
+            }
+
+            logEvent(clientSession, "Loaded temporary project folder: " + temporaryProjectFolder.getAbsolutePath());
 
             String zipFilePath = temporaryProjectFolder.getParentFile().toString() + "/FlinkProject.zip";
             File zipFile = new File(zipFilePath);
@@ -134,7 +213,7 @@ public class DeploymentImplementation implements DeploymentInterface {
             return new FileInputStream(zipFile);
 
         } catch (URISyntaxException | IOException e) {
-            LOG.error("Failed to getJarStream", e);
+            LOG.error("Failed to getZipStream", e);
             e.printStackTrace();
         }
         return null;
@@ -145,17 +224,18 @@ public class DeploymentImplementation implements DeploymentInterface {
      * It copies all files from the FlinkSkeleton to /tmp/{SomeRandomUUID}.
      * All further modifications (addition of files/classes) should be done to this temporary project.
      *
+     * @param clientSession The websocket session
      * @return A file object that represents the temporary project directory
      */
-    private File createTemporaryProjectFolder() throws IOException, URISyntaxException {
+    private File createTemporaryProjectFolder(Session clientSession, String uuid) throws IOException, URISyntaxException {
 
-        // Used to create tmp folder for this specific project
-        String randomUUID = UUID.randomUUID().toString();
-
-        LOG.debug("Current directory: " + ExecuteShell.executeCommand("pwd"));
+        logEvent(clientSession, "Creating temporary folders: " + uuid);
 
         // Creating tmp directory
-        Path tmpDirectory = Files.createTempDirectory(randomUUID);
+        String tempDirPath = System.getProperty("java.io.tmpdir");
+        Path tempDir = FileSystems.getDefault().getPath(tempDirPath + "/" + uuid);
+        Path tmpDirectory = Files.createDirectory(tempDir);
+
         File tmpProjectFolderParent = tmpDirectory.toFile();
         File tmpProjectFolder = new File(tmpProjectFolderParent.getAbsolutePath() + "/FlinkProject");
 
@@ -167,9 +247,9 @@ public class DeploymentImplementation implements DeploymentInterface {
 
         // Map containing the values to be replaced in the pom.xml
         HashMap<String, String> map = new HashMap<>();
-        // TODO Replace with entry class name
-        map.put(Constants.ENTRY_CLASS_KEY, Constants.ENTRY_CLASS_NAME_WITH_PACKAGE);
         map.put(Constants.ARTIFACT_ID_KEY, Constants.FLINK_JOB_NAME);
+        map.put(Constants.ENTRY_CLASS_KEY, Constants.ENTRY_CLASS_NAME_WITH_PACKAGE);
+        map.put(Constants.MANIFEST_ENTRY_MAIN_CLASS, Constants.ENTRY_CLASS_NAME_WITH_PACKAGE);
 
         // Get jar name
         String pomXMLPath = tmpProjectFolder.toString() + "/pom.xml";
@@ -179,6 +259,16 @@ public class DeploymentImplementation implements DeploymentInterface {
         DOMParser.replaceXMLValues(pomFile, map);
 
         return tmpProjectFolder;
+    }
+
+    private File loadTemporaryProjectFolder(Session clientSession, String uuid) throws IOException, URISyntaxException {
+
+        String tempDirPath = System.getProperty("java.io.tmpdir");
+        Path tempDir = FileSystems.getDefault().getPath(tempDirPath + "/" + uuid);
+
+        logEvent(clientSession, "Trying to load project folder from " + tempDir.toString() + "/FlinkProject");
+
+        return new File(tempDir + "/FlinkProject");
     }
 
     /**
@@ -195,27 +285,29 @@ public class DeploymentImplementation implements DeploymentInterface {
 
     /**
      * This methods saves a class as a child of the temporary folder
+     *
      * @param temporarayFolder the parent folder
-     * @param clazzName the className of the class
-     * @param clazz the content of the class (source code)
+     * @param clazzName        the className of the class
+     * @param clazz            the content of the class (source code)
      */
-    private void saveClass(File temporarayFolder, String clazzName, String clazz){
+    private void saveClass(File temporarayFolder, String clazzName, String clazz) {
         try {
             File outputFile = new File(temporarayFolder.getPath() + "/src/main/java/testpackage/" + clazzName + ".java");
             FileOutputStream stream = new FileOutputStream(outputFile);
             stream.write(clazz.getBytes());
             stream.flush();
             stream.close();
-        } catch (IOException e){
+        } catch (IOException e) {
             LOG.error("could not write class ", e);
         }
     }
 
     /**
      * This method parses the classname of a file
+     *
      * @param clazz the entire class
      */
-    private String getClassName(String clazz){
+    private String getClassName(String clazz) {
         Pattern pattern = Pattern.compile("class (\\w+)\\s*[i{]");
         Matcher matcher = pattern.matcher(clazz);
         LOG.debug("Found class name - " + matcher.group(0));

@@ -26,6 +26,7 @@
         "document": false,
         "_": false,
         "graphlib": false,
-        "$": false
+        "$": false,
+        "io": false
     }
 }

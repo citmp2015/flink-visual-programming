@@ -35,6 +35,7 @@ module.exports = function(config) {
             'bower_components/angular-moment/angular-moment.js',
             'bower_components/angular-touch/angular-touch.js',
             'bower_components/angular-animate/angular-animate.js',
+            'bower_components/angular-websocket/angular-websocket.min.js',
             'bower_components/ngDraggable/ngDraggable.js',
             'bower_components/angular-local-storage/dist/angular-local-storage.js',
             'bower_components/codemirror/lib/codemirror.js',
@@ -60,6 +61,7 @@ module.exports = function(config) {
             'src/app/app.factory.js',
             'src/app/app.templates.js',
             'src/app/app.json.js',
+            'src/app/app.websocket.factory.js',
             'src/app/app.verification.js',
 
             'src/app/menu/menu.module.js',
@@ -72,7 +74,7 @@ module.exports = function(config) {
 
             'src/app/datasource/datasource.module.js',
             'src/app/datasource/datasource-modal.controller.js',
-            
+
             'src/app/datasink/datasink.module.js',
             'src/app/datasink/datasink-modal.controller.js',
 
@@ -118,7 +120,7 @@ module.exports = function(config) {
         exclude: [],
 
         // web server port
-        port: 8080,
+        port: 8090,
 
         // Start these browsers, currently available:
         // - Chrome

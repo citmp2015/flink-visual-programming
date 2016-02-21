@@ -2,6 +2,8 @@ package org.tuberlin.de.common.model;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.tuberlin.de.common.base.*;
 import org.tuberlin.de.common.model.interfaces.CompilationUnitComponent;
 import org.tuberlin.de.common.model.interfaces.JobComponent;
@@ -95,8 +97,9 @@ public class JSONParser {
             parameters.put(Constants.JOB_COMPONENT_CHILDREN, childrenMap.getOrDefault(key, new ArrayList<>(0)));
 
             //in- & output types
-            parameters.put(Constants.JOB_COMPONENT_INPUT_TYPE, inputTypes.getOrDefault(key, null));
-            parameters.put(Constants.JOB_COMPONENT_OUTPUT_TYPE, outputTypes.getOrDefault(key, null));
+            String inType = inputTypes.getOrDefault(key, null);
+            parameters.put(Constants.JOB_COMPONENT_INPUT_TYPE, inType);
+            parameters.put(Constants.JOB_COMPONENT_OUTPUT_TYPE, outputTypes.getOrDefault(key, inType));
 
             //parameters
             JSONObject val = processes.getJSONObject(key);
@@ -131,7 +134,7 @@ public class JSONParser {
                 return new BaseGroupBy(graph, parameters);
 
             case "fastCreate: CSV Datasink":
-            case "writeCSV":
+            case "csvdatasink":
                 return new BaseDataSinkPrint(graph, parameters);
 
             case "flatmap":

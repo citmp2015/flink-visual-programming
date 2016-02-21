@@ -47,7 +47,7 @@ public class CodeGenerator {
         result += printExecutionEnvironment(jobGraph) + "\n";
         result += printVariables(jobGraph) + "\n";
         result += printComponents(jobGraph) + "\n";
-        result += jobGraph.getEnvironmentIdentifier() + ".execute();";
+//        result += jobGraph.getEnvironmentIdentifier() + ".execute();"; // Unnecessary, as .print is already triggering the execution
         result += "\n}\n";
         return result;
     }

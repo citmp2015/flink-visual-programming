@@ -24,6 +24,7 @@
     "angular-moment": "~0.10.x",
     "angular-touch": "~1.4.x",
     "angular-animate": "~1.4.x",
+    "angular-websocket": "~1.0.x",
     "ngDraggable": "~0.1.x",
     "lodash": "~3.10.x",
     "angular-local-storage": "~0.2.x",

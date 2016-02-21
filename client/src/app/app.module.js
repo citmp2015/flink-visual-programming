@@ -13,6 +13,7 @@
         'ui.codemirror',
         'toaster',
         'cfp.hotkeys',
+        'ngWebSocket',
 
         'app.menu',
         'app.console',

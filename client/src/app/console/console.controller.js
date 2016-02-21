@@ -7,7 +7,7 @@
         .controller('ConsoleCtrl', ConsoleCtrl);
 
     /*@ngInject*/
-    function ConsoleCtrl($scope, $rootScope) {
+    function ConsoleCtrl($scope, $rootScope, $timeout, $log) {
 
         $scope.items = [];
         $scope.minimized = true;
@@ -18,8 +18,29 @@
         $scope.maximize = maximize;
         $scope.titleBarClicked = titleBarClicked;
 
+        $scope.$on('graph:mvnBuildOutput', onOutput);
+        $scope.$on('graph:deployOutput', onOutput);
+
+        function onOutput(e, uuid, output) {
+            addItem(uuid, output.replace(/(?:\r\n|\r|\n)/g, '<br>'), true);
+        }
+
+        //text may be formatted using <font>
+        //prependDate is optional (default: false)
         var $scrollBar = null;
-        $scope.$watch('items', function() {
+        var uuids = [];
+        function addItem(uuid, text, prependDate) {
+            var uuidIndex = uuids.indexOf(uuid);
+            if (uuidIndex === -1) {
+                uuidIndex = uuids.push(uuid) - 1;
+            }
+            $scope.items.push({
+                number: uuidIndex + 1,
+                uuid: uuid,
+                text: text,
+                date: (prependDate ? new Date() : null),
+            });
+            maximize();
             if ($scrollBar === null) {
                 var test = $('#console .nano');
                 if (test.length > 0) {
@@ -28,18 +49,11 @@
                     return;
                 }
             }
-            $scrollBar.nanoScroller({
-                scroll: 'bottom'
-            });
-        }, true);
-
-        //text may be formatted using <font>
-        //prependDate is optional (default: false)
-        function addItem(text, prependDate) {
-            $scope.items.push({
-                date: (prependDate ? new Date() : null),
-                text: text
-            });
+            $timeout(function() {
+                $scrollBar.nanoScroller({
+                    scroll: 'bottom'
+                });
+            }, 300);
         }
 
         function clear() {

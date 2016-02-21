@@ -13,22 +13,28 @@
         joint.shapes.flink = {};
 
         var defaultConfig = {
-            flinkURL: $window.location.protocol + '//' + $window.location.hostname,
-            flinkPort: parseInt($window.location.port) || 80
+            flinkHostname: $window.location.hostname,
+            flinkPort: parseInt($window.location.port, 10) || 80
         };
 
         flink.getGeneralSettings = function() {
             var config = localStorageService.get('config') || {};
-            return {
-                flinkURL: config.flinkURL || defaultConfig.flinkURL,
-                flinkPort: config.flinkPort || defaultConfig.flinkPort
+            var settings = {
+                flinkHostname: config.flinkHostname || defaultConfig.flinkHostname,
+                flinkPort: parseInt(config.flinkPort || defaultConfig.flinkPort, 10)
             };
+            settings.flinkUrl = $window.location.protocol + '//' + settings.flinkHostname + (settings.flinkPort === 80 ? '' : ':' + settings.flinkPort);
+            settings.flinkWsUrl = ($window.location.protocol === 'https:' ? 'wss:' : 'ws:') + '//' + settings.flinkHostname + (settings.flinkPort === 80 ? '' : ':' + settings.flinkPort);
+            return settings;
         };
 
         flink.setGeneralSettings = function(extConfig) {
             var config = extConfig || {};
+            if (config.flinkHostname) {
+                config.flinkHostname = config.flinkHostname.replace(/((http|https):\/\/)/g, '');
+            }
             localStorageService.set('config', {
-                flinkURL: config.flinkURL || defaultConfig.flinkURL,
+                flinkHostname: config.flinkHostname || defaultConfig.flinkHostname,
                 flinkPort: config.flinkPort || defaultConfig.flinkPort
             });
         };

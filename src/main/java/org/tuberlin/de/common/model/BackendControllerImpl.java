@@ -6,10 +6,17 @@ import org.tuberlin.de.common.model.interfaces.JobGraph;
 
 import java.util.Map;
 
-/**
- * Created by Malcolm-X on 26.12.2015.
- */
 public class BackendControllerImpl implements BackendController {
+
+    private static BackendController instance;
+
+    public static BackendController getInstance() {
+        if (instance == null) {
+            instance = new BackendControllerImpl();
+        }
+        return instance;
+    }
+
     @Override
     public JobGraph getJobGraph(JSONObject json) throws Exception {
         //TODO: parser is currently dummy, no json
