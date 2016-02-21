@@ -15,19 +15,38 @@
     "tests"
   ],
   "dependencies": {
-    "components-font-awesome": "~4.5.0",
-    "jointjs": "~0.9.5",
-    "components-bootstrap": "~3.3.6",
-    "angular": "~1.4.8",
-    "angular-bootstrap": "~0.14.3",
-    "angular-ui-router": "~0.2.15",
-    "angular-moment": "~0.10.3",
-    "angular-touch": "~1.4.8",
-    "angular-animate": "~1.4.8",
-    "ngDraggable": "~0.1.8",
-    "lodash": "~3.10.1"
+    "components-font-awesome": "~4.5.x",
+    "jointjs": "~0.9.x",
+    "components-bootstrap": "~3.3.x",
+    "angular": "~1.4.x",
+    "angular-bootstrap": "~0.14.x",
+    "angular-ui-router": "~0.2.x",
+    "angular-moment": "~0.10.x",
+    "angular-touch": "~1.4.x",
+    "angular-animate": "~1.4.x",
+    "angular-websocket": "~1.0.x",
+    "ngDraggable": "~0.1.x",
+    "lodash": "~3.10.x",
+    "angular-local-storage": "~0.2.x",
+    "angular-ui-codemirror": "~0.3.x",
+    "AngularJS-Toaster": "angularjs-toaster#^1.1.0",
+    "angular-sanitize": "~1.x",
+    "nanoscroller": "~0.8.x",
+    "angular-hotkeys": "chieffancypants/angular-hotkeys#~1.6.0"
+  },
+  "devDependencies": {
+    "angular-mocks": "~1.4.x"
   },
   "resolutions": {
-    "jquery": "2.1.4"
+    "angular": "1.4.9"
+  },
+  "overrides": {
+    "codemirror": {
+      "main": [
+        "lib/codemirror.js",
+        "lib/codemirror.css",
+        "mode/clike/clike.js"
+      ]
+    }
   }
 }

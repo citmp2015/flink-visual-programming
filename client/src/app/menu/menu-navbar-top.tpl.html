@@ -1,0 +1,27 @@
+<div ng-controller="MenuCtrl">
+
+    <div class="navbar-header">
+        <a class="navbar-brand" ui-sref="app.dashboard">
+            <img alt="Flink Visual Programming" src="/images/logo.png" />
+            <span>Flink Visual</span>
+        </a>
+    </div>
+
+    <ul class="nav navbar-top-links navbar-right" ng-controller="MenuNavbarTopCtrl">
+        <li><a class="new-section noselect" ng-click="undoGraph()" ng-class="{disabledButton: (canUndo==false)}"><i class="fa fa-undo"></i> Undo</a></li>
+        <li><a class="new-section noselect" ng-click="redoGraph()" ng-class="{disabledButton: (canRedo==false)}"><i class="fa fa-repeat"></i> Redo</a></li>
+        <li><a class="new-section" ng-click="deployGraph()"><i class="fa fa-play-circle text-primary"></i> Deploy &amp; Run</a></li>
+        <li><a ng-click="downloadSrc()"><i class="fa fa-download"></i> Code</a></li>
+        <li><a ng-click="downloadJar()"><i class="fa fa-download"></i> Jar</a></li>
+        <li><a class="new-section" ng-click="clearGraph()"><i class="fa fa-undo"></i> Reset</a></li>
+        <li><a class="new-section" ng-href="{{exportHref}}" download="export.json" ng-click="exportGraph()"><i class="fa fa-sign-out"></i> Export</a></li>
+        <li>
+            <a ng-click="importGraph()"><i class="fa fa-sign-in"></i> Import</a>
+            <div class="import-wrapper">
+                <input file-import type="file" ng-model="importFile" on-file-loaded="onFileLoaded()" on-file-error="onFileError($error)">
+            </div>
+        </li>
+        <li><a class="new-section" ng-click="openConfigModal()"><i class="fa fa-cog"></i> Config</a></li>
+    </ul>
+
+</div>

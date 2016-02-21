@@ -1,0 +1,196 @@
+@import (reference) "../defines.less";
+
+@_backgroundColor: white;
+@_backgroundHoverColor: #f7f7f7;
+@_textColor: #555555;
+@_textHoverColor: @_textColor;
+@_borderColor: #e8e8e8;
+@_borderSize: 3px;
+@_separatorColor: @_backgroundHoverColor;
+
+body {padding-top: @headerHeight;}
+
+.navbar
+{
+    min-height: @headerHeight;
+    margin-bottom: 0;
+
+    &> div {height: 100%;}
+
+    &.navbar-default
+    {
+        background: @_backgroundColor;
+        border: 0;
+        border-radius: 0;
+        min-height: 32px;
+        margin-bottom: 0;
+        color: @_textColor;
+        border-bottom: @_borderSize solid @_borderColor;
+    }
+
+    .navbar-header {margin-right: 24px;}
+    @media(max-width: @screen-xs-max) {.navbar-header {margin-right: 0;}}
+
+    .navbar-brand
+    {
+        display: inline-block;
+        height: @headerHeight - @_borderSize;
+        padding: 0 32px;
+        line-height: @headerHeight - @_borderSize;
+        font-size: 19px;
+        font-weight: 400;
+        color: @_textColor;
+        text-transform: uppercase;
+
+        -moz-transition: background-color 0.1s, color 0.1s;
+        -webkit-transition: background-color 0.1s, color 0.1s;
+        transition: background-color 0.1s, color 0.1s;
+
+        &:hover, &:focus
+        {
+            background-color: @_backgroundHoverColor;
+            color: @_textHoverColor;
+        }
+
+        img {display: inline;}
+
+        @media (min-width: @screen-sm-min) and (max-width: @screen-sm-max)
+        {
+            padding: 0 16px;
+            span {display: none;}
+        }
+    }
+}
+
+@media(max-width: @screen-xs-max)
+{
+    .navbar {position: relative !important;}
+    body {padding-top: 0;}
+}
+
+.navbar-top-links
+{
+    margin-right: 0;
+
+    li
+    {
+        display: inline-block;
+        height: 100%;
+
+        //&:last-child {margin-right: 15px;}
+
+        &> a, &> a:focus
+        {
+            background: transparent;
+            font-weight: normal;
+            font-size: 14px;
+            color: @_textColor;
+            cursor: pointer;
+        }
+
+        &> a .fa {margin-right: 4px;}
+
+        &> a:hover, &.active > a, &.active > a:hover
+        {
+            background: inherit;
+            color: @_textHoverColor;
+        }
+
+        @media(min-width: @screen-sm-min)
+        {
+            &> a
+            {
+                padding: 15px;
+                height: 100%;
+                line-height: @headerHeight - 2*15px;
+                padding-bottom: 15px - @_borderSize;
+
+                -moz-transition: background-color 0.1s, color 0.1s;
+                -webkit-transition: background-color 0.1s, color 0.1s;
+                transition: background-color 0.1s, color 0.1s;
+
+                &.new-section {border-left: 1px solid @_separatorColor;}
+            }
+
+            &> a:hover, &.active > a, &.active > a:hover {background-color: @_backgroundHoverColor;}
+        }
+
+        @media(min-width: @screen-sm-min)
+        {
+            display: block;
+            float: left;
+        }
+        @media(max-width: @screen-xs-max)
+        {
+            &> a i.fa //emulate fa-fw (fixed-width) for mobile only
+            {
+                text-align: center;
+                width: 1.28571em;
+            }
+
+            &> a:hover, &.active > a, &.active > a:hover
+            {
+                background: @_backgroundHoverColor;
+                color: @_textHoverColor;
+            }
+        }
+    }
+
+    .dropdown-menu
+    {
+        li
+        {
+            display: block;
+
+            &:last-child {margin-right: 0;}
+
+            a
+            {
+                padding: 3px 20px;
+                min-height: 0;
+                height: auto;
+
+                div {white-space: normal;}
+            }
+        }
+    }
+
+    .dropdown-messages {margin-left: 5px;}
+    .dropdown-tasks {margin-left: -59px;}
+    .dropdown-alerts {margin-left: -123px;}
+    .dropdown-user
+    {
+        right: 0;
+        left: auto;
+    }
+
+    .dropdown-messages, .dropdown-tasks, .dropdown-alerts
+    {
+        width: 310px;
+        min-width: 0;
+
+        @media(min-width: @screen-sm-min) {margin-left: auto;}
+    }
+}
+
+.import-wrapper
+{
+    width: 0;
+    height: 0;
+    overflow: hidden;
+    float: right;
+}
+
+.noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none;   /* Chrome/Safari/Opera */
+  -khtml-user-select: none;    /* Konqueror */
+  -moz-user-select: none;      /* Firefox */
+  -ms-user-select: none;       /* IE/Edge */
+  user-select: none;           /* non-prefixed version, currently
+                                  not supported by any browser */
+}
+
+.disabledButton {
+    opacity: 0.3;
+}

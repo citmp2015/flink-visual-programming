@@ -4,16 +4,19 @@
 
     angular
         .module('app.datasource')
-        .controller('DatasourceModalCtrl', DatasourceModalCtrl);
+        .controller('CSVDatasourceModalCtrl', CSVDatasourceModalCtrl)
+        .controller('TextDatasourceModalCtrl', TextDatasourceModalCtrl);
 
     /*@ngInject*/
-    function DatasourceModalCtrl($scope, $rootScope, $uibModalInstance, $stateParams, $timeout, $log) {
+    function CSVDatasourceModalCtrl($scope, $rootScope, $uibModalInstance, $stateParams, $timeout, graphFactory, templateFactory, $log) {
+
+        $scope.generalsettings = graphFactory.getGeneralSettings();
 
         var cell = $rootScope.graph.getCell($stateParams.id);
 
         $scope.dataTypes = [{
             label: '- none -',
-            key: 'none',
+            key: 'none'
         }, {
             label: 'String',
             key: 'string'
@@ -26,9 +29,9 @@
         }];
 
         $scope.datasource = {
-            path: cell.attributes.data.path,
-            countColumns: cell.attributes.data.countColumns,
-            columns: cell.attributes.data.columns
+            filePath: cell.attributes.formdata.filePath,
+            countColumns: cell.attributes.formdata.countColumns,
+            columns: cell.attributes.formdata.columns
         };
 
         $scope.save = save;
@@ -51,9 +54,50 @@
         });
 
         function save() {
-            cell.attributes.data.path = $scope.datasource.path;
-            cell.attributes.data.countColumns = $scope.datasource.countColumns;
-            cell.attributes.data.columns = $scope.datasource.columns;
+            cell.attributes.formdata.filePath = $scope.datasource.filePath;
+            cell.attributes.formdata.countColumns = $scope.datasource.countColumns;
+            cell.attributes.formdata.columns = $scope.datasource.columns;
+            cell.attributes.formdata.output_type = getTypeString(cell.attributes.formdata.columns); // jshint ignore:line
+            cell.attr('.infoLabel/text', $scope.datasource.filePath.replace(/^.*[\\\/]/, ''));
+            graphFactory.saveToLocalStorage($rootScope.graph);
+            $uibModalInstance.close();
+        }
+
+        function getTypeString(columns) {
+            if (columns.length > 0) {
+                var types = columns[0].type.label;
+
+                for (var index = 1; index < columns.length; index++) {
+                    types = types + ',' + columns[index].type.label;
+                }
+                return 'Tuple' + columns.length + '<' + types + '>';
+            }
+        }
+
+        function cancel() {
+            $uibModalInstance.close();
+        }
+
+    }
+
+    function TextDatasourceModalCtrl($scope, $rootScope, $uibModalInstance, $stateParams, $timeout, graphFactory, $log) {
+
+        $scope.generalsettings = graphFactory.getGeneralSettings();
+
+        var cell = $rootScope.graph.getCell($stateParams.id);
+
+        $scope.datasource = {
+            filePath: cell.attributes.formdata.filePath
+        };
+
+        $scope.save = save;
+        $scope.cancel = cancel;
+
+        function save() {
+            cell.attributes.formdata.filePath = $scope.datasource.filePath;
+            cell.attributes.formdata.output_type = 'String'; // jshint ignore:line
+            cell.attr('.infoLabel/text', $scope.datasource.filePath.replace(/^.*[\\\/]/, ''));
+            graphFactory.saveToLocalStorage($rootScope.graph);
             $uibModalInstance.close();
         }
 

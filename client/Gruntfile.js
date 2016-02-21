@@ -1,4 +1,4 @@
-module.exports = function (grunt) {
+ module.exports = function(grunt) {
 
     'use strict';
 
@@ -29,15 +29,30 @@ module.exports = function (grunt) {
             },
             js: {
                 files: ['<%= flinkVisual.app %>/app/{,*/}*.js'],
-                tasks: ['jshint'],
+                tasks: ['jshint', 'karma:server:run'],
                 options: {
                     livereload: '<%= connect.options.livereload %>',
                     spawn: false
                 },
             },
+            jsTest: {
+				files: ['test/spec/{,*/}*.js', 'test/mock/{,*/}*.js'],
+				tasks: ['jshint', 'karma:server'],
+				options: {
+					livereload: false
+				}
+			},
+            bootstrapStyle: {
+                files: ['<%= flinkVisual.app %>/styles/defines.less', '<%= flinkVisual.app %>/styles/bootstrap/*.less'],
+                tasks: ['less:bootstrap'],
+                options: {
+                    livereload: '<%= connect.options.livereload %>',
+                    spawn: false
+                }
+            },
             styles: {
-                files: ['<%= flinkVisual.app %>/styles/{,*/}*.css', '<%= flinkVisual.app %>/app/{,*/}*.css'],
-                tasks: ['newer:copy:styles', 'postcss:serve'],
+                files: ['<%= flinkVisual.app %>/styles/{,components/}*.{less,css}', '<%= flinkVisual.app %>/app/{,*/}*.{less,css}'],
+                tasks: ['less:styles', 'postcss:serve'],
                 options: {
                     livereload: '<%= connect.options.livereload %>',
                     spawn: false
@@ -87,19 +102,71 @@ module.exports = function (grunt) {
             }
         },
 
+        karma: {
+			server: {
+				configFile: 'test/karma.conf.js',
+				background: true,
+				singleRun: false
+			},
+			test: {
+				configFile: 'test/karma.conf.js',
+				singleRun: true,
+			}
+		},
+
+        protractor: {
+            options: {
+                configFile: 'test/protractor.conf.js',
+            },
+            test: {
+                options: {
+                    args: {
+                        baseUrl: 'http://localhost:9001',
+                    }
+                }
+            }
+        },
+
         connect: {
             options: {
-                port: 9000,
-                hostname: 'localhost',
-                livereload: 35729
+                livereload: 35729,
+                hostname: 'localhost'
             },
             livereload: {
                 options: {
+                    port: 9000,
                     open: true,
-                    middleware: function (connect) {
+                    middleware: function(connect) {
                         var serveStatic = require('serve-static');
                         return [
-                            serveStatic('<%= flinkVisual.tmp %>'),
+                            connect().use(
+                                '/.tmp',
+                                serveStatic('./.tmp')
+                            ),
+                            connect().use(
+                                '/bower_components',
+                                serveStatic('./bower_components')
+                            ),
+                            connect().use(
+                                '/node_modules',
+                                serveStatic('./node_modules')
+                            ),
+                            serveStatic(appConfig.app)
+                        ];
+                    }
+                }
+            },
+            test: {
+                options: {
+                    port: 9001,
+                    livereload: false,
+                    middleware: function(connect) {
+                        var serveStatic = require('serve-static');
+                        return [
+                            connect().use(
+                                '/.tmp',
+                                serveStatic('./.tmp')
+                            ),
                             connect().use(
                                 '/bower_components',
                                 serveStatic('./bower_components')
@@ -128,7 +195,7 @@ module.exports = function (grunt) {
             app: {
                 src: ['<%= flinkVisual.app %>/index.html'],
                 exclude: [
-                  'bower_components/underscore/underscore.js'
+                    'bower_components/underscore/underscore.js'
                 ]
             }
         },
@@ -139,17 +206,40 @@ module.exports = function (grunt) {
                 algorithm: 'md5',
                 length: 8
             },
-            images: {
-                src: [
-                    '<%= flinkVisual.dist %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
-                    '<%= flinkVisual.dist %>/app/**/*.{png,jpg,jpeg,gif,webp,svg}'
-                ]
-            },
             js: {
                 src: '<%= flinkVisual.dist %>/scripts/{,*/}*.js'
             },
             css: {
-                src: '<%= flinkVisual.dist %>/styles/*.css'
+                src: '<%= flinkVisual.tmp %>/styles/*.css'
+            }
+        },
+
+        less: {
+            bootstrap: {
+                options: {
+                    paths: ['bower_components/components-bootstrap/less']
+                },
+                files: {
+                    'bower_components/components-bootstrap/css/bootstrap.css': 'src/styles/bootstrap/bootstrap.less'
+                }
+            },
+            styles: {
+                files: [
+                    {
+                        expand: true,
+                        cwd: '<%= flinkVisual.app %>/styles',
+                        src: ['*.less', '!defines.less'],
+                        dest: '<%= flinkVisual.tmp %>/styles',
+                        ext: '.css'
+                    },
+                    {
+                        expand: true,
+                        cwd: '<%= flinkVisual.app %>/styles/components',
+                        src: ['*.less'],
+                        dest: '<%= flinkVisual.tmp %>/styles',
+                        ext: '.css'
+                    }
+                ]
             }
         },
 
@@ -169,7 +259,7 @@ module.exports = function (grunt) {
                 '<%= flinkVisual.dist %>/{,*/}*.html'
             ],
             css: [
-                '<%= flinkVisual.dist %>/styles/{,*/}*.css',
+                '<%= flinkVisual.tmp %>/styles/{,*/}*.css',
                 '<%= flinkVisual.dist %>/app/**/*.css'
             ],
             options: {
@@ -190,16 +280,16 @@ module.exports = function (grunt) {
             }
         },
 
-				ngAnnotate: {
-					dist: {
-						files: [{
-							expand: true,
-							cwd: '<%= flinkVisual.tmp %>/concat/scripts',
-							src: ['*.js', '!oldieshim.js'],
-							dest: '<%= flinkVisual.tmp %>/concat/scripts'
-						}]
-					}
-				},
+        ngAnnotate: {
+            dist: {
+                files: [{
+                    expand: true,
+                    cwd: '<%= flinkVisual.tmp %>/concat/scripts',
+                    src: ['*.js', '!oldieshim.js'],
+                    dest: '<%= flinkVisual.tmp %>/concat/scripts'
+                }]
+            }
+        },
 
         htmlmin: {
             dist: {
@@ -251,7 +341,9 @@ module.exports = function (grunt) {
                         require('postcss-color-rgba-fallback')(),
                         require('postcss-gradientfixer')(),
                         require('postcss-flexboxfixer')(),
-                        require('autoprefixer')({browsers: ['last 3 versions']}),
+                        require('autoprefixer')({
+                            browsers: ['last 3 versions']
+                        }),
                         require('postcss-discard-comments')(),
                         require('postcss-colormin')(),
                         require('postcss-convert-values')(),
@@ -260,7 +352,7 @@ module.exports = function (grunt) {
                         require('postcss-merge-longhand')(),
                         require('postcss-merge-rules')(),
                         require('postcss-discard-empty')(),
-                        require('perfectionist')({format: 'compressed' })
+                        require('perfectionist')({format: 'compressed'})
                     ]
                 },
                 src: [
@@ -276,11 +368,13 @@ module.exports = function (grunt) {
                         require('postcss-color-rgba-fallback')(),
                         require('postcss-gradientfixer')(),
                         require('postcss-flexboxfixer')(),
-                        require('autoprefixer')({browsers: ['last 3 versions']})
-                    ]
+                        require('autoprefixer')({
+                            browsers: ['last 3 versions']
+                        })
+                    ],
                 },
                 src: [
-                    '<%= flinkVisual.app %>/styles/{,*/}*.css',
+                    '<%= flinkVisual.tmp %>/styles/{,*/}*.css',
                     '<%= flinkVisual.app %>/app/{,*/}*.css'
                 ]
             }
@@ -290,9 +384,9 @@ module.exports = function (grunt) {
         // Empties folders to start fresh
         clean: {
             dist: {
-								options: {
-									force: true
-								},
+                options: {
+                    force: true
+                },
                 files: [{
                     dot: true,
                     src: [
@@ -333,9 +427,9 @@ module.exports = function (grunt) {
                     ]
                 }, {
                     expand: true,
-                    cwd: '<%= flinkVisual.tmp %>/images',
+                    cwd: '<%= flinkVisual.app %>/images',
                     dest: '<%= flinkVisual.dist %>/images',
-                    src: ['generated/*']
+                    src: ['*']
                 }, {
                     expand: true,
                     cwd: 'bower_components/components-font-awesome/fonts',
@@ -346,18 +440,7 @@ module.exports = function (grunt) {
                     cwd: 'bower_components/components-bootstrap/fonts',
                     dest: '<%= flinkVisual.dist %>/fonts',
                     src: ['*']
-                }, {
-                    expand: true,
-                    cwd: '<%= flinkVisual.app %>/dummydata',
-                    dest: '<%= flinkVisual.dist %>/dummydata',
-                    src: ['*']
                 }]
-            },
-            styles: {
-                expand: true,
-                cwd: '<%= flinkVisual.app %>/styles',
-                dest: '<%= flinkVisual.tmp %>/styles/',
-                src: '{,*/}*.css'
             }
         }
 
@@ -370,20 +453,34 @@ module.exports = function (grunt) {
     grunt.registerTask('serve', [
         'clean:server',
         'bower',
+        'less',
         'wiredep',
-        'copy:styles',
         'postcss:serve',
         'connect:livereload',
+		'karma:server',
         'watch'
+    ]);
+
+    grunt.registerTask('test', [
+        'clean:server',
+        'bower',
+        'less',
+        'wiredep',
+        'postcss:serve',
+        'connect:test',
+        'jshint:all',
+		'karma:test',
+        'protractor:test'
     ]);
 
     grunt.registerTask('build', [
         'clean:dist',
         'bower',
+        'less',
         'wiredep',
         'useminPrepare',
         'concat:generated',
-				'ngAnnotate',
+        'ngAnnotate',
         'postcss:dist',
         'cssmin:generated',
         'uglify:generated',

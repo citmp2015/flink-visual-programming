@@ -1,0 +1,116 @@
+{
+  "processes": {
+    "readCSV_init": {
+      "component": "readFile",
+      "x": 50,
+      "y": 250,
+      "label": "Read file",
+      "data": {
+        "filePath": "/path/to.txt"
+      }
+    },
+    "splitLines_a": {
+      "component": "splitLines",
+      "label": "Split Lines"
+    },
+    "groupBy_b": {
+      "component": "groupBy",
+      "label": "groupBy(0)",
+      "data": {
+        "tupleIndex": 0
+      }
+    },
+    "sum_c": {
+      "component": "sum",
+      "label": "sum(1)",
+      "data": {
+        "tupleIndex": 1
+      }
+    },
+    "writeCSV_d": {
+      "component": "writeCSV",
+      "label": "Write CSV",
+      "data": {
+        "filePath": "/path/to.csv"
+      }
+    }
+  },
+  "connections": [
+    {
+      "src": "readCSV_init",
+      "tgt": "splitLines_a"
+    },
+    {
+      "src": "splitLines_a",
+      "tgt": "groupBy_b"
+    },
+    {
+      "src": "groupBy_b",
+      "tgt": "sum_c"
+    },
+    {
+      "src": "sum_c",
+      "tgt": "writeCSV_d"
+    }
+  ],
+  "components": {
+    "readCSV": {
+      "type": "source",
+      "label": "Read CSV file",
+      "formData": {
+        "filePath": {
+          "type": "text",
+          "placeholder": "/path/to.csv",
+          "label": "Input file path "
+        },
+        "inputs": {
+          "type": "enum",
+          "values": [
+            "text"
+          ]
+        }
+      }
+    },
+    "readFile": {
+      "type": "source",
+      "formData": {
+        "filePath": {
+          "type": "text",
+          "placeholder": "/path/to.txt",
+          "label": "Input file path "
+        }
+      }
+    },
+    "splitLines": {
+      "type": "transform",
+    },
+    "groupBy": {
+      "type": "transform",
+      "formData": {
+        "tupleIndex": {
+          "default": 0,
+          "label": "Tuple index"
+        }
+      }
+    },
+    "sum": {
+      "type": "transform",
+      "formData": {
+        "tupleIndex": {
+          "default": 0,
+          "label": "Tuple index"
+        }
+      }
+    },
+    "writeCSV": {
+      "type": "sink",
+      "formData": {
+        "filePath": {
+          "type": "text",
+          "placeholder": "/path/to.csv",
+          "label": "Output file path "
+        }
+      }
+    }
+  }
+}

@@ -8,55 +8,59 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
+    <link rel="icon" type="image/x-icon" href="./images/favicon.ico">
+
     <title>Flink Visual</title>
+
+    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:300,400,600,800" />
 
     <!-- build:css styles/vendor.css -->
     <link rel="stylesheet" href="../bower_components/components-bootstrap/css/bootstrap.css" />
     <!-- bower:css -->
     <link rel="stylesheet" href="../bower_components/components-font-awesome/css/font-awesome.css" />
     <link rel="stylesheet" href="../bower_components/jointjs/dist/joint.css" />
+    <link rel="stylesheet" href="../bower_components/codemirror/lib/codemirror.css" />
+    <link rel="stylesheet" href="../bower_components/AngularJS-Toaster/toaster.css" />
+    <link rel="stylesheet" href="../bower_components/nanoscroller/bin/css/nanoscroller.css" />
+    <link rel="stylesheet" href="../bower_components/angular-hotkeys/build/hotkeys.css" />
     <!-- endbower -->
     <!-- endbuild -->
 
     <!-- build:css styles/main.css -->
-    <link href="./styles/devs.css" rel="stylesheet">
-    <link href="./styles/theme.css" rel="stylesheet">
-    <link href="./styles/diagram.css" rel="stylesheet">
+    <link href="../.tmp/styles/layout.css" rel="stylesheet">
+    <link href="../.tmp/styles/navigation.css" rel="stylesheet">
+    <link href="../.tmp/styles/sidebar.css" rel="stylesheet">
+    <link href="../.tmp/styles/graph.css" rel="stylesheet">
+    <link href="../.tmp/styles/modal.css" rel="stylesheet">
+    <link href="../.tmp/styles/console.css" rel="stylesheet">
     <!-- endbuild -->
 
 </head>
 
 <body>
-    <div id="wrapper" ng-controller="AppCtrl">
-
-        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" ui-sref="app.dashboard">Flink Visual</a>
-            </div>
-
-            <ul class="nav navbar-top-links navbar-right">
-                <li><a href="#"><i class="fa fa-cog"></i> Configuration</a></li>
-                <li><a href="#"><i class="fa fa-play"></i> Deploy and Run</a></li>
-                <li><a href="/dummydata/Wordcount.java.tar.gz" target="_blank"><i class="fa fa-download"></i> Download Java Project</a></li>
-            </ul>
-
-            <div class="navbar-default sidebar" role="navigation">
-                <div class="sidebar-nav navbar-collapse" ng-include="'app/menu/menu.tpl.html'"></div>
-            </div>
-        </nav>
-
-        <div id="page-wrapper" ui-view></div>
-
+    <nav class="navbar navbar-default navbar-fixed-top" role="navigation" ng-include="'app/menu/menu-navbar-top.tpl.html'"></nav>
+    <div id="wrapper">
+        <aside class="sidebar nano" role="complementary" ng-include="'app/menu/menu-sidebar.tpl.html'"></aside>
+        <div role="main" id="page-wrapper" ui-view></div>
     </div>
+    <aside id="console" ng-class="{console: true, minimized: minimized}" role="complementary" ng-controller="ConsoleCtrl" ng-include="'app/console/window.tpl.html'"></aside>
+
+    <toaster-container toaster-options="{
+    'closeButton': true,
+    'debug': false,
+    'position-class': 'toast-bottom-center',
+    'onclick': null,
+    'showDuration': '200',
+    'hideDuration': '1000',
+    'timeOut': '5000',
+    'extendedTimeOut': '1000',
+    'showEasing': 'swing',
+    'hideEasing': 'linear',
+    'showMethod': 'fadeIn',
+    'hideMethod': 'fadeOut',
+    }"></toaster-container>
 
     <!-- build:js scripts/vendor.js -->
-    <script src="./app/chrome48.js"></script>
     <!-- bower:js -->
     <script src="../bower_components/jquery/jquery.js"></script>
     <script src="../bower_components/lodash/lodash.js"></script>
@@ -73,25 +77,73 @@
     <script src="../bower_components/angular-moment/angular-moment.js"></script>
     <script src="../bower_components/angular-touch/angular-touch.js"></script>
     <script src="../bower_components/angular-animate/angular-animate.js"></script>
+    <script src="../bower_components/angular-websocket/angular-websocket.min.js"></script>
     <script src="../bower_components/ngDraggable/ngDraggable.js"></script>
+    <script src="../bower_components/angular-local-storage/dist/angular-local-storage.js"></script>
+    <script src="../bower_components/codemirror/lib/codemirror.js"></script>
+    <script src="../bower_components/codemirror/mode/clike/clike.js"></script>
+    <script src="../bower_components/angular-ui-codemirror/ui-codemirror.js"></script>
+    <script src="../bower_components/AngularJS-Toaster/toaster.js"></script>
+    <script src="../bower_components/angular-sanitize/angular-sanitize.js"></script>
+    <script src="../bower_components/nanoscroller/bin/javascripts/jquery.nanoscroller.js"></script>
+    <script src="../bower_components/angular-hotkeys/build/hotkeys.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
     <!-- build:js scripts/scripts.js -->
     <script src="./app/app.module.js"></script>
-    <script src="./app/app.constants.js"></script>
     <script src="./app/app.config.js"></script>
     <script src="./app/app.controller.js"></script>
+    <script src="./app/app.parsing.js"></script>
     <script src="./app/app.routes.js"></script>
     <script src="./app/app.factory.js"></script>
+    <script src="./app/app.templates.js"></script>
+    <script src="./app/app.json.js"></script>
+    <script src="./app/app.websocket.factory.js"></script>
+    <script src="./app/app.verification.js"></script>
 
     <script src="./app/menu/menu.module.js"></script>
     <script src="./app/menu/menu.controller.js"></script>
+    <script src="./app/menu/menu-sidebar.controller.js"></script>
+    <script src="./app/menu/menu-navbar-top.controller.js"></script>
+
+    <script src="./app/console/console.module.js"></script>
+    <script src="./app/console/console.controller.js"></script>
 
     <script src="./app/datasource/datasource.module.js"></script>
     <script src="./app/datasource/datasource-modal.controller.js"></script>
 
+    <script src="./app/datasink/datasink.module.js"></script>
+    <script src="./app/datasink/datasink-modal.controller.js"></script>
+
+    <script src="./app/filter/filter.module.js"></script>
+    <script src="./app/filter/filter-modal.controller.js"></script>
+
+    <script src="./app/group/group.module.js"></script>
+    <script src="./app/group/group-modal.controller.js"></script>
+
+    <script src="./app/sum/sum.module.js"></script>
+    <script src="./app/sum/sum-modal.controller.js"></script>
+
+    <script src="./app/flatmap/flatmap.module.js"></script>
+    <script src="./app/flatmap/flatmap-modal.controller.js"></script>
+
+    <script src="./app/map/map.module.js"></script>
+    <script src="./app/map/map-modal.controller.js"></script>
+
+    <script src="./app/reduce/reduce.module.js"></script>
+    <script src="./app/reduce/reduce-modal.controller.js"></script>
+
+    <script src="./app/generalsettings/generalsettings.module.js"></script>
+    <script src="./app/generalsettings/generalsettings-modal.controller.js"></script>
+
+    <script src="./app/loadingmodal/loadingmodal.module.js"></script>
+    <script src="./app/loadingmodal/loadingmodal.controller.js"></script>
+
     <script src="./directive/joint-diagram.js"></script>
+    <script src="./directive/file-import.js"></script>
+
+    <script src="./filter/menu-search.js"></script>
     <!-- endbuild -->
 
 </body>
