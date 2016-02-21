@@ -110,18 +110,28 @@
         }
 
         function downloadSrc() {
-            openLoadingModal();
-            sendGraph().then(function(data) {
-                $scope.$on('graph:' + data.uuid + ':mvnBuildSucceeded', function() {
-                    download('/graph/zip/' + data.uuid, function() {
-                        closeLoadingModal();
-                    });
+
+            var onGenerationSucceded = $scope.$on('graph:generationSucceeded', function(e, uuid) {
+                download('/graph/zip/' + uuid, function() {
+                    closeLoadingModal();
                 });
-                $scope.$on('graph:' + data.uuid + ':generationError', closeLoadingModal);
-                $scope.$on('graph:' + data.uuid + ':mvnBuildError', closeLoadingModal);
-            }, function() {
+            });
+            var onGenerationError = $scope.$on('graph:generationError', function(e, uuid) {
                 closeLoadingModal();
             });
+            var unsubscribe = function() {
+                onGenerationSucceded();
+                onGenerationError();
+            };
+
+            openLoadingModal();
+            sendGraph().then(function(data) {
+                unsubscribe();
+            }, function() {
+                closeLoadingModal();
+                unsubscribe();
+            });
+
         }
 
         function downloadJar() {
