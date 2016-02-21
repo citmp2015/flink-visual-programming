@@ -37,7 +37,7 @@
 
             var events = [],
                 data, message = e.data;
-            var m, uuid, eventKey, regEx = /((graph):(.*):(\w+))/g;
+            var m, uuid, eventKey, regEx = /((graph):([\w]{8}(?:-[\w]{4}){3}-[\w]{12}):(\w+))/g;
 
             while ((m = regEx.exec(message)) !== null) {
                 if (m.index === regEx.lastIndex) {
