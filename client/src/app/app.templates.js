@@ -23,7 +23,7 @@
                    '    public boolean filter(Integer value) {\n'+
                    '        return value ' + operator + ' ' + value + ';\n }'+
                    '    }\n'+
-                   '}';            
+                   '}';
         };
 
         template.createStringFilterTemplate = function(operator, value) {
@@ -61,7 +61,7 @@
                    '    public boolean filter(String value) {\n'+
                    '        return ' + operation + '; \n'+
                    '    }\n'+
-                   '}';               
+                   '}';
         };
 
         template.createFlatMapTemplate = function() {
@@ -78,7 +78,7 @@
                     'public class Tokenizer implements FlatMapFunction<String, Tuple2<String, Integer>> {\n' +
                     '@Override\n' +
                     'public void flatMap(String value, Collector<Tuple2<String, Integer>> out) {\n' +
-                    '    for (String token : value.split("\\W")) {\n' +
+                    '    for (String token : value.split("\\\\W")) {\n' +
                     '      out.collect(new Tuple2<String, Integer>(token, 1));\n' +
                     '    }\n' +
                     '  }\n' +
