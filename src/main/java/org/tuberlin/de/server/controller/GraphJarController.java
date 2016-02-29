@@ -16,6 +16,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * This class compiles the project and downloads the generated JAR. Before this URL is called the /graph URL must be
+ * called that will create a project folder and returns a UUID that identifies that particular project folder.
+ * When the GET method of this class is called, one need the UUID from the project folder to be included in the request
+ * body. Then this servlet compiles the application and starts the download of the JAR file.
+ */
+
 @WebServlet(urlPatterns = {"/graph/jar/*"})
 public class GraphJarController extends HttpServlet {
 

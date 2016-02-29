@@ -31,15 +31,9 @@ import javax.servlet.http.HttpServletResponse;
  * 2.  "Download Java Project"
  * 3.  "Download JAR File"
  * </p>
- * <p/>
- * The information which button was pressed is stored into the POST parameter "action".
- * In future this Controller should kick-off the following tasks:
- * <p/>
- * 1. Code generation from the graph
- * 2. Insert code into Maven project
- * 3. Compile Maven project into Jar
- * 4. Deploy Jar to remote Flink maschine
- * <p/>
+ * The controller does not handle the deployment nor the downloads. It is only the first step in a series of calls.
+ * This controller only creates the project folder by parsing the JSON content and creates a UUID that identifies this
+ * project folder. Using this UUID the client can execute in a next step the desired action (deployment or download..).
  * This Controller handles a POST event and awaits a JSON content that describes the graph.
  */
 @WebServlet(urlPatterns = {"/graph"})

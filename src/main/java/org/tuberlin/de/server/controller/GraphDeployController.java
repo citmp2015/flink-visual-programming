@@ -16,6 +16,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * This class deploys a project. Before this URL is called the /graph URL must be called that will create a project folder
+ * and returns a UUID that identifies that particular project folder. When the GET method of this class is called,
+ * one need the UUID from the project folder to be included in the request body. Then this servlet deploys the application.
+ */
 @WebServlet(urlPatterns = {"/graph/deploy/*"})
 public class GraphDeployController extends HttpServlet {
 
