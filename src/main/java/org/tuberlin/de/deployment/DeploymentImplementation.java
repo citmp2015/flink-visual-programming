@@ -227,7 +227,7 @@ public class DeploymentImplementation implements DeploymentInterface {
      * @param clientSession The websocket session
      * @return A file object that represents the temporary project directory
      */
-    private File createTemporaryProjectFolder(Session clientSession, String uuid) throws IOException, URISyntaxException {
+    protected File createTemporaryProjectFolder(Session clientSession, String uuid) throws IOException, URISyntaxException {
 
         logEvent(clientSession, "Creating temporary folders: " + uuid);
 
